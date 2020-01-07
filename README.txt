@@ -1,5 +1,5 @@
 === Gutenberg Block Manager ===
-Contributors: Darren Cooney, connekthq
+Contributors: dcooney, connekthq
 Tags: gutenberg, blocks, disable blocks, gutenberg blocks, manage blocks, block administration
 Requires at least: 5.0
 Tested up to: 5.3.2
