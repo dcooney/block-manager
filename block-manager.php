@@ -2,24 +2,13 @@
 /*
 Plugin Name: Block Manager
 Plugin URI: https://connekthq.com/plugins/block-manager/
-Description: Control the active status of all your Gutenberg blocks.
+Description: Globally manage the enabled/disabled state of each Gutenberg block.
 Text Domain: block-manager
 Author: Darren Cooney
 Author URI: https://connekthq.com 
 Version: 1.0
 License: GPL
 Copyright: Darren Cooney & Connekt Media
-
-
-TO DO
-- Logo/Icon [DONE]
-- Search
-- Export Settings
-- Do not allow Paragraph to be disabled
-- Anchor links to categories [DONE]
-- Expand and collapse sections
-- Add related plugins
-
 */
 
 
@@ -29,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BLOCK_MANAGER_VERSION', '1.0');
-define( 'BLOCK_MANAGER_RELEASE', 'January 3, 2020');
+define( 'BLOCK_MANAGER_RELEASE', 'January 6, 2020');
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks');
 

@@ -14,6 +14,11 @@ Gutenberg Block Manager by [Connekt](https://connekthq.com) will allow you to ma
 The Gutenberg Block Manager is an intuitive tool for WordPress site admins to *globally* manage the enabled/disabled state of each block. Disabled blocks will be removed from the block inserter on post edit screens.
 
 
+### Features
+* **Globally enable/disable blocks** - Unlike the block manager in the Gutenberg editor, this tool globally enables/disables blocks for all users.
+* **Block Search and Filter** - Quickly locate blocks using the block search tool.
+
+
 == Installation ==
 
 How to install Block Manager.
@@ -45,10 +50,10 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Screenshots ==
 
-1. ---
+1. Block Manager Admin
 
 == Changelog ==
 
-= 1.0 =
+= 1.0 - January 6, 2020 =
 
 * Initial release
