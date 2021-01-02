@@ -22,18 +22,17 @@ class GBM_Admin {
 
 		if ( 'settings_page_gutenberg-block-manager' !== $hook ) {
 			return;
-		}	
+		}
 
 		// Register Block Categories
 		$block_categories = array();
 		if (function_exists('get_block_categories')){
 			$block_categories = get_block_categories(get_post());
-		}		
+		}
 		wp_add_inline_script( 'wp-blocks', sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( $block_categories ) ), 'after');
 
-
-		do_action('enqueue_block_editor_assets');		
-		wp_dequeue_script('gutenberg-block-manager');		
+		do_action('enqueue_block_editor_assets');
+		wp_dequeue_script('gutenberg-block-manager');
 
 		$block_registry = WP_Block_Type_Registry::get_instance();
 		foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
@@ -42,27 +41,27 @@ class GBM_Admin {
 				wp_enqueue_script( $block_type->editor_script );
 			}
 		}
-		
-		// Enqueue Scripts
+
+		// Enqueue Scripts.
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min'; // Use minified libraries if SCRIPT_DEBUG is turned off
-		
+
 		wp_enqueue_style(
-			'gutenberg-block-manager-styles', 
-			plugins_url( 'dist/css/style.css', 
-			__FILE__ ), 
-			array(), 
-			BLOCK_MANAGER_VERSION 
+			'gutenberg-block-manager-styles',
+			plugins_url( 'dist/css/style.css',
+			__FILE__ ),
+			array(),
+			BLOCK_MANAGER_VERSION
 		);
-		
+
 		wp_enqueue_script(
-			'gutenberg-block-manager-admin', 
-			plugins_url( 'dist/js/gbm-admin'. $suffix .'.js', __FILE__ ), 
-			array( 'wp-blocks', 'wp-element', 'wp-data', 'wp-edit-post', 'wp-components', 'wp-block-library' ), 
-			BLOCK_MANAGER_VERSION, 
+			'gutenberg-block-manager-admin',
+			plugins_url( 'dist/js/gbm-admin'. $suffix .'.js', __FILE__ ),
+			array( 'wp-blocks', 'wp-element', 'wp-data', 'wp-edit-post', 'wp-components', 'wp-block-library' ),
+			BLOCK_MANAGER_VERSION,
 			true
-		);		
-		
-		// Localize Scripts
+		);
+
+		// Localize Scripts.
 		wp_localize_script(
 			'gutenberg-block-manager-admin',
 			'gbm_localize',
@@ -105,19 +104,19 @@ class GBM_Admin {
 	 * gbm_submenu_page_callback
 	 * The admin page
 	 */
-	public function gbm_submenu_page_callback() {		
+	public function gbm_submenu_page_callback() {
 		//update_option( BLOCK_MANAGER_OPTION, []);
 		?>
 		<div class="gbm-page-wrap">
 			<div class="gbm-page-wrap--header">
 				<h2><?php _e( 'Gutenberg Block Manager', 'gutenberg-block-manager' ); ?> <span><a href="https://connekthq.com" target="_blank"><?php _e( 'by Connekt', 'gutenberg-block-manager' ); ?></a></span></h2>
 				<p><?php printf( __( 'Manage the activation status of your %s blocks - disabled blocks will be removed from the block inserter.', 'gutenberg-block-manager' ), '<span class="cnkt-block-totals block-total">--</span>'); ?>
-				
+
 				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php _e( 'Other Plugins', 'gutenberg-block-manager' ); ?></button>
 			</div>
 			<div id="gbm-container">
 				<div id="gbm-other-plugins">
-					<?php 
+					<?php
 			      $plugin_array = array(
 			         array(
 			            'slug' => 'ajax-load-more'
@@ -132,20 +131,20 @@ class GBM_Admin {
 			            'slug' => 'velocity'
 			         )
 			      );
-			      ?>      
+			      ?>
 			      <section>
 				      <h2><?php echo sprintf(__("Other Plugins from %s Connekt %s", 'gutenberg-block-manager'), '<a href="https://connekthq.com" target="_blank">', '</a>');?></h2>
 				      <button class="button button-secondary" id="otherPluginsClose">&times; <?php _e( 'Close', 'gutenberg-block-manager' ); ?></button>
 				      <div class="cta-wrap">
-					      <?php 
+					      <?php
 					      if(class_exists('Connekt_Plugin_Installer')){
 					         Connekt_Plugin_Installer::init($plugin_array);
 					      }
 							?>
 				      </div>
 			      </section>
-				</div>		
-				<div id="app" class="gbm"></div>				
+				</div>
+				<div id="app" class="gbm"></div>
 			</div>
 		</div>
 		<?php

@@ -1,6 +1,6 @@
 $transition: all 0.15s ease;
 $radius: 3px;
-$purple: #80629E;
+$purple: #80629e;
 $grey: #ccd0d4;
 
 $xsmall: 600px;
@@ -9,53 +9,53 @@ $medium: 1024px;
 $large: 1300px;
 $xlarge: 1700px;
 
-.gbm{
+.gbm {
 	*,
 	*:before,
-	*:after{
+	*:after {
 		box-sizing: border-box;
 	}
-	button[type="button"]{
+	button[type="button"] {
 		cursor: pointer;
 	}
-	
-	&-block-list-wrapper{
+
+	&-block-list-wrapper {
 		padding: 0 20px;
 		width: 100%;
 		max-width: 1800px;
-		@media screen and (min-width: $xsmall){
+		@media screen and (min-width: $xsmall) {
 			display: flex;
 			flex-direction: row-reverse;
 		}
-		.global-loader.loading{
-			background: url('img/ajax-loader.gif') no-repeat 2px 26px;
+		.global-loader.loading {
+			background: url("img/ajax-loader.gif") no-repeat 2px 26px;
 			padding: 25px 0 25px 26px;
 			display: block;
 		}
-		&.loaded{
-			.global-loader.loading{
+		&.loaded {
+			.global-loader.loading {
 				display: none;
 			}
 		}
-		.gbm-block-group{
+		.gbm-block-group {
 			margin: 20px 0 0;
 			background: #fff;
 			border: 1px solid $grey;
 			border-radius: $radius;
 		}
-		.gbm-nav{
+		.gbm-nav {
 			width: 100%;
-			@media screen and (min-width: $xsmall){
-				width: 200px;				
+			@media screen and (min-width: $xsmall) {
+				width: 200px;
 			}
-			@media screen and (min-width: $small){
-				width: 220px;				
+			@media screen and (min-width: $small) {
+				width: 220px;
 			}
 			padding: 20px 0 0 0;
 			position: relative;
-			transition: $transition; 
-			&-wrap{
-				button{
+			transition: $transition;
+			&-wrap {
+				button {
 					background: none;
 					border: none;
 					outline: none;
@@ -66,32 +66,32 @@ $xlarge: 1700px;
 					display: block;
 					font-size: 13px;
 					&:hover,
-					&:focus{
+					&:focus {
 						text-decoration: underline;
 						color: $purple;
 					}
 				}
 				padding-bottom: 5px;
 			}
-			#gbm-sticky{
+			#gbm-sticky {
 				padding: 16px 15px 15px;
 				background: #fff;
 				border: 1px solid $grey;
 				border-radius: $radius;
 			}
 		}
-		.gbm-blocks{
+		.gbm-blocks {
 			flex: 1;
-			@media screen and (min-width: $xsmall){
+			@media screen and (min-width: $xsmall) {
 				padding-right: 20px;
 			}
 		}
-		.gbm-search{
+		.gbm-search {
 			display: block;
 			width: 100%;
 			position: relative;
 			padding: 0;
-			input{
+			input {
 				border-radius: $radius;
 				width: 100%;
 				margin: 0;
@@ -100,7 +100,7 @@ $xlarge: 1700px;
 				height: 32px;
 				font-size: 13px;
 			}
-			button{
+			button {
 				font-size: 14px;
 				margin: 0;
 				padding: 0 5px;
@@ -115,32 +115,32 @@ $xlarge: 1700px;
 				transform: translateY(-50%);
 				right: 0;
 				&:focus,
-				&:hover{
+				&:hover {
 					color: $purple;
 				}
 			}
 		}
 	}
-	
-	&-block-list{
+
+	&-block-list {
 		width: 100%;
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		position: relative;
 		padding: 10px 10px 0px;
-		text-align: left;		
-		@media screen and (min-width: $xsmall){
-			padding: 10px 5px 0px;			
+		text-align: left;
+		@media screen and (min-width: $xsmall) {
+			padding: 10px 5px 0px;
 		}
-		&.loading{
-			.loader{
+		&.loading {
+			.loader {
 				opacity: 0.5;
 				visibility: visible;
 			}
 		}
-		
-		.loader{
+
+		.loader {
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -153,15 +153,15 @@ $xlarge: 1700px;
 			opacity: 0;
 			cursor: default;
 		}
-		
-		.item{
+
+		.item {
 			padding: 15px 15px 45px;
 			border: 1px solid $grey;
 			background-color: #f7f7f7;
 			background-position: 96% 93%;
 			border-radius: $radius;
-			cursor: pointer;	
-			position: relative;	
+			cursor: pointer;
+			position: relative;
 			transition: $transition;
 			text-shadow: 0 1px 1px #fff;
 			width: 100%;
@@ -170,61 +170,61 @@ $xlarge: 1700px;
 			align-items: flex-start;
 			flex-direction: column;
 			position: relative;
-			@media screen and (min-width: $xsmall){
+			@media screen and (min-width: $xsmall) {
 				width: 100%;
 				margin: 0 0 10px;
 			}
-			@media screen and (min-width: 800px){
+			@media screen and (min-width: 800px) {
 				margin: 0 5px 10px;
 				width: calc(50% - 10px);
 			}
-			@media screen and (min-width: $medium){
+			@media screen and (min-width: $medium) {
 				width: calc(33.333% - 10px);
 			}
-			@media screen and (min-width: $large){
+			@media screen and (min-width: $large) {
 				width: calc(25% - 10px);
 			}
-			@media screen and (min-width: $xlarge){
+			@media screen and (min-width: $xlarge) {
 				width: calc(20% - 10px);
 			}
 			&:hover,
-			&:focus{
+			&:focus {
 				border-color: #999;
-				&.disabled{
-					.gbm-block-switch--wrap{
+				&.disabled {
+					.gbm-block-switch--wrap {
 						background-color: #999;
 					}
-				}				
-				.block-info--title{
+				}
+				.block-info--title {
 					text-decoration: underline;
 				}
-			}			
-			&.disabled{
+			}
+			&.disabled {
 				background-color: rgba(255, 255, 255, 0.25);
 				border-color: #e1e1e1;
-				.gbm-block-switch{
-					&--wrap{
-						background-color: #ccc;					
+				.gbm-block-switch {
+					&--wrap {
+						background-color: #ccc;
 					}
-					span{
+					span {
 						margin-left: 2px;
 					}
 				}
-				.icon{
+				.icon {
 					opacity: 0.35;
 				}
 				&:hover,
-				&:focus{
+				&:focus {
 					border-color: #999;
 				}
 			}
-			&.loading{
+			&.loading {
 				> .gbm-block-group {
 					opacity: 0.65;
 				}
-				background: #fff url('img/ajax-loader.gif') no-repeat 96% 93%;
+				background: #fff url("img/ajax-loader.gif") no-repeat 96% 93%;
 			}
-			&--wrap{
+			&--wrap {
 				display: flex;
 				align-items: flex-start;
 				flex-direction: column;
@@ -232,46 +232,46 @@ $xlarge: 1700px;
 				width: 100%;
 				position: relative;
 				padding-left: 40px;
-			
-				.block-info{
+
+				.block-info {
 					display: block;
 					width: 100%;
 					height: auto;
 					line-height: 1.4;
-					&--wrap{
+					&--wrap {
 						flex: 1;
 						text-align: left;
 					}
-					&--title{
+					&--title {
 						font-weight: 600;
 						margin-bottom: 10px;
 						font-size: 15px;
 						line-height: 18px;
 						text-transform: capitalize;
 					}
-					&--desc{
+					&--desc {
 						opacity: 0.6;
 					}
 				}
 			}
 			svg,
-			span{
+			span {
 				//width: 24px;
 				//height: 24px;
 			}
-			&[data-category=woocommerce]{
-				div.icon{
+			&[data-category="woocommerce"] {
+				div.icon {
 					color: #96588a;
 					opacity: 1;
-					svg{
+					svg {
 						fill: currentColor;
 					}
-				}				
+				}
 			}
-			span.dashicons{
+			span.dashicons {
 				font-size: 23px;
 			}
-			div.icon{
+			div.icon {
 				width: 24px;
 				opacity: 0.65;
 				display: block;
@@ -283,13 +283,13 @@ $xlarge: 1700px;
 				transition: $transition;
 			}
 		}
-		.gbm-block-switch{
+		.gbm-block-switch {
 			position: absolute;
 			left: 13px;
 			bottom: 15px;
 		}
 	}
-	&-block-list-controls{
+	&-block-list-controls {
 		display: flex;
 		width: 100%;
 		align-items: center;
@@ -297,14 +297,14 @@ $xlarge: 1700px;
 		margin: 0;
 		padding: 8px 10px 8px 11px;
 		border-bottom: 1px solid $grey;
-		h3{
+		h3 {
 			flex: 1;
 			text-transform: capitalize;
 			padding: 0;
 			margin: 0;
 			font-size: 14px;
 			font-weight: 700;
-			span{
+			span {
 				font-weight: 400;
 				opacity: 0.5;
 				font-size: 12px;
@@ -312,14 +312,14 @@ $xlarge: 1700px;
 				left: 2px;
 			}
 		}
-		.gbm-block-switch{
+		.gbm-block-switch {
 			position: relative;
 			top: -1px;
 			width: 30px;
 			height: 30px;
 		}
 	}
-	&-block-switch{
+	&-block-switch {
 		cursor: pointer;
 		height: 9px;
 		width: 22px;
@@ -327,15 +327,16 @@ $xlarge: 1700px;
 		margin: 0;
 		box-shadow: none;
 		border: none;
-		&--wrap{
+		background-color: transparent;
+		&--wrap {
 			position: relative;
 			height: 13px;
-			width: 26px;	
+			width: 26px;
 			background-color: #56c338;
 			border-radius: 100px;
-			transition: $transition;		
+			transition: $transition;
 		}
-		span{
+		span {
 			border-radius: 100px;
 			width: 9px;
 			height: 9px;
@@ -346,48 +347,48 @@ $xlarge: 1700px;
 			position: relative;
 			top: 2px;
 		}
-		&.disabled{
-			.gbm-block-switch--wrap{
-				background-color: #ccc;					
+		&.disabled {
+			.gbm-block-switch--wrap {
+				background-color: #ccc;
 			}
-			span{
+			span {
 				margin-left: 2px;
 			}
 		}
 	}
 	.offscreen {
-	   position: absolute !important;
-	   top: -9999px !important;
-	   left: -9999px !important;
+		position: absolute !important;
+		top: -9999px !important;
+		left: -9999px !important;
 	}
 }
 
 // Header
-.gbm-page-wrap{
-	&--header{
+.gbm-page-wrap {
+	&--header {
 		background: #fff url("img/icon.png") no-repeat 20px 20px;
 		background-size: 48px 48px;
-		padding: 23px 20px 20px 78px;	
+		padding: 23px 20px 20px 78px;
 		border-bottom: 1px solid $grey;
 		position: relative;
-		@media screen and (min-width: $small){
+		@media screen and (min-width: $small) {
 			padding-right: 200px;
 		}
-		h2{
+		h2 {
 			margin: 0 0 3px;
 			padding: 0;
-			span{
+			span {
 				font-size: 12px;
 				position: relative;
 				top: -1px;
 				left: 1px;
 			}
 		}
-		p{
+		p {
 			padding: 0;
 			margin: 0;
-		}		
-		p span.block-total{			
+		}
+		p span.block-total {
 			display: inline-block;
 			background: #f7f7f7;
 			padding: 1px 4px;
@@ -395,9 +396,9 @@ $xlarge: 1700px;
 			border: 1px solid #efefef;
 			font-weight: 600;
 		}
-		button.button{
+		button.button {
 			margin-top: 10px;
-			@media screen and (min-width: $small){
+			@media screen and (min-width: $small) {
 				margin-top: 0;
 				position: absolute;
 				right: 20px;
@@ -406,7 +407,7 @@ $xlarge: 1700px;
 			}
 			display: flex;
 			align-items: center;
-			span{
+			span {
 				position: relative;
 				left: -2px;
 			}
@@ -418,36 +419,35 @@ $xlarge: 1700px;
 	position: fixed;
 	width: auto;
 	top: 70px;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.settings_page_gutenberg-block-manager{
-	#wpcontent{
+.settings_page_gutenberg-block-manager {
+	#wpcontent {
 		padding-left: 0;
 	}
-	#gbm-container{
+	#gbm-container {
 		padding: 0;
 		position: relative;
 	}
 }
 
-#gbm-other-plugins{
+#gbm-other-plugins {
 	background: #f7f7f7;
 	padding: 20px 20px 0;
 	border-bottom: 1px solid $grey;
 	display: none;
-	h2{
+	h2 {
 		padding: 0 !important;
 		margin: 0 0 20px;
 	}
-	section{
+	section {
 		max-width: 1800px;
 		position: relative;
-		> button{
+		> button {
 			position: absolute;
 			right: 0;
 			top: -8px;
-		}		
+		}
 	}
-	
 }

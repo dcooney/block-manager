@@ -2,9 +2,11 @@
 Contributors: dcooney, connekthq
 Tags: gutenberg, blocks, disable blocks, gutenberg blocks, manage blocks, block administration
 Requires at least: 5.0
-Tested up to: 5.3.2
+Tested up to: 5.6
 License: GPLv2 or later
 Stable tag: trunk
+Homepage: https://connekthq.com/
+Version: 1.0.1
 
 Gutenberg Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of Gutenberg blocks and remove unwanted blocks from the WordPress post editor.
 
@@ -53,6 +55,11 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 1. Block Manager Admin
 
 == Changelog ==
+
+= 1.0.1 - January 2, 2021 =
+
+* NEW - Added support for Embed blocks (Twitter, FB, Spotify etc). These blocks were changed in WP 5.6 and the handler had to be updated to manage the active/inactive states.
+* FIX - Fixed REST API warning for missing `permissions_callback`.
 
 = 1.0 - January 6, 2020 =
 

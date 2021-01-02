@@ -38230,12 +38230,11 @@ function Category(_ref) {
 	    toggleBlock = _ref.toggleBlock,
 	    categoryClickHandler = _ref.categoryClickHandler;
 
-
 	var title = data.info.title;
 	var blocks = data.blocks;
 
 	var disabledBlocks = gbm_localize.disabledBlocks;
-	if ((typeof disabledBlocks === "undefined" ? "undefined" : _typeof(disabledBlocks)) === 'object') {
+	if ((typeof disabledBlocks === "undefined" ? "undefined" : _typeof(disabledBlocks)) === "object") {
 		// Convert `disabledBlocks` to array if required.
 		disabledBlocks = Object.keys(disabledBlocks).map(function (i) {
 			return disabledBlocks[i];
@@ -38253,13 +38252,18 @@ function Category(_ref) {
 		});
 	}
 
-	// Set toggle butotn attributes
-	var switchClass = disabledBlockCount === blocks.length ? 'gbm-block-switch disabled' : 'gbm-block-switch';
-	var switchState = disabledBlockCount === blocks.length ? 'inactive' : 'active';
+	// Set toggle button attributes
+	var switchClass = disabledBlockCount === blocks.length ? "gbm-block-switch disabled" : "gbm-block-switch";
+	var switchState = disabledBlockCount === blocks.length ? "inactive" : "active";
 
 	return _react2.default.createElement(
 		"div",
-		{ key: data.info.slug, id: 'block-' + data.info.slug, className: "gbm-block-group", "data-total-blocks": data.blocks.length },
+		{
+			key: data.info.slug,
+			id: "block-" + data.info.slug,
+			className: "gbm-block-group",
+			"data-total-blocks": data.blocks.length
+		},
 		_react2.default.createElement(
 			"div",
 			{ className: "gbm-block-list-controls" },
@@ -38280,7 +38284,14 @@ function Category(_ref) {
 			),
 			_react2.default.createElement(
 				"button",
-				{ role: "button", className: switchClass, "data-state": switchState, onClick: categoryClickHandler, "aria-label": gbm_localize.toggle_all, title: gbm_localize.toggle_all },
+				{
+					role: "button",
+					className: switchClass,
+					"data-state": switchState,
+					onClick: categoryClickHandler,
+					"aria-label": gbm_localize.toggle_all,
+					title: gbm_localize.toggle_all
+				},
 				_react2.default.createElement(
 					"div",
 					{ className: "gbm-block-switch--wrap" },
@@ -38302,7 +38313,9 @@ function Category(_ref) {
 			blocks && blocks.length && blocks.map(function (block, index) {
 				var _React$createElement;
 
-				return _react2.default.createElement(_Block2.default, (_React$createElement = { key: block.name }, _defineProperty(_React$createElement, "key", index + block.name), _defineProperty(_React$createElement, "data", block), _defineProperty(_React$createElement, "toggleBlock", toggleBlock), _defineProperty(_React$createElement, "disabledBlocks", disabledBlocks), _React$createElement));
+				return _react2.default.createElement(_Block2.default, (_React$createElement = {
+					key: block.name
+				}, _defineProperty(_React$createElement, "key", index + block.name), _defineProperty(_React$createElement, "data", block), _defineProperty(_React$createElement, "toggleBlock", toggleBlock), _defineProperty(_React$createElement, "disabledBlocks", disabledBlocks), _React$createElement));
 			}),
 			_react2.default.createElement("div", { className: "loader" })
 		)
@@ -38413,14 +38426,14 @@ function List(_ref) {
 			return false;
 		}
 
-		if (target.dataset.state === 'active') {
-			bulkProcess(target, 'disable');
-			target.classList.add('disabled');
-			target.dataset.state = 'inactive';
+		if (target.dataset.state === "active") {
+			bulkProcess(target, "disable");
+			target.classList.add("disabled");
+			target.dataset.state = "inactive";
 		} else {
-			bulkProcess(target, 'enable');
-			target.classList.remove('disabled');
-			target.dataset.state = 'active';
+			bulkProcess(target, "enable");
+			target.classList.remove("disabled");
+			target.dataset.state = "active";
 		}
 	};
 
@@ -38431,65 +38444,62 @@ function List(_ref) {
   * @since 1.0
   */
 	var bulkProcess = function bulkProcess(target) {
-		var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'enable';
+		var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "enable";
 
-
-		var blocksWrapper = target.parentNode.parentNode.querySelector('.gbm-block-list');
-		var blocks = blocksWrapper.querySelectorAll('.gbm-block-list .item');
+		var blocksWrapper = target.parentNode.parentNode.querySelector(".gbm-block-list");
+		var blocks = blocksWrapper.querySelectorAll(".gbm-block-list .item");
 
 		if (!blocks) {
 			return false;
 		}
 
-		blocksWrapper.classList.add('loading');
+		blocksWrapper.classList.add("loading");
 
 		var blockArray = Array.prototype.map.call(blocks, function (block) {
 			return block.dataset.id;
 		});
 
 		if (blockArray.length) {
-
-			var url = gbm_localize.root + 'gbm/bulk_process/';
-			var data = { 'blocks': blockArray, type: type };
+			var url = gbm_localize.root + "gbm/bulk_process/";
+			var data = { blocks: blockArray, type: type };
 
 			// API Request
 			(0, _axios2.default)({
-				method: 'POST',
+				method: "POST",
 				url: url,
 				headers: {
-					'X-WP-Nonce': gbm_localize.nonce,
-					'Content-Type': 'application/json'
+					"X-WP-Nonce": gbm_localize.nonce,
+					"Content-Type": "application/json"
 				},
 				data: {
-					'data': JSON.stringify(data)
+					data: JSON.stringify(data)
 				}
 			}).then(function (res) {
-
 				var response = res.data;
 
 				if (response && res.status == 200) {
 					// Success
 
 					[].concat(_toConsumableArray(blocks)).forEach(function (block) {
-						if (type === 'enable') {
-							block.classList.remove('disabled');
+						if (type === "enable") {
+							block.classList.remove("disabled");
 						} else {
-							block.classList.add('disabled');
+							block.classList.add("disabled");
 						}
 					});
-					blocksWrapper.classList.remove('loading');
+					blocksWrapper.classList.remove("loading");
 					setCategoryStatus(blocks[0]);
 				} else {
 					// Error
 					console.log("an error has occurred");
-					blocksWrapper.classList.remove('loading');
+					blocksWrapper.classList.remove("loading");
 				}
 			}).catch(function (error) {
 				console.log(error);
-				blocksWrapper.classList.remove('loading');
+				blocksWrapper.classList.remove("loading");
 			});
 		} else {
-			alert('No blocks found');
+			alert("No blocks found");
 		}
 	};
 
@@ -38500,54 +38510,50 @@ function List(_ref) {
   * @since 1.0
   */
 	var toggleBlock = function toggleBlock(element, block) {
-
-		if (!element || element.classList.contains('loading')) {
+		if (!element || element.classList.contains("loading")) {
 			// Exit if loading
 			return false;
 		}
 
-		element.classList.add('loading');
-		var url = gbm_localize.root + 'gbm/toggle/';
-		var type = element.classList.contains('disabled') ? 'enable' : 'disable';
-		var data = { 'block': block, 'type': type };
+		element.classList.add("loading");
+		var url = gbm_localize.root + "gbm/toggle/";
+		var type = element.classList.contains("disabled") ? "enable" : "disable";
+		var data = { block: block, type: type };
 
 		// API Request
 		(0, _axios2.default)({
-			method: 'POST',
+			method: "POST",
 			url: url,
 			headers: {
-				'X-WP-Nonce': gbm_localize.nonce,
-				'Content-Type': 'application/json'
+				"X-WP-Nonce": gbm_localize.nonce,
+				"Content-Type": "application/json"
 			},
 			data: {
-				'data': JSON.stringify(data)
+				data: JSON.stringify(data)
 			}
 		}).then(function (res) {
-
 			var response = res.data;
 
 			if (response && res.status == 200) {
-
-				// Success	         
+				// Success
 				if (response.success) {
-					if (type === 'disable') {
-						element.classList.add('disabled');
+					if (type === "disable") {
+						element.classList.add("disabled");
 					} else {
-						element.classList.remove('disabled');
+						element.classList.remove("disabled");
 					}
-					element.classList.remove('loading');
+					element.classList.remove("loading");
 					setCategoryStatus(element);
 				}
 			} else {
-
 				// Error
 				console.log("an error has occurred");
-				element.classList.remove('loading');
+				element.classList.remove("loading");
 			}
 		}).catch(function (error) {
 			// Error
 			console.log(error);
-			element.classList.remove('loading');
+			element.classList.remove("loading");
 		});
 	};
 
@@ -38563,25 +38569,25 @@ function List(_ref) {
 		}
 		var parent = element.parentNode.parentNode;
 		var totalBlocks = parent.dataset.totalBlocks;
-		var feedback = parent.querySelector('h3 span');
-		var toggleBtn = parent.querySelector('.gbm-block-switch');
-		var items = parent.querySelectorAll('.gbm-block-list .item');
+		var feedback = parent.querySelector("h3 span");
+		var toggleBtn = parent.querySelector(".gbm-block-switch");
+		var items = parent.querySelectorAll(".gbm-block-list .item");
 
 		if (items) {
 			var blockArr = Array.prototype.slice.call(items);
 			var disabledBlocks = blockArr.filter(function (block) {
-				return block.classList.contains('disabled');
+				return block.classList.contains("disabled");
 			});
 
 			feedback.innerHTML = "(" + (totalBlocks - disabledBlocks.length) + "/" + totalBlocks + ")";
 
 			// If disabled === total items, toggle the switch
 			if (disabledBlocks.length === items.length) {
-				toggleBtn.classList.add('disabled');
-				toggleBtn.dataset.state = 'inactive';
+				toggleBtn.classList.add("disabled");
+				toggleBtn.dataset.state = "inactive";
 			} else {
-				toggleBtn.classList.remove('disabled');
-				toggleBtn.dataset.state = 'active';
+				toggleBtn.classList.remove("disabled");
+				toggleBtn.dataset.state = "active";
 			}
 		}
 	};
@@ -38593,11 +38599,9 @@ function List(_ref) {
   * @since 1.0
   */
 	var onLoad = function onLoad(e) {
-
 		wp.blockLibrary.registerCoreBlocks();
 		var wpBlocks = wp.blocks.getBlockTypes();
 		if (wpBlocks) {
-
 			// Sort blocks by name
 			wpBlocks.sort(function (a, b) {
 				var textA = a.name.toUpperCase();
@@ -38607,16 +38611,15 @@ function List(_ref) {
 
 			// Filter `core/missing` & `core/reusable` blocks
 			var _blocks = wpBlocks.filter(function (block) {
-				return block.name !== 'core/missing' && block.name !== 'core/block';
+				return block.name !== "core/missing" && block.name !== "core/block";
 			});
 
 			setTotalBlocks(_blocks.length); // Set state
 
-
 			// Get unique block categories
 			var categories = wp.blocks.getCategories();
 
-			// Filter categories for `reusable` 
+			// Filter categories for `reusable`
 			categories = categories.filter(function (cat) {
 				return cat.slug !== "reusable";
 			});
@@ -38634,6 +38637,26 @@ function List(_ref) {
 				var filtered = _blocks.filter(function (block) {
 					return block.category === cat.slug;
 				});
+
+				if ("embed" === cat.slug) {
+					// core/embed block only
+					var embedBlock = _blocks.filter(function (block) {
+						return block.category === cat.slug;
+					});
+					// Get `variations`.
+					var variations = embedBlock[0] ? embedBlock[0].variations : [];
+					var modVariations = variations.map(function (item) {
+						item.name = "variation;core/embed;" + item.name;
+						return item;
+					});
+
+					// Add to block array.
+					filtered.push(modVariations);
+
+					// Concat array to top level.
+					filtered = [].concat.apply([], filtered);
+				}
+
 				var obj = {
 					info: cat,
 					blocks: filtered
@@ -38642,33 +38665,33 @@ function List(_ref) {
 					blockArray.push(obj);
 				}
 			});
-
-			setBlocks(blockArray); // Set state		
+			console.log(blockArray);
+			setBlocks(blockArray); // Set state
 		}
 	};
 
 	// Close plugins display
 	var otherPluginsClick = function otherPluginsClick(e) {
-		var otherPluginsDiv = document.getElementById('gbm-other-plugins');
+		var otherPluginsDiv = document.getElementById("gbm-other-plugins");
 		if (!otherPluginsDiv) {
 			return false;
 		}
-		if (otherPluginsDiv.style.display === 'block') {
-			otherPluginsDiv.style.display = 'none';
+		if (otherPluginsDiv.style.display === "block") {
+			otherPluginsDiv.style.display = "none";
 		} else {
-			otherPluginsDiv.style.display = 'block';
+			otherPluginsDiv.style.display = "block";
 		}
-		var container = document.getElementById('gbm-container');
+		var container = document.getElementById("gbm-container");
 		container.focus();
 	};
 
 	(0, _react.useEffect)(function () {
 		// Display total blocks in header
 		if (totalBlocks !== 0) {
-			var totalDiv = document.querySelector('span.block-total');
-			var wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
+			var totalDiv = document.querySelector("span.block-total");
+			var wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
 			totalDiv.innerHTML = totalBlocks;
-			wrapperDiv.classList.add('loaded');
+			wrapperDiv.classList.add("loaded");
 		}
 	}, [totalBlocks]);
 
@@ -38676,11 +38699,11 @@ function List(_ref) {
 	(0, _react.useEffect)(function () {
 		onLoad();
 
-		var otherPluginsBtn = document.getElementById('otherPlugins');
-		var otherPluginsClose = document.getElementById('otherPluginsClose');
+		var otherPluginsBtn = document.getElementById("otherPlugins");
+		var otherPluginsClose = document.getElementById("otherPluginsClose");
 		if (otherPluginsBtn) {
-			otherPluginsBtn.addEventListener('click', otherPluginsClick);
-			otherPluginsClose.addEventListener('click', otherPluginsClick);
+			otherPluginsBtn.addEventListener("click", otherPluginsClick);
+			otherPluginsClose.addEventListener("click", otherPluginsClick);
 		}
 	}, []);
 
@@ -38697,7 +38720,12 @@ function List(_ref) {
 				gbm_localize.loading
 			),
 			blocks && blocks.length && blocks.map(function (category, index) {
-				return _react2.default.createElement(_Category2.default, { key: category.info.slug, data: category, toggleBlock: toggleBlock, categoryClickHandler: categoryClickHandler });
+				return _react2.default.createElement(_Category2.default, {
+					key: category.info.slug,
+					data: category,
+					toggleBlock: toggleBlock,
+					categoryClickHandler: categoryClickHandler
+				});
 			})
 		)
 	);

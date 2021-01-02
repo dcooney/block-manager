@@ -86,7 +86,7 @@
 
 .gbm-block-list-wrapper .gbm-nav-wrap button:hover, .gbm-block-list-wrapper .gbm-nav-wrap button:focus {
   text-decoration: underline;
-  color: #80629E;
+  color: #80629e;
 }
 
 .gbm-block-list-wrapper .gbm-nav #gbm-sticky {
@@ -148,7 +148,7 @@
 }
 
 .gbm-block-list-wrapper .gbm-search button:focus, .gbm-block-list-wrapper .gbm-search button:hover {
-  color: #80629E;
+  color: #80629e;
 }
 
 .gbm-block-list {
@@ -346,12 +346,12 @@
   opacity: 0.6;
 }
 
-.gbm-block-list .item[data-category=woocommerce] div.icon {
+.gbm-block-list .item[data-category="woocommerce"] div.icon {
   color: #96588a;
   opacity: 1;
 }
 
-.gbm-block-list .item[data-category=woocommerce] div.icon svg {
+.gbm-block-list .item[data-category="woocommerce"] div.icon svg {
   fill: currentColor;
 }
 
@@ -433,6 +433,7 @@
   -webkit-box-shadow: none;
           box-shadow: none;
   border: none;
+  background-color: transparent;
 }
 
 .gbm-block-switch--wrap {
