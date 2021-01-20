@@ -29,7 +29,7 @@ Use the `gbm_disabled_blocks` filter to control blocks via backend code. This ma
 ```
 add_filter('gbm_disabled_blocks', function(){
 	return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
-};
+});
 ```
 
 == Installation ==
