@@ -99,7 +99,7 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 * @return array
 	 */
-	public function gbm_get_disabled_blocks() {
+	public static function gbm_get_disabled_blocks() {
 		$blocks_manual = (array) get_option( BLOCK_MANAGER_OPTION, array() ); // Get manually disabled blocks.
 		$blocks_filter = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
 		$blocks_array  = array_merge( $blocks_manual, $blocks_filter ); // Merge arrays.
@@ -115,7 +115,7 @@ class Gutenberg_Block_Manager {
 	 * @since 1.1
 	 * @return array
 	 */
-	public function gbm_get_filtered_blocks() {
+	public static function gbm_get_filtered_blocks() {
 		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
 		return $blocks ? $blocks : [];
 	}
@@ -128,7 +128,7 @@ class Gutenberg_Block_Manager {
 	 * @param array $links The action links.
 	 * @return array
 	 */
-	public function gbm_action_links( $links ) {
+	public static function gbm_action_links( $links ) {
 		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=gutenberg-block-manager' ) . '">' . __( 'Manage Blocks', 'gutenberg-block-manager' ).'</a>';
 		array_unshift( $links, $settings );
 		return $links;
