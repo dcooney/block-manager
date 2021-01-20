@@ -1,11 +1,22 @@
-import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import cn from "classnames";
+import React, { useEffect, useRef, useState } from "react";
 import Category from "./Category";
 import Nav from "./Nav";
-import axios from "axios";
 
-function List({ props }) {
-	let [blocks, setBlocks] = useState({});
-	let [totalBlocks, setTotalBlocks] = useState(0);
+function List() {
+	const exportDivRef = useRef();
+	const exportRef = useRef();
+	const exportBtnRef = useRef();
+	const copyRef = useRef();
+	const [blocks, setBlocks] = useState({});
+	const [totalBlocks, setTotalBlocks] = useState(0);
+
+	const initialView =
+		localStorage && localStorage.getItem("gbm-view")
+			? localStorage.getItem("gbm-view")
+			: "grid";
+	const [view, setView] = useState(initialView);
 
 	/**
 	 * categoryClickHandler
@@ -18,7 +29,6 @@ function List({ props }) {
 		if (!target) {
 			return false;
 		}
-
 		if (target.dataset.state === "active") {
 			bulkProcess(target, "disable");
 			target.classList.add("disabled");
@@ -155,8 +165,7 @@ function List({ props }) {
 	};
 
 	/**
-	 * setCategoryStatus
-	 * Set the status indicator and button states for each category
+	 * Set the status indicator and button states for each category.
 	 *
 	 * @since 1.0
 	 */
@@ -192,12 +201,11 @@ function List({ props }) {
 	};
 
 	/**
-	 * Window onLoad
-	 * Get all WP Blocks
+	 * Get all WP Blocks on load.
 	 *
 	 * @since 1.0
 	 */
-	const onLoad = (e) => {
+	const onLoad = () => {
 		wp.blockLibrary.registerCoreBlocks();
 		const wpBlocks = wp.blocks.getBlockTypes();
 		if (wpBlocks) {
@@ -269,7 +277,79 @@ function List({ props }) {
 		}
 	};
 
-	// Close plugins display
+	// Change block view
+	const changeView = (value) => {
+		if (!value) {
+			return false;
+		}
+		if (localStorage) {
+			localStorage.setItem("gbm-view", value);
+		}
+		setView(value);
+	};
+
+	// Export blocks
+	const exportBlocks = () => {
+		let url = gbm_localize.root + "gbm/export/";
+		exportDivRef.current.classList.add("active");
+		// API Request
+		axios({
+			method: "GET",
+			url: url,
+			headers: {
+				"X-WP-Nonce": gbm_localize.nonce,
+				"Content-Type": "application/json",
+			},
+		})
+			.then(function (res) {
+				if (res.status === 200 && res.data && res.data.success) {
+					let blockReturn = res.data.blocks;
+					blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
+					blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
+					blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
+					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn}<br/>});`;
+					exportRef.current.innerHTML = results;
+					setTimeout(function () {
+						exportDivRef.current.focus();
+					}, 100);
+				} else {
+					console.warn("There was an error exporting disabled blocks.");
+					exportDivRef.current.classList.remove("active");
+				}
+			})
+			.catch(function (error) {
+				// Error
+				console.log(error);
+				exportDivRef.current.classList.remove("active");
+			});
+	};
+
+	// Copy to clipboard
+	const copyExport = () => {
+		// Create range
+		const range = document.createRange();
+		range.selectNodeContents(exportRef.current);
+		const sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+		// Copy to clipboard
+		document.execCommand("copy");
+		copyRef.current.innerHTML = gbm_localize.copied;
+		setTimeout(function () {
+			copyRef.current.disabled = true;
+		}, 500);
+	};
+
+	// Close Export modal.
+	const closeExport = () => {
+		exportDivRef.current.classList.remove("active");
+		setTimeout(function () {
+			exportBtnRef.current.focus();
+			exportRef.current.innerHTML = gbm_localize.loading_export;
+		}, 350);
+	};
+
+	// Toggle Other Plugins display
 	const otherPluginsClick = (e) => {
 		let otherPluginsDiv = document.getElementById("gbm-other-plugins");
 		if (!otherPluginsDiv) {
@@ -297,25 +377,97 @@ function List({ props }) {
 	// On Load
 	useEffect(() => {
 		onLoad();
-
-		let otherPluginsBtn = document.getElementById("otherPlugins");
-		let otherPluginsClose = document.getElementById("otherPluginsClose");
+		const otherPluginsBtn = document.getElementById("otherPlugins");
+		const otherPluginsClose = document.getElementById("otherPluginsClose");
 		if (otherPluginsBtn) {
 			otherPluginsBtn.addEventListener("click", otherPluginsClick);
 			otherPluginsClose.addEventListener("click", otherPluginsClick);
 		}
+		document.addEventListener(
+			"keyup",
+			function (e) {
+				if (e.key === "Escape") {
+					closeExport();
+				}
+			},
+			false
+		);
+		return () => {};
 	}, []);
 
 	return (
 		<div className="gbm-block-list-wrapper">
 			<Nav blocks={blocks} />
-			<div className="gbm-blocks">
+			<div className={cn("gbm-blocks", `gbm-view-${view}`)}>
 				<span className="global-loader loading">
-					{gbm_localize.loading}
+					{gbm_localize.loading}...
 				</span>
+				<div className="gbm-options">
+					<div className="gbm-options--view">
+						<button
+							type="button"
+							className={view === "grid" ? "active" : ""}
+							disabled={view === "grid"}
+							onClick={() => changeView("grid")}
+						>
+							<span className="dashicons dashicons-grid-view"></span>
+							{gbm_localize.grid}
+						</button>
+						<button
+							type="button"
+							className={view === "list" ? "active" : ""}
+							disabled={view === "list"}
+							onClick={() => changeView("list")}
+						>
+							<span className="dashicons dashicons-list-view"></span>
+							{gbm_localize.list}
+						</button>
+					</div>
+					<button
+						type="button"
+						className="export"
+						ref={exportBtnRef}
+						onClick={() => exportBlocks()}
+					>
+						<span className="dashicons dashicons-database-export"></span>
+						{gbm_localize.export}
+					</button>
+				</div>
+				<div className="gbm-code-export" ref={exportDivRef} tabIndex="0">
+					<div className="gbm-code-export--inner">
+						<div>
+							<p>{gbm_localize.export_intro}</p>
+							<div>
+								<button
+									type="button"
+									className="button button-primary"
+									onClick={copyExport}
+									ref={copyRef}
+								>
+									{gbm_localize.copy}
+								</button>
+								<button
+									type="button"
+									className="button"
+									onClick={closeExport}
+								>
+									{gbm_localize.close}
+								</button>
+							</div>
+						</div>
+						<code
+							id="gbm-export"
+							ref={exportRef}
+							contentEditable="true"
+							suppressContentEditableWarning={true}
+						>
+							{gbm_localize.loading_export}
+						</code>
+					</div>
+				</div>
 				{blocks &&
 					blocks.length &&
-					blocks.map((category, index) => (
+					blocks.map((category) => (
 						<Category
 							key={category.info.slug}
 							data={category}

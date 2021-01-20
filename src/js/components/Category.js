@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import Block from "./Block";
 
 function Category({ data, toggleBlock, categoryClickHandler }) {
@@ -6,6 +6,8 @@ function Category({ data, toggleBlock, categoryClickHandler }) {
 	const blocks = data.blocks;
 
 	let disabledBlocks = gbm_localize.disabledBlocks;
+	let filteredBlocks = gbm_localize.filteredBlocks;
+
 	if (typeof disabledBlocks === "object") {
 		// Convert `disabledBlocks` to array if required.
 		disabledBlocks = Object.keys(disabledBlocks).map(
@@ -74,6 +76,7 @@ function Category({ data, toggleBlock, categoryClickHandler }) {
 							data={block}
 							toggleBlock={toggleBlock}
 							disabledBlocks={disabledBlocks}
+							filteredBlocks={filteredBlocks}
 						/>
 					))}
 				<div className="loader"></div>
