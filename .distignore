@@ -1,0 +1,10 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+/src
+/webpack
+.package.json
+.postcss.config.js
+.webpack.config.js
+README.md
