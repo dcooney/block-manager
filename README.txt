@@ -19,6 +19,7 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 -  **Globally Enable/Disable Blocks** - Unlike the block manager functionality in the Gutenberg editor, this tool will globally enables/disables blocks for all users on your site.
 -  **Block Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
 -  **Filter Hooks** - Use the `gbm_disabled_blocks` filter to control blocks from `functions.php`.
+-  **Category Switcher** - Functionality for changing the categories of core Gutenberg blocks.
 
 ### Filters
 
@@ -26,11 +27,10 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 
 Use the `gbm_disabled_blocks` filter to control blocks via backend code. This makes it easier to control the status of blocks across multiple WordPress environments.
 
-```
-add_filter('gbm_disabled_blocks', function(){
-	return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
-});
-```
+	add_filter('gbm_disabled_blocks', function(){
+		return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
+	});
+
 
 == Installation ==
 

@@ -101,7 +101,7 @@ class GBM_Admin {
 				'updated'            => __( 'Updated', 'gutenberg-block-manager' ),
 				'block_switch'       => __( 'Block Name', 'gutenberg-block-manager' ),
 				'reset_cats'         => __( 'Reset Categories', 'gutenberg-block-manager' ),
-				'cat_intro'          => __( 'The Category Switcher provides functionality for changing the category core Gutenberg blocks.', 'gutenberg-block-manager' ),
+				'cat_intro'          => __( 'The Category Switcher provides functionality for changing the categories of core Gutenberg blocks.', 'gutenberg-block-manager' ),
 				'cat_intro2'         => __( 'Changing a block category will update the location of the block in the Gutenberg Block Inserter while editing posts.', 'gutenberg-block-manager' ),
 				'export'             => __( 'Export', 'gutenberg-block-manager' ),
 				'export_intro'       => __( 'Add the the following code to your functions.php to remove blocks at the theme level.', 'gutenberg-block-manager' ),
