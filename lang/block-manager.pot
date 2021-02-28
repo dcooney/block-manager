@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gutenberg Block Manager\n"
-"POT-Creation-Date: 2021-01-19 21:01-0500\n"
+"POT-Creation-Date: 2021-02-27 22:22-0500\n"
 "PO-Revision-Date: 2019-12-30 12:00-0500\n"
 "Last-Translator: Darren Cooney <darren@connekthq.com>\n"
 "Language-Team: \n"
@@ -27,8 +27,16 @@ msgstr ""
 msgid "All Blocks Enabled"
 msgstr ""
 
-#: api/bulk_process.php:94 api/toggle.php:76
+#: api/bulk_process.php:94 api/category_switch.php:84 api/toggle.php:76
 msgid "Error accessing API data."
+msgstr ""
+
+#: api/category_reset.php:40
+msgid "Categories reset successfully."
+msgstr ""
+
+#: api/category_switch.php:78
+msgid " category updated to successfully to "
 msgstr ""
 
 #: api/export.php:46
@@ -43,94 +51,115 @@ msgstr ""
 msgid "Block enabled"
 msgstr ""
 
-#: block-manager.php:132
+#: block-manager.php:152
 msgid "Manage Blocks"
 msgstr ""
 
-#: class-admin.php:84
+#: class-admin.php:85
 msgid "Enable"
 msgstr ""
 
-#: class-admin.php:85
+#: class-admin.php:86
 msgid "Disable"
 msgstr ""
 
-#: class-admin.php:86
+#: class-admin.php:87
 msgid "Enable All"
 msgstr ""
 
-#: class-admin.php:87
+#: class-admin.php:88
 msgid "Disable All"
 msgstr ""
 
-#: class-admin.php:88
+#: class-admin.php:89
 msgid "Toggle All Blocks"
 msgstr ""
 
-#: class-admin.php:89
+#: class-admin.php:90
 msgid "Toggle Block Activation"
 msgstr ""
 
-#: class-admin.php:90
+#: class-admin.php:91
 msgid "Filter Blocks"
 msgstr ""
 
-#: class-admin.php:91
+#: class-admin.php:92
 msgid "Submit"
 msgstr ""
 
-#: class-admin.php:92
+#: class-admin.php:93
 msgid "Loading Blocks"
 msgstr ""
 
-#: class-admin.php:93
+#: class-admin.php:94
 msgid "Getting export data..."
 msgstr ""
 
-#: class-admin.php:94
+#: class-admin.php:95
 msgid "Copy Code"
 msgstr ""
 
-#: class-admin.php:95
+#: class-admin.php:96
 msgid "Copied"
 msgstr ""
 
-#: class-admin.php:96
+#: class-admin.php:97
 msgid "Close"
 msgstr ""
 
-#: class-admin.php:97
+#: class-admin.php:98
 msgid "Grid"
 msgstr ""
 
-#: class-admin.php:98
+#: class-admin.php:99
 msgid "List"
 msgstr ""
 
-#: class-admin.php:99
+#: class-admin.php:100
+msgid "Block Category"
+msgstr ""
+
+#: class-admin.php:101
+msgid "Updated"
+msgstr ""
+
+#: class-admin.php:102
+msgid "Block Name"
+msgstr ""
+
+#: class-admin.php:103
+msgid "Reset Categories"
+msgstr ""
+
+#: class-admin.php:104
+msgid ""
+"The Category Switcher provides functionality for changing the category "
+"core Gutenberg blocks."
+msgstr ""
+
+#: class-admin.php:105
+msgid ""
+"Changing a block category will update the location of the block in the "
+"Gutenberg Block Inserter while editing posts."
+msgstr ""
+
+#: class-admin.php:106
 msgid "Export"
 msgstr ""
 
-#: class-admin.php:100
+#: class-admin.php:107
 msgid ""
 "Add the the following code to your functions.php to remove blocks at the "
 "theme level."
 msgstr ""
 
-#: class-admin.php:101
+#: class-admin.php:108
 msgid ""
 "This block has been globally disabled via the `gbm_disabled_blocks` "
 "filter and cannot be activated."
 msgstr ""
 
-#: class-admin.php:137
-#, php-format
-msgid ""
-"Manage the activation status of your %s blocks - disabled blocks will be "
-"removed from the block inserter."
-msgstr ""
-
-#: class-admin.php:159
+#: class-admin.php:174
 #, php-format
 msgid "Other Plugins from %s Connekt %s"
 msgstr ""

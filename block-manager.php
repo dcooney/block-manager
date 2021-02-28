@@ -6,7 +6,7 @@ Description: Globally manage the active state of each Gutenberg block.
 Text Domain: block-manager
 Author: Darren Cooney
 Author URI: https://connekthq.com
-Version: 1.1
+Version: 1.2
 License: GPL
 Copyright: Darren Cooney & Connekt Media
 */
@@ -17,10 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '1.1' );
-define( 'BLOCK_MANAGER_RELEASE', 'January 19, 2021' );
+define( 'BLOCK_MANAGER_VERSION', '1.2' );
+define( 'BLOCK_MANAGER_RELEASE', 'February 27, 2021' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
+define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
 
 /**
  * Block Manager Class.
@@ -43,6 +44,7 @@ class Gutenberg_Block_Manager {
 	 *
 	 * @author ConnektMedia
 	 * @since 1.0
+	 * @return self
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -59,7 +61,6 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	private function __construct() {
-
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gbm_enqueue' ) );
 		load_plugin_textdomain( 'gutenberg-block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'gbm_action_links' ) );
@@ -67,8 +68,9 @@ class Gutenberg_Block_Manager {
 		require_once 'api/toggle.php';
 		require_once 'api/bulk_process.php';
 		require_once 'api/export.php';
+		require_once 'api/category_switch.php';
+		require_once 'api/category_reset.php';
 		include_once 'vendor/connekt-plugin-installer/class-connekt-plugin-installer.php';
-
 	}
 
 	/**
@@ -90,6 +92,24 @@ class Gutenberg_Block_Manager {
 			'gutenberg_block_manager',
 			$this->gbm_get_disabled_blocks()
 		);
+		wp_localize_script(
+			'gutenberg-block-manager',
+			'gutenberg_block_manager_categories',
+			$this->gbm_get_filtered_cats()
+		);
+	}
+
+	/**
+	 * Get all filtered categories.
+	 *
+	 * @author ConnektMedia
+	 * @since 1.2
+	 * @return array
+	 */
+	public static function gbm_get_filtered_cats() {
+		$categories = (array) get_option( BLOCK_MANAGER_CATEGORIES, array() ); // Get option.
+
+		return $categories ? $categories : [];
 	}
 
 	/**

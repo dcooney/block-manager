@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/app.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -109,7 +109,9 @@ module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/li
 
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/axios/lib/core/settle.js");
+var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
 var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
+var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ "./node_modules/axios/lib/core/buildFullPath.js");
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
@@ -128,11 +130,12 @@ module.exports = function xhrAdapter(config) {
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = config.auth.password || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+    var fullPath = buildFullPath(config.baseURL, config.url);
+    request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
 
     // Set the request timeout in MS
     request.timeout = config.timeout;
@@ -169,6 +172,18 @@ module.exports = function xhrAdapter(config) {
       request = null;
     };
 
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+
+      // Clean up request
+      request = null;
+    };
+
     // Handle low level network errors
     request.onerror = function handleError() {
       // Real errors are hidden from us by the browser
@@ -181,7 +196,11 @@ module.exports = function xhrAdapter(config) {
 
     // Handle timeout
     request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+      var timeoutErrorMessage = 'timeout of ' + config.timeout + 'ms exceeded';
+      if (config.timeoutErrorMessage) {
+        timeoutErrorMessage = config.timeoutErrorMessage;
+      }
+      reject(createError(timeoutErrorMessage, config, 'ECONNABORTED',
         request));
 
       // Clean up request
@@ -192,12 +211,10 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
-
       // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
+        cookies.read(config.xsrfCookieName) :
+        undefined;
 
       if (xsrfValue) {
         requestHeaders[config.xsrfHeaderName] = xsrfValue;
@@ -218,8 +235,8 @@ module.exports = function xhrAdapter(config) {
     }
 
     // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
+    if (!utils.isUndefined(config.withCredentials)) {
+      request.withCredentials = !!config.withCredentials;
     }
 
     // Add responseType to request if needed
@@ -259,7 +276,7 @@ module.exports = function xhrAdapter(config) {
       });
     }
 
-    if (requestData === undefined) {
+    if (!requestData) {
       requestData = null;
     }
 
@@ -284,6 +301,7 @@ module.exports = function xhrAdapter(config) {
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
 var Axios = __webpack_require__(/*! ./core/Axios */ "./node_modules/axios/lib/core/Axios.js");
+var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
 var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/axios/lib/defaults.js");
 
 /**
@@ -313,7 +331,7 @@ axios.Axios = Axios;
 
 // Factory for creating new instances
 axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
 };
 
 // Expose Cancel & CancelToken
@@ -326,6 +344,9 @@ axios.all = function all(promises) {
   return Promise.all(promises);
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
+
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
 
 module.exports = axios;
 
@@ -462,10 +483,11 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var defaults = __webpack_require__(/*! ./../defaults */ "./node_modules/axios/lib/defaults.js");
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
 var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js");
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/axios/lib/core/dispatchRequest.js");
+var mergeConfig = __webpack_require__(/*! ./mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
 
 /**
  * Create a new instance of Axios
@@ -489,13 +511,22 @@ Axios.prototype.request = function request(config) {
   /*eslint no-param-reassign:0*/
   // Allow for axios('example/url'[, config]) a la fetch API
   if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
   }
 
-  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
-  config.method = config.method.toLowerCase();
+  config = mergeConfig(this.defaults, config);
+
+  // Set config.method
+  if (config.method) {
+    config.method = config.method.toLowerCase();
+  } else if (this.defaults.method) {
+    config.method = this.defaults.method.toLowerCase();
+  } else {
+    config.method = 'get';
+  }
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -516,13 +547,19 @@ Axios.prototype.request = function request(config) {
   return promise;
 };
 
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+};
+
 // Provide aliases for supported request methods
 utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url
+      url: url,
+      data: (config || {}).data
     }));
   };
 });
@@ -530,7 +567,7 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
 utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
       url: url,
       data: data
@@ -607,6 +644,38 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
+/***/ "./node_modules/axios/lib/core/buildFullPath.js":
+/*!******************************************************!*\
+  !*** ./node_modules/axios/lib/core/buildFullPath.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isAbsoluteURL = __webpack_require__(/*! ../helpers/isAbsoluteURL */ "./node_modules/axios/lib/helpers/isAbsoluteURL.js");
+var combineURLs = __webpack_require__(/*! ../helpers/combineURLs */ "./node_modules/axios/lib/helpers/combineURLs.js");
+
+/**
+ * Creates a new URL by combining the baseURL with the requestedURL,
+ * only when the requestedURL is not already an absolute URL.
+ * If the requestURL is absolute, this function returns the requestedURL untouched.
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} requestedURL Absolute or relative URL to combine
+ * @returns {string} The combined full path
+ */
+module.exports = function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL, requestedURL);
+  }
+  return requestedURL;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/lib/core/createError.js":
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/core/createError.js ***!
@@ -651,8 +720,6 @@ var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/util
 var transformData = __webpack_require__(/*! ./transformData */ "./node_modules/axios/lib/core/transformData.js");
 var isCancel = __webpack_require__(/*! ../cancel/isCancel */ "./node_modules/axios/lib/cancel/isCancel.js");
 var defaults = __webpack_require__(/*! ../defaults */ "./node_modules/axios/lib/defaults.js");
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ "./node_modules/axios/lib/helpers/isAbsoluteURL.js");
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ "./node_modules/axios/lib/helpers/combineURLs.js");
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -672,11 +739,6 @@ function throwIfCancellationRequested(config) {
 module.exports = function dispatchRequest(config) {
   throwIfCancellationRequested(config);
 
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
   // Ensure headers exist
   config.headers = config.headers || {};
 
@@ -691,7 +753,7 @@ module.exports = function dispatchRequest(config) {
   config.headers = utils.merge(
     config.headers.common || {},
     config.headers[config.method] || {},
-    config.headers || {}
+    config.headers
   );
 
   utils.forEach(
@@ -760,9 +822,129 @@ module.exports = function enhanceError(error, config, code, request, response) {
   if (code) {
     error.code = code;
   }
+
   error.request = request;
   error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function toJSON() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
   return error;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/mergeConfig.js":
+/*!****************************************************!*\
+  !*** ./node_modules/axios/lib/core/mergeConfig.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/axios/lib/utils.js");
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  var valueFromConfig2Keys = ['url', 'method', 'data'];
+  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy', 'params'];
+  var defaultToConfig2Keys = [
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'timeoutMessage', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'decompress',
+    'maxContentLength', 'maxBodyLength', 'maxRedirects', 'transport', 'httpAgent',
+    'httpsAgent', 'cancelToken', 'socketPath', 'responseEncoding'
+  ];
+  var directMergeKeys = ['validateStatus'];
+
+  function getMergedValue(target, source) {
+    if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
+      return utils.merge(target, source);
+    } else if (utils.isPlainObject(source)) {
+      return utils.merge({}, source);
+    } else if (utils.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+
+  function mergeDeepProperties(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  }
+
+  utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
+    }
+  });
+
+  utils.forEach(mergeDeepPropertiesKeys, mergeDeepProperties);
+
+  utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  });
+
+  utils.forEach(directMergeKeys, function merge(prop) {
+    if (prop in config2) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (prop in config1) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  });
+
+  var axiosKeys = valueFromConfig2Keys
+    .concat(mergeDeepPropertiesKeys)
+    .concat(defaultToConfig2Keys)
+    .concat(directMergeKeys);
+
+  var otherKeys = Object
+    .keys(config1)
+    .concat(Object.keys(config2))
+    .filter(function filterAxiosKeys(key) {
+      return axiosKeys.indexOf(key) === -1;
+    });
+
+  utils.forEach(otherKeys, mergeDeepProperties);
+
+  return config;
 };
 
 
@@ -789,7 +971,6 @@ var createError = __webpack_require__(/*! ./createError */ "./node_modules/axios
  */
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
   if (!response.status || !validateStatus || validateStatus(response.status)) {
     resolve(response);
   } else {
@@ -866,7 +1047,7 @@ function getDefaultAdapter() {
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
     adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js");
-  } else if (typeof process !== 'undefined') {
+  } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
     adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js");
   }
@@ -877,6 +1058,7 @@ var defaults = {
   adapter: getDefaultAdapter(),
 
   transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
     normalizeHeaderName(headers, 'Content-Type');
     if (utils.isFormData(data) ||
       utils.isArrayBuffer(data) ||
@@ -921,6 +1103,7 @@ var defaults = {
   xsrfHeaderName: 'X-XSRF-TOKEN',
 
   maxContentLength: -1,
+  maxBodyLength: -1,
 
   validateStatus: function validateStatus(status) {
     return status >= 200 && status < 300;
@@ -984,7 +1167,6 @@ var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/util
 
 function encode(val) {
   return encodeURIComponent(val).
-    replace(/%40/gi, '@').
     replace(/%3A/gi, ':').
     replace(/%24/g, '$').
     replace(/%2C/gi, ',').
@@ -1039,6 +1221,11 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   }
 
   if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
   }
 
@@ -1090,50 +1277,50 @@ module.exports = (
   utils.isStandardBrowserEnv() ?
 
   // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
 
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
         }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
+      };
+    })() :
 
   // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
 );
 
 
@@ -1165,6 +1352,29 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/lib/helpers/isURLSameOrigin.js":
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
@@ -1182,64 +1392,64 @@ module.exports = (
 
   // Standard browser envs have full support of the APIs needed to test
   // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
 
-    /**
+      /**
     * Parse a URL to discover it's components
     *
     * @param {String} url The URL to be parsed
     * @returns {Object}
     */
-    function resolveURL(url) {
-      var href = url;
+      function resolveURL(url) {
+        var href = url;
 
-      if (msie) {
+        if (msie) {
         // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
         urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
       }
 
-      urlParsingNode.setAttribute('href', href);
+      originURL = resolveURL(window.location.href);
 
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
+      /**
     * Determine if a URL shares the same origin as the current location
     *
     * @param {String} requestURL The URL to test
     * @returns {boolean} True if URL shares the same origin, otherwise false
     */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
             parsed.host === originURL.host);
-    };
-  })() :
+      };
+    })() :
 
   // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
 );
 
 
@@ -1384,7 +1594,6 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1400,6 +1609,27 @@ var toString = Object.prototype.toString;
  */
 function isArray(val) {
   return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is a Buffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Buffer, otherwise false
+ */
+function isBuffer(val) {
+  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor)
+    && typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
 }
 
 /**
@@ -1459,16 +1689,6 @@ function isNumber(val) {
 }
 
 /**
- * Determine if a value is undefined
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if the value is undefined, otherwise false
- */
-function isUndefined(val) {
-  return typeof val === 'undefined';
-}
-
-/**
  * Determine if a value is an Object
  *
  * @param {Object} val The value to test
@@ -1476,6 +1696,21 @@ function isUndefined(val) {
  */
 function isObject(val) {
   return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a plain Object
+ *
+ * @param {Object} val The value to test
+ * @return {boolean} True if value is a plain Object, otherwise false
+ */
+function isPlainObject(val) {
+  if (toString.call(val) !== '[object Object]') {
+    return false;
+  }
+
+  var prototype = Object.getPrototypeOf(val);
+  return prototype === null || prototype === Object.prototype;
 }
 
 /**
@@ -1560,9 +1795,13 @@ function trim(str) {
  *
  * react-native:
  *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
  */
 function isStandardBrowserEnv() {
-  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                           navigator.product === 'NativeScript' ||
+                                           navigator.product === 'NS')) {
     return false;
   }
   return (
@@ -1630,8 +1869,12 @@ function forEach(obj, fn) {
 function merge(/* obj1, obj2, obj3, ... */) {
   var result = {};
   function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
       result[key] = merge(result[key], val);
+    } else if (isPlainObject(val)) {
+      result[key] = merge({}, val);
+    } else if (isArray(val)) {
+      result[key] = val.slice();
     } else {
       result[key] = val;
     }
@@ -1662,6 +1905,19 @@ function extend(a, b, thisArg) {
   return a;
 }
 
+/**
+ * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+ *
+ * @param {string} content with BOM
+ * @return {string} content value without BOM
+ */
+function stripBOM(content) {
+  if (content.charCodeAt(0) === 0xFEFF) {
+    content = content.slice(1);
+  }
+  return content;
+}
+
 module.exports = {
   isArray: isArray,
   isArrayBuffer: isArrayBuffer,
@@ -1671,6 +1927,7 @@ module.exports = {
   isString: isString,
   isNumber: isNumber,
   isObject: isObject,
+  isPlainObject: isPlainObject,
   isUndefined: isUndefined,
   isDate: isDate,
   isFile: isFile,
@@ -1682,7 +1939,8 @@ module.exports = {
   forEach: forEach,
   merge: merge,
   extend: extend,
-  trim: trim
+  trim: trim,
+  stripBOM: stripBOM
 };
 
 
@@ -1746,28 +2004,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else {}
 }());
-
-
-/***/ }),
-
-/***/ "./node_modules/is-buffer/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
 
 
 /***/ }),
@@ -38128,40 +38364,82 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./src/js/app.js":
-/*!***********************!*\
-  !*** ./src/js/app.js ***!
-  \***********************/
+/***/ "./src/js/components/App.js":
+/*!**********************************!*\
+  !*** ./src/js/components/App.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var _getBlockData = __webpack_require__(/*! ../functions/getBlockData */ "./src/js/functions/getBlockData.js");
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
+var _getBlockData2 = _interopRequireDefault(_getBlockData);
 
-var _List = __webpack_require__(/*! ./components/List */ "./src/js/components/List.js");
+var _getCategoryData = __webpack_require__(/*! ../functions/getCategoryData */ "./src/js/functions/getCategoryData.js");
 
-var _List2 = _interopRequireDefault(_List);
+var _getCategoryData2 = _interopRequireDefault(_getCategoryData);
+
+var _Index = __webpack_require__(/*! ./Blocks/Index */ "./src/js/components/Blocks/Index.js");
+
+var _Index2 = _interopRequireDefault(_Index);
+
+var _Index3 = __webpack_require__(/*! ./Categories/Index */ "./src/js/components/Categories/Index.js");
+
+var _Index4 = _interopRequireDefault(_Index3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(/*! ./helpers/sticky */ "./src/js/helpers/sticky.js");
+var addFilter = wp.hooks.addFilter;
 
-_reactDom2.default.render(_react2.default.createElement(_List2.default, null), document.getElementById("app"));
+
+function App() {
+	var _useState = (0, _react.useState)((0, _getBlockData2.default)()),
+	    _useState2 = _slicedToArray(_useState, 1),
+	    wpBlocks = _useState2[0];
+
+	var _useState3 = (0, _react.useState)((0, _getCategoryData2.default)()),
+	    _useState4 = _slicedToArray(_useState3, 1),
+	    wpCategories = _useState4[0];
+
+	// Parse URL to get active plugin view.
+
+
+	var url = window.location.href;
+	var isCategory = url.includes('category-switcher') ? true : false;
+
+	// Display total blocks in header
+	var totalDiv = document.querySelector('span.block-total');
+	if (totalDiv) {
+		totalDiv.innerHTML = wpBlocks.length;
+	}
+
+	return _react2.default.createElement(
+		_react2.default.Fragment,
+		null,
+		isCategory ? _react2.default.createElement(_Index4.default, { wpBlocks: wpBlocks, wpCategories: wpCategories }) : _react2.default.createElement(_Index2.default, { wpBlocks: wpBlocks, wpCategories: wpCategories })
+	);
+}
+exports.default = App;
 
 /***/ }),
 
-/***/ "./src/js/components/Block.js":
-/*!************************************!*\
-  !*** ./src/js/components/Block.js ***!
-  \************************************/
+/***/ "./src/js/components/Blocks/Block.js":
+/*!*******************************************!*\
+  !*** ./src/js/components/Blocks/Block.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38176,11 +38454,11 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Icon = __webpack_require__(/*! ./Icon */ "./src/js/components/Icon.js");
+var _Icon = __webpack_require__(/*! ../Global/Icon */ "./src/js/components/Global/Icon.js");
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _Switch = __webpack_require__(/*! ./Switch */ "./src/js/components/Switch.js");
+var _Switch = __webpack_require__(/*! ./Switch */ "./src/js/components/Blocks/Switch.js");
 
 var _Switch2 = _interopRequireDefault(_Switch);
 
@@ -38200,16 +38478,17 @@ function Block(_ref) {
 	    disabledBlocks = _ref.disabledBlocks,
 	    filteredBlocks = _ref.filteredBlocks;
 
-	var icon = "";
-	var type = "dashicon";
+	var icon = '';
+	var type = 'dashicon';
 	var id = data.name;
-	var disabledClass = disabledBlocks.indexOf(id) !== -1 ? "disabled" : "";
+	var disabledClass = disabledBlocks.indexOf(id) !== -1 ? 'disabled' : '';
 	var isFiltered = filteredBlocks.indexOf(id) !== -1 ? true : false;
-	var filteredClass = isFiltered ? "filtered" : "";
+	var filteredClass = isFiltered ? 'filtered' : '';
 
+	// Convert Icon.
 	if (data.icon && data.icon.src) {
 		if (data.icon.src.type) {
-			type = "react";
+			type = 'react';
 			icon = _server2.default.renderToStaticMarkup(data.icon.src);
 		} else {
 			icon = data.icon.src;
@@ -38220,7 +38499,7 @@ function Block(_ref) {
 		var target = e.currentTarget;
 		if (target) {
 			var _id = target.dataset.id;
-			if (!target.classList.contains("filtered")) {
+			if (!target.classList.contains('filtered')) {
 				toggleBlock(target, _id);
 			} else {
 				alert(gbm_localize.filtered_alert);
@@ -38230,42 +38509,39 @@ function Block(_ref) {
 	};
 
 	return _react2.default.createElement(
-		"button",
+		'button',
 		{
-			"data-title": data.title,
-			"data-description": data.description,
-			role: "button",
-			className: (0, _classnames2.default)("item", disabledClass, filteredClass),
-			"data-id": id,
-			"data-category": data.category,
+			'data-title': data.title,
+			'data-description': data.description,
+			role: 'button',
+			className: (0, _classnames2.default)('item', disabledClass, filteredClass),
+			'data-id': id,
+			'data-category': data.category,
 			onClick: clickHandler,
-			"aria-label": gbm_localize.toggle,
+			'aria-label': gbm_localize.toggle,
 			title: id,
-			tabIndex: isFiltered ? "-1" : ""
+			tabIndex: isFiltered ? '-1' : ''
 		},
 		_react2.default.createElement(
-			"div",
-			{ className: "item--wrap" },
+			'div',
+			{ className: 'item--wrap' },
 			_react2.default.createElement(_Icon2.default, { src: icon, type: type }),
 			_react2.default.createElement(
-				"div",
-				{ className: "block-info--wrap" },
+				'div',
+				{ className: 'block-info--wrap' },
 				_react2.default.createElement(
-					"span",
-					{ className: "block-info block-info--title" },
+					'span',
+					{ className: 'block-info block-info--title' },
 					data.title
 				),
 				_react2.default.createElement(
-					"span",
-					{
-						className: "block-info block-info--desc",
-						title: data.description
-					},
+					'span',
+					{ className: 'block-info block-info--desc', title: data.description },
 					data.description
 				),
 				_react2.default.createElement(
-					"span",
-					{ className: "block-info block-info--id" },
+					'span',
+					{ className: 'block-info block-info--id' },
 					id
 				)
 			)
@@ -38277,10 +38553,10 @@ exports.default = Block;
 
 /***/ }),
 
-/***/ "./src/js/components/Category.js":
-/*!***************************************!*\
-  !*** ./src/js/components/Category.js ***!
-  \***************************************/
+/***/ "./src/js/components/Blocks/Category.js":
+/*!**********************************************!*\
+  !*** ./src/js/components/Blocks/Category.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38297,7 +38573,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Block = __webpack_require__(/*! ./Block */ "./src/js/components/Block.js");
+var _Block = __webpack_require__(/*! ./Block */ "./src/js/components/Blocks/Block.js");
 
 var _Block2 = _interopRequireDefault(_Block);
 
@@ -38409,47 +38685,10 @@ exports.default = Category;
 
 /***/ }),
 
-/***/ "./src/js/components/Icon.js":
-/*!***********************************!*\
-  !*** ./src/js/components/Icon.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Icon(_ref) {
-	var src = _ref.src,
-	    type = _ref.type;
-
-	var iconSrc = type === "dashicon" ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
-
-	// Custom Heading Icon
-	if (src === "heading") {
-		iconSrc = '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M5 4v3h5.5v12h3V7H19V4z"></path><path fill="none" d="M0 0h24v24H0V0z"></path></svg>';
-	}
-
-	return _react2.default.createElement("div", { className: "icon", dangerouslySetInnerHTML: { __html: iconSrc } });
-}
-exports.default = Icon;
-
-/***/ }),
-
-/***/ "./src/js/components/List.js":
-/*!***********************************!*\
-  !*** ./src/js/components/List.js ***!
-  \***********************************/
+/***/ "./src/js/components/Blocks/Index.js":
+/*!*******************************************!*\
+  !*** ./src/js/components/Blocks/Index.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38474,19 +38713,22 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Category = __webpack_require__(/*! ./Category */ "./src/js/components/Category.js");
+var _Category = __webpack_require__(/*! ./Category */ "./src/js/components/Blocks/Category.js");
 
 var _Category2 = _interopRequireDefault(_Category);
 
-var _Nav = __webpack_require__(/*! ./Nav */ "./src/js/components/Nav.js");
+var _Sidebar = __webpack_require__(/*! ./Sidebar */ "./src/js/components/Blocks/Sidebar.js");
 
-var _Nav2 = _interopRequireDefault(_Nav);
+var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function List() {
+function Blocks(_ref) {
+	var wpBlocks = _ref.wpBlocks,
+	    wpCategories = _ref.wpCategories;
+
 	var exportDivRef = (0, _react.useRef)();
 	var exportRef = (0, _react.useRef)();
 	var exportBtnRef = (0, _react.useRef)();
@@ -38497,17 +38739,12 @@ function List() {
 	    blocks = _useState2[0],
 	    setBlocks = _useState2[1];
 
-	var _useState3 = (0, _react.useState)(0),
+	var initialView = localStorage && localStorage.getItem('gbm-view') ? localStorage.getItem('gbm-view') : 'grid';
+
+	var _useState3 = (0, _react.useState)(initialView),
 	    _useState4 = _slicedToArray(_useState3, 2),
-	    totalBlocks = _useState4[0],
-	    setTotalBlocks = _useState4[1];
-
-	var initialView = localStorage && localStorage.getItem("gbm-view") ? localStorage.getItem("gbm-view") : "grid";
-
-	var _useState5 = (0, _react.useState)(initialView),
-	    _useState6 = _slicedToArray(_useState5, 2),
-	    view = _useState6[0],
-	    setView = _useState6[1];
+	    view = _useState4[0],
+	    setView = _useState4[1];
 
 	/**
   * categoryClickHandler
@@ -38522,14 +38759,14 @@ function List() {
 		if (!target) {
 			return false;
 		}
-		if (target.dataset.state === "active") {
-			bulkProcess(target, "disable");
-			target.classList.add("disabled");
-			target.dataset.state = "inactive";
+		if (target.dataset.state === 'active') {
+			bulkProcess(target, 'disable');
+			target.classList.add('disabled');
+			target.dataset.state = 'inactive';
 		} else {
-			bulkProcess(target, "enable");
-			target.classList.remove("disabled");
-			target.dataset.state = "active";
+			bulkProcess(target, 'enable');
+			target.classList.remove('disabled');
+			target.dataset.state = 'active';
 		}
 	};
 
@@ -38540,32 +38777,32 @@ function List() {
   * @since 1.0
   */
 	var bulkProcess = function bulkProcess(target) {
-		var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "enable";
+		var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'enable';
 
-		var blocksWrapper = target.parentNode.parentNode.querySelector(".gbm-block-list");
-		var blocks = blocksWrapper.querySelectorAll(".gbm-block-list .item");
+		var blocksWrapper = target.parentNode.parentNode.querySelector('.gbm-block-list');
+		var blocks = blocksWrapper.querySelectorAll('.gbm-block-list .item');
 
 		if (!blocks) {
 			return false;
 		}
 
-		blocksWrapper.classList.add("loading");
+		blocksWrapper.classList.add('loading');
 
 		var blockArray = Array.prototype.map.call(blocks, function (block) {
 			return block.dataset.id;
 		});
 
 		if (blockArray.length) {
-			var url = gbm_localize.root + "gbm/bulk_process/";
+			var url = gbm_localize.root + 'gbm/bulk_process/';
 			var data = { blocks: blockArray, type: type };
 
 			// API Request
 			(0, _axios2.default)({
-				method: "POST",
+				method: 'POST',
 				url: url,
 				headers: {
-					"X-WP-Nonce": gbm_localize.nonce,
-					"Content-Type": "application/json"
+					'X-WP-Nonce': gbm_localize.nonce,
+					'Content-Type': 'application/json'
 				},
 				data: {
 					data: JSON.stringify(data)
@@ -38577,25 +38814,25 @@ function List() {
 					// Success
 
 					[].concat(_toConsumableArray(blocks)).forEach(function (block) {
-						if (type === "enable") {
-							block.classList.remove("disabled");
+						if (type === 'enable') {
+							block.classList.remove('disabled');
 						} else {
-							block.classList.add("disabled");
+							block.classList.add('disabled');
 						}
 					});
-					blocksWrapper.classList.remove("loading");
+					blocksWrapper.classList.remove('loading');
 					setCategoryStatus(blocks[0]);
 				} else {
 					// Error
-					console.log("an error has occurred");
-					blocksWrapper.classList.remove("loading");
+					console.log('an error has occurred');
+					blocksWrapper.classList.remove('loading');
 				}
 			}).catch(function (error) {
 				console.log(error);
-				blocksWrapper.classList.remove("loading");
+				blocksWrapper.classList.remove('loading');
 			});
 		} else {
-			alert("No blocks found");
+			alert('No blocks found');
 		}
 	};
 
@@ -38606,23 +38843,23 @@ function List() {
   * @since 1.0
   */
 	var toggleBlock = function toggleBlock(element, block) {
-		if (!element || element.classList.contains("loading")) {
+		if (!element || element.classList.contains('loading')) {
 			// Exit if loading
 			return false;
 		}
 
-		element.classList.add("loading");
-		var url = gbm_localize.root + "gbm/toggle/";
-		var type = element.classList.contains("disabled") ? "enable" : "disable";
+		element.classList.add('loading');
+		var url = gbm_localize.root + 'gbm/toggle/';
+		var type = element.classList.contains('disabled') ? 'enable' : 'disable';
 		var data = { block: block, type: type };
 
 		// API Request
 		(0, _axios2.default)({
-			method: "POST",
+			method: 'POST',
 			url: url,
 			headers: {
-				"X-WP-Nonce": gbm_localize.nonce,
-				"Content-Type": "application/json"
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json'
 			},
 			data: {
 				data: JSON.stringify(data)
@@ -38633,23 +38870,23 @@ function List() {
 			if (response && res.status == 200) {
 				// Success
 				if (response.success) {
-					if (type === "disable") {
-						element.classList.add("disabled");
+					if (type === 'disable') {
+						element.classList.add('disabled');
 					} else {
-						element.classList.remove("disabled");
+						element.classList.remove('disabled');
 					}
-					element.classList.remove("loading");
+					element.classList.remove('loading');
 					setCategoryStatus(element);
 				}
 			} else {
 				// Error
-				console.log("an error has occurred");
-				element.classList.remove("loading");
+				console.log('an error has occurred');
+				element.classList.remove('loading');
 			}
 		}).catch(function (error) {
 			// Error
 			console.log(error);
-			element.classList.remove("loading");
+			element.classList.remove('loading');
 		});
 	};
 
@@ -38664,25 +38901,25 @@ function List() {
 		}
 		var parent = element.parentNode.parentNode;
 		var totalBlocks = parent.dataset.totalBlocks;
-		var feedback = parent.querySelector("h3 span");
-		var toggleBtn = parent.querySelector(".gbm-block-switch");
-		var items = parent.querySelectorAll(".gbm-block-list .item");
+		var feedback = parent.querySelector('h3 span');
+		var toggleBtn = parent.querySelector('.gbm-block-switch');
+		var items = parent.querySelectorAll('.gbm-block-list .item');
 
 		if (items) {
 			var blockArr = Array.prototype.slice.call(items);
 			var disabledBlocks = blockArr.filter(function (block) {
-				return block.classList.contains("disabled");
+				return block.classList.contains('disabled');
 			});
 
-			feedback.innerHTML = "(" + (totalBlocks - disabledBlocks.length) + "/" + totalBlocks + ")";
+			feedback.innerHTML = '(' + (totalBlocks - disabledBlocks.length) + '/' + totalBlocks + ')';
 
 			// If disabled === total items, toggle the switch
 			if (disabledBlocks.length === items.length) {
-				toggleBtn.classList.add("disabled");
-				toggleBtn.dataset.state = "inactive";
+				toggleBtn.classList.add('disabled');
+				toggleBtn.dataset.state = 'inactive';
 			} else {
-				toggleBtn.classList.remove("disabled");
-				toggleBtn.dataset.state = "active";
+				toggleBtn.classList.remove('disabled');
+				toggleBtn.dataset.state = 'active';
 			}
 		}
 	};
@@ -38693,54 +38930,23 @@ function List() {
   * @since 1.0
   */
 	var onLoad = function onLoad() {
-		wp.blockLibrary.registerCoreBlocks();
-		var wpBlocks = wp.blocks.getBlockTypes();
-		if (wpBlocks) {
-			// Sort blocks by name
-			wpBlocks.sort(function (a, b) {
-				var textA = a.name.toUpperCase();
-				var textB = b.name.toUpperCase();
-				return textA < textB ? -1 : textA > textB ? 1 : 0;
-			});
-
-			// Filter `core/missing` & `core/reusable` blocks
-			var _blocks = wpBlocks.filter(function (block) {
-				return block.name !== "core/missing" && block.name !== "core/block";
-			});
-
-			setTotalBlocks(_blocks.length); // Set state
-
-			// Get unique block categories
-			var categories = wp.blocks.getCategories();
-
-			// Filter categories for `reusable`
-			categories = categories.filter(function (cat) {
-				return cat.slug !== "reusable";
-			});
-
-			// Sort categories by name
-			categories.sort(function (a, b) {
-				var textA = a.title.toUpperCase();
-				var textB = b.title.toUpperCase();
-				return textA < textB ? -1 : textA > textB ? 1 : 0;
-			});
-
-			// Filter blocks by categories
+		if (wpBlocks && wpCategories) {
+			// Filter blocks by categories.
 			var blockArray = [];
-			categories.forEach(function (cat) {
-				var filtered = _blocks.filter(function (block) {
+			wpCategories.forEach(function (cat) {
+				var filtered = wpBlocks.filter(function (block) {
 					return block.category === cat.slug;
 				});
 
-				if ("embed" === cat.slug) {
+				if ('embed' === cat.slug) {
 					// core/embed block only
-					var embedBlock = _blocks.filter(function (block) {
+					var embedBlock = wpBlocks.filter(function (block) {
 						return block.category === cat.slug;
 					});
 					// Get `variations`.
 					var variations = embedBlock[0] ? embedBlock[0].variations : [];
 					var modVariations = variations.map(function (item) {
-						item.name = "variation;core/embed;" + item.name;
+						item.name = 'variation;core/embed;' + item.name;
 						return item;
 					});
 
@@ -38759,8 +38965,9 @@ function List() {
 					blockArray.push(obj);
 				}
 			});
-			blockArray;
-			setBlocks(blockArray); // Set state
+
+			// Set blocks state.
+			setBlocks(blockArray);
 		}
 	};
 
@@ -38770,42 +38977,42 @@ function List() {
 			return false;
 		}
 		if (localStorage) {
-			localStorage.setItem("gbm-view", value);
+			localStorage.setItem('gbm-view', value);
 		}
 		setView(value);
 	};
 
 	// Export blocks
 	var exportBlocks = function exportBlocks() {
-		var url = gbm_localize.root + "gbm/export/";
-		exportDivRef.current.classList.add("active");
+		var url = gbm_localize.root + 'gbm/export/';
+		exportDivRef.current.classList.add('active');
 		// API Request
 		(0, _axios2.default)({
-			method: "GET",
+			method: 'GET',
 			url: url,
 			headers: {
-				"X-WP-Nonce": gbm_localize.nonce,
-				"Content-Type": "application/json"
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json'
 			}
 		}).then(function (res) {
 			if (res.status === 200 && res.data && res.data.success) {
 				var blockReturn = res.data.blocks;
-				blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
+				blockReturn = blockReturn.replace(/\\/g, ''); // Replace `\`.
 				blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
 				blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
-				var results = "// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return " + blockReturn + "<br/>});";
+				var results = '// functions.php<br/>add_filter( \'gbm_disabled_blocks\', function() {<br/>&nbsp;&nbsp;&nbsp;return ' + blockReturn + '<br/>});';
 				exportRef.current.innerHTML = results;
 				setTimeout(function () {
 					exportDivRef.current.focus();
 				}, 100);
 			} else {
-				console.warn("There was an error exporting disabled blocks.");
-				exportDivRef.current.classList.remove("active");
+				console.warn('There was an error exporting disabled blocks.');
+				exportDivRef.current.classList.remove('active');
 			}
 		}).catch(function (error) {
 			// Error
 			console.log(error);
-			exportDivRef.current.classList.remove("active");
+			exportDivRef.current.classList.remove('active');
 		});
 	};
 
@@ -38818,7 +39025,7 @@ function List() {
 		sel.removeAllRanges();
 		sel.addRange(range);
 		// Copy to clipboard
-		document.execCommand("copy");
+		document.execCommand('copy');
 		copyRef.current.innerHTML = gbm_localize.copied;
 		setTimeout(function () {
 			copyRef.current.disabled = true;
@@ -38827,49 +39034,24 @@ function List() {
 
 	// Close Export modal.
 	var closeExport = function closeExport() {
-		exportDivRef.current.classList.remove("active");
+		exportDivRef.current.classList.remove('active');
 		setTimeout(function () {
 			exportBtnRef.current.focus();
 			exportRef.current.innerHTML = gbm_localize.loading_export;
 		}, 350);
 	};
 
-	// Toggle Other Plugins display
-	var otherPluginsClick = function otherPluginsClick(e) {
-		var otherPluginsDiv = document.getElementById("gbm-other-plugins");
-		if (!otherPluginsDiv) {
-			return false;
-		}
-		if (otherPluginsDiv.style.display === "block") {
-			otherPluginsDiv.style.display = "none";
-		} else {
-			otherPluginsDiv.style.display = "block";
-		}
-		var container = document.getElementById("gbm-container");
-		container.focus();
-	};
-
-	(0, _react.useEffect)(function () {
-		// Display total blocks in header
-		if (totalBlocks !== 0) {
-			var totalDiv = document.querySelector("span.block-total");
-			var wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
-			totalDiv.innerHTML = totalBlocks;
-			wrapperDiv.classList.add("loaded");
-		}
-	}, [totalBlocks]);
-
 	// On Load
 	(0, _react.useEffect)(function () {
 		onLoad();
-		var otherPluginsBtn = document.getElementById("otherPlugins");
-		var otherPluginsClose = document.getElementById("otherPluginsClose");
-		if (otherPluginsBtn) {
-			otherPluginsBtn.addEventListener("click", otherPluginsClick);
-			otherPluginsClose.addEventListener("click", otherPluginsClick);
-		}
-		document.addEventListener("keyup", function (e) {
-			if (e.key === "Escape") {
+
+		// Set Loaded.
+		var wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
+		wrapperDiv.classList.add('loaded');
+
+		// Export settings.
+		document.addEventListener('keyup', function (e) {
+			if (e.key === 'Escape') {
 				closeExport();
 			}
 		}, false);
@@ -38877,134 +39059,100 @@ function List() {
 	}, []);
 
 	return _react2.default.createElement(
-		"div",
-		{ className: "gbm-block-list-wrapper" },
-		_react2.default.createElement(_Nav2.default, { blocks: blocks }),
+		'div',
+		{ className: 'gbm-block-list-wrapper' },
+		_react2.default.createElement(_Sidebar2.default, { blocks: blocks }),
 		_react2.default.createElement(
-			"div",
-			{ className: (0, _classnames2.default)("gbm-blocks", "gbm-view-" + view) },
+			'div',
+			{ className: (0, _classnames2.default)('gbm-blocks', 'gbm-view-' + view) },
 			_react2.default.createElement(
-				"span",
-				{ className: "global-loader loading" },
+				'span',
+				{ className: 'global-loader loading' },
 				gbm_localize.loading,
-				"..."
+				'...'
 			),
 			_react2.default.createElement(
-				"div",
-				{ className: "gbm-options" },
+				'div',
+				{ className: 'gbm-options' },
 				_react2.default.createElement(
-					"div",
-					{ className: "gbm-options--view" },
+					'div',
+					{ className: 'gbm-options--view' },
 					_react2.default.createElement(
-						"button",
-						{
-							type: "button",
-							className: view === "grid" ? "active" : "",
-							disabled: view === "grid",
-							onClick: function onClick() {
-								return changeView("grid");
-							}
-						},
-						_react2.default.createElement("span", { className: "dashicons dashicons-grid-view" }),
+						'button',
+						{ type: 'button', className: view === 'grid' ? 'active' : '', disabled: view === 'grid', onClick: function onClick() {
+								return changeView('grid');
+							} },
+						_react2.default.createElement('span', { className: 'dashicons dashicons-grid-view' }),
 						gbm_localize.grid
 					),
 					_react2.default.createElement(
-						"button",
-						{
-							type: "button",
-							className: view === "list" ? "active" : "",
-							disabled: view === "list",
-							onClick: function onClick() {
-								return changeView("list");
-							}
-						},
-						_react2.default.createElement("span", { className: "dashicons dashicons-list-view" }),
+						'button',
+						{ type: 'button', className: view === 'list' ? 'active' : '', disabled: view === 'list', onClick: function onClick() {
+								return changeView('list');
+							} },
+						_react2.default.createElement('span', { className: 'dashicons dashicons-list-view' }),
 						gbm_localize.list
 					)
 				),
 				_react2.default.createElement(
-					"button",
-					{
-						type: "button",
-						className: "export",
-						ref: exportBtnRef,
-						onClick: function onClick() {
+					'button',
+					{ type: 'button', className: 'export', ref: exportBtnRef, onClick: function onClick() {
 							return exportBlocks();
-						}
-					},
-					_react2.default.createElement("span", { className: "dashicons dashicons-database-export" }),
+						} },
+					_react2.default.createElement('span', { className: 'dashicons dashicons-database-export' }),
 					gbm_localize.export
 				)
 			),
 			_react2.default.createElement(
-				"div",
-				{ className: "gbm-code-export", ref: exportDivRef, tabIndex: "0" },
+				'div',
+				{ className: 'gbm-code-export', ref: exportDivRef, tabIndex: '0' },
 				_react2.default.createElement(
-					"div",
-					{ className: "gbm-code-export--inner" },
+					'div',
+					{ className: 'gbm-code-export--inner' },
 					_react2.default.createElement(
-						"div",
+						'div',
 						null,
 						_react2.default.createElement(
-							"p",
+							'p',
 							null,
 							gbm_localize.export_intro
 						),
 						_react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(
-								"button",
-								{
-									type: "button",
-									className: "button button-primary",
-									onClick: copyExport,
-									ref: copyRef
-								},
+								'button',
+								{ type: 'button', className: 'button button-primary', onClick: copyExport, ref: copyRef },
 								gbm_localize.copy
 							),
 							_react2.default.createElement(
-								"button",
-								{
-									type: "button",
-									className: "button",
-									onClick: closeExport
-								},
+								'button',
+								{ type: 'button', className: 'button', onClick: closeExport },
 								gbm_localize.close
 							)
 						)
 					),
 					_react2.default.createElement(
-						"code",
-						{
-							id: "gbm-export",
-							ref: exportRef,
-							contentEditable: "true",
-							suppressContentEditableWarning: true
-						},
+						'code',
+						{ id: 'gbm-export', ref: exportRef, contentEditable: 'true', suppressContentEditableWarning: true },
 						gbm_localize.loading_export
 					)
 				)
 			),
 			blocks && blocks.length && blocks.map(function (category) {
-				return _react2.default.createElement(_Category2.default, {
-					key: category.info.slug,
-					data: category,
-					toggleBlock: toggleBlock,
-					categoryClickHandler: categoryClickHandler
-				});
+				return _react2.default.createElement(_Category2.default, { key: category.info.slug, data: category, toggleBlock: toggleBlock, categoryClickHandler: categoryClickHandler });
 			})
 		)
 	);
 }
-exports.default = List;
+exports.default = Blocks;
 
 /***/ }),
 
-/***/ "./src/js/components/Nav.js":
-/*!**********************************!*\
-  !*** ./src/js/components/Nav.js ***!
-  \**********************************/
+/***/ "./src/js/components/Blocks/Sidebar.js":
+/*!*********************************************!*\
+  !*** ./src/js/components/Blocks/Sidebar.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39019,111 +39167,67 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Search = __webpack_require__(/*! ../Global/Search */ "./src/js/components/Global/Search.js");
+
+var _Search2 = _interopRequireDefault(_Search);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function Nav(_ref) {
+/**
+ * Sidebar for Blocks Manager.
+ *
+ * @param {object} blocks WP Blocks.
+ */
+function Sidebar(_ref) {
 	var blocks = _ref.blocks;
-
-	// Search blocks
-	var search = function search() {
-		var searchInput = document.querySelector("#gbm-search");
-		var blocks = document.querySelectorAll(".gbm-blocks .gbm-block-list button");
-		var blockArray = Array.prototype.slice.call(blocks);
-		var term = searchInput.value.toLowerCase();
-
-		if (term !== "") {
-			blockArray.map(function (block) {
-				var str = block.dataset.title.toLowerCase();
-				var found = str.search(term);
-				if (found !== -1) {
-					block.style.display = "flex";
-				} else {
-					block.style.display = "none";
-				}
-			});
-		} else {
-			blockArray.map(function (block) {
-				block.style.display = "flex";
-			});
-		}
-	};
 
 	// Slide browser window to block category
 	var moveTo = function moveTo(e) {
 		var el = e.currentTarget;
 		var to = el.dataset.to;
-		var target = document.querySelector("#" + to);
+		var target = document.querySelector('#' + to);
 		if (target) {
 			var top = target.getBoundingClientRect().top + window.pageYOffset - 50;
 			window.scrollTo({
 				top: top, // scroll so that the element is at the top of the view
-				behavior: "smooth" // smooth scroll
+				behavior: 'smooth' // smooth scroll
 			});
 		}
 	};
 
 	return _react2.default.createElement(
-		"div",
-		{ className: "gbm-nav" },
+		'div',
+		{ className: 'gbm-nav' },
 		_react2.default.createElement(
-			"div",
-			{ id: "gbm-sticky-wrapper" },
+			'div',
+			{ id: 'gbm-sticky-wrapper' },
 			_react2.default.createElement(
-				"div",
-				{ id: "gbm-sticky" },
+				'div',
+				{ id: 'gbm-sticky' },
 				_react2.default.createElement(
-					"div",
-					{ className: "gbm-nav-wrap" },
+					'div',
+					{ className: 'gbm-nav-wrap' },
 					blocks && blocks.length && blocks.map(function (category) {
 						return _react2.default.createElement(
-							"button",
-							{
-								key: category.info.slug,
-								type: "button",
-								"data-to": "block-" + category.info.slug,
-								onClick: moveTo
-							},
+							'button',
+							{ key: category.info.slug, type: 'button', 'data-to': 'block-' + category.info.slug, onClick: moveTo },
 							category.info.title
 						);
 					})
 				),
-				_react2.default.createElement(
-					"div",
-					{ className: "gbm-search" },
-					_react2.default.createElement(
-						"label",
-						{ className: "offscreen", htmlFor: "gbm-search" },
-						gbm_localize.search_label
-					),
-					_react2.default.createElement("input", {
-						type: "text",
-						id: "gbm-search",
-						placeholder: gbm_localize.search_label,
-						onKeyUp: search
-					}),
-					_react2.default.createElement(
-						"button",
-						{ type: "button", onClick: search },
-						_react2.default.createElement(
-							"span",
-							{ className: "offscreen" },
-							gbm_localize.submit
-						),
-						_react2.default.createElement("span", { className: "dashicons dashicons-search" })
-					)
-				)
+				_react2.default.createElement(_Search2.default, null)
 			)
 		)
 	);
 }
-exports.default = Nav;
+exports.default = Sidebar;
 
 /***/ }),
 
-/***/ "./src/js/components/Switch.js":
-/*!*************************************!*\
-  !*** ./src/js/components/Switch.js ***!
-  \*************************************/
+/***/ "./src/js/components/Blocks/Switch.js":
+/*!********************************************!*\
+  !*** ./src/js/components/Blocks/Switch.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39152,6 +39256,690 @@ function Switch() {
 	);
 }
 exports.default = Switch;
+
+/***/ }),
+
+/***/ "./src/js/components/Categories/Block.js":
+/*!***********************************************!*\
+  !*** ./src/js/components/Categories/Block.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _server = __webpack_require__(/*! react-dom/server */ "./node_modules/react-dom/server.browser.js");
+
+var _server2 = _interopRequireDefault(_server);
+
+var _Icon = __webpack_require__(/*! ../Global/Icon */ "./src/js/components/Global/Icon.js");
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Block(_ref) {
+	var data = _ref.data,
+	    wpCategories = _ref.wpCategories,
+	    changeCategory = _ref.changeCategory;
+
+	var icon = '';
+	var type = 'dashicon';
+	var id = data.name;
+	var blockCat = data.category;
+
+	// Convert Icon.
+	if (data.icon && data.icon.src) {
+		if (data.icon.src.type) {
+			type = 'react';
+			icon = _server2.default.renderToStaticMarkup(data.icon.src);
+		} else {
+			icon = data.icon.src;
+		}
+	}
+
+	return _react2.default.createElement(
+		'div',
+		{ 'data-title': data.title, role: 'button', className: (0, _classnames2.default)('item'), 'data-id': id },
+		_react2.default.createElement(
+			'div',
+			{ className: 'item--wrap' },
+			_react2.default.createElement(_Icon2.default, { src: icon, type: type }),
+			_react2.default.createElement(
+				'div',
+				{ className: 'block-info--wrap' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'block-info--details' },
+					_react2.default.createElement(
+						'span',
+						{ className: 'block-info block-info--title' },
+						data.title
+					),
+					_react2.default.createElement(
+						'span',
+						{ className: 'block-info block-info--desc', title: data.description },
+						data.description
+					),
+					_react2.default.createElement(
+						'span',
+						{ className: 'block-info block-info--id' },
+						id
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'block-info--action' },
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement(
+							'span',
+							{ className: 'offscreen' },
+							gbm_localize.cat_switch
+						),
+						_react2.default.createElement(
+							'select',
+							{ defaultValue: blockCat, onChange: function onChange(e) {
+									return changeCategory(id, e);
+								} },
+							!!wpCategories && wpCategories.map(function (cat, index) {
+								return _react2.default.createElement(
+									'option',
+									{ key: 'cat-' + cat.slug + '-' + index, value: cat.slug },
+									cat.title
+								);
+							})
+						)
+					)
+				)
+			)
+		),
+		_react2.default.createElement('div', { className: 'loading-cover' }),
+		_react2.default.createElement(
+			'div',
+			{ className: 'gbm-cat-status' },
+			_react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' }),
+			' ',
+			gbm_localize.updated
+		)
+	);
+}
+exports.default = Block;
+
+/***/ }),
+
+/***/ "./src/js/components/Categories/Index.js":
+/*!***********************************************!*\
+  !*** ./src/js/components/Categories/Index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Block = __webpack_require__(/*! ./Block */ "./src/js/components/Categories/Block.js");
+
+var _Block2 = _interopRequireDefault(_Block);
+
+var _Sidebar = __webpack_require__(/*! ./Sidebar */ "./src/js/components/Categories/Sidebar.js");
+
+var _Sidebar2 = _interopRequireDefault(_Sidebar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Categories(_ref) {
+	var wpBlocks = _ref.wpBlocks,
+	    wpCategories = _ref.wpCategories;
+
+	var disabledBlocks = gbm_localize.disabledBlocks;
+	var filteredBlocks = gbm_localize.filteredBlocks;
+
+	// Filter block for `core` blocks only.
+	wpBlocks = wpBlocks.filter(function (block) {
+		return block.name.indexOf('core/') !== -1;
+	});
+
+	/**
+  * Change the block category.
+  *
+  * @since 1.0
+  */
+	var changeCategory = function changeCategory(id, select) {
+		if (!id || !select) {
+			return false;
+		}
+		var value = select.target.value;
+		var element = select.target.closest('.item');
+		var status = '';
+
+		if (element) {
+			element.classList.add('loading');
+			status = element.querySelector('.gbm-cat-status');
+		}
+
+		// API Request.
+		var url = gbm_localize.root + 'gbm/category_switch/';
+		var data = { block: id, cat: value };
+
+		// Send request.
+		(0, _axios2.default)({
+			method: 'POST',
+			url: url,
+			headers: {
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				data: JSON.stringify(data)
+			}
+		}).then(function (res) {
+			var response = res.data;
+
+			if (response && res.status == 200) {
+				// Success
+				if (element) {
+					element.classList.remove('loading');
+					if (status) {
+						status.classList.add('active');
+						setTimeout(function () {
+							status.classList.remove('active');
+						}, 2500);
+					}
+				}
+			} else {
+				// Error
+				console.log('an error has occurred');
+				if (element) {
+					element.classList.remove('loading');
+				}
+			}
+		}).catch(function (error) {
+			// Error
+			console.log(error);
+			if (element) {
+				element.classList.remove('loading');
+			}
+		});
+	};
+
+	// On Load
+	(0, _react.useEffect)(function () {
+		// Set Loaded.
+		var wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
+		wrapperDiv.classList.add('loaded');
+
+		// Export settings.
+		document.addEventListener('keyup', function (e) {
+			if (e.key === 'Escape') {
+				closeExport();
+			}
+		}, false);
+		return function () {};
+	}, []);
+
+	return _react2.default.createElement(
+		'div',
+		{ className: 'gbm-block-list-wrapper categories' },
+		_react2.default.createElement(_Sidebar2.default, null),
+		_react2.default.createElement(
+			'div',
+			{ className: 'gbm-blocks' },
+			_react2.default.createElement(
+				'span',
+				{ className: 'global-loader loading' },
+				gbm_localize.loading,
+				'...'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'gbm-block-group' },
+				_react2.default.createElement(
+					'header',
+					{ className: 'gbm-block-list-controls categories' },
+					_react2.default.createElement(
+						'h3',
+						null,
+						gbm_localize.block_switch
+					),
+					_react2.default.createElement(
+						'h3',
+						null,
+						gbm_localize.cat_switch
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'gbm-block-list categories' },
+					!!wpBlocks && wpBlocks.map(function (block, index) {
+						return _react2.default.createElement(_Block2.default, { key: index, changeCategory: changeCategory, data: block, wpCategories: wpCategories });
+					})
+				)
+			)
+		)
+	);
+}
+exports.default = Categories;
+
+/***/ }),
+
+/***/ "./src/js/components/Categories/Sidebar.js":
+/*!*************************************************!*\
+  !*** ./src/js/components/Categories/Sidebar.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Search = __webpack_require__(/*! ../Global/Search */ "./src/js/components/Global/Search.js");
+
+var _Search2 = _interopRequireDefault(_Search);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Sidebar() {
+	/**
+  * Reset categories to default.
+  */
+	var reset = function reset() {
+		// API Request.
+		var url = gbm_localize.root + 'gbm/category_reset/';
+
+		// Send request.
+		(0, _axios2.default)({
+			method: 'POST',
+			url: url,
+			headers: {
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json'
+			}
+		}).then(function () {
+			// Reload window.
+			window.location.reload();
+		}).catch(function (error) {
+			// Error
+			console.log(error);
+		});
+	};
+
+	return _react2.default.createElement(
+		'div',
+		{ className: 'gbm-nav' },
+		_react2.default.createElement(
+			'div',
+			{ id: 'gbm-sticky-wrapper' },
+			_react2.default.createElement(
+				'div',
+				{ id: 'gbm-sticky' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'gbm-nav-wrap' },
+					_react2.default.createElement(
+						'p',
+						null,
+						gbm_localize.cat_intro
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						gbm_localize.cat_intro2
+					),
+					!!gbm_localize.filteredCategories && gbm_localize.filteredCategories.length > 0 && _react2.default.createElement(
+						'button',
+						{ type: 'button', className: 'button', onClick: reset },
+						gbm_localize.reset_cats
+					)
+				),
+				_react2.default.createElement(_Search2.default, null)
+			)
+		)
+	);
+}
+exports.default = Sidebar;
+
+/***/ }),
+
+/***/ "./src/js/components/Global/Icon.js":
+/*!******************************************!*\
+  !*** ./src/js/components/Global/Icon.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Block Icon display.
+ *
+ * @param {string} src The svg source.
+ * @param {string} type The type of icon.
+ */
+function Icon(_ref) {
+	var src = _ref.src,
+	    type = _ref.type;
+
+	var iconSrc = type === 'dashicon' ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
+
+	// Custom Heading Icon
+	if (src === 'heading') {
+		iconSrc = '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M5 4v3h5.5v12h3V7H19V4z"></path><path fill="none" d="M0 0h24v24H0V0z"></path></svg>';
+	}
+
+	return _react2.default.createElement('div', { className: 'icon', dangerouslySetInnerHTML: { __html: iconSrc } });
+}
+exports.default = Icon;
+
+/***/ }),
+
+/***/ "./src/js/components/Global/Search.js":
+/*!********************************************!*\
+  !*** ./src/js/components/Global/Search.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+function Search() {
+	// Search blocks
+	var search = function search() {
+		var searchInput = document.querySelector('#gbm-search');
+		var blocks = document.querySelectorAll('.gbm-blocks .gbm-block-list .item');
+		var blockArray = Array.prototype.slice.call(blocks);
+		var term = searchInput.value.toLowerCase();
+
+		if (term !== '') {
+			blockArray.map(function (block) {
+				var str = block.dataset.title.toLowerCase();
+				var found = str.search(term);
+				if (found !== -1) {
+					block.style.display = 'flex';
+				} else {
+					block.style.display = 'none';
+				}
+			});
+		} else {
+			blockArray.map(function (block) {
+				block.style.display = 'flex';
+			});
+		}
+	};
+
+	return React.createElement(
+		'div',
+		{ className: 'gbm-search' },
+		React.createElement(
+			'label',
+			{ className: 'offscreen', htmlFor: 'gbm-search' },
+			gbm_localize.search_label
+		),
+		React.createElement('input', { type: 'text', id: 'gbm-search', placeholder: gbm_localize.search_label, onKeyUp: search }),
+		React.createElement(
+			'button',
+			{ type: 'button', onClick: search },
+			React.createElement(
+				'span',
+				{ className: 'offscreen' },
+				gbm_localize.submit
+			),
+			React.createElement('span', { className: 'dashicons dashicons-search' })
+		)
+	);
+}
+exports.default = Search;
+
+/***/ }),
+
+/***/ "./src/js/functions/filterBlockCategories.js":
+/*!***************************************************!*\
+  !*** ./src/js/functions/filterBlockCategories.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = filterBlockCategories;
+var addFilter = wp.hooks.addFilter;
+
+/**
+ * Use hooks to switch the block categories.
+ *
+ * @param {*} options The WP option returned via localized script.
+ */
+
+function filterBlockCategories(options) {
+	if (!options) {
+		return false; // Exit if empty.
+	}
+	var categories = {};
+	options.forEach(function (cat) {
+		// Extract values from object.
+		var values = Object.values(cat);
+		// Convert values into object.
+		categories[values[0]] = values[1];
+	});
+
+	/**
+  * Filter WP Blocks.
+  *
+  * @param {*} settings
+  * @param {*} name
+  */
+	var filterBlocks = function filterBlocks(settings, name) {
+		if (categories[name]) {
+			settings.category = categories[name];
+			settings.gbm = true;
+		}
+
+		// we need to pass along the settings object
+		// even if we haven't modified them!
+		return settings;
+	};
+
+	// Add filter when blocks register.
+	addFilter('blocks.registerBlockType', // hook name, important!
+	'gbm/filter-blocks', // your name, arbitrary!
+	filterBlocks // function to run.
+	);
+}
+
+/***/ }),
+
+/***/ "./src/js/functions/getBlockData.js":
+/*!******************************************!*\
+  !*** ./src/js/functions/getBlockData.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _filterBlockCategories = __webpack_require__(/*! ../functions/filterBlockCategories */ "./src/js/functions/filterBlockCategories.js");
+
+var _filterBlockCategories2 = _interopRequireDefault(_filterBlockCategories);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Get all WP blocks.
+ *
+ * @return {array}
+ */
+function getBlockData() {
+	// Filter WP block categories.
+	var gbm_categories = gbm_localize.filteredCategories;
+	if (gbm_categories) {
+		(0, _filterBlockCategories2.default)(gbm_categories);
+	}
+
+	// Load Block Library.
+	wp.blockLibrary.registerCoreBlocks();
+
+	// Get WP Block Info.
+	var blocks = wp.blocks.getBlockTypes();
+
+	var wpBlocks = '';
+	if (blocks) {
+		// Sort blocks by name.
+		wpBlocks = blocks.sort(function (a, b) {
+			var textA = a.title.toUpperCase();
+			var textB = b.title.toUpperCase();
+			return textA < textB ? -1 : textA > textB ? 1 : 0;
+		});
+
+		// Filter `core/missing` & `core/block` blocks
+		wpBlocks = wpBlocks.filter(function (block) {
+			return block.name !== 'core/missing' && block.name !== 'core/block';
+		});
+	}
+
+	return wpBlocks;
+}
+
+exports.default = getBlockData;
+
+/***/ }),
+
+/***/ "./src/js/functions/getCategoryData.js":
+/*!*********************************************!*\
+  !*** ./src/js/functions/getCategoryData.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+/**
+ * Get all WP block categories.
+ *
+ * @return {array}
+ */
+function getCategoryData() {
+	// Get WP Block Categories
+	var categories = wp.blocks.getCategories();
+	var wpCategories = '';
+
+	if (categories) {
+		// Sort categories by name.
+		wpCategories = categories.sort(function (a, b) {
+			var textA = a.title.toUpperCase();
+			var textB = b.title.toUpperCase();
+			return textA < textB ? -1 : textA > textB ? 1 : 0;
+		});
+
+		// Filter categories for `reusable`.
+		wpCategories = wpCategories.filter(function (cat) {
+			return cat.slug !== 'reusable';
+		});
+	}
+
+	return wpCategories;
+}
+
+exports.default = getCategoryData;
+
+/***/ }),
+
+/***/ "./src/js/helpers/otherPlugins.js":
+/*!****************************************!*\
+  !*** ./src/js/helpers/otherPlugins.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Toggle Other Plugins display
+var otherPluginsClick = function otherPluginsClick() {
+	var otherPluginsDiv = document.getElementById('gbm-other-plugins');
+	if (!otherPluginsDiv) {
+		return false;
+	}
+	if (otherPluginsDiv.style.display === 'block') {
+		otherPluginsDiv.style.display = 'none';
+	} else {
+		otherPluginsDiv.style.display = 'block';
+	}
+	var container = document.getElementById('gbm-container');
+	container.focus();
+};
+
+var otherPluginsBtn = document.getElementById('otherPlugins');
+var otherPluginsClose = document.getElementById('otherPluginsClose');
+if (otherPluginsBtn) {
+	otherPluginsBtn.addEventListener('click', otherPluginsClick);
+	otherPluginsClose.addEventListener('click', otherPluginsClick);
+}
 
 /***/ }),
 
@@ -39229,6 +40017,38 @@ var initSticky = function initSticky() {
 window.onload = function () {
 	initSticky();
 };
+
+/***/ }),
+
+/***/ "./src/js/index.js":
+/*!*************************!*\
+  !*** ./src/js/index.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _App = __webpack_require__(/*! ./components/App */ "./src/js/components/App.js");
+
+var _App2 = _interopRequireDefault(_App);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+__webpack_require__(/*! ./helpers/sticky */ "./src/js/helpers/sticky.js");
+__webpack_require__(/*! ./helpers/otherPlugins */ "./src/js/helpers/otherPlugins.js");
+
+// Render App.
+_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('app'));
 
 /***/ })
 
