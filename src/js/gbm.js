@@ -1,10 +1,10 @@
 const { addFilter } = wp.hooks;
-import setFilteredCategories from './functions/filterBlockCategories';
+import filterBlockCategories from './functions/filterBlockCategories';
 
 // Filter WP block categories.
 const gbm_categories = gutenberg_block_manager_categories;
 if (gbm_categories) {
-	setFilteredCategories(gbm_categories);
+	filterBlockCategories(gbm_categories);
 }
 
 window._wpLoadBlockEditor.then(function () {

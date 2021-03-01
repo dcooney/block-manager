@@ -38402,9 +38402,6 @@ var _Index4 = _interopRequireDefault(_Index3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var addFilter = wp.hooks.addFilter;
-
-
 function App() {
 	var _useState = (0, _react.useState)((0, _getBlockData2.default)()),
 	    _useState2 = _slicedToArray(_useState, 1),
@@ -39418,13 +39415,10 @@ function Categories(_ref) {
 	var wpBlocks = _ref.wpBlocks,
 	    wpCategories = _ref.wpCategories;
 
-	var disabledBlocks = gbm_localize.disabledBlocks;
-	var filteredBlocks = gbm_localize.filteredBlocks;
-
 	// Filter block for `core` blocks only.
-	wpBlocks = wpBlocks.filter(function (block) {
-		return block.name.indexOf('core/') !== -1;
-	});
+	// wpBlocks = wpBlocks.filter((block) => {
+	// 	return block.name.indexOf('core/') !== -1;
+	// });
 
 	/**
   * Change the block category.
@@ -39745,66 +39739,6 @@ exports.default = Search;
 
 /***/ }),
 
-/***/ "./src/js/functions/filterBlockCategories.js":
-/*!***************************************************!*\
-  !*** ./src/js/functions/filterBlockCategories.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = filterBlockCategories;
-var addFilter = wp.hooks.addFilter;
-
-/**
- * Use hooks to switch the block categories.
- *
- * @param {*} options The WP option returned via localized script.
- */
-
-function filterBlockCategories(options) {
-	if (!options) {
-		return false; // Exit if empty.
-	}
-	var categories = {};
-	options.forEach(function (cat) {
-		// Extract values from object.
-		var values = Object.values(cat);
-		// Convert values into object.
-		categories[values[0]] = values[1];
-	});
-
-	/**
-  * Filter WP Blocks.
-  *
-  * @param {*} settings
-  * @param {*} name
-  */
-	var filterBlocks = function filterBlocks(settings, name) {
-		if (categories[name]) {
-			settings.category = categories[name];
-			settings.gbm = true;
-		}
-
-		// we need to pass along the settings object
-		// even if we haven't modified them!
-		return settings;
-	};
-
-	// Add filter when blocks register.
-	addFilter('blocks.registerBlockType', // hook name, important!
-	'gbm/filter-blocks', // your name, arbitrary!
-	filterBlocks // function to run.
-	);
-}
-
-/***/ }),
-
 /***/ "./src/js/functions/getBlockData.js":
 /*!******************************************!*\
   !*** ./src/js/functions/getBlockData.js ***!
@@ -39818,31 +39752,17 @@ function filterBlockCategories(options) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-var _filterBlockCategories = __webpack_require__(/*! ../functions/filterBlockCategories */ "./src/js/functions/filterBlockCategories.js");
-
-var _filterBlockCategories2 = _interopRequireDefault(_filterBlockCategories);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
- * Get all WP blocks.
+ * Get all WP blocks and updated categories.
  *
  * @return {array}
  */
 function getBlockData() {
-	// Filter WP block categories.
-	var gbm_categories = gbm_localize.filteredCategories;
-	if (gbm_categories) {
-		(0, _filterBlockCategories2.default)(gbm_categories);
-	}
-
 	// Load Block Library.
 	wp.blockLibrary.registerCoreBlocks();
 
 	// Get WP Block Info.
 	var blocks = wp.blocks.getBlockTypes();
-
 	var wpBlocks = '';
 	if (blocks) {
 		// Sort blocks by name.
@@ -39852,9 +39772,25 @@ function getBlockData() {
 			return textA < textB ? -1 : textA > textB ? 1 : 0;
 		});
 
-		// Filter `core/missing` & `core/block` blocks
+		// Filter (remove) `core/missing` & `core/block` blocks
 		wpBlocks = wpBlocks.filter(function (block) {
 			return block.name !== 'core/missing' && block.name !== 'core/block';
+		});
+	}
+
+	// Updated block categories.
+	var filteredCats = gbm_localize.filteredCategories;
+	if (wpBlocks && filteredCats && filteredCats.length > 0) {
+		// Loop saved categories..
+		filteredCats.forEach(function (item) {
+			var name = item.block;
+			var category = item.cat;
+			// Loop all blocks.
+			var loop = wpBlocks.find(function (block, index) {
+				if (block.name === name) {
+					wpBlocks[index].category = category;
+				}
+			});
 		});
 	}
 

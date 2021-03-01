@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gutenberg Block Manager\n"
-"POT-Creation-Date: 2021-02-27 22:22-0500\n"
+"POT-Creation-Date: 2021-02-28 20:25-0500\n"
 "PO-Revision-Date: 2019-12-30 12:00-0500\n"
 "Last-Translator: Darren Cooney <darren@connekthq.com>\n"
 "Language-Team: \n"
@@ -120,7 +120,7 @@ msgid "Block Category"
 msgstr ""
 
 #: class-admin.php:101
-msgid "Updated"
+msgid "Category Updated"
 msgstr ""
 
 #: class-admin.php:102
@@ -133,14 +133,14 @@ msgstr ""
 
 #: class-admin.php:104
 msgid ""
-"The Category Switcher provides functionality for changing the category "
-"core Gutenberg blocks."
+"The Category Switcher provides functionality for changing the categories "
+"of Gutenberg blocks."
 msgstr ""
 
 #: class-admin.php:105
 msgid ""
-"Changing a block category will update the location of the block in the "
-"Gutenberg Block Inserter while editing posts."
+"Changing a block category will update it's location in the Gutenberg "
+"Block Inserter while editing posts."
 msgstr ""
 
 #: class-admin.php:106

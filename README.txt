@@ -1,12 +1,12 @@
 === Gutenberg Block Manager ===
 Contributors: dcooney, connekthq
-Tags: blocks, remove blocks, disable blocks, manage blocks, block administration
+Tags: blocks, remove blocks, disable blocks, manage blocks, block category, category switcher, block administration
 Requires at least: 5.0
 Tested up to: 5.6
 License: GPLv2 or later
 Stable tag: trunk
 Homepage: https://connekthq.com/
-Version: 1.2
+Version: 1.2.1
 
 Gutenberg Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of Gutenberg blocks and remove unwanted blocks from the WordPress post editor.
 
@@ -19,7 +19,7 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 -  **Globally Enable/Disable Blocks** - Unlike the block manager functionality in the Gutenberg editor, this tool will globally enables/disables blocks for all users on your site.
 -  **Block Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
 -  **Filter Hooks** - Use the `gbm_disabled_blocks` filter to control blocks from `functions.php`.
--  **Category Switcher** - Functionality for changing the categories of core Gutenberg blocks.
+-  **Category Switcher** - Functionality for changing the categories Gutenberg blocks.
 
 ### Filters
 
@@ -67,6 +67,10 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 1. Disable entire block categories with a single click.
 
 == Changelog ==
+
+= 1.2.1 - February 28, 2021 =
+* UPDATE - Added Category Switcher support for all block including core Gutenberg blocks.
+
 
 = 1.2 - February 27, 2021 =
 * NEW - Added new Category Switcher.

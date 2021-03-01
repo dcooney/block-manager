@@ -3,7 +3,6 @@ import getBlockData from '../functions/getBlockData';
 import getCategoryData from '../functions/getCategoryData';
 import Blocks from './Blocks/Index';
 import Categories from './Categories/Index';
-const { addFilter } = wp.hooks;
 
 function App() {
 	const [wpBlocks] = useState(getBlockData());

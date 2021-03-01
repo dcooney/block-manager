@@ -4,13 +4,10 @@ import Block from './Block';
 import Sidebar from './Sidebar';
 
 function Categories({ wpBlocks, wpCategories }) {
-	const disabledBlocks = gbm_localize.disabledBlocks;
-	const filteredBlocks = gbm_localize.filteredBlocks;
-
 	// Filter block for `core` blocks only.
-	wpBlocks = wpBlocks.filter((block) => {
-		return block.name.indexOf('core/') !== -1;
-	});
+	// wpBlocks = wpBlocks.filter((block) => {
+	// 	return block.name.indexOf('core/') !== -1;
+	// });
 
 	/**
 	 * Change the block category.

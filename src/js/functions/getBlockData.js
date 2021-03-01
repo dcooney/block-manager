@@ -1,22 +1,14 @@
-import setFilteredCategories from '../functions/filterBlockCategories';
 /**
- * Get all WP blocks.
+ * Get all WP blocks and updated categories.
  *
  * @return {array}
  */
 function getBlockData() {
-	// Filter WP block categories.
-	const gbm_categories = gbm_localize.filteredCategories;
-	if (gbm_categories) {
-		setFilteredCategories(gbm_categories);
-	}
-
 	// Load Block Library.
 	wp.blockLibrary.registerCoreBlocks();
 
 	// Get WP Block Info.
-	let blocks = wp.blocks.getBlockTypes();
-
+	const blocks = wp.blocks.getBlockTypes();
 	let wpBlocks = '';
 	if (blocks) {
 		// Sort blocks by name.
@@ -26,9 +18,25 @@ function getBlockData() {
 			return textA < textB ? -1 : textA > textB ? 1 : 0;
 		});
 
-		// Filter `core/missing` & `core/block` blocks
+		// Filter (remove) `core/missing` & `core/block` blocks
 		wpBlocks = wpBlocks.filter((block) => {
 			return block.name !== 'core/missing' && block.name !== 'core/block';
+		});
+	}
+
+	// Updated block categories.
+	const filteredCats = gbm_localize.filteredCategories;
+	if (wpBlocks && filteredCats && filteredCats.length > 0) {
+		// Loop saved categories..
+		filteredCats.forEach((item) => {
+			const name = item.block;
+			const category = item.cat;
+			// Loop all blocks.
+			const loop = wpBlocks.find(function (block, index) {
+				if (block.name === name) {
+					wpBlocks[index].category = category;
+				}
+			});
 		});
 	}
 
