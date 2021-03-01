@@ -713,6 +713,7 @@
 
 .gbm-block-list.categories .item label select {
   margin: 0;
+  min-width: 160px;
 }
 
 .gbm-block-list.categories .item.loading .loading-cover {
