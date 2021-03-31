@@ -4,6 +4,11 @@
 /node_modules
 /src
 /webpack
+/dist/css/style.css.map
+/dist/js/gbm-admin.js.map
+/dist/js/gbm.js.map
+/dist/js/style.js
+/dist/js/style.js.map
 .distignore
 .editorconfig
 package-lock.json
