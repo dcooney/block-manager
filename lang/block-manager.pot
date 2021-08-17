@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gutenberg Block Manager\n"
-"POT-Creation-Date: 2021-02-28 20:25-0500\n"
+"POT-Creation-Date: 2021-08-17 10:56-0400\n"
 "PO-Revision-Date: 2019-12-30 12:00-0500\n"
 "Last-Translator: Darren Cooney <darren@connekthq.com>\n"
 "Language-Team: \n"
@@ -18,6 +18,10 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: core/src\n"
 "X-Poedit-SearchPathExcluded-1: admin/src\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#: api/blocks_reset.php:40
+msgid "Blocks reset successfully."
+msgstr ""
 
 #: api/bulk_process.php:65
 msgid "All Blocks Disabled"
@@ -51,7 +55,7 @@ msgstr ""
 msgid "Block enabled"
 msgstr ""
 
-#: block-manager.php:152
+#: block-manager.php:154
 msgid "Manage Blocks"
 msgstr ""
 
@@ -128,38 +132,50 @@ msgid "Block Name"
 msgstr ""
 
 #: class-admin.php:103
-msgid "Reset Categories"
+msgid "Reset"
 msgstr ""
 
 #: class-admin.php:104
+msgid "Clear all disabled blocks."
+msgstr ""
+
+#: class-admin.php:105
+msgid "Reset Categories"
+msgstr ""
+
+#: class-admin.php:106
 msgid ""
 "The Category Switcher provides functionality for changing the categories "
 "of Gutenberg blocks."
 msgstr ""
 
-#: class-admin.php:105
+#: class-admin.php:107
 msgid ""
 "Changing a block category will update it's location in the Gutenberg "
 "Block Inserter while editing posts."
 msgstr ""
 
-#: class-admin.php:106
+#: class-admin.php:108
 msgid "Export"
 msgstr ""
 
-#: class-admin.php:107
+#: class-admin.php:109
+msgid "Export a list of disabled blocks via WordPress filter. "
+msgstr ""
+
+#: class-admin.php:110
 msgid ""
 "Add the the following code to your functions.php to remove blocks at the "
 "theme level."
 msgstr ""
 
-#: class-admin.php:108
+#: class-admin.php:111
 msgid ""
 "This block has been globally disabled via the `gbm_disabled_blocks` "
 "filter and cannot be activated."
 msgstr ""
 
-#: class-admin.php:174
+#: class-admin.php:177
 #, php-format
 msgid "Other Plugins from %s Connekt %s"
 msgstr ""

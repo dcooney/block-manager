@@ -206,7 +206,7 @@
   height: 32px;
   font-size: 13px;
   position: absolute;
-  top: calc(50% + 5px);
+  top: calc(50% + 7px);
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
@@ -318,6 +318,10 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   width: 100%;
 }
 
@@ -327,7 +331,7 @@
   border: 1px solid #ccd0d4;
   background-color: #fff;
   margin: 0;
-  padding: 8px 10px;
+  padding: 8px 12px 8px 10px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -372,8 +376,23 @@
   opacity: 1;
 }
 
-.gbm-options button.export {
-  margin-left: auto;
+.gbm-options button.resetblocks, .gbm-options button.export {
+  margin-left: 5px;
+}
+
+.gbm-options button.hidden {
+  display: none;
+}
+
+.gbm-options button.spin .dashicons {
+  -webkit-animation-name: spin;
+          animation-name: spin;
+  -webkit-animation-duration: 1250ms;
+          animation-duration: 1250ms;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
 }
 
 .gbm-options--view {
@@ -381,6 +400,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  margin-right: auto;
 }
 
 .gbm-options--view button {
@@ -600,6 +620,10 @@
   transition: all 0.15s ease;
 }
 
+.gbm-block-list .item div.icon svg {
+  max-width: 100%;
+}
+
 .gbm-block-list button.item {
   cursor: pointer;
 }
@@ -759,6 +783,9 @@
   margin: 0;
   padding: 8px 10px 8px 11px;
   border-bottom: 1px solid #ccd0d4;
+  background-color: #f7f7f7;
+  -webkit-border-radius: 3px 3px 0 0;
+          border-radius: 3px 3px 0 0;
 }
 
 .gbm-block-list-controls.no-border {
@@ -1004,9 +1031,9 @@
 }
 
 .settings_page_gutenberg-block-manager #gbm-container .nav-tab-wrapper .nav-tab {
-  padding: 5px 12px;
-  -webkit-border-radius: 2px 2px 0 0;
-          border-radius: 2px 2px 0 0;
+  padding: 5px 15px;
+  -webkit-border-radius: 3px 3px 0 0;
+          border-radius: 3px 3px 0 0;
   float: none;
 }
 
@@ -1050,6 +1077,28 @@
   position: absolute;
   right: 0;
   top: -8px;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=style.css.map*/

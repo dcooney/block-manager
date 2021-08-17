@@ -100,10 +100,13 @@ class GBM_Admin {
 				'cat_switch'         => __( 'Block Category', 'gutenberg-block-manager' ),
 				'updated'            => __( 'Category Updated', 'gutenberg-block-manager' ),
 				'block_switch'       => __( 'Block Name', 'gutenberg-block-manager' ),
+				'reset_blocks'       => __( 'Reset', 'gutenberg-block-manager' ),
+				'reset_blocks_title' => __( 'Clear all disabled blocks.', 'gutenberg-block-manager' ),
 				'reset_cats'         => __( 'Reset Categories', 'gutenberg-block-manager' ),
 				'cat_intro'          => __( 'The Category Switcher provides functionality for changing the categories of Gutenberg blocks.', 'gutenberg-block-manager' ),
 				'cat_intro2'         => __( 'Changing a block category will update it\'s location in the Gutenberg Block Inserter while editing posts.', 'gutenberg-block-manager' ),
 				'export'             => __( 'Export', 'gutenberg-block-manager' ),
+				'export_title'       => __( 'Export a list of disabled blocks via WordPress filter. ', 'gutenberg-block-manager' ),
 				'export_intro'       => __( 'Add the the following code to your functions.php to remove blocks at the theme level.', 'gutenberg-block-manager' ),
 				'filtered_alert'     => __( 'This block has been globally disabled via the `gbm_disabled_blocks` filter and cannot be activated.', 'gutenberg-block-manager' ),
 			)
@@ -183,7 +186,6 @@ class GBM_Admin {
 					</section>
 				</div>
 				<div class="nav-tab-wrapper">
-					<span><?php esc_html_e( 'Manage', 'gutenberg-block-manager' ); ?> <i class="fa fa-chevron-right" aria-hidden="true"></i></span>
 					<a class="nav-tab<?php if ( 'blocks' === $active ) { echo ' nav-tab-active'; } ?>" href="options-general.php?page=gutenberg-block-manager">
 						<?php esc_html_e( 'Blocks', 'gutenberg-block-manager' ); ?>
 					</a>

@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '1.2.1' );
-define( 'BLOCK_MANAGER_RELEASE', 'February 28, 2021' );
+define( 'BLOCK_MANAGER_VERSION', '1.2.2' );
+define( 'BLOCK_MANAGER_RELEASE', 'August 17, 2021' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
@@ -70,6 +70,7 @@ class Gutenberg_Block_Manager {
 		require_once 'api/export.php';
 		require_once 'api/category_switch.php';
 		require_once 'api/category_reset.php';
+		require_once 'api/blocks_reset.php';
 		include_once 'vendor/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 
@@ -85,7 +86,8 @@ class Gutenberg_Block_Manager {
 			'gutenberg-block-manager',
 			plugins_url( $script, __FILE__ ),
 			array( 'wp-edit-post' ),
-			BLOCK_MANAGER_VERSION, false
+			BLOCK_MANAGER_VERSION,
+			false
 		);
 		wp_localize_script(
 			'gutenberg-block-manager',
@@ -149,7 +151,7 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_action_links( $links ) {
-		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=gutenberg-block-manager' ) . '">' . __( 'Manage Blocks', 'gutenberg-block-manager' ).'</a>';
+		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=gutenberg-block-manager' ) . '">' . __( 'Manage Blocks', 'gutenberg-block-manager' ) . '</a>';
 		array_unshift( $links, $settings );
 		return $links;
 	}

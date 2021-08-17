@@ -38743,14 +38743,15 @@ function Blocks(_ref) {
 	    view = _useState4[0],
 	    setView = _useState4[1];
 
+	var disabledBlocks = gbm_localize.disabledBlocks; // Localized var.
+	var filteredBlocks = gbm_localize.filteredBlocks; // Localized var.
+	var has_disabled_blocks = disabledBlocks.length > filteredBlocks.length;
+
 	/**
-  * categoryClickHandler
-  * Category level block toggle click
+  * Category level block toggle click.
   *
   * @since 1.0
   */
-
-
 	var categoryClickHandler = function categoryClickHandler(e) {
 		var target = e.currentTarget;
 		if (!target) {
@@ -38768,8 +38769,7 @@ function Blocks(_ref) {
 	};
 
 	/**
-  * bulkProcess
-  * Toggle all blocks in a category
+  * Toggle all blocks in a category.
   *
   * @since 1.0
   */
@@ -38834,8 +38834,7 @@ function Blocks(_ref) {
 	};
 
 	/**
-  * toggleBlock
-  * Toggle the status of a block
+  * Toggle the status of a block.
   *
   * @since 1.0
   */
@@ -38904,14 +38903,14 @@ function Blocks(_ref) {
 
 		if (items) {
 			var blockArr = Array.prototype.slice.call(items);
-			var disabledBlocks = blockArr.filter(function (block) {
+			var _disabledBlocks = blockArr.filter(function (block) {
 				return block.classList.contains('disabled');
 			});
 
-			feedback.innerHTML = '(' + (totalBlocks - disabledBlocks.length) + '/' + totalBlocks + ')';
+			feedback.innerHTML = '(' + (totalBlocks - _disabledBlocks.length) + '/' + totalBlocks + ')';
 
 			// If disabled === total items, toggle the switch
-			if (disabledBlocks.length === items.length) {
+			if (_disabledBlocks.length === items.length) {
 				toggleBtn.classList.add('disabled');
 				toggleBtn.dataset.state = 'inactive';
 			} else {
@@ -39038,6 +39037,41 @@ function Blocks(_ref) {
 		}, 350);
 	};
 
+	/**
+  * Reset blocks to default.
+  */
+	var resetBlocks = function resetBlocks(e) {
+
+		var target = e.currentTarget;
+		target.classList.add('spin');
+
+		// API Request.
+		var url = gbm_localize.root + 'gbm/blocks_reset/';
+
+		// Send request.
+		(0, _axios2.default)({
+			method: 'POST',
+			url: url,
+			headers: {
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json'
+			}
+		}).then(function () {
+			// Reload window.
+			var items = document.querySelectorAll('.gbm-block-list .item.disabled:not(.filtered)');
+			if (items) {
+				items.forEach(function (item) {
+					item.classList.remove('disabled');
+				});
+			}
+			target.classList.remove('spin');
+			target.classList.add('hidden');
+		}).catch(function (error) {
+			// Error
+			console.log(error);
+		});
+	};
+
 	// On Load
 	(0, _react.useEffect)(function () {
 		onLoad();
@@ -39091,11 +39125,19 @@ function Blocks(_ref) {
 						gbm_localize.list
 					)
 				),
+				has_disabled_blocks && _react2.default.createElement(
+					'button',
+					{ type: 'button', className: 'resetblocks', onClick: function onClick(e) {
+							return resetBlocks(e);
+						}, title: gbm_localize.reset_blocks_title },
+					_react2.default.createElement('span', { className: 'dashicons dashicons-update-alt' }),
+					gbm_localize.reset_blocks
+				),
 				_react2.default.createElement(
 					'button',
 					{ type: 'button', className: 'export', ref: exportBtnRef, onClick: function onClick() {
 							return exportBlocks();
-						} },
+						}, title: gbm_localize.export_title },
 					_react2.default.createElement('span', { className: 'dashicons dashicons-database-export' }),
 					gbm_localize.export
 				)

@@ -14,9 +14,12 @@ function Blocks({ wpBlocks, wpCategories }) {
 	const initialView = localStorage && localStorage.getItem('gbm-view') ? localStorage.getItem('gbm-view') : 'grid';
 	const [view, setView] = useState(initialView);
 
+	const disabledBlocks = gbm_localize.disabledBlocks; // Localized var.
+	const filteredBlocks = gbm_localize.filteredBlocks; // Localized var.
+	const has_disabled_blocks = disabledBlocks.length > filteredBlocks.length;
+
 	/**
-	 * categoryClickHandler
-	 * Category level block toggle click
+	 * Category level block toggle click.
 	 *
 	 * @since 1.0
 	 */
@@ -37,8 +40,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	};
 
 	/**
-	 * bulkProcess
-	 * Toggle all blocks in a category
+	 * Toggle all blocks in a category.
 	 *
 	 * @since 1.0
 	 */
@@ -103,8 +105,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	};
 
 	/**
-	 * toggleBlock
-	 * Toggle the status of a block
+	 * Toggle the status of a block.
 	 *
 	 * @since 1.0
 	 */
@@ -311,6 +312,43 @@ function Blocks({ wpBlocks, wpCategories }) {
 		}, 350);
 	};
 
+	/**
+	 * Reset blocks to default.
+	 */
+	 const resetBlocks = (e) => {
+
+		const target = e.currentTarget;
+		target.classList.add('spin');
+
+		// API Request.
+		let url = gbm_localize.root + 'gbm/blocks_reset/';
+
+		// Send request.
+		axios({
+			method: 'POST',
+			url: url,
+			headers: {
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(function () {
+				// Reload window.
+				const items = document.querySelectorAll('.gbm-block-list .item.disabled:not(.filtered)');
+				if(items){
+					items.forEach((item) => {
+						item.classList.remove('disabled');
+					 });
+				}
+				target.classList.remove('spin');
+				target.classList.add('hidden');
+			})
+			.catch(function (error) {
+				// Error
+				console.log(error);
+			});
+	};
+
 	// On Load
 	useEffect(() => {
 		onLoad();
@@ -348,7 +386,15 @@ function Blocks({ wpBlocks, wpCategories }) {
 							{gbm_localize.list}
 						</button>
 					</div>
-					<button type="button" className="export" ref={exportBtnRef} onClick={() => exportBlocks()}>
+
+					{has_disabled_blocks && (
+						<button type="button" className="resetblocks" onClick={(e) => resetBlocks(e)} title={gbm_localize.reset_blocks_title}>
+							<span className="dashicons dashicons-update-alt"></span>
+							{gbm_localize.reset_blocks}
+						</button>
+					)}
+
+					<button type="button" className="export" ref={exportBtnRef} onClick={() => exportBlocks()} title={gbm_localize.export_title}>
 						<span className="dashicons dashicons-database-export"></span>
 						{gbm_localize.export}
 					</button>
