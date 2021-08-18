@@ -6,7 +6,7 @@ Description: Globally manage the active state of each Gutenberg block.
 Text Domain: block-manager
 Author: Darren Cooney
 Author URI: https://connekthq.com
-Version: 1.2.1
+Version: 1.2.2
 License: GPL
 Copyright: Darren Cooney & Connekt Media
 */
