@@ -21,7 +21,7 @@
 		"isomorphic-fetch": "^3.0.0",
 		"react": "^16.14.0",
 		"react-dom": "^16.14.0",
-		"resolve-url-loader": "^2.1.0"
+		"resolve-url-loader": "^5.0.0"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-optional-chaining": "^7.16.0",
