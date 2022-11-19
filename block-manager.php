@@ -6,7 +6,7 @@
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 1.2.2
+ * Version: 1.2.3
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
