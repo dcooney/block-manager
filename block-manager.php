@@ -1,14 +1,20 @@
 <?php
+/**
+ * Plugin Name: Block Manager
+ * Plugin URI: https://connekthq.com/plugins/block-manager/
+ * Description: Globally manage the active state of each Gutenberg block.
+ * Text Domain: block-manager
+ * Author: Darren Cooney
+ * Author URI: https://connekthq.com
+ * Version: 1.2.2
+ * License: GPL
+ * Copyright: Darren Cooney & Connekt Media
+ *
+ * @package blockmanager
+ */
+
 /*
-Plugin Name: Block Manager
-Plugin URI: https://connekthq.com/plugins/block-manager/
-Description: Globally manage the active state of each Gutenberg block.
-Text Domain: block-manager
-Author: Darren Cooney
-Author URI: https://connekthq.com
-Version: 1.2.2
-License: GPL
-Copyright: Darren Cooney & Connekt Media
+* FIX - Fixed issue with missing semi-colon in Block Manager export functionality.
 */
 
 
@@ -62,7 +68,7 @@ class Gutenberg_Block_Manager {
 	 */
 	private function __construct() {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gbm_enqueue' ) );
-		load_plugin_textdomain( 'gutenberg-block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
+		load_plugin_textdomain( 'block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'gbm_action_links' ) );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
 		require_once 'api/toggle.php';
@@ -71,7 +77,7 @@ class Gutenberg_Block_Manager {
 		require_once 'api/category_switch.php';
 		require_once 'api/category_reset.php';
 		require_once 'api/blocks_reset.php';
-		include_once 'vendor/connekt-plugin-installer/class-connekt-plugin-installer.php';
+		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 
 	/**
@@ -83,19 +89,19 @@ class Gutenberg_Block_Manager {
 	public function gbm_enqueue() {
 		$script = 'dist/js/gbm.js';
 		wp_enqueue_script(
-			'gutenberg-block-manager',
+			'block-manager',
 			plugins_url( $script, __FILE__ ),
 			array( 'wp-edit-post' ),
 			BLOCK_MANAGER_VERSION,
 			false
 		);
 		wp_localize_script(
-			'gutenberg-block-manager',
+			'block-manager',
 			'gutenberg_block_manager',
 			$this->gbm_get_disabled_blocks()
 		);
 		wp_localize_script(
-			'gutenberg-block-manager',
+			'block-manager',
 			'gutenberg_block_manager_categories',
 			$this->gbm_get_filtered_cats()
 		);
@@ -151,7 +157,7 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_action_links( $links ) {
-		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=gutenberg-block-manager' ) . '">' . __( 'Manage Blocks', 'gutenberg-block-manager' ) . '</a>';
+		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Manage Blocks', 'block-manager' ) . '</a>';
 		array_unshift( $links, $settings );
 		return $links;
 	}
@@ -165,7 +171,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function has_access() {
 		$access = false;
-		if ( is_user_logged_in() && current_user_can( apply_filters( 'gutenberg_block_manager_user_role', 'activate_plugins' ) ) ) {
+		if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 			$access = true;
 		}
 		return $access;
@@ -179,10 +185,10 @@ class Gutenberg_Block_Manager {
  * @author ConnektMedia
  * @since 1.0
  */
-function block_manager_init() {
+function gbm_init() {
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	if ( is_plugin_active( 'gutenberg/gutenberg.php' ) || version_compare( get_bloginfo( 'version' ), '4.9.9', '>' ) ) {
 		Gutenberg_Block_Manager::instance();
 	}
 }
-add_action( 'plugins_loaded', 'block_manager_init', 100 );
+add_action( 'plugins_loaded', 'gbm_init', 100 );

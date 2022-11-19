@@ -1,9 +1,13 @@
 /.wordpress-org
 /.git
 /.github
+/.gitignore
 /node_modules
 /src
 /webpack
+/vendor
+composer.json
+composer.lock
 /dist/css/style.css.map
 /dist/js/gbm-admin.js.map
 /dist/js/gbm.js.map
@@ -11,6 +15,9 @@
 /dist/js/style.js.map
 .distignore
 .editorconfig
+.gitignore
+.phpcs.xml
+.prettierrc.js
 package-lock.json
 package.json
 postcss.config.js
