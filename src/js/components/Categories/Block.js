@@ -26,15 +26,17 @@ function Block({ data, wpCategories, changeCategory }) {
 				<div className="block-info--wrap">
 					<div className="block-info--details">
 						<span className="block-info block-info--title">{data.title}</span>
-						<span className="block-info block-info--desc" title={data.description}>
-							{data.description}
-						</span>
+						{data.description && typeof data.description === 'string' ? (
+							<span className="block-info block-info--desc" title={data.description}>
+								{data.description}
+							</span>
+						) : null}
 						<span className="block-info block-info--id">{id}</span>
 					</div>
 					<div className="block-info--action">
 						<label>
 							<span className="offscreen">{gbm_localize.cat_switch}</span>
-							<select defaultValue={blockCat} onChange={(e) => changeCategory(id, e)}>
+							<select defaultValue={blockCat} onChange={e => changeCategory(id, e)}>
 								{!!wpCategories &&
 									wpCategories.map((cat, index) => {
 										return (

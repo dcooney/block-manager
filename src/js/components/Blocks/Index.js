@@ -23,7 +23,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	 *
 	 * @since 1.0
 	 */
-	const categoryClickHandler = (e) => {
+	const categoryClickHandler = e => {
 		let target = e.currentTarget;
 		if (!target) {
 			return false;
@@ -54,7 +54,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 
 		blocksWrapper.classList.add('loading');
 
-		let blockArray = Array.prototype.map.call(blocks, function (block) {
+		let blockArray = Array.prototype.map.call(blocks, function(block) {
 			return block.dataset.id;
 		});
 
@@ -68,19 +68,19 @@ function Blocks({ wpBlocks, wpCategories }) {
 				url: url,
 				headers: {
 					'X-WP-Nonce': gbm_localize.nonce,
-					'Content-Type': 'application/json',
+					'Content-Type': 'application/json'
 				},
 				data: {
-					data: JSON.stringify(data),
-				},
+					data: JSON.stringify(data)
+				}
 			})
-				.then(function (res) {
+				.then(function(res) {
 					let response = res.data;
 
 					if (response && res.status == 200) {
 						// Success
 
-						[...blocks].forEach(function (block) {
+						[...blocks].forEach(function(block) {
 							if (type === 'enable') {
 								block.classList.remove('disabled');
 							} else {
@@ -95,7 +95,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 						blocksWrapper.classList.remove('loading');
 					}
 				})
-				.catch(function (error) {
+				.catch(function(error) {
 					console.log(error);
 					blocksWrapper.classList.remove('loading');
 				});
@@ -126,13 +126,13 @@ function Blocks({ wpBlocks, wpCategories }) {
 			url: url,
 			headers: {
 				'X-WP-Nonce': gbm_localize.nonce,
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
 			data: {
-				data: JSON.stringify(data),
-			},
+				data: JSON.stringify(data)
+			}
 		})
-			.then(function (res) {
+			.then(function(res) {
 				let response = res.data;
 
 				if (response && res.status == 200) {
@@ -152,7 +152,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 					element.classList.remove('loading');
 				}
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				// Error
 				console.log(error);
 				element.classList.remove('loading');
@@ -164,7 +164,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	 *
 	 * @since 1.0
 	 */
-	const setCategoryStatus = (element) => {
+	const setCategoryStatus = element => {
 		if (!element) {
 			return false;
 		}
@@ -176,7 +176,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 
 		if (items) {
 			let blockArr = Array.prototype.slice.call(items);
-			let disabledBlocks = blockArr.filter((block) => {
+			let disabledBlocks = blockArr.filter(block => {
 				return block.classList.contains('disabled');
 			});
 
@@ -202,19 +202,19 @@ function Blocks({ wpBlocks, wpCategories }) {
 		if (wpBlocks && wpCategories) {
 			// Filter blocks by categories.
 			let blockArray = [];
-			wpCategories.forEach(function (cat) {
-				let filtered = wpBlocks.filter(function (block) {
+			wpCategories.forEach(function(cat) {
+				let filtered = wpBlocks.filter(function(block) {
 					return block.category === cat.slug;
 				});
 
 				if ('embed' === cat.slug) {
 					// core/embed block only
-					const embedBlock = wpBlocks.filter(function (block) {
+					const embedBlock = wpBlocks.filter(function(block) {
 						return block.category === cat.slug;
 					});
 					// Get `variations`.
 					let variations = embedBlock[0] ? embedBlock[0].variations : [];
-					let modVariations = variations.map((item) => {
+					let modVariations = variations.map(item => {
 						item.name = 'variation;core/embed;' + item.name;
 						return item;
 					});
@@ -228,7 +228,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 
 				let obj = {
 					info: cat,
-					blocks: filtered,
+					blocks: filtered
 				};
 				if (filtered.length > 0) {
 					blockArray.push(obj);
@@ -241,7 +241,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	};
 
 	// Change block view
-	const changeView = (value) => {
+	const changeView = value => {
 		if (!value) {
 			return false;
 		}
@@ -261,18 +261,18 @@ function Blocks({ wpBlocks, wpCategories }) {
 			url: url,
 			headers: {
 				'X-WP-Nonce': gbm_localize.nonce,
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		})
-			.then(function (res) {
+			.then(function(res) {
 				if (res.status === 200 && res.data && res.data.success) {
 					let blockReturn = res.data.blocks;
 					blockReturn = blockReturn.replace(/\\/g, ''); // Replace `\`.
 					blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
 					blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
-					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn}<br/>});`;
+					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn};<br/>});`;
 					exportRef.current.innerHTML = results;
-					setTimeout(function () {
+					setTimeout(function() {
 						exportDivRef.current.focus();
 					}, 100);
 				} else {
@@ -280,7 +280,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 					exportDivRef.current.classList.remove('active');
 				}
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				// Error
 				console.log(error);
 				exportDivRef.current.classList.remove('active');
@@ -298,7 +298,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 		// Copy to clipboard
 		document.execCommand('copy');
 		copyRef.current.innerHTML = gbm_localize.copied;
-		setTimeout(function () {
+		setTimeout(function() {
 			copyRef.current.disabled = true;
 		}, 500);
 	};
@@ -306,7 +306,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	// Close Export modal.
 	const closeExport = () => {
 		exportDivRef.current.classList.remove('active');
-		setTimeout(function () {
+		setTimeout(function() {
 			exportBtnRef.current.focus();
 			exportRef.current.innerHTML = gbm_localize.loading_export;
 		}, 350);
@@ -315,8 +315,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 	/**
 	 * Reset blocks to default.
 	 */
-	 const resetBlocks = (e) => {
-
+	const resetBlocks = e => {
 		const target = e.currentTarget;
 		target.classList.add('spin');
 
@@ -329,21 +328,21 @@ function Blocks({ wpBlocks, wpCategories }) {
 			url: url,
 			headers: {
 				'X-WP-Nonce': gbm_localize.nonce,
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		})
-			.then(function () {
+			.then(function() {
 				// Reload window.
 				const items = document.querySelectorAll('.gbm-block-list .item.disabled:not(.filtered)');
-				if(items){
-					items.forEach((item) => {
+				if (items) {
+					items.forEach(item => {
 						item.classList.remove('disabled');
-					 });
+					});
 				}
 				target.classList.remove('spin');
 				target.classList.add('hidden');
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				// Error
 				console.log(error);
 			});
@@ -360,7 +359,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 		// Export settings.
 		document.addEventListener(
 			'keyup',
-			function (e) {
+			function(e) {
 				if (e.key === 'Escape') {
 					closeExport();
 				}
@@ -388,7 +387,7 @@ function Blocks({ wpBlocks, wpCategories }) {
 					</div>
 
 					{has_disabled_blocks && (
-						<button type="button" className="resetblocks" onClick={(e) => resetBlocks(e)} title={gbm_localize.reset_blocks_title}>
+						<button type="button" className="resetblocks" onClick={e => resetBlocks(e)} title={gbm_localize.reset_blocks_title}>
 							<span className="dashicons dashicons-update-alt"></span>
 							{gbm_localize.reset_blocks}
 						</button>
@@ -417,11 +416,11 @@ function Blocks({ wpBlocks, wpCategories }) {
 						</code>
 					</div>
 				</div>
-				{blocks &&
-					blocks.length &&
-					blocks.map((category) => (
-						<Category key={category.info.slug} data={category} toggleBlock={toggleBlock} categoryClickHandler={categoryClickHandler} />
-					))}
+				{blocks && blocks.length
+					? blocks.map(category => (
+							<Category key={category.info.slug} data={category} toggleBlock={toggleBlock} categoryClickHandler={categoryClickHandler} />
+					  ))
+					: null}
 			</div>
 		</div>
 	);

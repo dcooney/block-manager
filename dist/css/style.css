@@ -1,4 +1,4 @@
-.settings_page_gutenberg-block-manager #wpbody-content {
+.settings_page_block-manager #wpbody-content {
   background-color: #f1f1f1;
 }
 
@@ -672,7 +672,7 @@
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
   color: #fff;
-  background-color: #73ce59;
+  background-color: #75ca5d;
   padding: 9px 11px;
   -webkit-border-radius: 2px;
           border-radius: 2px;
@@ -860,7 +860,7 @@
   position: relative;
   height: 13px;
   width: 26px;
-  background-color: #73ce59;
+  background-color: #75ca5d;
   -webkit-border-radius: 100px;
           border-radius: 100px;
   -webkit-transition: all 0.15s ease;
@@ -998,23 +998,23 @@
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.settings_page_gutenberg-block-manager #wpcontent {
+.settings_page_block-manager #wpcontent {
   padding-left: 0;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container {
+.settings_page_block-manager #gbm-container {
   padding: 0;
   position: relative;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container *,
-.settings_page_gutenberg-block-manager #gbm-container *:before,
-.settings_page_gutenberg-block-manager #gbm-container *:after {
+.settings_page_block-manager #gbm-container *,
+.settings_page_block-manager #gbm-container *:before,
+.settings_page_block-manager #gbm-container *:after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container .nav-tab-wrapper {
+.settings_page_block-manager #gbm-container .nav-tab-wrapper {
   padding: 6px 15px 0;
   margin: 0 0 20px;
   border-color: #ccd0d4;
@@ -1030,20 +1030,24 @@
           align-items: center;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container .nav-tab-wrapper .nav-tab {
-  padding: 5px 15px;
+.settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab {
+  padding: 7px 16px;
   -webkit-border-radius: 3px 3px 0 0;
           border-radius: 3px 3px 0 0;
   float: none;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container .nav-tab-wrapper i {
+.settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab-active {
+  cursor: default;
+}
+
+.settings_page_block-manager #gbm-container .nav-tab-wrapper i {
   opacity: 0.35;
   margin: 0 3px;
   font-size: 12px;
 }
 
-.settings_page_gutenberg-block-manager #gbm-container .nav-tab-wrapper span {
+.settings_page_block-manager #gbm-container .nav-tab-wrapper span {
   padding: 0 1px 0 12px;
   font-size: 14px;
   font-weight: 500;

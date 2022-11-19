@@ -1,4 +1,3 @@
-const { addFilter } = wp.hooks;
 import filterBlockCategories from './functions/filterBlockCategories';
 
 // Filter WP block categories.
@@ -7,11 +6,11 @@ if (gbm_categories) {
 	filterBlockCategories(gbm_categories);
 }
 
-window._wpLoadBlockEditor.then(function () {
+window._wpLoadBlockEditor.then(function() {
 	// Get GBM disbaled blocks.
 	const blocks = gutenberg_block_manager;
 
-	Object.keys(blocks).forEach(function (key) {
+	Object.keys(blocks).forEach(function(key) {
 		const blockName = blocks[key];
 		const is_variation = blockName.indexOf('variation') !== -1 ? true : false;
 		if (is_variation) {

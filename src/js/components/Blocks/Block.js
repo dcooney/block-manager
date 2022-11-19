@@ -22,7 +22,12 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		}
 	}
 
-	const clickHandler = (e) => {
+	/**
+	 * Handle the click event for the block button.
+	 *
+	 * @param {MouseEvent} e The event.
+	 */
+	const clickHandler = e => {
 		let target = e.currentTarget;
 		if (target) {
 			let id = target.dataset.id;
@@ -51,10 +56,12 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 			<div className="item--wrap">
 				<Icon src={icon} type={type} />
 				<div className="block-info--wrap">
-					<span className="block-info block-info--title">{data.title}</span>
-					<span className="block-info block-info--desc" title={data.description}>
-						{data.description}
-					</span>
+					{!!data.title && <span className="block-info block-info--title">{data.title}</span>}
+					{data.description && typeof data.description === 'string' ? (
+						<span className="block-info block-info--desc" title={data.description}>
+							{data.description}
+						</span>
+					) : null}
 					<span className="block-info block-info--id">{id}</span>
 				</div>
 			</div>

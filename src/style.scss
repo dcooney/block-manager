@@ -1,6 +1,7 @@
 $transition: all 0.15s ease;
 $radius: 4px;
 $purple: #80629e;
+$green: #75ca5d;
 $grey: #ccd0d4;
 $grey_dark: #999ea2;
 
@@ -10,7 +11,7 @@ $medium: 1024px;
 $large: 1300px;
 $xlarge: 1700px;
 
-.settings_page_gutenberg-block-manager {
+.settings_page_block-manager {
 	#wpbody-content {
 		background-color: #f1f1f1;
 	}
@@ -281,11 +282,11 @@ $xlarge: 1700px;
 			&.export {
 				margin-left: 5px;
 			}
-			&.hidden{
+			&.hidden {
 				display: none;
 			}
-			&.spin{
-				.dashicons{
+			&.spin {
+				.dashicons {
 					animation-name: spin;
 					animation-duration: 1250ms;
 					animation-iteration-count: infinite;
@@ -505,7 +506,7 @@ $xlarge: 1700px;
 					bottom: 5px;
 					transition: all 0.25s ease;
 					color: #fff;
-					background-color: #73ce59;
+					background-color: $green;
 					padding: 9px 11px;
 					border-radius: 2px;
 					font-size: 12px;
@@ -643,7 +644,7 @@ $xlarge: 1700px;
 			position: relative;
 			height: 13px;
 			width: 26px;
-			background-color: #73ce59;
+			background-color: $green;
 			border-radius: 100px;
 			transition: $transition;
 		}
@@ -747,7 +748,7 @@ $xlarge: 1700px;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.settings_page_gutenberg-block-manager {
+.settings_page_block-manager {
 	#wpcontent {
 		padding-left: 0;
 	}
@@ -770,9 +771,12 @@ $xlarge: 1700px;
 			width: 100%;
 			align-items: center;
 			.nav-tab {
-				padding: 5px 15px;
+				padding: 7px 16px;
 				border-radius: 3px 3px 0 0;
 				float: none;
+				&-active{
+					cursor: default;
+				}
 			}
 			i {
 				opacity: 0.35;
@@ -815,6 +819,10 @@ $xlarge: 1700px;
 }
 
 @keyframes spin {
-	from {transform:rotate(0deg);}
-	to {transform:rotate(360deg);}
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
