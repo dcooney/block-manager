@@ -35156,6 +35156,11 @@ function Block(_ref) {
 		}
 	}
 
+	/**
+  * Handle the click event for the block button.
+  *
+  * @param {MouseEvent} e The event.
+  */
 	var clickHandler = function clickHandler(e) {
 		var target = e.currentTarget;
 		if (target) {
@@ -35195,11 +35200,11 @@ function Block(_ref) {
 					{ className: 'block-info block-info--title' },
 					data.title
 				),
-				_react2.default.createElement(
+				data.description && typeof data.description === 'string' ? _react2.default.createElement(
 					'span',
 					{ className: 'block-info block-info--desc', title: data.description },
 					data.description
-				),
+				) : null,
 				_react2.default.createElement(
 					'span',
 					{ className: 'block-info block-info--id' },
@@ -35240,8 +35245,6 @@ var _Block2 = _interopRequireDefault(_Block);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function Category(_ref) {
@@ -35255,7 +35258,7 @@ function Category(_ref) {
 	var disabledBlocks = gbm_localize.disabledBlocks;
 	var filteredBlocks = gbm_localize.filteredBlocks;
 
-	if ((typeof disabledBlocks === "undefined" ? "undefined" : _typeof(disabledBlocks)) === "object") {
+	if ((typeof disabledBlocks === 'undefined' ? 'undefined' : _typeof(disabledBlocks)) === 'object') {
 		// Convert `disabledBlocks` to array if required.
 		disabledBlocks = Object.keys(disabledBlocks).map(function (i) {
 			return disabledBlocks[i];
@@ -35274,54 +35277,49 @@ function Category(_ref) {
 	}
 
 	// Set toggle button attributes
-	var switchClass = disabledBlockCount === blocks.length ? "gbm-block-switch disabled" : "gbm-block-switch";
-	var switchState = disabledBlockCount === blocks.length ? "inactive" : "active";
+	var switchClass = disabledBlockCount === blocks.length ? 'gbm-block-switch disabled' : 'gbm-block-switch';
+	var switchState = disabledBlockCount === blocks.length ? 'inactive' : 'active';
 
 	return _react2.default.createElement(
-		"div",
-		{
-			key: data.info.slug,
-			id: "block-" + data.info.slug,
-			className: "gbm-block-group",
-			"data-total-blocks": data.blocks.length
-		},
+		'div',
+		{ key: data.info.slug, id: 'block-' + data.info.slug, className: 'gbm-block-group', 'data-total-blocks': data.blocks.length },
 		_react2.default.createElement(
-			"div",
-			{ className: "gbm-block-list-controls" },
+			'div',
+			{ className: 'gbm-block-list-controls' },
 			_react2.default.createElement(
-				"h3",
+				'h3',
 				null,
 				title,
-				" ",
+				' ',
 				_react2.default.createElement(
-					"span",
+					'span',
 					null,
-					"(",
+					'(',
 					data.blocks.length - disabledBlockCount,
-					"/",
+					'/',
 					data.blocks.length,
-					")"
+					')'
 				)
 			),
 			_react2.default.createElement(
-				"button",
+				'button',
 				{
-					role: "button",
+					role: 'button',
 					className: switchClass,
-					"data-state": switchState,
+					'data-state': switchState,
 					onClick: categoryClickHandler,
-					"aria-label": gbm_localize.toggle_all,
+					'aria-label': gbm_localize.toggle_all,
 					title: gbm_localize.toggle_all
 				},
 				_react2.default.createElement(
-					"div",
-					{ className: "gbm-block-switch--wrap" },
+					'div',
+					{ className: 'gbm-block-switch--wrap' },
 					_react2.default.createElement(
-						"span",
+						'span',
 						null,
 						_react2.default.createElement(
-							"span",
-							{ className: "offscreen" },
+							'span',
+							{ className: 'offscreen' },
 							gbm_localize.toggle_all
 						)
 					)
@@ -35329,16 +35327,12 @@ function Category(_ref) {
 			)
 		),
 		_react2.default.createElement(
-			"div",
-			{ className: "gbm-block-list" },
+			'div',
+			{ className: 'gbm-block-list' },
 			blocks && blocks.length && blocks.map(function (block, index) {
-				var _React$createElement;
-
-				return _react2.default.createElement(_Block2.default, (_React$createElement = {
-					key: block.name
-				}, _defineProperty(_React$createElement, "key", index + block.name), _defineProperty(_React$createElement, "data", block), _defineProperty(_React$createElement, "toggleBlock", toggleBlock), _defineProperty(_React$createElement, "disabledBlocks", disabledBlocks), _defineProperty(_React$createElement, "filteredBlocks", filteredBlocks), _React$createElement));
+				return _react2.default.createElement(_Block2.default, { key: index + block.name, data: block, toggleBlock: toggleBlock, disabledBlocks: disabledBlocks, filteredBlocks: filteredBlocks });
 			}),
-			_react2.default.createElement("div", { className: "loader" })
+			_react2.default.createElement('div', { className: 'loader' })
 		)
 	);
 }
@@ -35660,7 +35654,7 @@ function Blocks(_ref) {
 				blockReturn = blockReturn.replace(/\\/g, ''); // Replace `\`.
 				blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
 				blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
-				var results = '// functions.php<br/>add_filter( \'gbm_disabled_blocks\', function() {<br/>&nbsp;&nbsp;&nbsp;return ' + blockReturn + '<br/>});';
+				var results = '// functions.php<br/>add_filter( \'gbm_disabled_blocks\', function() {<br/>&nbsp;&nbsp;&nbsp;return ' + blockReturn + ';<br/>});';
 				exportRef.current.innerHTML = results;
 				setTimeout(function () {
 					exportDivRef.current.focus();
@@ -35705,7 +35699,6 @@ function Blocks(_ref) {
   * Reset blocks to default.
   */
 	var resetBlocks = function resetBlocks(e) {
-
 		var target = e.currentTarget;
 		target.classList.add('spin');
 
@@ -36032,11 +36025,11 @@ function Block(_ref) {
 						{ className: 'block-info block-info--title' },
 						data.title
 					),
-					_react2.default.createElement(
+					data.description && typeof data.description === 'string' ? _react2.default.createElement(
 						'span',
 						{ className: 'block-info block-info--desc', title: data.description },
 						data.description
-					),
+					) : null,
 					_react2.default.createElement(
 						'span',
 						{ className: 'block-info block-info--id' },
@@ -36478,7 +36471,7 @@ function getBlockData() {
 			return textA < textB ? -1 : textA > textB ? 1 : 0;
 		});
 
-		// Filter (remove) `core/missing` & `core/block` blocks
+		// Filter out the following blocks.
 		wpBlocks = wpBlocks.filter(function (block) {
 			return block.name !== 'core/missing' && block.name !== 'core/block';
 		});

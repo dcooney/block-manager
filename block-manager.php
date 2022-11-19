@@ -13,18 +13,13 @@
  * @package blockmanager
  */
 
-/*
-* FIX - Fixed issue with missing semi-colon in Block Manager export functionality.
-*/
-
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '1.2.2' );
-define( 'BLOCK_MANAGER_RELEASE', 'August 17, 2021' );
+define( 'BLOCK_MANAGER_VERSION', '1.2.3' );
+define( 'BLOCK_MANAGER_RELEASE', 'November 18, 2022' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
