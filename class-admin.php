@@ -1,5 +1,11 @@
 <?php
 /**
+ * This file contains admin functions.
+ *
+ * @package BlockManager.
+ */
+
+/**
  * Block Manager admin class.
  *
  * @author ConnektMedia
@@ -150,10 +156,18 @@ class GBM_Admin {
 			<div class="gbm-page-wrap--header">
 				<h2><?php esc_html_e( 'Gutenberg Block Manager', 'block-manager' ); ?> <span><a href="https://connekthq.com" target="_blank"><?php esc_html_e( 'by Connekt', 'block-manager' ); ?></a></span></h2>
 				<?php if ( 'blocks' === $active ) { ?>
-				<p><?php printf( esc_html__( 'Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' ); ?>
+				<p>
+					<?php
+					/* translators: %s is replaced with the span context */
+					printf( esc_html__( 'Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
+					?>
 				<?php } ?>
 				<?php if ( 'categories' === $active ) { ?>
-				<p><?php printf( esc_html__( 'Update the categories of your %s blocks with the category switcher.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' ); ?>
+				<p>
+					<?php
+					/* translators: %s is replaced with the span context */
+					printf( esc_html__( 'Update the categories of your %s blocks with the category switcher.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
+					?>
 				<?php } ?>
 				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?></button>
 			</div>
@@ -175,8 +189,14 @@ class GBM_Admin {
 						),
 					);
 					?>
+
 					<section>
-						<h2><?php echo sprintf( __( 'Other Plugins from %1$s Connekt %2$s', 'block-manager' ), '<a href="https://connekthq.com" target="_blank">', '</a>' ); ?></h2>
+						<h2>
+						<?php
+						/* translators: %1$s & %2$s is replaced with the link content */
+						echo sprintf( __( 'Other Plugins from %1$s Connekt %2$s', 'block-manager' ), '<a href="https://connekthq.com" target="_blank">', '</a>' ); // @codingStandardsIgnoreLine
+						?>
+						</h2>
 						<button class="button button-secondary" id="otherPluginsClose">&times; <?php esc_html_e( 'Close', 'block-manager' ); ?></button>
 						<div class="cta-wrap">
 							<?php
