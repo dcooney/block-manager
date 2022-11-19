@@ -16,6 +16,7 @@ composer.lock
 .distignore
 .editorconfig
 .gitignore
+.nvmrc
 .phpcs.xml
 .prettierrc.js
 package-lock.json

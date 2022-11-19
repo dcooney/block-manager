@@ -6,11 +6,11 @@ module.exports = {
 	entry: {
 		gbm: './src/js/gbm.js',
 		'gbm-admin': './src/js/index.js',
-		style: './src/style.scss',
+		style: './src/style.scss'
 	},
 	output: {
 		path: path.join(__dirname, dir),
-		filename: 'js/[name].js',
+		filename: 'js/[name].js'
 	},
 	watch: true,
 	module: {
@@ -20,16 +20,16 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['env', 'react'],
-				},
+					presets: ['env', 'react']
+				}
 			},
 			{
 				test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
 				loader: 'file-loader',
 				options: {
 					name: 'img/[name].[ext]',
-					publicPath: '../',
-				},
+					publicPath: '../'
+				}
 			},
 			{
 				test: /\.scss$/,
@@ -39,27 +39,26 @@ module.exports = {
 						{
 							loader: 'css-loader',
 							options: {
-								sourceMap: true,
-							},
+								sourceMap: true
+							}
 						},
 						{
 							loader: 'postcss-loader',
 							options: {
-								sourceMap: true,
-							},
+								sourceMap: true
+							}
 						},
 						{
 							loader: 'sass-loader',
 							options: {
-								sourceMap: true,
-								outputStyle: 'expanded',
-							},
-						},
-					],
+								sourceMap: true
+							}
+						}
+					]
 				}),
-				exclude: /node_modules/,
-			},
-		],
+				exclude: /node_modules/
+			}
+		]
 	},
-	plugins: [new ExtractTextPlugin({ filename: 'css/[name].css' })],
+	plugins: [new ExtractTextPlugin({ filename: 'css/[name].css' })]
 };
