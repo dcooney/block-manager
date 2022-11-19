@@ -672,7 +672,7 @@
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
   color: #fff;
-  background-color: #73ce59;
+  background-color: #75ca5d;
   padding: 9px 11px;
   -webkit-border-radius: 2px;
           border-radius: 2px;
@@ -860,7 +860,7 @@
   position: relative;
   height: 13px;
   width: 26px;
-  background-color: #73ce59;
+  background-color: #75ca5d;
   -webkit-border-radius: 100px;
           border-radius: 100px;
   -webkit-transition: all 0.15s ease;
@@ -1031,10 +1031,14 @@
 }
 
 .settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab {
-  padding: 5px 15px;
+  padding: 7px 16px;
   -webkit-border-radius: 3px 3px 0 0;
           border-radius: 3px 3px 0 0;
   float: none;
+}
+
+.settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab-active {
+  cursor: default;
 }
 
 .settings_page_block-manager #gbm-container .nav-tab-wrapper i {

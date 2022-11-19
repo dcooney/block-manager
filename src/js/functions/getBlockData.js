@@ -1,15 +1,17 @@
 /**
  * Get all WP blocks and updated categories.
  *
- * @return {array}
+ * @return {array} The list of blocks.
  */
-function getBlockData() {
+export default function getBlockData() {
+	let wpBlocks = [];
+
 	// Load Block Library.
 	wp.blockLibrary.registerCoreBlocks();
 
 	// Get WP Block Info.
 	const blocks = wp.blocks.getBlockTypes();
-	let wpBlocks = '';
+
 	if (blocks) {
 		// Sort blocks by name.
 		wpBlocks = blocks.sort(function(a, b) {
@@ -42,5 +44,3 @@ function getBlockData() {
 
 	return wpBlocks;
 }
-
-export default getBlockData;

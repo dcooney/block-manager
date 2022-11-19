@@ -68,10 +68,10 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-= 1.2.3 - November 18, 2022 =
+= 1.2.3 - November 19, 2022 =
 * FIX: Added fix for blank screen when users have JetPack plugin enabled.
 * FIX: Fixed issue with missing semi-colon in Block Manager export functionality.
-
+* FIX: Added fix for only loading the block removal script on `New` and `Edit` screens.
 
 = 1.2.2 - August 17, 2021 =
 * NEW - Added new Reset option that will clear all disabled blocks.

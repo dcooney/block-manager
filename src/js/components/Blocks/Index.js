@@ -416,11 +416,11 @@ function Blocks({ wpBlocks, wpCategories }) {
 						</code>
 					</div>
 				</div>
-				{blocks &&
-					blocks.length &&
-					blocks.map(category => (
-						<Category key={category.info.slug} data={category} toggleBlock={toggleBlock} categoryClickHandler={categoryClickHandler} />
-					))}
+				{blocks && blocks.length
+					? blocks.map(category => (
+							<Category key={category.info.slug} data={category} toggleBlock={toggleBlock} categoryClickHandler={categoryClickHandler} />
+					  ))
+					: null}
 			</div>
 		</div>
 	);

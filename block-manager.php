@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BLOCK_MANAGER_VERSION', '1.2.3' );
-define( 'BLOCK_MANAGER_RELEASE', 'November 18, 2022' );
+define( 'BLOCK_MANAGER_RELEASE', 'November 19, 2022' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
@@ -82,24 +82,26 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	public function gbm_enqueue() {
-		$script = 'dist/js/gbm.js';
-		wp_enqueue_script(
-			'block-manager',
-			plugins_url( $script, __FILE__ ),
-			array( 'wp-edit-post' ),
-			BLOCK_MANAGER_VERSION,
-			false
-		);
-		wp_localize_script(
-			'block-manager',
-			'gutenberg_block_manager',
-			$this->gbm_get_disabled_blocks()
-		);
-		wp_localize_script(
-			'block-manager',
-			'gutenberg_block_manager_categories',
-			$this->gbm_get_filtered_cats()
-		);
+		$screen = get_current_screen();
+		if ( $screen->action === 'add' || $screen->action === 'edit' ) {
+			wp_enqueue_script(
+				'block-manager',
+				plugins_url( 'dist/js/gbm.js', __FILE__ ),
+				array( 'wp-edit-post' ),
+				BLOCK_MANAGER_VERSION,
+				false
+			);
+			wp_localize_script(
+				'block-manager',
+				'gutenberg_block_manager',
+				$this->gbm_get_disabled_blocks()
+			);
+			wp_localize_script(
+				'block-manager',
+				'gutenberg_block_manager_categories',
+				$this->gbm_get_filtered_cats()
+			);
+		}
 	}
 
 	/**

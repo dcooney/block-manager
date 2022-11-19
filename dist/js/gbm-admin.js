@@ -35195,7 +35195,7 @@ function Block(_ref) {
 			_react2.default.createElement(
 				'div',
 				{ className: 'block-info--wrap' },
-				_react2.default.createElement(
+				!!data.title && _react2.default.createElement(
 					'span',
 					{ className: 'block-info block-info--title' },
 					data.title
@@ -35835,9 +35835,9 @@ function Blocks(_ref) {
 					)
 				)
 			),
-			blocks && blocks.length && blocks.map(function (category) {
+			blocks && blocks.length ? blocks.map(function (category) {
 				return _react2.default.createElement(_Category2.default, { key: category.info.slug, data: category, toggleBlock: toggleBlock, categoryClickHandler: categoryClickHandler });
-			})
+			}) : null
 		)
 	);
 }
@@ -36451,18 +36451,21 @@ exports.default = Search;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.default = getBlockData;
 /**
  * Get all WP blocks and updated categories.
  *
- * @return {array}
+ * @return {array} The list of blocks.
  */
 function getBlockData() {
+	var wpBlocks = [];
+
 	// Load Block Library.
 	wp.blockLibrary.registerCoreBlocks();
 
 	// Get WP Block Info.
 	var blocks = wp.blocks.getBlockTypes();
-	var wpBlocks = '';
+
 	if (blocks) {
 		// Sort blocks by name.
 		wpBlocks = blocks.sort(function (a, b) {
@@ -36496,8 +36499,6 @@ function getBlockData() {
 	return wpBlocks;
 }
 
-exports.default = getBlockData;
-
 /***/ }),
 
 /***/ "./src/js/functions/getCategoryData.js":
@@ -36513,10 +36514,11 @@ exports.default = getBlockData;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.default = getCategoryData;
 /**
  * Get all WP block categories.
  *
- * @return {array}
+ * @return {array} The array of categories.
  */
 function getCategoryData() {
 	// Get WP Block Categories
@@ -36539,8 +36541,6 @@ function getCategoryData() {
 
 	return wpCategories;
 }
-
-exports.default = getCategoryData;
 
 /***/ }),
 
