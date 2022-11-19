@@ -1,37 +1,41 @@
 <?php
 /**
- * Custom API route.
+ * API Route: Bulk updater of block statuses.
  *
  * @since 1.0
+ * @package blockmanager
  */
-add_action( 'rest_api_init', function () {
-	$my_namespace = 'gbm';
-	$my_endpoint  = '/bulk_process';
-	register_rest_route(
-		$my_namespace,
-		$my_endpoint,
-		array(
-			'methods'             => 'POST',
-			'callback'            => 'block_manager_bulk_process',
-			'permission_callback' => function () {
-				return Gutenberg_Block_Manager::has_access();
-			},
-		)
-	);
-});
+
+add_action(
+	'rest_api_init',
+	function () {
+		$my_namespace = 'gbm';
+		$my_endpoint  = '/bulk_process';
+		register_rest_route(
+			$my_namespace,
+			$my_endpoint,
+			array(
+				'methods'             => 'POST',
+				'callback'            => 'block_manager_bulk_process',
+				'permission_callback' => function () {
+					return Gutenberg_Block_Manager::has_access();
+				},
+			)
+		);
+	}
+);
 
 /**
  * Bulk Enable/Disable gutenberg blocks.
  *
- * @param $request      $_POST
- * @return $response    json
+ * @param WP_REST_Request $request The content of the HTTP request.
  * @since 1.0
  */
 function block_manager_bulk_process( WP_REST_Request $request ) {
 
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 
-		error_reporting( E_ALL | E_STRICT );
+		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
 		// Get JSON Data.
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
@@ -51,7 +55,7 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				// Loop blocks, add new blocks to disabled array.
 				// Only add if they are not being filtered via `gbm_disabled_blocks`.
 				foreach ( $blocks as $block ) {
-					if ( ! in_array( $block, $disabled_blocks ) && ! in_array( $block, $filtered_blocks ) ) {
+					if ( ! in_array( $block, $disabled_blocks, true ) && ! in_array( $block, $filtered_blocks, true ) ) {
 						$disabled_blocks[] = $block;
 					}
 				}
@@ -62,7 +66,7 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				// Send response.
 				$response = array(
 					'success'         => true,
-					'msg'             => __('All Blocks Disabled', 'block-manager'),
+					'msg'             => __( 'All Blocks Disabled', 'block-manager' ),
 					'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
 				);
 			}
@@ -73,7 +77,7 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				$new_blocks = [];
 				// Loop blocks, create new array minus the blocks to enable.
 				foreach ( $disabled_blocks as $block ) {
-					if ( ! in_array( $block, $blocks ) ) {
+					if ( ! in_array( $block, $blocks, true ) ) {
 						$new_blocks[] = $block;
 					}
 				}

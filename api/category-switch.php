@@ -1,37 +1,41 @@
 <?php
 /**
- * Custom API route.
+ * API Route: Switch a category.
  *
- * @since 1.0
+ * @since 1.2
+ * @package blockmanager
  */
-add_action( 'rest_api_init', function () {
-	$my_namespace = 'gbm';
-	$my_endpoint  = '/category_switch';
-	register_rest_route(
-		$my_namespace,
-		$my_endpoint,
-		array(
-			'methods'             => 'POST',
-			'callback'            => 'block_manager_category_switch',
-			'permission_callback' => function () {
-				return Gutenberg_Block_Manager::has_access();
-			},
-		)
-	);
-});
+
+add_action(
+	'rest_api_init',
+	function () {
+		$my_namespace = 'gbm';
+		$my_endpoint  = '/category_switch';
+		register_rest_route(
+			$my_namespace,
+			$my_endpoint,
+			array(
+				'methods'             => 'POST',
+				'callback'            => 'block_manager_category_switch',
+				'permission_callback' => function () {
+					return Gutenberg_Block_Manager::has_access();
+				},
+			)
+		);
+	}
+);
 
 /**
  * Switch the category of a Gutenberg block.
  *
  * @param WP_REST_Request $request The content of the HTTP request.
- * @return json
  * @since 1.0
  */
 function block_manager_category_switch( WP_REST_Request $request ) {
 
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 
-		error_reporting( E_ALL | E_STRICT );
+		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
 		// Get JSON Data.
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
@@ -52,8 +56,8 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 				foreach ( $options as $index => $item ) {
 					// Duplicate found.
 					if ( $block === $item['block'] ) {
-						$duplicate = true;
-						$options[ $index ][ 'cat' ] = $cat;
+						$duplicate                = true;
+						$options[ $index ]['cat'] = $cat;
 					}
 				}
 			}
@@ -61,7 +65,7 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 			// Create array of new data.
 			$item = array(
 				'block' => $block,
-				'cat'   => $cat
+				'cat'   => $cat,
 			);
 
 			// Add $object to array.
@@ -75,7 +79,7 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 			// Send Response.
 			$response = array(
 				'success' => true,
-				'msg'     => $block . __(' category updated to successfully to ', 'block-manager') . $cat . '.'
+				'msg'     => $block . __( ' category updated to successfully to ', 'block-manager' ) . $cat . '.',
 			);
 		} else {
 

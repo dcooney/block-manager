@@ -66,12 +66,12 @@ class Gutenberg_Block_Manager {
 		load_plugin_textdomain( 'block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'gbm_action_links' ) );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
-		require_once 'api/toggle.php';
-		require_once 'api/bulk_process.php';
+		require_once 'api/blocks-reset.php';
+		require_once 'api/bulk-process.php';
+		require_once 'api/category-reset.php';
+		require_once 'api/category-switch.php';
 		require_once 'api/export.php';
-		require_once 'api/category_switch.php';
-		require_once 'api/category_reset.php';
-		require_once 'api/blocks_reset.php';
+		require_once 'api/toggle.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 

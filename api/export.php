@@ -1,30 +1,34 @@
 <?php
 /**
- * Custom API route.
+ * API Route: Export block settings as PHP.
  *
  * @since 1.0
+ * @package blockmanager
  */
-add_action( 'rest_api_init', function () {
-	$my_namespace = 'gbm';
-	$my_endpoint = '/export';
-	register_rest_route(
-		$my_namespace,
-		$my_endpoint,
-		array(
-			'methods'             => 'GET',
-			'callback'            => 'block_manager_export',
-			'permission_callback' => function () {
-				return Gutenberg_Block_Manager::has_access();
-			},
-		)
-	);
-});
+
+add_action(
+	'rest_api_init',
+	function () {
+		$my_namespace = 'gbm';
+		$my_endpoint  = '/export';
+		register_rest_route(
+			$my_namespace,
+			$my_endpoint,
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'block_manager_export',
+				'permission_callback' => function () {
+					return Gutenberg_Block_Manager::has_access();
+				},
+			)
+		);
+	}
+);
 
 /**
  * Export disabled blocks as an erray.
  *
- * @param $request      $_POST
- * @return $response    json
+ * @param WP_REST_Request $request The API request data.
  * @since 1.0
  */
 function block_manager_export( WP_REST_Request $request ) {
@@ -35,7 +39,7 @@ function block_manager_export( WP_REST_Request $request ) {
 
 		$response = array(
 			'success' => true,
-			'blocks'  => json_encode( $blocks ),
+			'blocks'  => wp_json_encode( $blocks ),
 		);
 
 		wp_send_json( $response );

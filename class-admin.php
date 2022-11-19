@@ -2,7 +2,7 @@
 /**
  * This file contains admin functions.
  *
- * @package BlockManager.
+ * @package blockmanager.
  */
 
 /**
