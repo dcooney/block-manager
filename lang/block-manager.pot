@@ -2,14 +2,14 @@
 # This file is distributed under the GPL.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Manager 1.2.2\n"
+"Project-Id-Version: Block Manager 1.2.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-19T16:37:31+00:00\n"
+"POT-Creation-Date: 2022-11-19T20:47:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -36,41 +36,41 @@ msgstr ""
 msgid "https://connekthq.com"
 msgstr ""
 
-#: api/blocks_reset.php:40
+#: api/blocks-reset.php:44
 msgid "Blocks reset successfully."
 msgstr ""
 
-#: api/bulk_process.php:65
+#: api/bulk-process.php:69
 msgid "All Blocks Disabled"
 msgstr ""
 
-#: api/bulk_process.php:87
+#: api/bulk-process.php:91
 msgid "All Blocks Enabled"
 msgstr ""
 
-#: api/bulk_process.php:94
-#: api/category_switch.php:84
-#: api/toggle.php:76
+#: api/bulk-process.php:98
+#: api/category-switch.php:88
+#: api/toggle.php:79
 msgid "Error accessing API data."
 msgstr ""
 
-#: api/category_reset.php:40
+#: api/category-reset.php:44
 msgid "Categories reset successfully."
 msgstr ""
 
-#: api/category_switch.php:78
+#: api/category-switch.php:82
 msgid " category updated to successfully to "
 msgstr ""
 
-#: api/export.php:46
+#: api/export.php:50
 msgid "Unatuhorized."
 msgstr ""
 
-#: api/toggle.php:54
+#: api/toggle.php:58
 msgid "Block Disabled"
 msgstr ""
 
-#: api/toggle.php:68
+#: api/toggle.php:72
 msgid "Block enabled"
 msgstr ""
 
