@@ -10,8 +10,12 @@
 		"clean": "cd ./dist/ && del-cli js/gbm-admin.js.map js/gbm.js.map js/style.js js/style.js.map css/style.css.map",
 		"pot": "composer run pot"
 	},
+	"engines": {
+		"npm": "8",
+		"node": "14"
+	},
 	"keywords": [],
-	"author": "",
+	"author": "ConnektMedia",
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^0.21.4",
