@@ -36,7 +36,6 @@ class GBM_Admin {
 	 * @return null
 	 */
 	public function gbm_admin_enqueue( $hook ) {
-
 		if ( 'settings_page_block-manager' !== $hook ) {
 			return;
 		}

@@ -6,7 +6,7 @@
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 1.2.3
+ * Version: 1.2.4
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '1.2.3' );
-define( 'BLOCK_MANAGER_RELEASE', 'November 19, 2022' );
+define( 'BLOCK_MANAGER_VERSION', '1.2.4' );
+define( 'BLOCK_MANAGER_RELEASE', 'November 30, 2022' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
@@ -83,7 +83,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public function gbm_enqueue() {
 		$screen = get_current_screen();
-		if ( $screen->action === 'add' || $screen->action === 'edit' ) {
+		if ( $screen->is_block_editor ) {
 			wp_enqueue_script(
 				'block-manager',
 				plugins_url( 'dist/js/gbm.js', __FILE__ ),
