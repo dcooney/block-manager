@@ -82,7 +82,14 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	public function gbm_enqueue() {
-		// $screen = get_current_screen();
+		$screen = get_current_screen();
+		// Don't load Block Manager on Widget screen.
+		if ( $screen->id === 'widgets' ) {
+			// Note: GBM throws an error around `_wpLoadBlockEditor` being not available on the screen.
+			// TODO: Investigate how the widgets screen loads the block editor.
+			return;
+		}
+
 		wp_enqueue_script(
 			'block-manager',
 			plugins_url( 'dist/js/gbm.js', __FILE__ ),
