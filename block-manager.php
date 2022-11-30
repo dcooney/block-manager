@@ -82,26 +82,24 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	public function gbm_enqueue() {
-		$screen = get_current_screen();
-		if ( $screen->is_block_editor ) {
-			wp_enqueue_script(
-				'block-manager',
-				plugins_url( 'dist/js/gbm.js', __FILE__ ),
-				array( 'wp-edit-post' ),
-				BLOCK_MANAGER_VERSION,
-				false
-			);
-			wp_localize_script(
-				'block-manager',
-				'gutenberg_block_manager',
-				$this->gbm_get_disabled_blocks()
-			);
-			wp_localize_script(
-				'block-manager',
-				'gutenberg_block_manager_categories',
-				$this->gbm_get_filtered_cats()
-			);
-		}
+		// $screen = get_current_screen();
+		wp_enqueue_script(
+			'block-manager',
+			plugins_url( 'dist/js/gbm.js', __FILE__ ),
+			array( 'wp-edit-post' ),
+			BLOCK_MANAGER_VERSION,
+			false
+		);
+		wp_localize_script(
+			'block-manager',
+			'gutenberg_block_manager',
+			$this->gbm_get_disabled_blocks()
+		);
+		wp_localize_script(
+			'block-manager',
+			'gutenberg_block_manager_categories',
+			$this->gbm_get_filtered_cats()
+		);
 	}
 
 	/**
