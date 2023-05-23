@@ -5,7 +5,7 @@ const gbm_categories = gutenberg_block_manager_categories;
 if (gbm_categories) {
 	filterBlockCategories(gbm_categories);
 }
-
+if(window._wpLoadBlockEditor){
 window._wpLoadBlockEditor.then(function() {
 	// Get GBM disbaled blocks.
 	const blocks = gutenberg_block_manager;
@@ -26,3 +26,4 @@ window._wpLoadBlockEditor.then(function() {
 		}
 	});
 });
+}
