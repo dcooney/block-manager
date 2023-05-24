@@ -20,11 +20,8 @@ class GBM_Admin {
 	 * @since 1.0
 	 */
 	public function __construct() {
-
-		// Register the submenu.
 		add_action( 'admin_menu', array( $this, 'gbm_register_sub_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'gbm_admin_enqueue' ) );
-
 	}
 
 	/**

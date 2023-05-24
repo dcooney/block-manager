@@ -1,7 +1,6 @@
 <?php
 /**
  * Uninstall Block Manager
- *
  * Deletes all the plugin options when plugin is unistalled.
  *
  * @since 1.2.2

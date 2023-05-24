@@ -8,8 +8,8 @@ function Search() {
 
 		if (term !== '') {
 			blockArray.map(function (block) {
-				let str = block.dataset.title.toLowerCase();
-				let found = str.search(term);
+				const str = block.dataset.title.toLowerCase();
+				const found = str.search(term);
 				if (found !== -1) {
 					block.style.display = 'flex';
 				} else {

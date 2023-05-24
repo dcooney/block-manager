@@ -7,7 +7,7 @@ import React from 'react';
  * @param {string} type The type of icon.
  */
 function Icon({ src, type }) {
-	let iconSrc = type === 'dashicon' ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
+	const iconSrc = type === 'dashicon' ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
 
 	// Custom Heading Icon
 	if (src === 'heading') {

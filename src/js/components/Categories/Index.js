@@ -4,11 +4,6 @@ import Block from './Block';
 import Sidebar from './Sidebar';
 
 function Categories({ wpBlocks, wpCategories }) {
-	// Filter block for `core` blocks only.
-	// wpBlocks = wpBlocks.filter((block) => {
-	// 	return block.name.indexOf('core/') !== -1;
-	// });
-
 	/**
 	 * Change the block category.
 	 *
@@ -45,7 +40,6 @@ function Categories({ wpBlocks, wpCategories }) {
 		})
 			.then(function (res) {
 				let response = res.data;
-
 				if (response && res.status == 200) {
 					// Success
 					if (element) {
@@ -77,7 +71,7 @@ function Categories({ wpBlocks, wpCategories }) {
 	// On Load
 	useEffect(() => {
 		// Set Loaded.
-		let wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
+		const wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
 		wrapperDiv.classList.add('loaded');
 
 		// Export settings.
