@@ -36129,11 +36129,6 @@ function Categories(_ref) {
 	var wpBlocks = _ref.wpBlocks,
 	    wpCategories = _ref.wpCategories;
 
-	// Filter block for `core` blocks only.
-	// wpBlocks = wpBlocks.filter((block) => {
-	// 	return block.name.indexOf('core/') !== -1;
-	// });
-
 	/**
   * Change the block category.
   *
@@ -36169,7 +36164,6 @@ function Categories(_ref) {
 			}
 		}).then(function (res) {
 			var response = res.data;
-
 			if (response && res.status == 200) {
 				// Success
 				if (element) {
@@ -36352,41 +36346,9 @@ exports.default = Sidebar;
   !*** ./src/js/components/Global/Icon.js ***!
   \******************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Block Icon display.
- *
- * @param {string} src The svg source.
- * @param {string} type The type of icon.
- */
-function Icon(_ref) {
-	var src = _ref.src,
-	    type = _ref.type;
-
-	var iconSrc = type === 'dashicon' ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
-
-	// Custom Heading Icon
-	if (src === 'heading') {
-		iconSrc = '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M5 4v3h5.5v12h3V7H19V4z"></path><path fill="none" d="M0 0h24v24H0V0z"></path></svg>';
-	}
-
-	return _react2.default.createElement('div', { className: 'icon', dangerouslySetInnerHTML: { __html: iconSrc } });
-}
-exports.default = Icon;
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: \"iconSrc\" is read-only\n\n\u001b[0m \u001b[90m 12 | \u001b[39m\t\u001b[90m// Custom Heading Icon\u001b[39m\n \u001b[90m 13 | \u001b[39m\t\u001b[36mif\u001b[39m (src \u001b[33m===\u001b[39m \u001b[32m'heading'\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 | \u001b[39m\t\ticonSrc \u001b[33m=\u001b[39m\n \u001b[90m    | \u001b[39m\t\t\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 | \u001b[39m\t\t\t\u001b[32m'<svg width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" role=\"img\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M5 4v3h5.5v12h3V7H19V4z\"></path><path fill=\"none\" d=\"M0 0h24v24H0V0z\"></path></svg>'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 16 | \u001b[39m\t}\n \u001b[90m 17 | \u001b[39m\u001b[0m\n");
 
 /***/ }),
 

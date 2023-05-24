@@ -125,13 +125,15 @@ $xlarge: 1700px;
 			// List View
 			&.gbm-view-list {
 				button.item {
-					width: calc(100% - 10px) !important;
-					margin: 0 5px 10px !important;
-					padding: 15px;
+					width: 100% !important;
+					margin: 0 0 5px !important;
+					border: none;
+					background-color: transparent;
+					padding: 10px 35px 10px 10px;
 					.gbm-block-switch {
 						left: auto;
 						bottom: auto;
-						right: 15px;
+						right: 13px;
 						top: 15px;
 					}
 				}
@@ -417,13 +419,13 @@ $xlarge: 1700px;
 					}
 					&--title {
 						font-weight: 600;
-						margin-bottom: 10px;
+						margin-bottom: 5px;
 						font-size: 14px;
 						line-height: 18px;
 						text-transform: capitalize;
 					}
 					&--desc {
-						opacity: 0.75;
+						color: $grey_dark;
 						width: 100%;
 						display: -webkit-box;
 						-webkit-line-clamp: 3;

@@ -103,13 +103,15 @@
         .gbm-block-list-wrapper .gbm-blocks button.item {
           width: calc(20% - 10px); } }
     .gbm-block-list-wrapper .gbm-blocks.gbm-view-list button.item {
-      width: calc(100% - 10px) !important;
-      margin: 0 5px 10px !important;
-      padding: 15px; }
+      width: 100% !important;
+      margin: 0 0 5px !important;
+      border: none;
+      background-color: transparent;
+      padding: 10px 35px 10px 10px; }
       .gbm-block-list-wrapper .gbm-blocks.gbm-view-list button.item .gbm-block-switch {
         left: auto;
         bottom: auto;
-        right: 15px;
+        right: 13px;
         top: 15px; }
   .gbm-block-list-wrapper .gbm-search {
     display: block;
@@ -403,12 +405,12 @@
           text-align: left; }
         .gbm-block-list .item--wrap .block-info--title {
           font-weight: 600;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
           font-size: 14px;
           line-height: 18px;
           text-transform: capitalize; }
         .gbm-block-list .item--wrap .block-info--desc {
-          opacity: 0.75;
+          color: #999ea2;
           width: 100%;
           display: -webkit-box;
           -webkit-line-clamp: 3;
