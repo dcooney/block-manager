@@ -5,7 +5,7 @@ name: Deploy to WordPress.org
       - published
 jobs:
   tag:
-    name: New release
+    name: New Plugin Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
