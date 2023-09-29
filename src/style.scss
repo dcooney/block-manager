@@ -18,8 +18,8 @@ $xlarge: 1700px;
 }
 .gbm {
 	*,
-	*:before,
-	*:after {
+	*::before,
+	*::after {
 		box-sizing: border-box;
 	}
 	button[type='button'] {
@@ -38,7 +38,7 @@ $xlarge: 1700px;
 			max-width: 1400px;
 		}
 		.global-loader.loading {
-			background: url('img/ajax-loader.gif') no-repeat 2px 26px;
+			background: url('images/ajax-loader.gif') no-repeat 2px 26px;
 			padding: 25px 0 25px 26px;
 			display: block;
 		}
@@ -88,12 +88,6 @@ $xlarge: 1700px;
 				p {
 					margin: 0 0 15px;
 				}
-			}
-			#gbm-sticky {
-				padding: 16px 15px 15px;
-				background: #fff;
-				border: 1px solid $grey;
-				border-radius: $radius;
 			}
 		}
 		.gbm-blocks {
@@ -157,7 +151,6 @@ $xlarge: 1700px;
 				font-size: 13px;
 			}
 			button {
-				font-size: 14px;
 				margin: 0;
 				padding: 0 5px;
 				background: transparent;
@@ -264,7 +257,7 @@ $xlarge: 1700px;
 				opacity: 0.75;
 			}
 			span,
-			span:before {
+			span::before {
 				height: 15px;
 				width: 15px;
 				font-size: 15px;
@@ -319,10 +312,10 @@ $xlarge: 1700px;
 		display: flex;
 		flex-wrap: wrap;
 		position: relative;
-		padding: 10px 10px 0px;
+		padding: 10px 10px 0;
 		text-align: left;
 		@media screen and (min-width: $xsmall) {
-			padding: 10px 5px 0px;
+			padding: 10px 5px 0;
 		}
 		&.loading {
 			.loader {
@@ -351,7 +344,6 @@ $xlarge: 1700px;
 			background-color: #f7f7f7;
 			background-position: right 15px bottom 15px;
 			border-radius: $radius;
-			position: relative;
 			transition: $transition;
 			margin: 0 0 10px;
 			display: flex;
@@ -397,7 +389,7 @@ $xlarge: 1700px;
 				> .gbm-block-group {
 					opacity: 0.65;
 				}
-				background: #fff url('img/ajax-loader.gif') no-repeat right 15px bottom 15px;
+				background: #fff url('images/ajax-loader.gif') no-repeat right 15px bottom 15px;
 			}
 			&--wrap {
 				display: flex;
@@ -445,7 +437,7 @@ $xlarge: 1700px;
 					color: #96588a;
 					opacity: 1;
 					svg {
-						fill: currentColor;
+						fill: currentcolor;
 					}
 				}
 			}
@@ -571,7 +563,7 @@ $xlarge: 1700px;
 					bottom: 0;
 					right: 0;
 					z-index: 9999;
-					background: rgba(255, 255, 255, 0.65) url('img/ajax-loader.gif') no-repeat center center;
+					background: rgba(255, 255, 255, 0.65) url('images/ajax-loader.gif') no-repeat center center;
 					transition: all 0.25s ease;
 				}
 			}
@@ -692,7 +684,7 @@ $xlarge: 1700px;
 // Header
 .gbm-page-wrap {
 	&--header {
-		background: #fff url('img/icon.png') no-repeat 20px 20px;
+		background: #fff url('images/icon.png') no-repeat 20px 20px;
 		background-size: 48px 48px;
 		padding: 23px 20px 20px 78px;
 		position: relative;
@@ -743,13 +735,6 @@ $xlarge: 1700px;
 	}
 }
 
-#gbm-sticky.attached {
-	position: fixed;
-	width: auto;
-	top: 70px;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
 .settings_page_block-manager {
 	#wpcontent {
 		padding-left: 0;
@@ -758,8 +743,8 @@ $xlarge: 1700px;
 		padding: 0;
 		position: relative;
 		*,
-		*:before,
-		*:after {
+		*::before,
+		*::after {
 			box-sizing: border-box;
 		}
 

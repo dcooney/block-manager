@@ -56,12 +56,11 @@ class GBM_Admin {
 		}
 
 		// Enqueue Scripts.
-		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min'; // Use minified libraries if SCRIPT_DEBUG is turned off.
 
 		wp_enqueue_style(
 			'block-manager-styles',
 			plugins_url(
-				'dist/css/style.css',
+				'build/style-block-manager-admin.css',
 				__FILE__
 			),
 			array(),
@@ -70,8 +69,8 @@ class GBM_Admin {
 
 		wp_enqueue_script(
 			'block-manager-admin',
-			plugins_url( 'dist/js/gbm-admin' . $suffix . '.js', __FILE__ ),
-			array( 'wp-blocks', 'wp-element', 'wp-data', 'wp-edit-post', 'wp-components', 'wp-block-library' ),
+			plugins_url( 'build/block-manager-admin.js', __FILE__ ),
+			[ 'wp-element', 'wp-block-library' ],
 			BLOCK_MANAGER_VERSION,
 			true
 		);

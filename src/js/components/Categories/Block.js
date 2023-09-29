@@ -1,46 +1,50 @@
-import cn from 'classnames';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import Icon from '../Global/Icon';
+import Icon from "../Global/Icon";
 
-function Block({ data, wpCategories, changeCategory }) {
-	let icon = '';
-	let type = 'dashicon';
-	const id = data.name;
-	const blockCat = data.category;
-
-	// Convert Icon.
-	if (data.icon && data.icon.src) {
-		if (data.icon.src.type) {
-			type = 'react';
-			icon = ReactDOMServer.renderToStaticMarkup(data.icon.src);
-		} else {
-			icon = data.icon.src;
-		}
-	}
+/**
+ * Render the Block component for a category listing.
+ *
+ * @param {Object}   props              The component properties.
+ * @param {Object}   props.data         Data for an individual block.
+ * @param {Array}    props.wpCategories Array of block categories.
+ * @param {Function} props.callback     Function to call after category change.
+ * @return {Element}                    The Block component.
+ */
+export default function Block({ data, wpCategories, callback }) {
+	const { name, icon, title, category, description } = data;
 
 	return (
-		<div data-title={data.title} role="button" className={cn('item')} data-id={id}>
+		<div data-title={title} className="item" data-id={name}>
 			<div className="item--wrap">
-				<Icon src={icon} type={type} />
+				<Icon data={icon?.src} />
 				<div className="block-info--wrap">
 					<div className="block-info--details">
-						<span className="block-info block-info--title">{data.title}</span>
-						{data.description && typeof data.description === 'string' ? (
-							<span className="block-info block-info--desc" title={data.description}>
-								{data.description}
+						<span className="block-info block-info--title">{title}</span>
+						{description && typeof description === "string" ? (
+							<span
+								className="block-info block-info--desc"
+								title={description}
+							>
+								{description}
 							</span>
 						) : null}
-						<span className="block-info block-info--id">{id}</span>
+						<span className="block-info block-info--id">{name}</span>
 					</div>
 					<div className="block-info--action">
 						<label>
-							<span className="offscreen">{gbm_localize.cat_switch}</span>
-							<select defaultValue={blockCat} onChange={e => changeCategory(id, e)}>
-								{!!wpCategories &&
+							<span className="offscreen">
+								{gbm_localize.cat_switch}
+							</span>
+							<select
+								defaultValue={category}
+								onChange={(e) => callback(name, e)}
+							>
+								{!!wpCategories?.length &&
 									wpCategories.map((cat, index) => {
 										return (
-											<option key={`cat-${cat.slug}-${index}`} value={cat.slug}>
+											<option
+												key={`cat-${cat.slug}-${index}`}
+												value={cat.slug}
+											>
 												{cat.title}
 											</option>
 										);
@@ -52,9 +56,9 @@ function Block({ data, wpCategories, changeCategory }) {
 			</div>
 			<div className="loading-cover"></div>
 			<div className="gbm-cat-status">
-				<i className="fa fa-check" aria-hidden="true"></i> {gbm_localize.updated}
+				<i className="fa fa-check" aria-hidden="true"></i>{" "}
+				{gbm_localize.updated}
 			</div>
 		</div>
 	);
 }
-export default Block;

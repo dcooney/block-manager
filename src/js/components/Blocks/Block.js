@@ -1,68 +1,71 @@
-import React from 'react';
-import Icon from '../Global/Icon';
-import Switch from './Switch';
-import cn from 'classnames';
-import ReactDOMServer from 'react-dom/server';
+import cn from "classnames";
+import Icon from "../Global/Icon";
+import Switch from "./Switch";
 
+/**
+ * Render a Block component to display an individual block.
+ *
+ * @param {Object}   props                The component props.
+ * @param {Object}   props.data           Array of WP blocks.
+ * @param {Function} props.toggleBlock    Function to toggle the activation of a block.
+ * @param {Array}    props.disabledBlocks Disabled blocks.
+ * @param {Array}    props.filteredBlocks Filtered blocks.
+ * @return {Element}                      The Block component.
+ */
 function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
-	let icon = '';
-	let type = 'dashicon';
-	let id = data.name;
-	const disabledClass = disabledBlocks.indexOf(id) !== -1 ? 'disabled' : '';
-	const isFiltered = filteredBlocks.indexOf(id) !== -1 ? true : false;
-	const filteredClass = isFiltered ? 'filtered' : '';
+	const { icon, name } = data;
 
-	// Convert Icon.
-	if (data.icon && data.icon.src) {
-		if (data.icon.src.type) {
-			type = 'react';
-			icon = ReactDOMServer.renderToStaticMarkup(data.icon.src);
-		} else {
-			icon = data.icon.src;
-		}
-	}
+	const disabledClass = disabledBlocks.indexOf(name) !== -1 ? "disabled" : "";
+	const isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
+	const filteredClass = isFiltered ? "filtered" : "";
 
 	/**
 	 * Handle the click event for the block button.
 	 *
 	 * @param {MouseEvent} e The event.
 	 */
-	const clickHandler = e => {
-		let target = e.currentTarget;
+	function click(e) {
+		const target = e.currentTarget;
 		if (target) {
-			let id = target.dataset.id;
-			if (!target.classList.contains('filtered')) {
+			const id = target.dataset.id;
+			if (!target.classList.contains("filtered")) {
 				toggleBlock(target, id);
 			} else {
-				alert(gbm_localize.filtered_alert);
+				alert(gbm_localize.filtered_alert); // eslint-disable-line no-alert
 				target.blur();
 			}
 		}
-	};
+	}
 
 	return (
 		<button
 			data-title={data.title}
 			data-description={data.description}
-			role="button"
-			className={cn('item', disabledClass, filteredClass)}
-			data-id={id}
+			className={cn("item", disabledClass, filteredClass)}
+			data-id={name}
 			data-category={data.category}
-			onClick={clickHandler}
+			onClick={(e) => click(e)}
 			aria-label={gbm_localize.toggle}
-			title={id}
-			tabIndex={isFiltered ? '-1' : ''}
+			title={name}
+			tabIndex={isFiltered ? "-1" : ""}
 		>
 			<div className="item--wrap">
-				<Icon src={icon} type={type} />
+				<Icon data={icon?.src} />
 				<div className="block-info--wrap">
-					{!!data.title && <span className="block-info block-info--title">{data.title}</span>}
-					{data.description && typeof data.description === 'string' ? (
-						<span className="block-info block-info--desc" title={data.description}>
+					{!!data.title && (
+						<span className="block-info block-info--title">
+							{data.title}
+						</span>
+					)}
+					{data.description && typeof data.description === "string" ? (
+						<span
+							className="block-info block-info--desc"
+							title={data.description}
+						>
 							{data.description}
 						</span>
 					) : null}
-					<span className="block-info block-info--id">{id}</span>
+					<span className="block-info block-info--id">{name}</span>
 				</div>
 			</div>
 			{!isFiltered && <Switch />}

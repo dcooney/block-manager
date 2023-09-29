@@ -1,12 +1,22 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import Block from './Block';
-import Sidebar from './Sidebar';
+import axios from "axios";
+import { useEffect } from "@wordpress/element";
+import Block from "./Block";
+import Sidebar from "./Sidebar";
 
-function Categories({ wpBlocks, wpCategories }) {
+/**
+ * Render the Categories component.
+ *
+ * @param {Object} props              The component properties.
+ * @param {Array}  props.wpBlocks     The blocks.
+ * @param {Array}  props.wpCategories The block categories
+ * @return {Element}                  The Categories component.
+ */
+export default function Categories({ wpBlocks, wpCategories }) {
 	/**
 	 * Change the block category.
 	 *
+	 * @param {string} id     The block ID.
+	 * @param {Object} select The select element.
 	 * @since 1.0
 	 */
 	const changeCategory = (id, select) => {
@@ -14,56 +24,54 @@ function Categories({ wpBlocks, wpCategories }) {
 			return false;
 		}
 		const value = select.target.value;
-		const element = select.target.closest('.item');
-		let status = '';
+		const element = select.target.closest(".item");
+		let status = "";
 
 		if (element) {
-			element.classList.add('loading');
-			status = element.querySelector('.gbm-cat-status');
+			element.classList.add("loading");
+			status = element.querySelector(".gbm-cat-status");
 		}
 
 		// API Request.
-		let url = gbm_localize.root + 'gbm/category_switch/';
-		let data = { block: id, cat: value };
+		const url = gbm_localize.root + "gbm/category_switch/";
+		const data = { block: id, cat: value };
 
 		// Send request.
 		axios({
-			method: 'POST',
-			url: url,
+			method: "POST",
+			url,
 			headers: {
-				'X-WP-Nonce': gbm_localize.nonce,
-				'Content-Type': 'application/json',
+				"X-WP-Nonce": gbm_localize.nonce,
+				"Content-Type": "application/json",
 			},
 			data: {
 				data: JSON.stringify(data),
 			},
 		})
 			.then(function (res) {
-				let response = res.data;
-				if (response && res.status == 200) {
+				const response = res.data;
+				if (response && res.status === 200) {
 					// Success
 					if (element) {
-						element.classList.remove('loading');
+						element.classList.remove("loading");
 						if (status) {
-							status.classList.add('active');
+							status.classList.add("active");
 							setTimeout(function () {
-								status.classList.remove('active');
+								status.classList.remove("active");
 							}, 2500);
 						}
 					}
 				} else {
-					// Error
-					console.log('an error has occurred');
+					console.warn("an error has occurred");
 					if (element) {
-						element.classList.remove('loading');
+						element.classList.remove("loading");
 					}
 				}
 			})
 			.catch(function (error) {
-				// Error
-				console.log(error);
+				console.warn(error);
 				if (element) {
-					element.classList.remove('loading');
+					element.classList.remove("loading");
 				}
 			});
 	};
@@ -71,18 +79,18 @@ function Categories({ wpBlocks, wpCategories }) {
 	// On Load
 	useEffect(() => {
 		// Set Loaded.
-		const wrapperDiv = document.querySelector('.gbm-block-list-wrapper');
-		wrapperDiv.classList.add('loaded');
+		const wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
+		wrapperDiv.classList.add("loaded");
 
 		// Export settings.
 		document.addEventListener(
-			'keyup',
+			"keyup",
 			function (e) {
-				if (e.key === 'Escape') {
+				if (e.key === "Escape") {
 					closeExport();
 				}
 			},
-			false
+			false,
 		);
 		return () => {};
 	}, []);
@@ -91,18 +99,27 @@ function Categories({ wpBlocks, wpCategories }) {
 		<div className="gbm-block-list-wrapper categories">
 			<Sidebar />
 			<div className="gbm-blocks">
-				<span className="global-loader loading">{gbm_localize.loading}...</span>
+				<span className="global-loader loading">
+					{gbm_localize.loading}...
+				</span>
 				<div className="gbm-block-group">
 					<header className="gbm-block-list-controls categories">
 						<h3>{gbm_localize.block_switch}</h3>
 						<h3>{gbm_localize.cat_switch}</h3>
 					</header>
 					<div className="gbm-block-list categories">
-						{!!wpBlocks && wpBlocks.map((block, index) => <Block key={index} changeCategory={changeCategory} data={block} wpCategories={wpCategories} />)}
+						{!!wpBlocks?.length &&
+							wpBlocks.map((block, index) => (
+								<Block
+									key={index}
+									callback={changeCategory}
+									data={block}
+									wpCategories={wpCategories}
+								/>
+							))}
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
-export default Categories;

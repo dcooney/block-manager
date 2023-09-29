@@ -90,22 +90,22 @@ class Gutenberg_Block_Manager {
 			return;
 		}
 
+		$wp_asset_file = require BLOCK_MANAGER_DIR_PATH . 'build/block-manager.asset.php'; // Get webpack asset file.
+
 		wp_enqueue_script(
 			'block-manager',
-			plugins_url( 'dist/js/gbm.js', __FILE__ ),
-			array( 'wp-edit-post' ),
+			plugins_url( 'build/block-manager.js', __FILE__ ),
+			$wp_asset_file['dependencies'],
 			BLOCK_MANAGER_VERSION,
 			false
 		);
 		wp_localize_script(
 			'block-manager',
 			'gutenberg_block_manager',
-			$this->gbm_get_disabled_blocks()
-		);
-		wp_localize_script(
-			'block-manager',
-			'gutenberg_block_manager_categories',
-			$this->gbm_get_filtered_cats()
+			[
+				'blocks'     => $this->gbm_get_disabled_blocks(),
+				'categories' => $this->gbm_get_filtered_cats(),
+			]
 		);
 	}
 
@@ -118,7 +118,6 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_cats() {
 		$categories = (array) get_option( BLOCK_MANAGER_CATEGORIES, array() ); // Get option.
-
 		return $categories ? $categories : [];
 	}
 

@@ -1,4 +1,4 @@
-const { addFilter } = wp.hooks;
+import { addFilter } from "@wordpress/hooks";
 
 /**
  * Use hooks to switch the block categories.
@@ -9,7 +9,7 @@ export default function filterBlockCategories(options) {
 	if (!options) {
 		return false; // Exit if empty.
 	}
-	let categories = {};
+	const categories = {};
 	options.forEach((cat) => {
 		// Extract values from object.
 		const values = Object.values(cat);
@@ -29,15 +29,15 @@ export default function filterBlockCategories(options) {
 			settings.gbm = true;
 		}
 
-		// we need to pass along the settings object
+		// We need to pass along the settings object
 		// even if we haven't modified them!
 		return settings;
 	};
 
 	// Add filter when blocks register.
 	addFilter(
-		'blocks.registerBlockType', // hook name, important!
-		'gbm/filter-blocks', // your name, arbitrary!
-		filterBlocks // function to run.
+		"blocks.registerBlockType", // hook name, important!
+		"gbm/filter-blocks", // your name, arbitrary!
+		filterBlocks, // function to run.
 	);
 }

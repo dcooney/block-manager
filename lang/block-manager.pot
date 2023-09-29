@@ -1,22 +1,22 @@
-# Copyright (C) 2022 Darren Cooney
+# Copyright (C) 2023 Darren Cooney
 # This file is distributed under the GPL.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Manager 1.2.3\n"
+"Project-Id-Version: Block Manager 1.2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-19T21:18:42+00:00\n"
+"POT-Creation-Date: 2023-09-29T13:02:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
 
 #. Plugin Name of the plugin
-#: class-admin.php:134
-#: class-admin.php:135
+#: class-admin.php:129
+#: class-admin.php:130
 msgid "Block Manager"
 msgstr ""
 
@@ -74,150 +74,150 @@ msgstr ""
 msgid "Block enabled"
 msgstr ""
 
-#: block-manager.php:157
+#: block-manager.php:161
 msgid "Manage Blocks"
 msgstr ""
 
-#: class-admin.php:93
+#: class-admin.php:88
 msgid "Enable"
 msgstr ""
 
-#: class-admin.php:94
+#: class-admin.php:89
 msgid "Disable"
 msgstr ""
 
-#: class-admin.php:95
+#: class-admin.php:90
 msgid "Enable All"
 msgstr ""
 
-#: class-admin.php:96
+#: class-admin.php:91
 msgid "Disable All"
 msgstr ""
 
-#: class-admin.php:97
+#: class-admin.php:92
 msgid "Toggle All Blocks"
 msgstr ""
 
-#: class-admin.php:98
+#: class-admin.php:93
 msgid "Toggle Block Activation"
 msgstr ""
 
-#: class-admin.php:99
+#: class-admin.php:94
 msgid "Filter Blocks"
 msgstr ""
 
-#: class-admin.php:100
+#: class-admin.php:95
 msgid "Submit"
 msgstr ""
 
-#: class-admin.php:101
+#: class-admin.php:96
 msgid "Loading Blocks"
 msgstr ""
 
-#: class-admin.php:102
+#: class-admin.php:97
 msgid "Getting export data..."
 msgstr ""
 
-#: class-admin.php:103
+#: class-admin.php:98
 msgid "Copy Code"
 msgstr ""
 
-#: class-admin.php:104
+#: class-admin.php:99
 msgid "Copied"
 msgstr ""
 
-#: class-admin.php:105
-#: class-admin.php:200
+#: class-admin.php:100
+#: class-admin.php:195
 msgid "Close"
 msgstr ""
 
-#: class-admin.php:106
+#: class-admin.php:101
 msgid "Grid"
 msgstr ""
 
-#: class-admin.php:107
+#: class-admin.php:102
 msgid "List"
 msgstr ""
 
-#: class-admin.php:108
+#: class-admin.php:103
 msgid "Block Category"
 msgstr ""
 
-#: class-admin.php:109
+#: class-admin.php:104
 msgid "Category Updated"
 msgstr ""
 
-#: class-admin.php:110
+#: class-admin.php:105
 msgid "Block Name"
 msgstr ""
 
-#: class-admin.php:111
+#: class-admin.php:106
 msgid "Reset"
 msgstr ""
 
-#: class-admin.php:112
+#: class-admin.php:107
 msgid "Clear all disabled blocks."
 msgstr ""
 
-#: class-admin.php:113
+#: class-admin.php:108
 msgid "Reset Categories"
 msgstr ""
 
-#: class-admin.php:114
+#: class-admin.php:109
 msgid "The Category Switcher provides functionality for changing the categories of Gutenberg blocks."
 msgstr ""
 
-#: class-admin.php:115
+#: class-admin.php:110
 msgid "Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts."
 msgstr ""
 
-#: class-admin.php:116
+#: class-admin.php:111
 msgid "Export"
 msgstr ""
 
-#: class-admin.php:117
+#: class-admin.php:112
 msgid "Export a list of disabled blocks via WordPress filter. "
 msgstr ""
 
-#: class-admin.php:118
+#: class-admin.php:113
 msgid "Add the the following code to your functions.php to remove blocks at the theme level."
 msgstr ""
 
-#: class-admin.php:119
+#: class-admin.php:114
 msgid "This block has been globally disabled via the `gbm_disabled_blocks` filter and cannot be activated."
 msgstr ""
 
-#: class-admin.php:157
+#: class-admin.php:152
 msgid "Gutenberg Block Manager"
 msgstr ""
 
-#: class-admin.php:157
+#: class-admin.php:152
 msgid "by Connekt"
 msgstr ""
 
 #. translators: %s is replaced with the span context
-#: class-admin.php:162
+#: class-admin.php:157
 msgid "Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter."
 msgstr ""
 
 #. translators: %s is replaced with the span context
-#: class-admin.php:169
+#: class-admin.php:164
 msgid "Update the categories of your %s blocks with the category switcher."
 msgstr ""
 
-#: class-admin.php:172
+#: class-admin.php:167
 msgid "Other Plugins"
 msgstr ""
 
 #. translators: %1$s & %2$s is replaced with the link content
-#: class-admin.php:197
+#: class-admin.php:192
 msgid "Other Plugins from %1$s Connekt %2$s"
 msgstr ""
 
-#: class-admin.php:217
+#: class-admin.php:212
 msgid "Blocks"
 msgstr ""
 
-#: class-admin.php:225
+#: class-admin.php:220
 msgid "Categories"
 msgstr ""

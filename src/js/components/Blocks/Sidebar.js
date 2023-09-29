@@ -1,43 +1,47 @@
-import React from 'react';
-import Search from '../Global/Search';
+import Search from "../Global/Search";
 
 /**
- * Sidebar for Blocks Manager.
+ * Render the Sidebar for Block Manager.
  *
- * @param {object} blocks WP Blocks.
+ * @param {Object} props        The component props.
+ * @param {Array}  props.blocks WP Blocks.
+ * @return {Element}            The Sidebar component.
  */
-function Sidebar({ blocks }) {
-	// Slide browser window to block category
-	const moveTo = (e) => {
-		let el = e.currentTarget;
-		let to = el.dataset.to;
-		let target = document.querySelector(`#${to}`);
+export default function Sidebar({ blocks }) {
+	/**
+	 * Scroll to the selected block.
+	 *
+	 * @param {Event} e The click event.
+	 */
+	function scrollTo(e) {
+		const el = e.currentTarget;
+		const to = el.dataset.to;
+		const target = document.querySelector(`#${to}`);
 		if (target) {
-			const top = target.getBoundingClientRect().top + window.pageYOffset - 50;
+			const top = target.getBoundingClientRect().top + window.scrollY - 50;
 			window.scrollTo({
-				top, // scroll so that the element is at the top of the view
-				behavior: 'smooth', // smooth scroll
+				top,
+				behavior: "smooth",
 			});
 		}
-	};
+	}
 
 	return (
 		<div className="gbm-nav">
-			<div id="gbm-sticky-wrapper">
-				<div id="gbm-sticky">
-					<div className="gbm-nav-wrap">
-						{blocks &&
-							blocks.length &&
-							blocks.map((category) => (
-								<button key={category.info.slug} type="button" data-to={'block-' + category.info.slug} onClick={moveTo}>
-									{category.info.title}
-								</button>
-							))}
-					</div>
-					<Search />
-				</div>
+			<div className="gbm-nav-wrap">
+				{!!blocks?.length &&
+					blocks.map((category) => (
+						<button
+							key={category?.info?.slug}
+							type="button"
+							data-to={"block-" + category?.info?.slug}
+							onClick={(e) => scrollTo(e)}
+						>
+							{category?.info?.title}
+						</button>
+					))}
 			</div>
+			<Search />
 		</div>
 	);
 }
-export default Sidebar;
