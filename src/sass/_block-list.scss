@@ -2,9 +2,10 @@
 	width: 100%;
 	width: 100%;
 	display: grid;
-	gap: 5px;
+	gap: 1px;
+	background-color: $grey;
 	position: relative;
-	padding: $padding;
+	padding: 0;
 	text-align: left;
 	grid-template-columns: repeat(2, minmax(0,1fr));
 	@media screen and (min-width: $xsmall) {
@@ -31,18 +32,17 @@
 	}
 
 	.item {
-		padding: 25px 10px;
-		border-radius: $radius;
+		padding: 30px 10px;
 		margin: 0;
 		display: flex;
-		gap: 10px;
-		align-items: flex-start;
+		gap: 5px;
+		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
 		position: relative;
 		width: 100%;
-		background-color: transparent;
-		border: 1px solid #fff;
+		background-color: #fff;
+		border: none;
 		cursor: pointer;
 		overflow: hidden;
 
@@ -50,15 +50,28 @@
 		&.block-button{
 			position: relative;
 			& > div {
-				width: 100%;
+				position: relative;
+				z-index: 1;
 				display: flex;
+				flex-wrap: wrap;
 				justify-content: center;
+				width: 100%;
+				gap: 8px;
 			}
 			p {
 				color: $text;
 			}
-			svg {
-				fill: $text;
+			.icon {
+				width: 28px;
+				display: block;
+				margin: 0;
+				opacity: 0.75;
+				svg {
+					max-width: 100%;
+					fill: $text;
+					height: 28px;
+					max-height: 28px;
+				}
 			}
 			& p {
 				width: 100%;
@@ -87,14 +100,7 @@
 
 			&:hover:not(.disabled):not(.filtered),
 			&:focus:not(.disabled):not(.filtered) {
-				border-color: $grey;
-				p{
-					color: $purple;
-				}
-				svg {
-					fill: $purple;
-				}
-
+				background-color: #f7f7f7;
 			}
 
 			&:focus-visible:not(.filtered) {
@@ -102,6 +108,7 @@
 				outline-offset: 2px;
 			}
 			.disabled-svg{
+				z-index: 0;
 				visibility: hidden;
 				opacity: 0;
 				display: block;
@@ -112,7 +119,6 @@
 				top: 0;
 				right: 0;
 				bottom: 0;
-				background-color: rgba(#efefef, 0.55);
 				transition: $transition;
 				padding: 2px;
 				line {
@@ -124,8 +130,9 @@
 
 		// Disabled
 		&.disabled {
-			border-color: $grey;
-			.icon {
+			background-color: #f7f7f7;
+			.icon,
+			p {
 				opacity: 0.5;
 			}
 			.disabled-svg{
@@ -136,13 +143,14 @@
 
 		// Filtered
 		&.filtered {
+			opacity: 1;
+			background-color: #fffeee;
 			cursor: not-allowed;
+
 			.disabled-svg{
-				background-color: rgba($yellow, 0.075);
-			}
-			p,
-			.icon {
-				opacity: 0.4;
+				line {
+					stroke: #edebd2;
+				}
 			}
 		}
 
@@ -185,15 +193,6 @@
 				svg {
 					fill: currentcolor;
 				}
-			}
-		}
-		div.icon {
-			width: 28px;
-			display: block;
-			margin: 0;
-			transition: $transition;
-			svg {
-				max-width: 100%;
 			}
 		}
 	}

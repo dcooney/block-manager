@@ -152,7 +152,7 @@ function Block(_ref) {
   return /*#__PURE__*/React.createElement("button", {
     ref: blockRef,
     tabIndex: isFiltered ? -1 : null,
-    "aria-label": disabled ? gbm_localize.enable_block : gbm_localize.disable_block,
+    "aria-label": gbm_localize.toggle,
     "data-title": data.title,
     "data-description": data.description,
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("item block-button", disabledClass, filteredClass),
@@ -164,11 +164,11 @@ function Block(_ref) {
     title: name
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
     icon: icon
-  })), !!data.title && /*#__PURE__*/React.createElement("p", {
+  }), !!data.title && /*#__PURE__*/React.createElement("p", {
     className: "block-title"
   }, data.title), !!description && typeof description === "string" && /*#__PURE__*/React.createElement("p", {
     className: "block-desc"
-  }, description), /*#__PURE__*/React.createElement("svg", {
+  }, description)), /*#__PURE__*/React.createElement("svg", {
     className: "disabled-svg"
   }, /*#__PURE__*/React.createElement("line", {
     x1: "0",
@@ -1082,6 +1082,9 @@ __webpack_require__.r(__webpack_exports__);
 function Icon(_ref) {
   var icon = _ref.icon;
   var src = (icon === null || icon === void 0 ? void 0 : icon.src) || icon;
+  if (src === "block-default") {
+    return null;
+  }
   return /*#__PURE__*/React.createElement("div", {
     "aria-hidden": "true",
     className: "icon",

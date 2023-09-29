@@ -41,9 +41,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		<button
 			ref={blockRef}
 			tabIndex={isFiltered ? -1 : null}
-			aria-label={
-				disabled ? gbm_localize.enable_block : gbm_localize.disable_block
-			}
+			aria-label={gbm_localize.toggle}
 			data-title={data.title}
 			data-description={data.description}
 			className={cn("item block-button", disabledClass, filteredClass)}
@@ -54,11 +52,11 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		>
 			<div>
 				<Icon icon={icon} />
+				{!!data.title && <p className="block-title">{data.title}</p>}
+				{!!description && typeof description === "string" && (
+					<p className="block-desc">{description}</p>
+				)}
 			</div>
-			{!!data.title && <p className="block-title">{data.title}</p>}
-			{!!description && typeof description === "string" && (
-				<p className="block-desc">{description}</p>
-			)}
 			<svg className="disabled-svg">
 				<line x1="0" y1="100%" x2="100%" y2="0" />
 				<line x1="0" y1="0" x2="100%" y2="100%" />

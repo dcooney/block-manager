@@ -43,6 +43,7 @@
 			background: #fff;
 			border: 1px solid $grey;
 			border-radius: $radius;
+			overflow: hidden;
 		}
 		// Sidebar.
 		.gbm-sidebar {
@@ -234,7 +235,7 @@
 		margin: 0;
 		padding: 10px $padding;
 		border-bottom: 1px solid $grey;
-		background-color: #f7f7f7;
+		background-color: #fff;
 		border-radius: 3px 3px 0 0;
 		&.no-border {
 			border: none;

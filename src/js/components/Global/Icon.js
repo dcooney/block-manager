@@ -10,6 +10,10 @@ import { renderToString } from "@wordpress/element";
 export default function Icon({ icon }) {
 	const src = icon?.src || icon;
 
+	if (src === "block-default") {
+		return null;
+	}
+
 	return (
 		<div
 			aria-hidden="true"
