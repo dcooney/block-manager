@@ -1,7 +1,7 @@
 import { createRoot, render } from "@wordpress/element";
 import App from "./components/App";
 require("./helpers/otherPlugins");
-import "../style.scss";
+import "../sass/style.scss";
 
 // Render App.
 const app = document.getElementById("app");

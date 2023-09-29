@@ -1,18 +1,22 @@
+import { useRef } from "@wordpress/element";
+
 /**
- * Search blocks.
+ * Render the block Search component.
+ *
  * @return {Element} The Search component.
  */
 export default function Search() {
+	const inputRef = useRef();
+
 	/**
 	 * Handle search.
 	 */
 	function handleSearch() {
-		const searchInput = document.querySelector("#gbm-search");
 		const blocks = document.querySelectorAll(
 			".gbm-blocks .gbm-block-list .item",
 		);
 		const blockArray = Array.prototype.slice.call(blocks);
-		const term = searchInput.value.toLowerCase();
+		const term = inputRef?.current?.value.toLowerCase();
 
 		if (term !== "") {
 			// eslint-disable-next-line
@@ -43,6 +47,7 @@ export default function Search() {
 				id="gbm-search"
 				placeholder={gbm_localize.search_label}
 				onKeyUp={() => handleSearch()}
+				ref={inputRef}
 			/>
 			<button type="button" onClick={() => handleSearch()}>
 				<span className="offscreen">{gbm_localize.submit}</span>

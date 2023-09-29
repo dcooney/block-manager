@@ -62,9 +62,10 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	private function __construct() {
-		add_action( 'enqueue_block_editor_assets', array( $this, 'gbm_enqueue' ) );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'gbm_enqueue' ] );
 		load_plugin_textdomain( 'block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'gbm_action_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ &$this, 'gbm_action_links' ] );
+		add_filter( 'admin_footer_text', [ &$this, 'gbm_filter_admin_footer_text' ] );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
 		require_once 'api/blocks-reset.php';
 		require_once 'api/bulk-process.php';
@@ -176,6 +177,26 @@ class Gutenberg_Block_Manager {
 			$access = true;
 		}
 		return $access;
+	}
+
+	/**
+	 * Filter the WP Admin footer text.
+	 *
+	 * @param string $text The footer display text.
+	 * @author ConnektMedia
+	 * @since 2.0
+	 */
+	public function gbm_filter_admin_footer_text( $text ) {
+		$screen     = get_current_screen();
+		$base_array = [
+			'settings_page_block-manager',
+		];
+
+		if ( in_array( $screen->base, $base_array, true ) ) {
+			$divider = '<em>|</em>';
+			$love    = '<span style="color: #e25555;">♥</span>';
+			echo wp_kses_post( 'Block Manager is made with ' . $love . ' by <a href="https://connekthq.com/?utm_source=WPAdmin&utm_medium=BlockManager&utm_campaign=Footer" target="_blank" style="font-weight: 500;">Connekt</a> ' . $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" target="_blank" style="font-weight: 500;">Leave Review</a> ' . $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" target="_blank" style="font-weight: 500;">Support</a>' );
+		}
 	}
 
 }

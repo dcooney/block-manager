@@ -15,7 +15,7 @@ export default function Block({ data, wpCategories, callback }) {
 	return (
 		<div data-title={title} className="item" data-id={name}>
 			<div className="item--wrap">
-				<Icon data={icon?.src} />
+				<Icon icon={icon} />
 				<div className="block-info--wrap">
 					<div className="block-info--details">
 						<span className="block-info block-info--title">{title}</span>

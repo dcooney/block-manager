@@ -27,8 +27,9 @@ export default function Sidebar({ blocks }) {
 	}
 
 	return (
-		<div className="gbm-nav">
-			<div className="gbm-nav-wrap">
+		<div className="gbm-sidebar">
+			<h3>{gbm_localize?.categories}</h3>
+			<div className="gbm-sidebar-wrap">
 				{!!blocks?.length &&
 					blocks.map((category) => (
 						<button
@@ -40,8 +41,8 @@ export default function Sidebar({ blocks }) {
 							{category?.info?.title}
 						</button>
 					))}
+				<Search />
 			</div>
-			<Search />
 		</div>
 	);
 }

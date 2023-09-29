@@ -2,6 +2,13 @@ import { registerCoreBlocks } from "@wordpress/block-library";
 import { getBlockTypes } from "@wordpress/blocks";
 registerCoreBlocks();
 
+const excludedBlocks = [
+	"core/missing",
+	"core/block",
+	"core/text-columns",
+	"core/navigation-submenu",
+];
+
 /**
  * Get all WP blocks and updated categories.
  *
@@ -20,9 +27,9 @@ export default function getBlockData() {
 			return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
 		});
 
-		// Filter out the following blocks.
+		// Remove/Filter out the following blocks.
 		wpBlocks = wpBlocks.filter((block) => {
-			return block.name !== "core/missing" && block.name !== "core/block";
+			return excludedBlocks.indexOf(block.name) === -1;
 		});
 	}
 

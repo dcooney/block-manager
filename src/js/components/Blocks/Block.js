@@ -14,6 +14,7 @@ import Switch from "./Switch";
  */
 function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	const { icon, name } = data;
+	console.log(name, data);
 
 	const disabledClass = disabledBlocks.indexOf(name) !== -1 ? "disabled" : "";
 	const isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
@@ -41,33 +42,22 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		<button
 			data-title={data.title}
 			data-description={data.description}
-			className={cn("item", disabledClass, filteredClass)}
+			className={cn("item block-button", disabledClass, filteredClass)}
 			data-id={name}
 			data-category={data.category}
 			onClick={(e) => click(e)}
 			aria-label={gbm_localize.toggle}
 			title={name}
-			tabIndex={isFiltered ? "-1" : ""}
+			tabIndex={isFiltered ? -1 : null}
 		>
-			<div className="item--wrap">
-				<Icon data={icon?.src} />
-				<div className="block-info--wrap">
-					{!!data.title && (
-						<span className="block-info block-info--title">
-							{data.title}
-						</span>
-					)}
-					{data.description && typeof data.description === "string" ? (
-						<span
-							className="block-info block-info--desc"
-							title={data.description}
-						>
-							{data.description}
-						</span>
-					) : null}
-					<span className="block-info block-info--id">{name}</span>
-				</div>
+			<div>
+				<Icon icon={icon} />
 			</div>
+			{!!data.title && <p className="block-title">{data.title}</p>}
+			{data.description && typeof data.description === "string" ? (
+				<p className="block-desc">{data.description}</p>
+			) : null}
+			<code className="block-id">{name}</code>
 			{!isFiltered && <Switch />}
 		</button>
 	);

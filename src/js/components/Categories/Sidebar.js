@@ -30,8 +30,9 @@ export default function Sidebar() {
 	}
 
 	return (
-		<div className="gbm-nav">
-			<div className="gbm-nav-wrap">
+		<div className="gbm-sidebar">
+			<h3>{gbm_localize?.help}</h3>
+			<div className="gbm-sidebar-wrap">
 				<p>{gbm_localize.cat_intro}</p>
 				<p>{gbm_localize.cat_intro2}</p>
 				{!!gbm_localize?.filteredCategories?.length > 0 && (
@@ -39,8 +40,8 @@ export default function Sidebar() {
 						{gbm_localize.reset_cats}
 					</button>
 				)}
+				<Search />
 			</div>
-			<Search />
 		</div>
 	);
 }

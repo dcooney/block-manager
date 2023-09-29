@@ -1,9 +1,12 @@
 $transition: all 0.15s ease;
 $radius: 4px;
+$padding: 15px;
 $purple: #80629e;
 $green: #75ca5d;
-$grey: #ccd0d4;
+$grey: #e2e5e7;
 $grey_dark: #999ea2;
+$text: #2b2c2d;
+$blue: #007cba;
 
 $xsmall: 600px;
 $small: 768px;
@@ -38,7 +41,7 @@ $xlarge: 1700px;
 			max-width: 1400px;
 		}
 		.global-loader.loading {
-			background: url('images/ajax-loader.gif') no-repeat 2px 26px;
+			background: url('../images/ajax-loader.gif') no-repeat 2px 26px;
 			padding: 25px 0 25px 26px;
 			display: block;
 		}
@@ -53,20 +56,33 @@ $xlarge: 1700px;
 			border: 1px solid $grey;
 			border-radius: $radius;
 		}
-		.gbm-nav {
+		// Sidebar.
+		.gbm-sidebar {
+			align-self: flex-start;
 			width: 100%;
 			margin-bottom: 15px;
+			padding: 0;
+			background-color: #fff;
+			border-radius: $radius;
+			border: 1px solid $grey;
+			box-shadow: 0 5px 10px rgba(0,0,0,.035);
 			@media screen and (min-width: $xsmall) {
-				width: 225px;
+				width: 200px;
 			}
 			@media screen and (min-width: $small) {
-				width: 250px;
+				width: 275px;
+				position: sticky;
+				top: 50px;
+				left: 0;
 			}
-			padding: 0;
-			position: relative;
-			transition: $transition;
+			h3 {
+				font-size: 15px;
+				border-bottom: 1px solid $grey;
+				padding: 15px;
+				margin: 0;
+			}
 			&-wrap {
-				padding-bottom: 5px;
+				padding: 15px;
 				button {
 					background: none;
 					border: none;
@@ -90,31 +106,12 @@ $xlarge: 1700px;
 				}
 			}
 		}
+
+		// Block listing.
 		.gbm-blocks {
 			flex: 1;
 			@media screen and (min-width: $xsmall) {
-				padding-right: 20px;
-			}
-			// Grid View
-			button.item {
-				width: 100%;
-				@media screen and (min-width: $xsmall) {
-					width: 100%;
-					margin: 0 0 10px;
-				}
-				@media screen and (min-width: 800px) {
-					margin: 0 5px 10px;
-					width: calc(50% - 10px);
-				}
-				@media screen and (min-width: $medium) {
-					width: calc(33.333% - 10px);
-				}
-				@media screen and (min-width: $large) {
-					width: calc(25% - 10px);
-				}
-				@media screen and (min-width: $xlarge) {
-					width: calc(20% - 10px);
-				}
+				padding-right: 25px;
 			}
 			// List View
 			&.gbm-view-list {
@@ -138,17 +135,23 @@ $xlarge: 1700px;
 			display: block;
 			width: 100%;
 			position: relative;
-			padding: 15px 0 0;
-			border-top: 1px solid $grey;
+			padding: 0;
+			margin-top: 10px;
 			input {
 				border-radius: $radius;
 				width: 100%;
 				margin: 0;
-				padding: 0 5px;
+				padding: 10px;
 				border-color: $grey;
 				background-color: #f7f7f7;
-				height: 32px;
+				height: auto;
 				font-size: 13px;
+				line-height: 1;
+				&:focus{
+					outline-offset: 1px;
+					outline: 2px solid $purple;
+					box-shadow: none;
+				}
 			}
 			button {
 				margin: 0;
@@ -160,11 +163,15 @@ $xlarge: 1700px;
 				height: 32px;
 				font-size: 13px;
 				position: absolute;
-				top: calc(50% + 7px);
+				top: calc(50%);
 				transform: translateY(-50%);
+				width: auto;
 				right: 0;
 				&:focus,
 				&:hover {
+					border: none;
+					background-color: transparent;
+					text-decoration: none;
 					color: $purple;
 				}
 			}
@@ -309,14 +316,26 @@ $xlarge: 1700px;
 	&-block-list {
 		width: 100%;
 		width: 100%;
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		gap: 5px;
 		position: relative;
-		padding: 10px 10px 0;
+		padding: $padding;
 		text-align: left;
-		@media screen and (min-width: $xsmall) {
-			padding: 10px 5px 0;
+		grid-template-columns: repeat(2, minmax(0,1fr));
+
+		@media screen and (min-width: $small) {
+			grid-template-columns: repeat(4, minmax(0,1fr));
 		}
+		@media screen and (min-width: $medium) {
+			grid-template-columns: repeat(5, minmax(0,1fr));
+		}
+		@media screen and (min-width: $large) {
+			grid-template-columns: repeat(6, minmax(0,1fr));
+		}
+		@media screen and (min-width: $xlarge) {
+			grid-template-columns: repeat(8, minmax(0,1fr));
+		}
+
 		&.loading {
 			.loader {
 				opacity: 0.5;
@@ -324,73 +343,107 @@ $xlarge: 1700px;
 			}
 		}
 
-		.loader {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background-color: #fff;
-			z-index: 9999;
-			transition: $transition;
-			visibility: hidden;
-			opacity: 0;
-			cursor: default;
-		}
-
 		.item {
-			padding: 15px 15px 45px;
-			border: 1px solid $grey;
-			background-color: #f7f7f7;
-			background-position: right 15px bottom 15px;
+			padding: 25px 10px;
 			border-radius: $radius;
 			transition: $transition;
-			margin: 0 0 10px;
+			margin: 0;
 			display: flex;
+			gap: 10px;
 			align-items: flex-start;
-			flex-direction: column;
+			justify-content: center;
+			flex-wrap: wrap;
 			position: relative;
+			width: 100%;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+
+			// Block display.
+			&.block-button{
+				& > div {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+				}
+				p {
+					color: $text;
+				}
+				svg {
+					fill: $text;
+				}
+				& p {
+					width: 100%;
+					text-align: center;
+					padding: 0;
+					margin: 0;
+					font-weight: 400;
+					line-height: 1.35;
+					text-transform: capitalize;
+					font-size: 13px;
+					&.block-desc{
+						color: $grey_dark;
+						width: 100%;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						display: none;
+					}
+				}
+				.gbm-block-switch,
+				.block-desc,
+				.block-id{
+					display: none;
+				}
+
+				&:hover:not(.filtered),
+				&:focus:not(.filtered) {
+					p{
+						color: $blue;
+					}
+					& svg {
+						fill: $blue;
+					}
+				}
+			}
+
 			// Disabled
 			&.disabled {
-				background-color: rgba(255, 255, 255, 0.25);
-				//border-color: #e1e1e1;
-				.gbm-block-switch {
-					&--wrap {
-						background-color: #ccc;
-					}
-					span {
-						margin-left: 2px;
-					}
-				}
+				background-color: rgba($grey, 0.25);
+				p,
 				.icon {
-					opacity: 0.35;
+					opacity: 0.5;
 				}
-				&:hover,
-				&:focus {
-					border-color: #999;
+				&:hover:not(.filtered),
+				&:focus:not(.filtered) {
+					p,
+					.icon {
+						opacity: 0.75;
+					}
+					p {
+						color: $blue;
+					}
+					svg {
+						fill: $blue;
+					}
 				}
 			}
+
 			// Filtered
 			&.filtered {
-				background-color: rgba(255, 255, 255, 0.5);
-				border-color: #efefef;
 				cursor: not-allowed;
 				text-decoration: none;
-				opacity: 0.65;
-				&:hover,
-				&:focus {
-					border-color: #efefef;
-					.block-info--title {
-						text-decoration: none;
-					}
-				}
+				filter: blur(1px);
+				opacity: 0.75;
 			}
+
 			&.loading {
 				> .gbm-block-group {
-					opacity: 0.65;
+					opacity: 0.5;
 				}
-				background: #fff url('images/ajax-loader.gif') no-repeat right 15px bottom 15px;
 			}
+
 			&--wrap {
 				display: flex;
 				align-items: flex-start;
@@ -408,21 +461,6 @@ $xlarge: 1700px;
 					&--wrap {
 						flex: 1;
 						text-align: left;
-					}
-					&--title {
-						font-weight: 600;
-						margin-bottom: 5px;
-						font-size: 14px;
-						line-height: 18px;
-						text-transform: capitalize;
-					}
-					&--desc {
-						color: $grey_dark;
-						width: 100%;
-						display: -webkit-box;
-						-webkit-line-clamp: 3;
-						-webkit-box-orient: vertical;
-						overflow: hidden;
 					}
 					&--id {
 						font-size: 12px;
@@ -445,35 +483,16 @@ $xlarge: 1700px;
 				font-size: 23px;
 			}
 			div.icon {
-				width: 24px;
-				opacity: 0.65;
+				width: 26px;
 				display: block;
-				margin: 0 0 8px;
-				text-align: left;
-				position: absolute;
-				left: 0;
-				top: 0;
+				margin: 0;
 				transition: $transition;
 				svg {
 					max-width: 100%;
 				}
 			}
 		}
-		button.item {
-			cursor: pointer;
-			&:hover,
-			&:focus {
-				border-color: $grey_dark;
-				&.disabled {
-					.gbm-block-switch--wrap {
-						background-color: #999;
-					}
-				}
-				.block-info--title {
-					text-decoration: underline;
-				}
-			}
-		}
+
 		// Category Switcher
 		&.categories {
 			padding: 10px 25px;
@@ -563,15 +582,24 @@ $xlarge: 1700px;
 					bottom: 0;
 					right: 0;
 					z-index: 9999;
-					background: rgba(255, 255, 255, 0.65) url('images/ajax-loader.gif') no-repeat center center;
+					background: rgba(255, 255, 255, 0.65) url('../images/ajax-loader.gif') no-repeat center center;
 					transition: all 0.25s ease;
 				}
 			}
 		}
-		.gbm-block-switch {
+
+		.loader {
 			position: absolute;
-			left: 13px;
-			bottom: 15px;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			z-index: 9999;
+			transition: $transition;
+			visibility: hidden;
+			opacity: 0;
+			cursor: default;
 		}
 	}
 	&-block-list-controls {
@@ -580,7 +608,7 @@ $xlarge: 1700px;
 		align-items: center;
 		flex-wrap: nowrap;
 		margin: 0;
-		padding: 8px 10px 8px 11px;
+		padding: 10px $padding;
 		border-bottom: 1px solid $grey;
 		background-color: #f7f7f7;
 		border-radius: 3px 3px 0 0;
@@ -609,7 +637,6 @@ $xlarge: 1700px;
 			padding: 0;
 			margin: 0;
 			font-size: 13px;
-			font-weight: 700;
 			span {
 				font-weight: 400;
 				opacity: 0.5;
@@ -627,7 +654,7 @@ $xlarge: 1700px;
 	}
 	&-block-switch {
 		cursor: pointer;
-		height: 9px;
+		height: 13px;
 		width: 22px;
 		padding: 0;
 		margin: 0;
@@ -684,26 +711,48 @@ $xlarge: 1700px;
 // Header
 .gbm-page-wrap {
 	&--header {
-		background: #fff url('images/icon.png') no-repeat 20px 20px;
-		background-size: 48px 48px;
-		padding: 23px 20px 20px 78px;
+		background-color: #fff;
+		padding: 20px;
 		position: relative;
 		@media screen and (min-width: $small) {
 			padding-right: 200px;
 		}
+		h1{
+			display: none;
+		}
+		&-title {
+			background: url('../images/icon.png') no-repeat 0 0;
+			background-size: 48px 48px;
+			min-height: 48px;
+			padding: 0 0 0 58px;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			width: 100%;
+		}
 		h2 {
-			margin: 0 0 3px;
+			margin: 0;
 			padding: 0;
+			font-size: 20px;
+			width: 100%;
+
 			span {
-				font-size: 12px;
+				font-size: 13px;
 				position: relative;
 				top: -1px;
 				left: 1px;
+				font-weight: 400;
+				border-radius: $radius;
+				background-color: rgba($purple, 0.15);
+				display: inline-block;
+				line-height: 1;
+				padding: 5px;
 			}
 		}
 		p {
 			padding: 0;
 			margin: 0;
+			width: 100%;
 		}
 		p span.block-total {
 			display: inline-block;
@@ -803,6 +852,20 @@ $xlarge: 1700px;
 			top: -8px;
 		}
 	}
+}
+
+body.settings_page_block-manager #wpfooter {
+	padding-top: 0;
+	padding-bottom: 0;
+	line-height: 40px;
+	background: #f7f7f7;
+	border-top: 1px solid #efefef;
+	position: fixed;
+	bottom: 0;
+	z-index: 1100;
+	p {
+		line-height: 40px;
+  }
 }
 
 @keyframes spin {

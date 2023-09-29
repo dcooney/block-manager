@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/App */ "./src/js/components/App.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style.scss */ "./src/style.scss");
+/* harmony import */ var _sass_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sass/style.scss */ "./src/sass/style.scss");
 
 
 __webpack_require__(/*! ./helpers/otherPlugins */ "./src/js/helpers/otherPlugins.js");
@@ -125,6 +125,7 @@ function Block(_ref) {
     filteredBlocks = _ref.filteredBlocks;
   var icon = data.icon,
     name = data.name;
+  console.log(name, data);
   var disabledClass = disabledBlocks.indexOf(name) !== -1 ? "disabled" : "";
   var isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
   var filteredClass = isFiltered ? "filtered" : "";
@@ -149,7 +150,7 @@ function Block(_ref) {
   return /*#__PURE__*/React.createElement("button", {
     "data-title": data.title,
     "data-description": data.description,
-    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()("item", disabledClass, filteredClass),
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()("item block-button", disabledClass, filteredClass),
     "data-id": name,
     "data-category": data.category,
     onClick: function onClick(e) {
@@ -157,21 +158,16 @@ function Block(_ref) {
     },
     "aria-label": gbm_localize.toggle,
     title: name,
-    tabIndex: isFiltered ? "-1" : ""
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "item--wrap"
-  }, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    data: icon === null || icon === void 0 ? void 0 : icon.src
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "block-info--wrap"
-  }, !!data.title && /*#__PURE__*/React.createElement("span", {
-    className: "block-info block-info--title"
-  }, data.title), data.description && typeof data.description === "string" ? /*#__PURE__*/React.createElement("span", {
-    className: "block-info block-info--desc",
-    title: data.description
-  }, data.description) : null, /*#__PURE__*/React.createElement("span", {
-    className: "block-info block-info--id"
-  }, name))), !isFiltered && /*#__PURE__*/React.createElement(_Switch__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+    tabIndex: isFiltered ? -1 : null
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    icon: icon
+  })), !!data.title && /*#__PURE__*/React.createElement("p", {
+    className: "block-title"
+  }, data.title), data.description && typeof data.description === "string" ? /*#__PURE__*/React.createElement("p", {
+    className: "block-desc"
+  }, data.description) : null, /*#__PURE__*/React.createElement("code", {
+    className: "block-id"
+  }, name), !isFiltered && /*#__PURE__*/React.createElement(_Switch__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Block);
 
@@ -784,6 +780,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Element}            The Sidebar component.
  */
 function Sidebar(_ref) {
+  var _gbm_localize;
   var blocks = _ref.blocks;
   /**
    * Scroll to the selected block.
@@ -803,9 +800,9 @@ function Sidebar(_ref) {
     }
   }
   return /*#__PURE__*/React.createElement("div", {
-    className: "gbm-nav"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-nav-wrap"
+    className: "gbm-sidebar"
+  }, /*#__PURE__*/React.createElement("h3", null, (_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.categories), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-sidebar-wrap"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
     var _category$info, _category$info2, _category$info3;
     return /*#__PURE__*/React.createElement("button", {
@@ -816,7 +813,7 @@ function Sidebar(_ref) {
         return scrollTo(e);
       }
     }, category === null || category === void 0 || (_category$info3 = category.info) === null || _category$info3 === void 0 ? void 0 : _category$info3.title);
-  })), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null));
+  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null)));
 }
 
 /***/ }),
@@ -886,7 +883,7 @@ function Block(_ref) {
   }, /*#__PURE__*/React.createElement("div", {
     className: "item--wrap"
   }, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_0__["default"], {
-    data: icon === null || icon === void 0 ? void 0 : icon.src
+    icon: icon
   }), /*#__PURE__*/React.createElement("div", {
     className: "block-info--wrap"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1080,7 +1077,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Element} The Sidebar component.
  */
 function Sidebar() {
-  var _gbm_localize;
+  var _gbm_localize, _gbm_localize2;
   /**
    * Reset categories to default.
    */
@@ -1101,16 +1098,16 @@ function Sidebar() {
     });
   }
   return /*#__PURE__*/React.createElement("div", {
-    className: "gbm-nav"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-nav-wrap"
-  }, /*#__PURE__*/React.createElement("p", null, gbm_localize.cat_intro), /*#__PURE__*/React.createElement("p", null, gbm_localize.cat_intro2), !!((_gbm_localize = gbm_localize) !== null && _gbm_localize !== void 0 && (_gbm_localize = _gbm_localize.filteredCategories) !== null && _gbm_localize !== void 0 && _gbm_localize.length) > 0 && /*#__PURE__*/React.createElement("button", {
+    className: "gbm-sidebar"
+  }, /*#__PURE__*/React.createElement("h3", null, (_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.help), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-sidebar-wrap"
+  }, /*#__PURE__*/React.createElement("p", null, gbm_localize.cat_intro), /*#__PURE__*/React.createElement("p", null, gbm_localize.cat_intro2), !!((_gbm_localize2 = gbm_localize) !== null && _gbm_localize2 !== void 0 && (_gbm_localize2 = _gbm_localize2.filteredCategories) !== null && _gbm_localize2 !== void 0 && _gbm_localize2.length) > 0 && /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "button",
     onClick: function onClick() {
       return reset();
     }
-  }, gbm_localize.reset_cats)), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null));
+  }, gbm_localize.reset_cats), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null)));
 }
 
 /***/ }),
@@ -1134,18 +1131,16 @@ __webpack_require__.r(__webpack_exports__);
  * Block Icon display.
  *
  * @param {Object} props      The component properties.
- * @param {string} props.data The icon source - svg or string.
+ * @param {string} props.icon The icon source - svg or string.
  * @return {Element}          The Icon component.
  */
 function Icon(_ref) {
-  var data = _ref.data;
-  var type = data !== null && data !== void 0 && data.type ? "react" : "dashicon";
-  var src = type === "react" ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.renderToString)(data) : data;
-  var iconSrc = type === "dashicon" ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
+  var icon = _ref.icon;
+  var src = (icon === null || icon === void 0 ? void 0 : icon.src) || icon;
   return /*#__PURE__*/React.createElement("div", {
     className: "icon",
     dangerouslySetInnerHTML: {
-      __html: iconSrc
+      __html: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.renderToString)(src)
     }
   });
 }
@@ -1163,19 +1158,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Search; }
 /* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+
 /**
- * Search blocks.
+ * Render the block Search component.
+ *
  * @return {Element} The Search component.
  */
 function Search() {
+  var inputRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
   /**
    * Handle search.
    */
   function handleSearch() {
-    var searchInput = document.querySelector("#gbm-search");
+    var _inputRef$current;
     var blocks = document.querySelectorAll(".gbm-blocks .gbm-block-list .item");
     var blockArray = Array.prototype.slice.call(blocks);
-    var term = searchInput.value.toLowerCase();
+    var term = inputRef === null || inputRef === void 0 || (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.value.toLowerCase();
     if (term !== "") {
       // eslint-disable-next-line
       blockArray.map(function (block) {
@@ -1205,7 +1207,8 @@ function Search() {
     placeholder: gbm_localize.search_label,
     onKeyUp: function onKeyUp() {
       return handleSearch();
-    }
+    },
+    ref: inputRef
   }), /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: function onClick() {
@@ -1238,6 +1241,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
+var excludedBlocks = ["core/missing", "core/block", "core/text-columns", "core/navigation-submenu"];
 
 /**
  * Get all WP blocks and updated categories.
@@ -1255,9 +1259,9 @@ function getBlockData() {
       return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
     });
 
-    // Filter out the following blocks.
+    // Remove/Filter out the following blocks.
     wpBlocks = wpBlocks.filter(function (block) {
-      return block.name !== "core/missing" && block.name !== "core/block";
+      return excludedBlocks.indexOf(block.name) === -1;
     });
   }
 
@@ -1427,10 +1431,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "./src/style.scss":
-/*!************************!*\
-  !*** ./src/style.scss ***!
-  \************************/
+/***/ "./src/sass/style.scss":
+/*!*****************************!*\
+  !*** ./src/sass/style.scss ***!
+  \*****************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

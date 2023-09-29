@@ -100,6 +100,7 @@ class GBM_Admin {
 				'close'              => __( 'Close', 'block-manager' ),
 				'grid'               => __( 'Grid', 'block-manager' ),
 				'list'               => __( 'List', 'block-manager' ),
+				'categories'         => __( 'Categories', 'block-manager' ),
 				'cat_switch'         => __( 'Block Category', 'block-manager' ),
 				'updated'            => __( 'Category Updated', 'block-manager' ),
 				'block_switch'       => __( 'Block Name', 'block-manager' ),
@@ -112,6 +113,7 @@ class GBM_Admin {
 				'export_title'       => __( 'Export a list of disabled blocks via WordPress filter. ', 'block-manager' ),
 				'export_intro'       => __( 'Add the the following code to your functions.php to remove blocks at the theme level.', 'block-manager' ),
 				'filtered_alert'     => __( 'This block has been globally disabled via the `gbm_disabled_blocks` filter and cannot be activated.', 'block-manager' ),
+				'help'               => __( 'Help', 'block-manager' ),
 			)
 		);
 
@@ -149,21 +151,24 @@ class GBM_Admin {
 
 		<div class="gbm-page-wrap">
 			<div class="gbm-page-wrap--header">
-				<h2><?php esc_html_e( 'Gutenberg Block Manager', 'block-manager' ); ?> <span><a href="https://connekthq.com" target="_blank"><?php esc_html_e( 'by Connekt', 'block-manager' ); ?></a></span></h2>
-				<?php if ( 'blocks' === $active ) { ?>
-				<p>
-					<?php
-					/* translators: %s is replaced with the span context */
-					printf( esc_html__( 'Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
-					?>
-				<?php } ?>
-				<?php if ( 'categories' === $active ) { ?>
-				<p>
-					<?php
-					/* translators: %s is replaced with the span context */
-					printf( esc_html__( 'Update the categories of your %s blocks with the category switcher.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
-					?>
-				<?php } ?>
+				<h1><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
+				<div class="gbm-page-wrap--header-title">
+					<h2><?php esc_html_e( 'Block Manager', 'block-manager' ); ?> <span><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span></h2>
+					<?php if ( 'blocks' === $active ) { ?>
+					<p>
+						<?php
+						/* translators: %s is replaced with the span context */
+						printf( esc_html__( 'Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
+						?>
+					<?php } ?>
+					<?php if ( 'categories' === $active ) { ?>
+					<p>
+						<?php
+						/* translators: %s is replaced with the span context */
+						printf( esc_html__( 'Update the categories of your %s blocks with the category switcher.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
+						?>
+					<?php } ?>
+				</div>
 				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?></button>
 			</div>
 			<div id="gbm-container">
