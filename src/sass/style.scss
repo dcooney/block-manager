@@ -5,6 +5,7 @@ $purple: #80629e;
 $green: #75ca5d;
 $grey: #e2e5e7;
 $grey_dark: #999ea2;
+$yellow: #ffdf3c;
 $text: #2b2c2d;
 $blue: #007cba;
 
@@ -317,7 +318,7 @@ $xlarge: 1700px;
 		width: 100%;
 		width: 100%;
 		display: grid;
-		gap: 5px;
+		gap: 10px;
 		position: relative;
 		padding: $padding;
 		text-align: left;
@@ -411,15 +412,16 @@ $xlarge: 1700px;
 			// Disabled
 			&.disabled {
 				background-color: rgba($grey, 0.25);
+				box-shadow: 0 0 0 1px #efefef;
 				p,
 				.icon {
-					opacity: 0.5;
+					opacity: 0.6;
 				}
 				&:hover:not(.filtered),
 				&:focus:not(.filtered) {
 					p,
 					.icon {
-						opacity: 0.75;
+						opacity: 0.85;
 					}
 					p {
 						color: $blue;
@@ -432,10 +434,14 @@ $xlarge: 1700px;
 
 			// Filtered
 			&.filtered {
+				background-color: rgba($yellow, 0.075);
 				cursor: not-allowed;
 				text-decoration: none;
-				filter: blur(1px);
-				opacity: 0.75;
+				p,
+				.icon {
+					opacity: 0.35;
+					filter: blur(1px);
+				}
 			}
 
 			&.loading {
@@ -633,10 +639,10 @@ $xlarge: 1700px;
 		}
 		h3 {
 			flex: 1;
-			text-transform: uppercase;
+			text-transform: capitalize;
 			padding: 0;
 			margin: 0;
-			font-size: 13px;
+			font-size: 14px;
 			span {
 				font-weight: 400;
 				opacity: 0.5;

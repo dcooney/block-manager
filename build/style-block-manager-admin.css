@@ -337,8 +337,8 @@
   width: 100%;
   width: 100%;
   display: grid;
-  grid-gap: 5px;
-  gap: 5px;
+  grid-gap: 10px;
+  gap: 10px;
   position: relative;
   padding: 15px;
   text-align: left;
@@ -442,17 +442,18 @@
 
 .gbm-block-list .item.disabled {
   background-color: rgba(226, 229, 231, 0.25);
+  box-shadow: 0 0 0 1px #efefef;
 }
 
 .gbm-block-list .item.disabled p,
 .gbm-block-list .item.disabled .icon {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .gbm-block-list .item.disabled:hover:not(.filtered) p,
 .gbm-block-list .item.disabled:hover:not(.filtered) .icon, .gbm-block-list .item.disabled:focus:not(.filtered) p,
 .gbm-block-list .item.disabled:focus:not(.filtered) .icon {
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .gbm-block-list .item.disabled:hover:not(.filtered) p, .gbm-block-list .item.disabled:focus:not(.filtered) p {
@@ -464,10 +465,15 @@
 }
 
 .gbm-block-list .item.filtered {
+  background-color: rgba(255, 223, 60, 0.075);
   cursor: not-allowed;
   text-decoration: none;
+}
+
+.gbm-block-list .item.filtered p,
+.gbm-block-list .item.filtered .icon {
+  opacity: 0.35;
   filter: blur(1px);
-  opacity: 0.75;
 }
 
 .gbm-block-list .item.loading > .gbm-block-group {
@@ -688,10 +694,10 @@
 
 .gbm-block-list-controls h3 {
   flex: 1;
-  text-transform: uppercase;
+  text-transform: capitalize;
   padding: 0;
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .gbm-block-list-controls h3 span {
