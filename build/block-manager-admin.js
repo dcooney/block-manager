@@ -100,10 +100,11 @@ function App() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Global_Icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Global/Icon */ "./src/js/components/Global/Icon.js");
-/* harmony import */ var _Switch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Switch */ "./src/js/components/Blocks/Switch.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Global_Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Global/Icon */ "./src/js/components/Global/Icon.js");
 
 
 
@@ -124,23 +125,24 @@ function Block(_ref) {
     disabledBlocks = _ref.disabledBlocks,
     filteredBlocks = _ref.filteredBlocks;
   var icon = data.icon,
-    name = data.name;
-  console.log(name, data);
-  var disabledClass = disabledBlocks.indexOf(name) !== -1 ? "disabled" : "";
+    name = data.name,
+    description = data.description;
+  var blockRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var disabled = disabledBlocks.indexOf(name) !== -1;
+  var disabledClass = disabled ? "disabled" : "";
   var isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
   var filteredClass = isFiltered ? "filtered" : "";
 
   /**
    * Handle the click event for the block button.
-   *
-   * @param {MouseEvent} e The event.
    */
-  function click(e) {
-    var target = e.currentTarget;
+  function click() {
+    var target = blockRef === null || blockRef === void 0 ? void 0 : blockRef.current;
     if (target) {
       var id = target.dataset.id;
       if (!target.classList.contains("filtered")) {
         toggleBlock(target, id);
+        target.blur();
       } else {
         alert(gbm_localize.filtered_alert); // eslint-disable-line no-alert
         target.blur();
@@ -148,26 +150,37 @@ function Block(_ref) {
     }
   }
   return /*#__PURE__*/React.createElement("button", {
+    ref: blockRef,
+    tabIndex: isFiltered ? -1 : null,
+    "aria-label": disabled ? gbm_localize.enable_block : gbm_localize.disable_block,
     "data-title": data.title,
     "data-description": data.description,
-    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()("item block-button", disabledClass, filteredClass),
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("item block-button", disabledClass, filteredClass),
     "data-id": name,
     "data-category": data.category,
     onClick: function onClick(e) {
       return click(e);
     },
-    "aria-label": gbm_localize.toggle,
-    title: name,
-    tabIndex: isFiltered ? -1 : null
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    title: name
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_2__["default"], {
     icon: icon
   })), !!data.title && /*#__PURE__*/React.createElement("p", {
     className: "block-title"
-  }, data.title), data.description && typeof data.description === "string" ? /*#__PURE__*/React.createElement("p", {
+  }, data.title), !!description && typeof description === "string" && /*#__PURE__*/React.createElement("p", {
     className: "block-desc"
-  }, data.description) : null, /*#__PURE__*/React.createElement("code", {
-    className: "block-id"
-  }, name), !isFiltered && /*#__PURE__*/React.createElement(_Switch__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+  }, description), /*#__PURE__*/React.createElement("svg", {
+    className: "disabled-svg"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "0",
+    y1: "100%",
+    x2: "100%",
+    y2: "0"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "0",
+    y1: "0",
+    x2: "100%",
+    y2: "100%"
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Block);
 
@@ -278,13 +291,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Blocks; }
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Category__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Category */ "./src/js/components/Blocks/Category.js");
-/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sidebar */ "./src/js/components/Blocks/Sidebar.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _Category__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Category */ "./src/js/components/Blocks/Category.js");
+/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sidebar */ "./src/js/components/Blocks/Sidebar.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -295,7 +306,6 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -313,19 +323,15 @@ function Blocks(_ref) {
   var _gbm_localize, _gbm_localize2;
   var wpBlocks = _ref.wpBlocks,
     wpCategories = _ref.wpCategories;
-  var exportDivRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var exportRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var exportBtnRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var copyRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)();
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+  var wrapperRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var exportDivRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var exportRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var exportBtnRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var copyRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
     blocks = _useState2[0],
     setBlocks = _useState2[1];
-  var initialView = localStorage && localStorage.getItem("gbm-view") ? localStorage.getItem("gbm-view") : "grid";
-  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(initialView),
-    _useState4 = _slicedToArray(_useState3, 2),
-    view = _useState4[0],
-    setView = _useState4[1];
   var disabledBlocks = ((_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.disabledBlocks) || 0;
   var filteredBlocks = ((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.filteredBlocks) || 0;
   var has_disabled_blocks = disabledBlocks.length > filteredBlocks.length;
@@ -361,7 +367,7 @@ function Blocks(_ref) {
     var _target$parentNode;
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "enable";
     var blocksWrapper = target === null || target === void 0 || (_target$parentNode = target.parentNode) === null || _target$parentNode === void 0 || (_target$parentNode = _target$parentNode.parentNode) === null || _target$parentNode === void 0 ? void 0 : _target$parentNode.querySelector(".gbm-block-list");
-    var allBlocks = blocksWrapper === null || blocksWrapper === void 0 ? void 0 : blocksWrapper.querySelectorAll(".gbm-block-list .item");
+    var allBlocks = blocksWrapper === null || blocksWrapper === void 0 ? void 0 : blocksWrapper.querySelectorAll(".gbm-block-list .item:not(.filtered)");
     if (!allBlocks) {
       return false;
     }
@@ -377,7 +383,7 @@ function Blocks(_ref) {
       };
 
       // Send API Request
-      (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+      (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])({
         method: "POST",
         url: url,
         headers: {
@@ -434,7 +440,7 @@ function Blocks(_ref) {
     };
 
     // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])({
       method: "POST",
       url: url,
       headers: {
@@ -499,21 +505,6 @@ function Blocks(_ref) {
   };
 
   /**
-   * Change block view.
-   *
-   * @param {string} value The view value (list|grid).
-   */
-  var changeView = function changeView(value) {
-    if (!value) {
-      return false;
-    }
-    if (localStorage) {
-      localStorage.setItem("gbm-view", value);
-    }
-    setView(value);
-  };
-
-  /**
    * Export blocks as PHP.
    */
   var exportBlocks = function exportBlocks() {
@@ -521,7 +512,7 @@ function Blocks(_ref) {
     exportDivRef.current.classList.add("active");
 
     // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])({
       method: "GET",
       url: url,
       headers: {
@@ -593,7 +584,7 @@ function Blocks(_ref) {
     var url = gbm_localize.root + "gbm/blocks_reset/";
 
     // Send request.
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])({
       method: "POST",
       url: url,
       headers: {
@@ -661,12 +652,11 @@ function Blocks(_ref) {
   }
 
   // On Load
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     onLoad();
 
     // Set Loaded.
-    var wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
-    wrapperDiv.classList.add("loaded");
+    wrapperRef === null || wrapperRef === void 0 || wrapperRef.current.classList.add("loaded");
 
     // Export settings.
     document.addEventListener("keyup", function (e) {
@@ -678,36 +668,17 @@ function Blocks(_ref) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return /*#__PURE__*/React.createElement("div", {
-    className: "gbm-block-list-wrapper"
-  }, /*#__PURE__*/React.createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "gbm-block-list-wrapper",
+    ref: wrapperRef
+  }, /*#__PURE__*/React.createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     blocks: blocks
   }), /*#__PURE__*/React.createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()("gbm-blocks", "gbm-view-".concat(view))
+    className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement("span", {
     className: "global-loader loading"
   }, gbm_localize.loading, "..."), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-options--view"
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: view === "grid" ? "active" : "",
-    disabled: view === "grid",
-    onClick: function onClick() {
-      return changeView("grid");
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "dashicons dashicons-grid-view"
-  }), gbm_localize.grid), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: view === "list" ? "active" : "",
-    disabled: view === "list",
-    onClick: function onClick() {
-      return changeView("list");
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "dashicons dashicons-list-view"
-  }), gbm_localize.list)), has_disabled_blocks && /*#__PURE__*/React.createElement("button", {
+  }, has_disabled_blocks && /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "resetblocks",
     onClick: function onClick(e) {
@@ -747,7 +718,7 @@ function Blocks(_ref) {
     contentEditable: "true",
     suppressContentEditableWarning: true
   }, gbm_localize.loading_export))), !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
-    return /*#__PURE__*/React.createElement(_Category__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    return /*#__PURE__*/React.createElement(_Category__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: category.info.slug,
       data: category,
       toggleBlock: toggleBlock,
@@ -814,32 +785,6 @@ function Sidebar(_ref) {
       }
     }, category === null || category === void 0 || (_category$info3 = category.info) === null || _category$info3 === void 0 ? void 0 : _category$info3.title);
   }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null)));
-}
-
-/***/ }),
-
-/***/ "./src/js/components/Blocks/Switch.js":
-/*!********************************************!*\
-  !*** ./src/js/components/Blocks/Switch.js ***!
-  \********************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ Switch; }
-/* harmony export */ });
-/**
- * Render the Switch component.
- *
- * @return {Element} The Switch component.
- */
-function Switch() {
-  return /*#__PURE__*/React.createElement("div", {
-    className: "gbm-block-switch"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-block-switch--wrap"
-  }, /*#__PURE__*/React.createElement("span", null)));
 }
 
 /***/ }),
@@ -1138,6 +1083,7 @@ function Icon(_ref) {
   var icon = _ref.icon;
   var src = (icon === null || icon === void 0 ? void 0 : icon.src) || icon;
   return /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
     className: "icon",
     dangerouslySetInnerHTML: {
       __html: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.renderToString)(src)
@@ -1241,7 +1187,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
-var excludedBlocks = ["core/missing", "core/block", "core/text-columns", "core/navigation-submenu"];
+var excludedBlocks = ["core/missing", "core/block", "core/text-columns", "core/navigation-submenu", "core/pattern", "core/post-navigation-link"];
 
 /**
  * Get all WP blocks and updated categories.

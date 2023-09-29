@@ -1,0 +1,309 @@
+.gbm-block-list {
+	width: 100%;
+	width: 100%;
+	display: grid;
+	gap: 5px;
+	position: relative;
+	padding: $padding;
+	text-align: left;
+	grid-template-columns: repeat(2, minmax(0,1fr));
+	@media screen and (min-width: $xsmall) {
+		grid-template-columns: repeat(3, minmax(0,1fr));
+	}
+	@media screen and (min-width: $small) {
+		grid-template-columns: repeat(4, minmax(0,1fr));
+	}
+	@media screen and (min-width: $medium) {
+		grid-template-columns: repeat(5, minmax(0,1fr));
+	}
+	@media screen and (min-width: $large) {
+		grid-template-columns: repeat(6, minmax(0,1fr));
+	}
+	@media screen and (min-width: $xlarge) {
+		grid-template-columns: repeat(8, minmax(0,1fr));
+	}
+
+	&.loading {
+		.loader {
+			opacity: 0.5;
+			visibility: visible;
+		}
+	}
+
+	.item {
+		padding: 25px 10px;
+		border-radius: $radius;
+		margin: 0;
+		display: flex;
+		gap: 10px;
+		align-items: flex-start;
+		justify-content: center;
+		flex-wrap: wrap;
+		position: relative;
+		width: 100%;
+		background-color: transparent;
+		border: 1px solid #fff;
+		cursor: pointer;
+		overflow: hidden;
+
+		// Block display.
+		&.block-button{
+			position: relative;
+			& > div {
+				width: 100%;
+				display: flex;
+				justify-content: center;
+			}
+			p {
+				color: $text;
+			}
+			svg {
+				fill: $text;
+			}
+			& p {
+				width: 100%;
+				text-align: center;
+				padding: 0;
+				margin: 0;
+				font-weight: 400;
+				line-height: 1.35;
+				text-transform: capitalize;
+				font-size: 13px;
+				&.block-desc{
+					color: $grey_dark;
+					width: 100%;
+					display: -webkit-box;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					display: none;
+				}
+			}
+			.gbm-block-switch,
+			.block-desc,
+			.block-id{
+				display: none;
+			}
+
+			&:hover:not(.disabled):not(.filtered),
+			&:focus:not(.disabled):not(.filtered) {
+				border-color: $grey;
+				p{
+					color: $purple;
+				}
+				svg {
+					fill: $purple;
+				}
+
+			}
+
+			&:focus-visible:not(.filtered) {
+				outline: 2px solid $purple;
+				outline-offset: 2px;
+			}
+			.disabled-svg{
+				visibility: hidden;
+				opacity: 0;
+				display: block;
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				background-color: rgba(#efefef, 0.55);
+				transition: $transition;
+				padding: 2px;
+				line {
+					stroke: $grey;
+					stroke-width: 1;
+				}
+			}
+		}
+
+		// Disabled
+		&.disabled {
+			border-color: $grey;
+			.icon {
+				opacity: 0.5;
+			}
+			.disabled-svg{
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+
+		// Filtered
+		&.filtered {
+			cursor: not-allowed;
+			.disabled-svg{
+				background-color: rgba($yellow, 0.075);
+			}
+			p,
+			.icon {
+				opacity: 0.4;
+			}
+		}
+
+		&.loading {
+			> .gbm-block-group {
+				opacity: 0.5;
+			}
+		}
+
+		&--wrap {
+			display: flex;
+			align-items: flex-start;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			width: 100%;
+			position: relative;
+			padding-left: 40px;
+
+			.block-info {
+				display: block;
+				width: 100%;
+				height: auto;
+				line-height: 1.4;
+				&--wrap {
+					flex: 1;
+					text-align: left;
+				}
+				&--id {
+					font-size: 12px;
+					font-family: 'consolas', Monaco, monospace;
+					color: #999;
+					display: none;
+				}
+			}
+		}
+		&[data-category='woocommerce'] {
+			div.icon {
+				color: #96588a;
+				opacity: 1;
+				svg {
+					fill: currentcolor;
+				}
+			}
+		}
+		div.icon {
+			width: 28px;
+			display: block;
+			margin: 0;
+			transition: $transition;
+			svg {
+				max-width: 100%;
+			}
+		}
+	}
+
+	// Category Switcher
+	&.categories {
+		padding: 10px 25px;
+		.item {
+			width: 100%;
+			padding: 15px 2px;
+			margin: 0;
+			background: #fff !important;
+			border: none;
+			border-top: 1px solid $grey;
+			border-radius: 0;
+			&:hover,
+			:focus-within {
+				.block-info--title {
+					text-decoration: underline;
+				}
+			}
+			&:first-of-type {
+				border: none;
+			}
+			.gbm-cat-status {
+				position: absolute;
+				right: 5px;
+				bottom: 5px;
+				transition: all 0.25s ease;
+				color: #fff;
+				background-color: $green;
+				padding: 9px 11px;
+				border-radius: 2px;
+				font-size: 12px;
+				line-height: 1;
+				opacity: 0;
+				visibility: hidden;
+				&.active {
+					opacity: 0.9;
+					visibility: visible;
+				}
+			}
+			.block-info--title {
+				font-size: 15px;
+				padding-top: 2px;
+			}
+			.block-info--desc {
+				display: none;
+			}
+			.block-info--id {
+				display: block;
+			}
+			.block-info--wrap {
+				width: 100%;
+				@media screen and (min-width: $small) {
+					display: flex;
+					flex-wrap: nowrap;
+					align-items: center;
+				}
+			}
+			.block-info--action {
+				padding-top: 15px;
+				@media screen and (min-width: $small) {
+					padding-top: 0;
+					margin-left: auto;
+				}
+			}
+			label {
+				span {
+					display: block;
+				}
+				select {
+					margin: 0;
+					min-width: 160px;
+					//max-width: 200px;
+				}
+			}
+			&.loading {
+				.loading-cover {
+					opacity: 1;
+					visibility: visible;
+				}
+			}
+			.loading-cover {
+				display: block;
+				opacity: 0;
+				visibility: hidden;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				z-index: 9999;
+				background: rgba(255, 255, 255, 0.65) url('../images/ajax-loader.gif') no-repeat center center;
+				transition: all 0.25s ease;
+			}
+		}
+	}
+
+	.loader {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #fff;
+		z-index: 9999;
+		transition: $transition;
+		visibility: hidden;
+		opacity: 0;
+		cursor: default;
+	}
+}

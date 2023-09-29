@@ -91,6 +91,8 @@ class GBM_Admin {
 				'disable_all'        => __( 'Disable All', 'block-manager' ),
 				'toggle_all'         => __( 'Toggle All Blocks', 'block-manager' ),
 				'toggle'             => __( 'Toggle Block Activation', 'block-manager' ),
+				'enable_block'     => __( 'Enable Block', 'block-manager' ),
+				'disable_block'      => __( 'Disable Block', 'block-manager' ),
 				'search_label'       => __( 'Filter Blocks', 'block-manager' ),
 				'submit'             => __( 'Submit', 'block-manager' ),
 				'loading'            => __( 'Loading Blocks', 'block-manager' ),

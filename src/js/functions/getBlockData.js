@@ -7,6 +7,8 @@ const excludedBlocks = [
 	"core/block",
 	"core/text-columns",
 	"core/navigation-submenu",
+	"core/pattern",
+	"core/post-navigation-link",
 ];
 
 /**

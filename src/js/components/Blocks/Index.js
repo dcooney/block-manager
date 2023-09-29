@@ -1,6 +1,5 @@
-import axios from "axios";
-import cn from "classnames";
 import { useEffect, useRef, useState } from "@wordpress/element";
+import axios from "axios";
 import Category from "./Category";
 import Sidebar from "./Sidebar";
 
@@ -13,17 +12,13 @@ import Sidebar from "./Sidebar";
  * @return {Element}                  The Blocks component.
  */
 export default function Blocks({ wpBlocks, wpCategories }) {
+	const wrapperRef = useRef();
 	const exportDivRef = useRef();
 	const exportRef = useRef();
 	const exportBtnRef = useRef();
 	const copyRef = useRef();
 	const [blocks, setBlocks] = useState([]);
 
-	const initialView =
-		localStorage && localStorage.getItem("gbm-view")
-			? localStorage.getItem("gbm-view")
-			: "grid";
-	const [view, setView] = useState(initialView);
 	const disabledBlocks = gbm_localize?.disabledBlocks || 0;
 	const filteredBlocks = gbm_localize?.filteredBlocks || 0;
 	const has_disabled_blocks = disabledBlocks.length > filteredBlocks.length;
@@ -58,8 +53,9 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	const bulkProcess = (target, type = "enable") => {
 		const blocksWrapper =
 			target?.parentNode?.parentNode?.querySelector(".gbm-block-list");
+
 		const allBlocks = blocksWrapper?.querySelectorAll(
-			".gbm-block-list .item",
+			".gbm-block-list .item:not(.filtered)",
 		);
 
 		if (!allBlocks) {
@@ -133,6 +129,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		const type = element.classList.contains("disabled")
 			? "enable"
 			: "disable";
+
 		const data = { block, type };
 
 		// Send API Request
@@ -204,21 +201,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				toggleBtn.dataset.state = "active";
 			}
 		}
-	};
-
-	/**
-	 * Change block view.
-	 *
-	 * @param {string} value The view value (list|grid).
-	 */
-	const changeView = (value) => {
-		if (!value) {
-			return false;
-		}
-		if (localStorage) {
-			localStorage.setItem("gbm-view", value);
-		}
-		setView(value);
 	};
 
 	/**
@@ -379,8 +361,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		onLoad();
 
 		// Set Loaded.
-		const wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
-		wrapperDiv.classList.add("loaded");
+		wrapperRef?.current.classList.add("loaded");
 
 		// Export settings.
 		document.addEventListener(
@@ -396,34 +377,13 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div className="gbm-block-list-wrapper">
+		<div className="gbm-block-list-wrapper" ref={wrapperRef}>
 			<Sidebar blocks={blocks} />
-			<div className={cn("gbm-blocks", `gbm-view-${view}`)}>
+			<div className="gbm-blocks">
 				<span className="global-loader loading">
 					{gbm_localize.loading}...
 				</span>
 				<div className="gbm-options">
-					<div className="gbm-options--view">
-						<button
-							type="button"
-							className={view === "grid" ? "active" : ""}
-							disabled={view === "grid"}
-							onClick={() => changeView("grid")}
-						>
-							<span className="dashicons dashicons-grid-view"></span>
-							{gbm_localize.grid}
-						</button>
-						<button
-							type="button"
-							className={view === "list" ? "active" : ""}
-							disabled={view === "list"}
-							onClick={() => changeView("list")}
-						>
-							<span className="dashicons dashicons-list-view"></span>
-							{gbm_localize.list}
-						</button>
-					</div>
-
 					{has_disabled_blocks && (
 						<button
 							type="button"

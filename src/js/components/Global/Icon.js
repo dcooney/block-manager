@@ -12,6 +12,7 @@ export default function Icon({ icon }) {
 
 	return (
 		<div
+			aria-hidden="true"
 			className="icon"
 			dangerouslySetInnerHTML={{ __html: renderToString(src) }}
 		></div>
