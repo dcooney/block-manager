@@ -32,9 +32,7 @@ add_action(
  * @since 1.0
  */
 function block_manager_export( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		$blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
 
 		$response = array(

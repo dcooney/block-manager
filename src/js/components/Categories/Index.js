@@ -1,5 +1,6 @@
-import axios from "axios";
 import { useEffect } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import axios from "axios";
 import Block from "./Block";
 import Sidebar from "./Sidebar";
 
@@ -12,6 +13,14 @@ import Sidebar from "./Sidebar";
  * @return {Element}                  The Categories component.
  */
 export default function Categories({ wpBlocks, wpCategories }) {
+	const heading = sprintf(
+		__(
+			"Update the categories of your %s blocks with the category switcher.",
+			"block-manager",
+		),
+		`<span>${wpBlocks?.length}</span>`,
+	);
+
 	/**
 	 * Change the block category.
 	 *
@@ -100,12 +109,16 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			<Sidebar />
 			<div className="gbm-blocks">
 				<span className="global-loader loading">
-					{gbm_localize.loading}...
+					{__("Loading", "block-manager")}…
 				</span>
+				<p
+					className="gbm-heading"
+					dangerouslySetInnerHTML={{ __html: heading }}
+				/>
 				<div className="gbm-block-group">
 					<header className="gbm-block-list-controls categories">
-						<h3>{gbm_localize.block_switch}</h3>
-						<h3>{gbm_localize.cat_switch}</h3>
+						<h3>{__("Block Name", "block-manager")}</h3>
+						<h3>{__("Block Category", "block-manager")}</h3>
 					</header>
 					<div className="gbm-block-list categories">
 						{!!wpBlocks?.length &&

@@ -42,9 +42,8 @@ function block_manager_toggle( WP_REST_Request $request ) {
 		$data = json_decode( $body['data'] ); // Get contents of data.
 
 		if ( $body && $data ) {
-
-			$block  = ( $data && $data->block ) ? $data->block : ''; // block name.
-			$type   = ( $data && $data->type ) ? $data->type : 'enable'; // enable/disable.
+			$block  = $data && $data->block ? $data->block : ''; // block name.
+			$type   = $data && $data->type ? $data->type : 'enable'; // enable/disable.
 			$blocks = (array) get_option( BLOCK_MANAGER_OPTION, array() ); // all currently disabled blocks.
 
 			// Disable.
@@ -56,21 +55,24 @@ function block_manager_toggle( WP_REST_Request $request ) {
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'Block Disabled', 'block-manager' ),
-					'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
+					'disabled_blocks' => count( $blocks ),
+					'blocks'          => $blocks,
 				);
 			}
 
 			// Enable.
 			if ( $block && $type === 'enable' ) {
-				$new_blocks = array();
+				$new_blocks = [];
 				if ( in_array( $block, $blocks, true ) ) {
 					$new_blocks = array_diff( $blocks, array( $block ) );
 				}
+
 				update_option( BLOCK_MANAGER_OPTION, $new_blocks );
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'Block enabled', 'block-manager' ),
-					'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
+					'disabled_blocks' => count( $new_blocks ),
+					'blocks'          => $new_blocks,
 				);
 			}
 		} else {

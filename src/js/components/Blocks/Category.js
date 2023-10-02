@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import Block from "./Block";
 
 /**
@@ -61,13 +62,15 @@ export default function Category({ data, toggleBlock, categoryClickHandler }) {
 					className={switchClass}
 					data-state={switchState}
 					onClick={categoryClickHandler}
-					aria-label={gbm_localize.toggle_all}
-					title={gbm_localize.toggle_all}
+					title={__("Toggle all blocks in this category", "block-manager")}
 				>
 					<div className="gbm-block-switch--wrap">
 						<span>
 							<span className="offscreen">
-								{gbm_localize.toggle_all}
+								{__(
+									"Toggle all blocks in this category",
+									"block-manager",
+								)}
 							</span>
 						</span>
 					</div>

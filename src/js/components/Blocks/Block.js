@@ -1,4 +1,5 @@
 import { useRef } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import cn from "classnames";
 import Icon from "../Global/Icon";
 
@@ -31,7 +32,12 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 				toggleBlock(target, id);
 				target.blur();
 			} else {
-				alert(gbm_localize.filtered_alert); // eslint-disable-line no-alert
+				alert(
+					__(
+						"This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.",
+						"block-manager",
+					),
+				); // eslint-disable-line no-alert
 				target.blur();
 			}
 		}
@@ -41,7 +47,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		<button
 			ref={blockRef}
 			tabIndex={isFiltered ? -1 : null}
-			aria-label={gbm_localize.toggle}
+			aria-label={__("Toggle Block Activation", "block-manager")}
 			data-title={data.title}
 			data-description={data.description}
 			className={cn("item block-button", disabledClass, filteredClass)}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
 import Category from "./Category";
 import Sidebar from "./Sidebar";
@@ -21,7 +22,15 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 	const disabledBlocks = gbm_localize?.disabledBlocks || 0;
 	const filteredBlocks = gbm_localize?.filteredBlocks || 0;
-	const has_disabled_blocks = disabledBlocks.length > filteredBlocks.length;
+	const has_disabled_blocks = true;
+
+	const heading = sprintf(
+		__(
+			"Manage the status of your %s blocks - disabled blocks will be globally removed from the block inserter.",
+			"block-manager",
+		),
+		`<span>${wpBlocks?.length}</span>`,
+	);
 
 	/**
 	 * Category level block toggle click.
@@ -108,7 +117,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					blocksWrapper.classList.remove("loading");
 				});
 		} else {
-			alert("No blocks found"); // eslint-disable-line no-alert
+			alert(__("No blocks found", "block-manager")); // eslint-disable-line no-alert
 		}
 	};
 
@@ -254,7 +263,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 		// Copy to clipboard
 		document.execCommand("copy");
-		copyRef.current.innerHTML = gbm_localize.copied;
+		copyRef.current.innerHTML = __("Copied", "block-manager");
 		setTimeout(function () {
 			copyRef.current.disabled = true;
 		}, 500);
@@ -267,7 +276,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		exportDivRef.current.classList.remove("active");
 		setTimeout(function () {
 			exportBtnRef.current.focus();
-			exportRef.current.innerHTML = gbm_localize.loading_export;
+			exportRef.current.innerHTML = __(
+				"Getting export data…",
+				"block-manager",
+			);
 		}, 350);
 	};
 
@@ -381,35 +393,49 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			<Sidebar blocks={blocks} />
 			<div className="gbm-blocks">
 				<span className="global-loader loading">
-					{gbm_localize.loading}...
+					{__("Loading", "block-manager")}…
 				</span>
 				<div className="gbm-options">
-					{has_disabled_blocks && (
+					<p
+						className="gbm-heading"
+						dangerouslySetInnerHTML={{ __html: heading }}
+					/>
+					<div>
+						{has_disabled_blocks && (
+							<button
+								type="button"
+								className="resetblocks"
+								onClick={(e) => resetBlocks(e)}
+								title={__("Clear all disabled blocks", "block-manager")}
+							>
+								<span className="dashicons dashicons-update-alt"></span>
+								{__("Reset", "block-manager")}
+							</button>
+						)}
 						<button
 							type="button"
-							className="resetblocks"
-							onClick={(e) => resetBlocks(e)}
-							title={gbm_localize.reset_blocks_title}
+							className="export"
+							ref={exportBtnRef}
+							onClick={() => exportBlocks()}
+							title={__(
+								"Export a list of disabled blocks via WordPress filter.",
+								"block-manager",
+							)}
 						>
-							<span className="dashicons dashicons-update-alt"></span>
-							{gbm_localize.reset_blocks}
+							<span className="dashicons dashicons-database-export"></span>
+							{__("Export", "block-manager")}
 						</button>
-					)}
-					<button
-						type="button"
-						className="export"
-						ref={exportBtnRef}
-						onClick={() => exportBlocks()}
-						title={gbm_localize.export_title}
-					>
-						<span className="dashicons dashicons-database-export"></span>
-						{gbm_localize.export}
-					</button>
+					</div>
 				</div>
 				<div className="gbm-code-export" ref={exportDivRef} tabIndex="0">
 					<div className="gbm-code-export--inner">
 						<div>
-							<p>{gbm_localize.export_intro}</p>
+							<p>
+								{__(
+									"Add the the following code to your functions.php to remove blocks at the theme level.",
+									"block-manager",
+								)}
+							</p>
 							<div>
 								<button
 									type="button"
@@ -417,14 +443,14 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 									onClick={copyExport}
 									ref={copyRef}
 								>
-									{gbm_localize.copy}
+									{__("Copy Code", "block-manager")}
 								</button>
 								<button
 									type="button"
 									className="button"
 									onClick={closeExport}
 								>
-									{gbm_localize.close}
+									{__("Close", "block-manager")}
 								</button>
 							</div>
 						</div>
@@ -434,7 +460,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							contentEditable="true"
 							suppressContentEditableWarning={true}
 						>
-							{gbm_localize.loading_export}
+							{__("Getting export data…", "block-manager")}
 						</code>
 					</div>
 				</div>

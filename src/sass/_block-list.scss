@@ -12,7 +12,7 @@
 		grid-template-columns: repeat(3, minmax(0,1fr));
 	}
 	@media screen and (min-width: $small) {
-		grid-template-columns: repeat(4, minmax(0,1fr));
+		grid-template-columns: repeat(3, minmax(0,1fr));
 	}
 	@media screen and (min-width: $medium) {
 		grid-template-columns: repeat(5, minmax(0,1fr));
@@ -105,7 +105,7 @@
 
 			&:focus-visible:not(.filtered) {
 				outline: 2px solid $purple;
-				outline-offset: 2px;
+				outline-offset: -2px;
 			}
 			.disabled-svg{
 				z-index: 0;
@@ -120,9 +120,9 @@
 				right: 0;
 				bottom: 0;
 				transition: $transition;
-				padding: 2px;
+				padding: 1px;
 				line {
-					stroke: $grey;
+					stroke: #d6dbdf;
 					stroke-width: 1;
 				}
 			}
@@ -133,11 +133,16 @@
 			background-color: #f7f7f7;
 			.icon,
 			p {
-				opacity: 0.5;
+				opacity: 0.4;
+				text-decoration: line-through;
 			}
 			.disabled-svg{
 				visibility: visible;
 				opacity: 1;
+			}
+			&:hover:not(.filtered) p,
+			&:focus:not(.filtered) p{
+				opacity: 0.75;
 			}
 		}
 

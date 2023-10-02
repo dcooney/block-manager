@@ -32,7 +32,6 @@ add_action(
  * @since 1.2.2
  */
 function block_manager_blocks_reset( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine

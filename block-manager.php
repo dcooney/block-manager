@@ -118,7 +118,7 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_get_filtered_cats() {
-		$categories = (array) get_option( BLOCK_MANAGER_CATEGORIES, array() ); // Get option.
+		$categories = get_option( BLOCK_MANAGER_CATEGORIES, [] ); // Get option.
 		return $categories ? $categories : [];
 	}
 
@@ -130,12 +130,12 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_get_disabled_blocks() {
-		$blocks_manual = (array) get_option( BLOCK_MANAGER_OPTION, array() ); // Get manually disabled blocks.
+		$blocks_manual = get_option( BLOCK_MANAGER_OPTION, [] ); // Get manually disabled blocks.
 		$blocks_filter = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
 		$blocks_array  = array_merge( $blocks_manual, $blocks_filter ); // Merge arrays.
 		$blocks        = array_unique( $blocks_array ); // Remove Duplicates.
 
-		return $blocks ? $blocks : [];
+		return ! empty( $blocks ) ? $blocks : [];
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_blocks() {
 		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
-		return $blocks ? $blocks : [];
+		return ! empty( $blocks ) ? $blocks : [];
 	}
 
 	/**

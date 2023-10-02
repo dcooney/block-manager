@@ -1,5 +1,6 @@
 import axios from "axios";
 import Search from "../Global/Search";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Render the Sidebar for Category Manager.
@@ -31,13 +32,23 @@ export default function Sidebar() {
 
 	return (
 		<div className="gbm-sidebar">
-			<h3>{gbm_localize?.help}</h3>
+			<h3>{__("Help", "block-manager")}</h3>
 			<div className="gbm-sidebar-wrap">
-				<p>{gbm_localize.cat_intro}</p>
-				<p>{gbm_localize.cat_intro2}</p>
+				<p>
+					{__(
+						"The Category Switcher provides functionality for changing the categories of Gutenberg blocks.",
+						"block-manager",
+					)}
+				</p>
+				<p>
+					{__(
+						"Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts.",
+						"block-manager",
+					)}
+				</p>
 				{!!gbm_localize?.filteredCategories?.length > 0 && (
 					<button type="button" className="button" onClick={() => reset()}>
-						{gbm_localize.reset_cats}
+						{__("Reset Categories", "block-manager")}
 					</button>
 				)}
 				<Search />

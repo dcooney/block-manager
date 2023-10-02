@@ -1,52 +1,67 @@
-.gbm-options {
-	padding: 0 0 15px;
-	display: flex;
-	justify-content: flex-end;
-	width: 100%;
-	button {
-		border-radius: $radius;
-		border: 1px solid $grey;
-		background-color: #fff;
-		margin: 0;
-		padding: 10px 12px 10px 10px;
+.gbm-page-wrap {
+	.gbm-options {
+		width: 100%;
+		padding: 0 0 15px;
 		display: flex;
+		gap: 20px;
+		justify-content: space-between;
 		align-items: center;
-		line-height: 1;
-		color: #777;
-		&:hover,
-		&:focus {
-			color: #fff;
-			border-color: $purple;
-			background-color: $purple;
+		width: 100%;
+		p.gbm-heading {
+			margin: 0;
+			span {
+				display: inline-block;
+				padding: 1px 4px;
+				background-color: #fff;
+				border-radius: 3px;
+			}
 		}
-		&:focus {
-			outline: 2px solid $purple;
-			outline-offset: 2px;
+		div {
+			display: flex;
+			gap: 5px;
+			width: auto;
 		}
-		span {
-			margin-right: 5px;
-			opacity: 0.75;
-			transition: none;
-		}
-		span,
-		span::before {
-			height: 15px;
-			width: 15px;
-			font-size: 15px;
-		}
-		&.resetblocks,
-		&.export {
-			margin-left: 5px;
-		}
-		&.hidden {
-			display: none;
-		}
-		&.spin {
-			.dashicons {
-				animation-name: spin;
-				animation-duration: 1250ms;
-				animation-iteration-count: infinite;
-				animation-timing-function: linear;
+		button {
+			border-radius: $radius;
+			border: 1px solid $grey;
+			background-color: #fff;
+			margin: 0;
+			padding: 10px 12px 10px 10px;
+			display: flex;
+			align-items: center;
+			line-height: 1;
+			color: #777;
+			&:hover,
+			&:focus {
+				color: #fff;
+				border-color: $purple;
+				background-color: $purple;
+			}
+			&:focus {
+				outline: 2px solid $purple;
+				outline-offset: 2px;
+			}
+			span {
+				margin-right: 5px;
+				opacity: 0.75;
+				transition: none;
+			}
+			span,
+			span::before {
+				height: 15px;
+				width: 15px;
+				font-size: 15px;
+			}
+			&.hidden {
+				display: none;
+			}
+			&.spin {
+				.dashicons {
+					animation-name: spin;
+					animation-duration: 1250ms;
+					animation-iteration-count: infinite;
+					animation-timing-function: linear;
+				}
 			}
 		}
 	}

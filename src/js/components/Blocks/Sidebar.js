@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import Search from "../Global/Search";
 
 /**
@@ -28,7 +29,7 @@ export default function Sidebar({ blocks }) {
 
 	return (
 		<div className="gbm-sidebar">
-			<h3>{gbm_localize?.categories}</h3>
+			<h3>{__("Categories", "block-manager")}</h3>
 			<div className="gbm-sidebar-wrap">
 				{!!blocks?.length &&
 					blocks.map((category) => (

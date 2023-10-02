@@ -9,14 +9,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-29T13:02:48+00:00\n"
+"POT-Creation-Date: 2023-10-02T13:08:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
 
 #. Plugin Name of the plugin
-#: class-admin.php:129
-#: class-admin.php:130
+#: class-admin.php:102
+#: class-admin.php:103
+#: class-admin.php:125
+#: class-admin.php:127
 msgid "Block Manager"
 msgstr ""
 
@@ -74,150 +76,154 @@ msgstr ""
 msgid "Block enabled"
 msgstr ""
 
-#: block-manager.php:161
+#: block-manager.php:162
 msgid "Manage Blocks"
 msgstr ""
 
-#: class-admin.php:88
-msgid "Enable"
-msgstr ""
-
-#: class-admin.php:89
-msgid "Disable"
-msgstr ""
-
-#: class-admin.php:90
-msgid "Enable All"
-msgstr ""
-
-#: class-admin.php:91
-msgid "Disable All"
-msgstr ""
-
-#: class-admin.php:92
-msgid "Toggle All Blocks"
-msgstr ""
-
-#: class-admin.php:93
-msgid "Toggle Block Activation"
-msgstr ""
-
-#: class-admin.php:94
-msgid "Filter Blocks"
-msgstr ""
-
-#: class-admin.php:95
-msgid "Submit"
-msgstr ""
-
-#: class-admin.php:96
-msgid "Loading Blocks"
-msgstr ""
-
-#: class-admin.php:97
-msgid "Getting export data..."
-msgstr ""
-
-#: class-admin.php:98
-msgid "Copy Code"
-msgstr ""
-
-#: class-admin.php:99
-msgid "Copied"
-msgstr ""
-
-#: class-admin.php:100
-#: class-admin.php:195
-msgid "Close"
-msgstr ""
-
-#: class-admin.php:101
-msgid "Grid"
-msgstr ""
-
-#: class-admin.php:102
-msgid "List"
-msgstr ""
-
-#: class-admin.php:103
-msgid "Block Category"
-msgstr ""
-
-#: class-admin.php:104
-msgid "Category Updated"
-msgstr ""
-
-#: class-admin.php:105
-msgid "Block Name"
-msgstr ""
-
-#: class-admin.php:106
-msgid "Reset"
-msgstr ""
-
-#: class-admin.php:107
-msgid "Clear all disabled blocks."
-msgstr ""
-
-#: class-admin.php:108
-msgid "Reset Categories"
-msgstr ""
-
-#: class-admin.php:109
-msgid "The Category Switcher provides functionality for changing the categories of Gutenberg blocks."
-msgstr ""
-
-#: class-admin.php:110
-msgid "Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts."
-msgstr ""
-
-#: class-admin.php:111
-msgid "Export"
-msgstr ""
-
-#: class-admin.php:112
-msgid "Export a list of disabled blocks via WordPress filter. "
-msgstr ""
-
-#: class-admin.php:113
-msgid "Add the the following code to your functions.php to remove blocks at the theme level."
-msgstr ""
-
-#: class-admin.php:114
-msgid "This block has been globally disabled via the `gbm_disabled_blocks` filter and cannot be activated."
-msgstr ""
-
-#: class-admin.php:152
-msgid "Gutenberg Block Manager"
-msgstr ""
-
-#: class-admin.php:152
-msgid "by Connekt"
-msgstr ""
-
 #. translators: %s is replaced with the span context
-#: class-admin.php:157
+#: class-admin.php:132
 msgid "Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter."
 msgstr ""
 
 #. translators: %s is replaced with the span context
-#: class-admin.php:164
+#: class-admin.php:139
 msgid "Update the categories of your %s blocks with the category switcher."
 msgstr ""
 
-#: class-admin.php:167
+#: class-admin.php:143
 msgid "Other Plugins"
 msgstr ""
 
 #. translators: %1$s & %2$s is replaced with the link content
-#: class-admin.php:192
+#: class-admin.php:168
 msgid "Other Plugins from %1$s Connekt %2$s"
 msgstr ""
 
-#: class-admin.php:212
+#: class-admin.php:171
+#: build/block-manager-admin.js:723
+#: build/block-manager-admin.js:660
+msgid "Close"
+msgstr ""
+
+#: class-admin.php:188
 msgid "Blocks"
 msgstr ""
 
-#: class-admin.php:220
+#: class-admin.php:196
+#: build/block-manager-admin.js:785
+#: build/block-manager-admin.js:719
 msgid "Categories"
+msgstr ""
+
+#: build/block-manager-admin.js:150
+#: build/block-manager-admin.js:88
+msgid "This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface."
+msgstr ""
+
+#: build/block-manager-admin.js:158
+#: build/block-manager-admin.js:102
+msgid "Toggle Block Activation"
+msgstr ""
+
+#: build/block-manager-admin.js:266
+#: build/block-manager-admin.js:271
+#: build/block-manager-admin.js:191
+#: build/block-manager-admin.js:196
+msgid "Toggle all blocks in this category"
+msgstr ""
+
+#: build/block-manager-admin.js:565
+#: build/block-manager-admin.js:479
+msgid "Copied"
+msgstr ""
+
+#: build/block-manager-admin.js:578
+#: build/block-manager-admin.js:728
+#: build/block-manager-admin.js:492
+#: build/block-manager-admin.js:670
+msgid "Getting export data…"
+msgstr ""
+
+#: build/block-manager-admin.js:687
+#: build/block-manager-admin.js:1001
+#: build/block-manager-admin.js:609
+#: build/block-manager-admin.js:907
+msgid "Loading"
+msgstr ""
+
+#: build/block-manager-admin.js:695
+#: build/block-manager-admin.js:617
+msgid "Clear all disabled blocks"
+msgstr ""
+
+#: build/block-manager-admin.js:698
+#: build/block-manager-admin.js:620
+msgid "Reset"
+msgstr ""
+
+#: build/block-manager-admin.js:705
+#: build/block-manager-admin.js:628
+msgid "Export a list of disabled blocks via WordPress filter."
+msgstr ""
+
+#: build/block-manager-admin.js:708
+#: build/block-manager-admin.js:634
+msgid "Export"
+msgstr ""
+
+#: build/block-manager-admin.js:714
+#: build/block-manager-admin.js:641
+msgid "Add the the following code to your functions.php to remove blocks at the theme level."
+msgstr ""
+
+#: build/block-manager-admin.js:719
+#: build/block-manager-admin.js:653
+msgid "Copy Code"
+msgstr ""
+
+#: build/block-manager-admin.js:877
+#: build/block-manager-admin.js:798
+msgid "Category Updated"
+msgstr ""
+
+#: build/block-manager-admin.js:1005
+#: build/block-manager-admin.js:911
+msgid "Block Name"
+msgstr ""
+
+#: build/block-manager-admin.js:1005
+#: build/block-manager-admin.js:912
+msgid "Block Category"
+msgstr ""
+
+#: build/block-manager-admin.js:1066
+#: build/block-manager-admin.js:965
+msgid "Help"
+msgstr ""
+
+#: build/block-manager-admin.js:1068
+#: build/block-manager-admin.js:968
+msgid "The Category Switcher provides functionality for changing the categories of Gutenberg blocks."
+msgstr ""
+
+#: build/block-manager-admin.js:1068
+#: build/block-manager-admin.js:974
+msgid "Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts."
+msgstr ""
+
+#: build/block-manager-admin.js:1074
+#: build/block-manager-admin.js:981
+msgid "Reset Categories"
+msgstr ""
+
+#: build/block-manager-admin.js:1175
+#: build/block-manager-admin.js:1178
+#: build/block-manager-admin.js:1058
+#: build/block-manager-admin.js:1063
+msgid "Filter Blocks"
+msgstr ""
+
+#: build/block-manager-admin.js:1190
+#: build/block-manager-admin.js:1068
+msgid "Submit"
 msgstr ""

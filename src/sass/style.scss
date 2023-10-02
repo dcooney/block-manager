@@ -1,6 +1,7 @@
 @import './variables.scss';
 @import './options.scss';
 @import './block-list.scss';
+@import './header.scss';
 
 .settings_page_block-manager {
 	#wpbody-content {
@@ -290,7 +291,7 @@
 			position: relative;
 			height: 13px;
 			width: 26px;
-			background-color: $green;
+			background-color: $purple_alt;
 			border-radius: 100px;
 			transition: $transition;
 		}
@@ -333,82 +334,6 @@
 	}
 }
 
-// Header
-.gbm-page-wrap {
-	&--header {
-		background-color: #fff;
-		padding: 20px;
-		position: relative;
-		@media screen and (min-width: $small) {
-			padding-right: 200px;
-		}
-		h1{
-			display: none;
-		}
-		&-title {
-			background: url('../images/icon.png') no-repeat 0 0;
-			background-size: 48px 48px;
-			min-height: 48px;
-			padding: 0 0 0 58px;
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			width: 100%;
-		}
-		h2 {
-			margin: 0;
-			padding: 0;
-			font-size: 20px;
-			width: 100%;
-
-			span {
-				font-size: 13px;
-				position: relative;
-				top: -1px;
-				left: 1px;
-				font-weight: 400;
-				border-radius: $radius;
-				background-color: rgba($purple, 0.15);
-				display: inline-block;
-				line-height: 1;
-				padding: 5px;
-			}
-		}
-		p {
-			padding: 0;
-			margin: 0;
-			width: 100%;
-		}
-		p span.block-total {
-			display: inline-block;
-			background: #f7f7f7;
-			padding: 1px 4px;
-			border-radius: $radius;
-			border: 1px solid #efefef;
-			font-weight: 600;
-		}
-		button.button {
-			margin-top: 10px;
-			display: none;
-			@media screen and (min-width: $xsmall) {
-				display: flex;
-				align-items: center;
-			}
-			@media screen and (min-width: $small) {
-				margin-top: 0;
-				position: absolute;
-				right: 20px;
-				top: 50%;
-				transform: translateY(-50%);
-			}
-			span {
-				position: relative;
-				left: -2px;
-			}
-		}
-	}
-}
-
 .settings_page_block-manager {
 	#wpcontent {
 		padding-left: 0;
@@ -424,7 +349,7 @@
 
 		// Tab navigation
 		.nav-tab-wrapper {
-			padding: 6px 15px 0;
+			padding: 0 15px 0;
 			margin: 0 0 20px;
 			border-color: $grey;
 			background: #fff;

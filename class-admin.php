@@ -85,35 +85,6 @@ class GBM_Admin {
 				'filteredCategories' => Gutenberg_Block_Manager::gbm_get_filtered_cats(),
 				'root'               => esc_url_raw( rest_url() ),
 				'nonce'              => wp_create_nonce( 'wp_rest' ),
-				'enable'             => __( 'Enable', 'block-manager' ),
-				'disable'            => __( 'Disable', 'block-manager' ),
-				'enable_all'         => __( 'Enable All', 'block-manager' ),
-				'disable_all'        => __( 'Disable All', 'block-manager' ),
-				'toggle_all'         => __( 'Toggle All Blocks', 'block-manager' ),
-				'toggle'             => __( 'Toggle Block Activation', 'block-manager' ),
-				'search_label'       => __( 'Filter Blocks', 'block-manager' ),
-				'submit'             => __( 'Submit', 'block-manager' ),
-				'loading'            => __( 'Loading Blocks', 'block-manager' ),
-				'loading_export'     => __( 'Getting export data...', 'block-manager' ),
-				'copy'               => __( 'Copy Code', 'block-manager' ),
-				'copied'             => __( 'Copied', 'block-manager' ),
-				'close'              => __( 'Close', 'block-manager' ),
-				'grid'               => __( 'Grid', 'block-manager' ),
-				'list'               => __( 'List', 'block-manager' ),
-				'categories'         => __( 'Categories', 'block-manager' ),
-				'cat_switch'         => __( 'Block Category', 'block-manager' ),
-				'updated'            => __( 'Category Updated', 'block-manager' ),
-				'block_switch'       => __( 'Block Name', 'block-manager' ),
-				'reset_blocks'       => __( 'Reset', 'block-manager' ),
-				'reset_blocks_title' => __( 'Clear all disabled blocks.', 'block-manager' ),
-				'reset_cats'         => __( 'Reset Categories', 'block-manager' ),
-				'cat_intro'          => __( 'The Category Switcher provides functionality for changing the categories of Gutenberg blocks.', 'block-manager' ),
-				'cat_intro2'         => __( 'Changing a block category will update it\'s location in the Gutenberg Block Inserter while editing posts.', 'block-manager' ),
-				'export'             => __( 'Export', 'block-manager' ),
-				'export_title'       => __( 'Export a list of disabled blocks via WordPress filter. ', 'block-manager' ),
-				'export_intro'       => __( 'Add the the following code to your functions.php to remove blocks at the theme level.', 'block-manager' ),
-				'filtered_alert'     => __( 'This block has been globally disabled via the `gbm_disabled_blocks` filter and cannot be activated.', 'block-manager' ),
-				'help'               => __( 'Help', 'block-manager' ),
 			)
 		);
 
@@ -154,20 +125,6 @@ class GBM_Admin {
 				<h1><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 				<div class="gbm-page-wrap--header-title">
 					<h2><?php esc_html_e( 'Block Manager', 'block-manager' ); ?> <span><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span></h2>
-					<?php if ( 'blocks' === $active ) { ?>
-					<p>
-						<?php
-						/* translators: %s is replaced with the span context */
-						printf( esc_html__( 'Manage the status of your %s Gutenberg blocks - disabled blocks will be globally removed from the block inserter.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
-						?>
-					<?php } ?>
-					<?php if ( 'categories' === $active ) { ?>
-					<p>
-						<?php
-						/* translators: %s is replaced with the span context */
-						printf( esc_html__( 'Update the categories of your %s blocks with the category switcher.', 'block-manager' ), '<span class="cnkt-block-totals block-total">--</span>' );
-						?>
-					<?php } ?>
 				</div>
 				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?></button>
 			</div>
@@ -189,7 +146,6 @@ class GBM_Admin {
 						),
 					);
 					?>
-
 					<section>
 						<h2>
 						<?php

@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import Icon from "../Global/Icon";
 
 /**
@@ -57,7 +58,7 @@ export default function Block({ data, wpCategories, callback }) {
 			<div className="loading-cover"></div>
 			<div className="gbm-cat-status">
 				<i className="fa fa-check" aria-hidden="true"></i>{" "}
-				{gbm_localize.updated}
+				{__("Category Updated", "block-manager")}
 			</div>
 		</div>
 	);

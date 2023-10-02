@@ -1,0 +1,64 @@
+// Header
+.gbm-page-wrap {
+	&--header {
+		background-color: #fff;
+		padding: 20px;
+		position: relative;
+		@media screen and (min-width: $small) {
+			padding-right: 200px;
+		}
+		h1{
+			display: none;
+		}
+		&-title {
+			background: url('../images/icon.png') no-repeat 0 0;
+			background-size: 42px 42px;
+			min-height: 42px;
+			padding: 0 0 0 50px;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			width: 100%;
+		}
+		h2 {
+			margin: 0;
+			padding: 2px 0 0;
+			font-size: 24px;
+			width: 100%;
+			color: $text;
+
+			span {
+				font-size: 13px;
+				position: relative;
+				top: -1px;
+				left: 2px;
+				font-weight: 400;
+				border-radius: $radius;
+				background-color: rgba($purple, 0.05);
+				display: inline-block;
+				line-height: 1;
+				padding: 6px;
+				color: $purple;
+			}
+		}
+		button.button {
+			margin-top: 10px;
+			display: none;
+			@media screen and (min-width: $xsmall) {
+				display: flex;
+				align-items: center;
+			}
+			@media screen and (min-width: $small) {
+				margin-top: 0;
+				position: absolute;
+				right: 20px;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+			span {
+				position: relative;
+				left: -2px;
+			}
+		}
+	}
+}

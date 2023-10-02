@@ -1,4 +1,5 @@
 import { useRef } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Render the block Search component.
@@ -40,17 +41,17 @@ export default function Search() {
 	return (
 		<div className="gbm-search">
 			<label className="offscreen" htmlFor="gbm-search">
-				{gbm_localize.search_label}
+				{__("Filter Blocks", "block-manager")}
 			</label>
 			<input
 				type="text"
 				id="gbm-search"
-				placeholder={gbm_localize.search_label}
+				placeholder={__("Filter Blocks", "block-manager")}
 				onKeyUp={() => handleSearch()}
 				ref={inputRef}
 			/>
 			<button type="button" onClick={() => handleSearch()}>
-				<span className="offscreen">{gbm_localize.submit}</span>
+				<span className="offscreen">{__("Submit", "block-manager")}</span>
 				<span className="dashicons dashicons-search"></span>
 			</button>
 		</div>

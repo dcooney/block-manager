@@ -43,53 +43,58 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 
 		if ( $body && $data ) {
 
-			$blocks = ( $data && $data->blocks ) ? $data->blocks : ''; // block name.
-			$type   = ( $data && $data->type ) ? $data->type : 'enable'; // enable/disable.
+			$blocks_array = $data && $data->blocks ? $data->blocks : ''; // block array.
+			$type         = $data && $data->type ? $data->type : 'enable'; // enable/disable.
 
-			$disabled_blocks = (array) get_option( BLOCK_MANAGER_OPTION, array() );
+			$disabled_blocks = get_option( BLOCK_MANAGER_OPTION, [] );
 			$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
 
 			// Disable All.
-			if ( $blocks && 'disable' === $type ) {
+			if ( $blocks_array && $type === 'disable' ) {
 
 				// Loop blocks, add new blocks to disabled array.
 				// Only add if they are not being filtered via `gbm_disabled_blocks`.
-				foreach ( $blocks as $block ) {
+				foreach ( $blocks_array as $block ) {
 					if ( ! in_array( $block, $disabled_blocks, true ) && ! in_array( $block, $filtered_blocks, true ) ) {
 						$disabled_blocks[] = $block;
 					}
 				}
 
+				$blocks = array_merge( $disabled_blocks, $filtered_blocks );
+
 				// Update option.
-				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
+				update_option( BLOCK_MANAGER_OPTION, $blocks );
 
 				// Send response.
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'All Blocks Disabled', 'block-manager' ),
-					'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
+					'disabled_blocks' => count( $blocks ),
+					'blocks'          => $blocks,
 				);
 			}
 
 			// Enable All.
-			if ( $blocks && 'enable' === $type ) {
-
+			if ( $blocks_array && $type === 'enable' ) {
 				$new_blocks = [];
 				// Loop blocks, create new array minus the blocks to enable.
 				foreach ( $disabled_blocks as $block ) {
-					if ( ! in_array( $block, $blocks, true ) ) {
+					if ( ! in_array( $block, $blocks_array, true ) && ! in_array( $block, $filtered_blocks, true ) ) {
 						$new_blocks[] = $block;
 					}
 				}
 
+				$blocks = array_merge( $new_blocks, $filtered_blocks );
+
 				// Update option.
-				update_option( BLOCK_MANAGER_OPTION, array_merge( $new_blocks, $filtered_blocks ) );
+				update_option( BLOCK_MANAGER_OPTION, $blocks );
 
 				// Send response.
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'All Blocks Enabled', 'block-manager' ),
-					'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
+					'disabled_blocks' => count( $blocks ),
+					'blocks'          => $blocks,
 				);
 			}
 		} else {
