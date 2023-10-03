@@ -14,6 +14,7 @@ import Sidebar from "./Sidebar";
  */
 export default function Categories({ wpBlocks, wpCategories }) {
 	const heading = sprintf(
+		// translators: %s: The number of blocks.
 		__(
 			"Update the categories of your %s blocks with the category switcher.",
 			"block-manager",

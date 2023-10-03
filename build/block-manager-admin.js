@@ -118,10 +118,10 @@ function Block(_ref) {
     name = data.name,
     description = data.description;
   var blockRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  var disabled = disabledBlocks.indexOf(name) !== -1;
+  var disabled = disabledBlocks !== null && disabledBlocks !== void 0 && disabledBlocks.length ? disabledBlocks.indexOf(name) !== -1 : false;
   var disabledClass = disabled ? "disabled" : "";
-  var isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
-  var filteredClass = isFiltered ? "filtered" : "";
+  var isFiltered = filteredBlocks !== null && filteredBlocks !== void 0 && filteredBlocks.length && (filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.indexOf(name)) !== -1 ? true : false;
+  var filteredClass = isFiltered ? "disabled filtered" : "";
 
   /**
    * Handle the click event for the block button.
@@ -134,7 +134,8 @@ function Block(_ref) {
         toggleBlock(target, id);
         target.blur();
       } else {
-        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", "block-manager")); // eslint-disable-line no-alert
+        // eslint-disable-next-line no-alert
+        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", "block-manager"));
         target.blur();
       }
     }
@@ -196,40 +197,36 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 
 
 
 /**
  * Render the Category component for the category listing.
  *
- * @param {Object}   props                      The component properties.
- * @param {Object}   props.data                 Data for an individual block.
- * @param {Function} props.toggleBlock          Function to toggle the activation of a block.
- * @param {Function} props.categoryClickHandler Function to call after category change.
- * @return {Element}                            The Category component.
+ * @param {Object}   props                The component properties.
+ * @param {Object}   props.data           Data for an individual block.
+ * @param {Function} props.toggleBlock    Function to toggle the activation of a block.
+ * @param {Array}    props.disabledBlocks Array of disabled blocks.
+ * @param {Function} props.callback       Function to call after category change.
+ * @return {Element}                      The Category component.
  */
 function Category(_ref) {
   var data = _ref.data,
     toggleBlock = _ref.toggleBlock,
-    categoryClickHandler = _ref.categoryClickHandler;
+    disabledBlocks = _ref.disabledBlocks,
+    callback = _ref.callback;
   var blocks = data.blocks,
     info = data.info;
   var title = info.title;
-  var disabledBlocks = gbm_localize.disabledBlocks;
   var filteredBlocks = gbm_localize.filteredBlocks;
-  if (_typeof(disabledBlocks) === "object") {
-    // Convert `disabledBlocks` to array if required.
-    disabledBlocks = Object.keys(disabledBlocks).map(function (i) {
-      return disabledBlocks[i];
-    });
-  }
 
-  // Count disabled blocks
-  var disabledBlockCount = 0;
-  if (disabledBlocks.length) {
-    _toConsumableArray(blocks).forEach(function (block) {
-      var found = disabledBlocks.indexOf(block.name);
+  // Count disabled blocks.
+  var disabledBlockCount = (disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length) || 0;
+
+  // Loop filtered blocks to add to count.
+  if (filteredBlocks.length) {
+    _toConsumableArray(filteredBlocks).forEach(function (block) {
+      var found = filteredBlocks.indexOf(block);
       if (found !== -1) {
         disabledBlockCount++;
       }
@@ -243,13 +240,14 @@ function Category(_ref) {
     key: data.info.slug,
     id: "block-" + data.info.slug,
     className: "gbm-block-group",
-    "data-total-blocks": data.blocks.length
+    "data-total-blocks": data.blocks.length,
+    tabIndex: -1
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-controls"
-  }, /*#__PURE__*/React.createElement("h3", null, title, " ", /*#__PURE__*/React.createElement("span", null, "(", data.blocks.length - disabledBlockCount, "/", data.blocks.length, ")")), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("h3", null, title, /*#__PURE__*/React.createElement("span", null, "(", data.blocks.length - disabledBlockCount, "/", data.blocks.length, ")")), /*#__PURE__*/React.createElement("button", {
     className: switchClass,
     "data-state": switchState,
-    onClick: categoryClickHandler,
+    onClick: callback,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Toggle all blocks in this category", "block-manager")
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-switch--wrap"
@@ -287,9 +285,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _Category__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Category */ "./src/js/components/Blocks/Category.js");
-/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sidebar */ "./src/js/components/Blocks/Sidebar.js");
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Blocks/components/Sidebar.js");
+/* harmony import */ var _components_Reset__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Reset */ "./src/js/components/Blocks/components/Reset.js");
+/* harmony import */ var _components_Export__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Export */ "./src/js/components/Blocks/components/Export.js");
+/* harmony import */ var _components_ExportModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ExportModal */ "./src/js/components/Blocks/components/ExportModal.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -306,6 +307,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
 /**
  * Render the Blocks component.
  *
@@ -315,22 +319,28 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * @return {Element}                  The Blocks component.
  */
 function Blocks(_ref) {
-  var _gbm_localize, _gbm_localize2;
+  var _gbm_localize;
   var wpBlocks = _ref.wpBlocks,
     wpCategories = _ref.wpCategories;
   var wrapperRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  var exportDivRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  var exportRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  var exportBtnRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  var copyRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var resetButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var exportModalRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var exportButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
-    blocks = _useState2[0],
-    setBlocks = _useState2[1];
-  var disabledBlocks = ((_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.disabledBlocks) || 0;
-  var filteredBlocks = ((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.filteredBlocks) || 0;
-  var has_disabled_blocks = true;
-  var heading = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Manage the status of your %s blocks - disabled blocks will be globally removed from the block inserter.", "block-manager"), "<span>".concat(wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length, "</span>"));
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    blocks = _useState4[0],
+    setBlocks = _useState4[1];
+  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)((_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.disabledBlocks),
+    _useState6 = _slicedToArray(_useState5, 2),
+    disabledBlocks = _useState6[0],
+    setDisabledBlocks = _useState6[1];
+  var heading = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
+  // translators: %s: The number of blocks.
+  (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Manage the status of your %s blocks - disabled blocks will be globally removed from the block inserter.", "block-manager"), "<span>".concat(wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length, "</span>"));
 
   /**
    * Category level block toggle click.
@@ -379,7 +389,7 @@ function Blocks(_ref) {
       };
 
       // Send API Request
-      (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+      (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])({
         method: "POST",
         url: url,
         headers: {
@@ -390,10 +400,11 @@ function Blocks(_ref) {
           data: JSON.stringify(data)
         }
       }).then(function (res) {
-        var response = res.data;
-        if (response && res.status === 200) {
+        var _res$data = res.data,
+          data = _res$data === void 0 ? {} : _res$data,
+          status = res.status;
+        if (status === 200 && data.success) {
           // Success
-
           _toConsumableArray(allBlocks).forEach(function (block) {
             if (type === "enable") {
               block.classList.remove("disabled");
@@ -402,6 +413,7 @@ function Blocks(_ref) {
             }
           });
           blocksWrapper.classList.remove("loading");
+          setDisabledBlocks(data.disabled_blocks);
           setCategoryStatus(allBlocks[0]);
         } else {
           console.warn("an error has occurred");
@@ -430,13 +442,9 @@ function Blocks(_ref) {
     element.classList.add("loading");
     var url = gbm_localize.root + "gbm/toggle/";
     var type = element.classList.contains("disabled") ? "enable" : "disable";
-    var data = {
-      block: block,
-      type: type
-    };
 
     // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])({
       method: "POST",
       url: url,
       headers: {
@@ -444,12 +452,16 @@ function Blocks(_ref) {
         "Content-Type": "application/json"
       },
       data: {
-        data: JSON.stringify(data)
+        data: JSON.stringify({
+          block: block,
+          type: type
+        })
       }
     }).then(function (res) {
-      var response = res.data;
-      if (response && (res === null || res === void 0 ? void 0 : res.status) === 200) {
-        if (response.success) {
+      var data = res.data,
+        status = res.status;
+      if (data && status === 200) {
+        if (data.success) {
           if (type === "disable") {
             element.classList.add("disabled");
           } else {
@@ -458,6 +470,7 @@ function Blocks(_ref) {
           element.classList.remove("loading");
           setCategoryStatus(element);
         }
+        setDisabledBlocks(data.disabled_blocks);
       } else {
         console.warn("an error has occurred");
         element.classList.remove("loading");
@@ -501,88 +514,55 @@ function Blocks(_ref) {
   };
 
   /**
-   * Export blocks as PHP.
+   * Export blocks as PHP code.
    */
-  var exportBlocks = function exportBlocks() {
-    var url = gbm_localize.root + "gbm/export/";
-    exportDivRef.current.classList.add("active");
-
-    // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+  function exportBlocks() {
+    var _exportModalRef$curre, _exportModalRef$curre2;
+    exportModalRef === null || exportModalRef === void 0 || (_exportModalRef$curre = exportModalRef.current) === null || _exportModalRef$curre === void 0 || _exportModalRef$curre.classList.add("active"); // Loading state.
+    var code = exportModalRef === null || exportModalRef === void 0 || (_exportModalRef$curre2 = exportModalRef.current) === null || _exportModalRef$curre2 === void 0 ? void 0 : _exportModalRef$curre2.querySelector("#gbm-export");
+    (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])({
       method: "GET",
-      url: url,
+      url: gbm_localize.root + "gbm/export/",
       headers: {
         "X-WP-Nonce": gbm_localize.nonce,
         "Content-Type": "application/json"
       }
     }).then(function (res) {
-      if (res.status === 200 && res.data && res.data.success) {
-        var blockReturn = res.data.blocks;
+      var data = res.data,
+        status = res.status;
+      if (status === 200 && data !== null && data !== void 0 && data.success && data !== null && data !== void 0 && data.blocks) {
+        var blockReturn = data.blocks;
         blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
         blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
         blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
         var results = "// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ".concat(blockReturn, ";<br/>});");
-        exportRef.current.innerHTML = results;
+        code.innerHTML = results;
         setTimeout(function () {
-          exportDivRef.current.focus();
-        }, 100);
+          code.focus();
+        }, 250);
       } else {
-        console.warn("There was an error exporting disabled blocks.");
-        exportDivRef.current.classList.remove("active");
+        var _exportModalRef$curre3;
+        console.warn((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("There was an error exporting disabled blocks.", "block-manager"));
+        exportModalRef === null || exportModalRef === void 0 || (_exportModalRef$curre3 = exportModalRef.current) === null || _exportModalRef$curre3 === void 0 || _exportModalRef$curre3.classList.remove("active");
       }
     })["catch"](function (error) {
+      var _exportModalRef$curre4;
       // Error
       console.warn(error);
-      exportDivRef.current.classList.remove("active");
+      exportModalRef === null || exportModalRef === void 0 || (_exportModalRef$curre4 = exportModalRef.current) === null || _exportModalRef$curre4 === void 0 || _exportModalRef$curre4.classList.remove("active");
     });
-  };
-
-  /**
-   * Copy export code to clipboard.
-   */
-  var copyExport = function copyExport() {
-    var _window;
-    var range = document.createRange();
-    range.selectNodeContents(exportRef.current);
-    var sel = (_window = window) === null || _window === void 0 ? void 0 : _window.getSelection(); //eslint-disable-line
-    sel.removeAllRanges();
-    sel.addRange(range);
-
-    // Copy to clipboard
-    document.execCommand("copy");
-    copyRef.current.innerHTML = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Copied", "block-manager");
-    setTimeout(function () {
-      copyRef.current.disabled = true;
-    }, 500);
-  };
-
-  /**
-   * Close export modal.
-   */
-  var closeExport = function closeExport() {
-    exportDivRef.current.classList.remove("active");
-    setTimeout(function () {
-      exportBtnRef.current.focus();
-      exportRef.current.innerHTML = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Getting export data…", "block-manager");
-    }, 350);
-  };
+  }
 
   /**
    * Reset blocks to default state.
-   *
-   * @param {Event} e The event object.
    */
-  var resetBlocks = function resetBlocks(e) {
-    var target = e.currentTarget;
-    target.classList.add("spin");
+  function resetBlocks() {
+    var _resetButtonRef$curre;
+    resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
 
-    // API Request.
-    var url = gbm_localize.root + "gbm/blocks_reset/";
-
-    // Send request.
-    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])({
       method: "POST",
-      url: url,
+      url: gbm_localize.root + "gbm/blocks_reset/",
       headers: {
         "X-WP-Nonce": gbm_localize.nonce,
         "Content-Type": "application/json"
@@ -594,12 +574,17 @@ function Blocks(_ref) {
           item.classList.remove("disabled");
         });
       }
-      target.classList.remove("spin");
-      target.classList.add("hidden");
+      setDisabledBlocks([]);
+      setTimeout(function () {
+        var _resetButtonRef$curre2;
+        resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre2 = resetButtonRef.current) === null || _resetButtonRef$curre2 === void 0 || _resetButtonRef$curre2.classList.remove("spin");
+      }, 250);
     })["catch"](function (error) {
+      var _resetButtonRef$curre3;
       console.warn(error);
+      resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre3 = resetButtonRef.current) === null || _resetButtonRef$curre3 === void 0 || _resetButtonRef$curre3.classList.remove("spin");
     });
-  };
+  }
 
   /**
    * Mutate Blocks on load.
@@ -653,20 +638,12 @@ function Blocks(_ref) {
 
     // Set Loaded.
     wrapperRef === null || wrapperRef === void 0 || wrapperRef.current.classList.add("loaded");
-
-    // Export settings.
-    document.addEventListener("keyup", function (e) {
-      if (e.key === "Escape") {
-        closeExport();
-      }
-    }, false);
-    return function () {};
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper",
     ref: wrapperRef
-  }, /*#__PURE__*/React.createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     blocks: blocks
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
@@ -679,61 +656,209 @@ function Blocks(_ref) {
     dangerouslySetInnerHTML: {
       __html: heading
     }
-  }), /*#__PURE__*/React.createElement("div", null, has_disabled_blocks && /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "resetblocks",
-    onClick: function onClick(e) {
-      return resetBlocks(e);
-    },
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Clear all disabled blocks", "block-manager")
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "dashicons dashicons-update-alt"
-  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reset", "block-manager")), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "export",
-    ref: exportBtnRef,
-    onClick: function onClick() {
-      return exportBlocks();
-    },
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export a list of disabled blocks via WordPress filter.", "block-manager")
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "dashicons dashicons-database-export"
-  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export", "block-manager")))), /*#__PURE__*/React.createElement("div", {
-    className: "gbm-code-export",
-    ref: exportDivRef,
-    tabIndex: "0"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-code-export--inner"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add the the following code to your functions.php to remove blocks at the theme level.", "block-manager")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "button button-primary",
-    onClick: copyExport,
-    ref: copyRef
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Copy Code", "block-manager")), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "button",
-    onClick: closeExport
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Close", "block-manager")))), /*#__PURE__*/React.createElement("code", {
-    id: "gbm-export",
-    ref: exportRef,
-    contentEditable: "true",
-    suppressContentEditableWarning: true
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Getting export data…", "block-manager")))), !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_components_Reset__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    ref: resetButtonRef,
+    callback: resetBlocks,
+    total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length
+  }), /*#__PURE__*/React.createElement(_components_Export__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    ref: exportButtonRef,
+    callback: exportBlocks,
+    total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length
+  }))), !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
     return /*#__PURE__*/React.createElement(_Category__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: category.info.slug,
       data: category,
       toggleBlock: toggleBlock,
-      categoryClickHandler: categoryClickHandler
+      disabledBlocks: disabledBlocks,
+      callback: categoryClickHandler
     });
-  })));
+  }))), /*#__PURE__*/React.createElement(_components_ExportModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    ref: exportModalRef,
+    returnButtonRef: exportButtonRef
+  }));
 }
 
 /***/ }),
 
-/***/ "./src/js/components/Blocks/Sidebar.js":
-/*!*********************************************!*\
-  !*** ./src/js/components/Blocks/Sidebar.js ***!
-  \*********************************************/
+/***/ "./src/js/components/Blocks/components/Export.js":
+/*!*******************************************************!*\
+  !*** ./src/js/components/Blocks/components/Export.js ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * Render the Export blocks button.
+ *
+ * @return {Element} The Export component.
+ */
+var Export = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function Export(props, ref) {
+  var callback = props.callback,
+    _props$total = props.total,
+    total = _props$total === void 0 ? 0 : _props$total;
+  return /*#__PURE__*/React.createElement("button", {
+    ref: ref,
+    type: "button",
+    className: "resetblocks",
+    onClick: function onClick() {
+      return callback();
+    },
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export the list of disabled blocks via WordPress filter", "block-manager"),
+    disabled: total < 1
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dashicons dashicons-database-export"
+  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export", "block-manager"));
+});
+/* harmony default export */ __webpack_exports__["default"] = (Export);
+
+/***/ }),
+
+/***/ "./src/js/components/Blocks/components/ExportModal.js":
+/*!************************************************************!*\
+  !*** ./src/js/components/Blocks/components/ExportModal.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _functions_copyToClipboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../functions/copyToClipboard */ "./src/js/functions/copyToClipboard.js");
+
+
+
+
+/**
+ * Render the ExportModal overlay.
+ *
+ * @return {Element} The ExportModal component.
+ */
+var ExportModal = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function ExportModal(props, ref) {
+  var data = props.data,
+    returnButtonRef = props.returnButtonRef;
+  var copyButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var codeRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
+  /**
+   * Close modal.
+   */
+  function close() {
+    ref.current.classList.remove("active");
+    setTimeout(function () {
+      if (returnButtonRef !== null && returnButtonRef !== void 0 && returnButtonRef.current) {
+        // Move focus back to the previous element.
+        returnButtonRef.current.focus({
+          preventSrcoll: true
+        });
+      }
+    }, 150);
+  }
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Export settings.
+    document.addEventListener("keyup", function (e) {
+      if (e.key === "Escape") {
+        close();
+      }
+    }, false);
+    return function () {};
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return /*#__PURE__*/React.createElement("div", {
+    className: "gbm-export-modal",
+    ref: ref,
+    tabIndex: "0"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-export-modal--inner"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add the the following code to your functions.php to remove blocks at the theme level.", "block-manager")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "button button-primary",
+    onClick: function onClick() {
+      return (0,_functions_copyToClipboard__WEBPACK_IMPORTED_MODULE_2__["default"])(codeRef.current, copyButtonRef.current);
+    },
+    ref: copyButtonRef
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Copy Code", "block-manager")), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "button",
+    onClick: function onClick() {
+      return close();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Close", "block-manager")))), /*#__PURE__*/React.createElement("code", {
+    id: "gbm-export",
+    contentEditable: "true",
+    suppressContentEditableWarning: true,
+    ref: codeRef
+  }, data)));
+});
+/* harmony default export */ __webpack_exports__["default"] = (ExportModal);
+
+/***/ }),
+
+/***/ "./src/js/components/Blocks/components/Reset.js":
+/*!******************************************************!*\
+  !*** ./src/js/components/Blocks/components/Reset.js ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * Render the Reset blocks button.
+ *
+ * @return {Element} The Reset component.
+ */
+var Reset = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function Reset(props, ref) {
+  var callback = props.callback,
+    _props$total = props.total,
+    total = _props$total === void 0 ? 0 : _props$total;
+
+  /**
+   * Confirm user wants to clear disabled blocks.
+   */
+  function confirm() {
+    var _window;
+    if ( // eslint-disable-next-line no-alert
+    (_window = window) !== null && _window !== void 0 && _window.confirm((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Are you sure you want to clear your disabled blocks?", "block-manager"))) {
+      callback();
+    }
+  }
+  return /*#__PURE__*/React.createElement("button", {
+    ref: ref,
+    type: "button",
+    className: "resetblocks",
+    onClick: function onClick() {
+      return confirm();
+    },
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Clear all disabled blocks", "block-manager"),
+    disabled: total < 1
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dashicons dashicons-update-alt"
+  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reset", "block-manager"));
+});
+/* harmony default export */ __webpack_exports__["default"] = (Reset);
+
+/***/ }),
+
+/***/ "./src/js/components/Blocks/components/Sidebar.js":
+/*!********************************************************!*\
+  !*** ./src/js/components/Blocks/components/Sidebar.js ***!
+  \********************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -743,7 +868,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Global/Search */ "./src/js/components/Global/Search.js");
+/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
 
 
 
@@ -771,12 +896,17 @@ function Sidebar(_ref) {
         top: top,
         behavior: "smooth"
       });
+      target.focus({
+        preventScroll: true
+      });
     }
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
+  }, /*#__PURE__*/React.createElement("p", null, "Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo."), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Categories", "block-manager")), /*#__PURE__*/React.createElement("div", {
-    className: "gbm-sidebar-wrap"
+    className: "gbm-cta-wrap"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
     var _category$info, _category$info2, _category$info3;
     return /*#__PURE__*/React.createElement("button", {
@@ -787,7 +917,7 @@ function Sidebar(_ref) {
         return scrollTo(e);
       }
     }, category === null || category === void 0 || (_category$info3 = category.info) === null || _category$info3 === void 0 ? void 0 : _category$info3.title);
-  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_1__["default"], null))));
 }
 
 /***/ }),
@@ -907,7 +1037,9 @@ __webpack_require__.r(__webpack_exports__);
 function Categories(_ref) {
   var wpBlocks = _ref.wpBlocks,
     wpCategories = _ref.wpCategories;
-  var heading = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Update the categories of your %s blocks with the category switcher.", "block-manager"), "<span>".concat(wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length, "</span>"));
+  var heading = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
+  // translators: %s: The number of blocks.
+  (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Update the categories of your %s blocks with the category switcher.", "block-manager"), "<span>".concat(wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length, "</span>"));
 
   /**
    * Change the block category.
@@ -1064,14 +1196,16 @@ function Sidebar() {
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Help", "block-manager")), /*#__PURE__*/React.createElement("div", {
-    className: "gbm-sidebar-wrap"
+    className: "gbm-cta"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("The Category Switcher provides functionality for changing the categories of Gutenberg blocks.", "block-manager")), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts.", "block-manager")), !!((_gbm_localize = gbm_localize) !== null && _gbm_localize !== void 0 && (_gbm_localize = _gbm_localize.filteredCategories) !== null && _gbm_localize !== void 0 && _gbm_localize.length) > 0 && /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "button",
     onClick: function onClick() {
       return reset();
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reset Categories", "block-manager")), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null)));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reset Categories", "block-manager")), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_0__["default"], null))));
 }
 
 /***/ }),
@@ -1194,6 +1328,49 @@ function Search() {
 
 /***/ }),
 
+/***/ "./src/js/functions/copyToClipboard.js":
+/*!*********************************************!*\
+  !*** ./src/js/functions/copyToClipboard.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ copyToClipboard; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * Copy export code to clipboard.
+ *
+ * @param {Element} input   The code input element.
+ * @param {Element} trigger The button trigger element.
+ */
+function copyToClipboard(input, trigger) {
+  var _window;
+  if (!input) return;
+  var range = document.createRange();
+  range.selectNodeContents(input);
+  var sel = (_window = window) === null || _window === void 0 ? void 0 : _window.getSelection(); //eslint-disable-line
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  // Copy to clipboard.
+  document.execCommand("copy");
+  if (trigger) {
+    // Set the Copy button text.
+    trigger.innerHTML = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Copied", "block-manager");
+    setTimeout(function () {
+      trigger.disabled = true;
+    }, 500);
+  }
+}
+
+/***/ }),
+
 /***/ "./src/js/functions/getBlockData.js":
 /*!******************************************!*\
   !*** ./src/js/functions/getBlockData.js ***!
@@ -1212,7 +1389,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
-var excludedBlocks = ["core/missing", "core/block", "core/text-columns", "core/navigation-submenu", "core/pattern", "core/post-navigation-link"];
+var excludedBlocks = ["core/paragraph", "core/missing", "core/block", "core/text-columns", "core/navigation-submenu", "core/pattern", "core/post-navigation-link"];
 
 /**
  * Get all WP blocks and updated categories.

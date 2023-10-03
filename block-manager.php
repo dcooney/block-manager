@@ -130,11 +130,7 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_get_disabled_blocks() {
-		$blocks_manual = get_option( BLOCK_MANAGER_OPTION, [] ); // Get manually disabled blocks.
-		$blocks_filter = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
-		$blocks_array  = array_merge( $blocks_manual, $blocks_filter ); // Merge arrays.
-		$blocks        = array_unique( $blocks_array ); // Remove Duplicates.
-
+		$blocks = get_option( BLOCK_MANAGER_OPTION, [] ); // Get disabled blocks.
 		return ! empty( $blocks ) ? $blocks : [];
 	}
 

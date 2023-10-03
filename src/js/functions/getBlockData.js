@@ -3,6 +3,7 @@ import { getBlockTypes } from "@wordpress/blocks";
 registerCoreBlocks();
 
 const excludedBlocks = [
+	"core/paragraph",
 	"core/missing",
 	"core/block",
 	"core/text-columns",

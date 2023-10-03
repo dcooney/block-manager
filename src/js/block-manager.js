@@ -31,6 +31,7 @@ domReady(function () {
 						); // `core/embed`, `twitter`
 					}
 				} else {
+					// Prevent paragraph from being disabled.
 					// eslint-disable-next-line no-lonely-if
 					if (
 						blockName !== "core/paragraph" &&

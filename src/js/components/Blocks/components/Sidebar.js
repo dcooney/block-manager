@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import Search from "../Global/Search";
+import Search from "../../Global/Search";
 
 /**
  * Render the Sidebar for Block Manager.
@@ -24,25 +24,32 @@ export default function Sidebar({ blocks }) {
 				top,
 				behavior: "smooth",
 			});
+			target.focus({ preventScroll: true });
 		}
 	}
 
 	return (
 		<div className="gbm-sidebar">
-			<h3>{__("Categories", "block-manager")}</h3>
-			<div className="gbm-sidebar-wrap">
-				{!!blocks?.length &&
-					blocks.map((category) => (
-						<button
-							key={category?.info?.slug}
-							type="button"
-							data-to={"block-" + category?.info?.slug}
-							onClick={(e) => scrollTo(e)}
-						>
-							{category?.info?.title}
-						</button>
-					))}
-				<Search />
+			<p>
+				Maecenas faucibus mollis interdum. Nullam quis risus eget urna
+				mollis ornare vel eu leo.
+			</p>
+			<div className="gbm-cta">
+				<h3>{__("Categories", "block-manager")}</h3>
+				<div className="gbm-cta-wrap">
+					{!!blocks?.length &&
+						blocks.map((category) => (
+							<button
+								key={category?.info?.slug}
+								type="button"
+								data-to={"block-" + category?.info?.slug}
+								onClick={(e) => scrollTo(e)}
+							>
+								{category?.info?.title}
+							</button>
+						))}
+					<Search />
+				</div>
 			</div>
 		</div>
 	);

@@ -1,0 +1,105 @@
+// Sidebar.
+.gbm-page-wrap {
+	.gbm-sidebar {
+		align-self: flex-start;
+		width: 100%;
+		margin-bottom: 15px;
+		padding: 0;
+
+		@media screen and (min-width: $xsmall) {
+			width: 200px;
+		}
+		@media screen and (min-width: $small) {
+			width: 275px;
+			position: sticky;
+			top: 50px;
+			left: 0;
+		}
+
+		.gbm-cta {
+			background-color: #fff;
+			border-radius: $radius;
+			border: 1px solid $grey;
+			box-shadow: 0 5px 10px rgba(0,0,0,.035);
+			margin-bottom: $padding;
+			h3 {
+				font-size: 15px;
+				border-bottom: 1px solid $grey;
+				padding: 15px;
+				margin: 0;
+				color: $text;
+			}
+			&-wrap {
+				padding: 15px;
+				button {
+					background: none;
+					border: none;
+					outline: none;
+					text-align: left;
+					padding: 0 0 5px;
+					margin: 0 0 5px;
+					width: 100%;
+					display: block;
+					font-size: 13px;
+					color: $text;
+					&:hover,
+					&:focus {
+						border: none;
+						background-color: transparent;
+						text-decoration: underline;
+						color: $purple;
+					}
+				}
+				p {
+					margin: 0 0 15px;
+				}
+			}
+			// Search Input
+			.gbm-search {
+				display: block;
+				width: 100%;
+				position: relative;
+				padding: 0;
+				margin-top: 10px;
+				input {
+					border-radius: $radius;
+					width: 100%;
+					margin: 0;
+					padding: 10px;
+					border-color: $grey;
+					background-color: #f7f7f7;
+					height: auto;
+					font-size: 13px;
+					line-height: 1;
+					&:focus{
+						outline-offset: 1px;
+						outline: 2px solid $purple;
+						box-shadow: none;
+					}
+				}
+				button {
+					margin: 0;
+					padding: 0 5px;
+					background: transparent;
+					color: $grey;
+					border: none;
+					border-radius: 0;
+					height: 32px;
+					font-size: 13px;
+					position: absolute;
+					top: calc(50%);
+					transform: translateY(-50%);
+					width: auto;
+					right: 0;
+					&:focus,
+					&:hover {
+						border: none;
+						background-color: transparent;
+						text-decoration: none;
+						color: $purple;
+					}
+				}
+			}
+		}
+	}
+}

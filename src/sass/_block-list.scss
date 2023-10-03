@@ -83,12 +83,12 @@
 				text-transform: capitalize;
 				font-size: 13px;
 				&.block-desc{
-					color: $grey_dark;
-					width: 100%;
-					display: -webkit-box;
-					-webkit-line-clamp: 3;
-					-webkit-box-orient: vertical;
-					overflow: hidden;
+					//color: $grey_dark;
+					//width: 100%;
+					//display: -webkit-box;
+					//-webkit-line-clamp: 3;
+					//-webkit-box-orient: vertical;
+					//overflow: hidden;
 					display: none;
 				}
 			}

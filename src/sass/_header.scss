@@ -22,16 +22,16 @@
 		}
 		h2 {
 			margin: 0;
-			padding: 2px 0 0;
-			font-size: 24px;
+			padding: 0;
+			font-size: 25px;
 			width: 100%;
 			color: $text;
+			display: flex;
+			align-items: center;
+			gap: 5px;
 
 			span {
 				font-size: 13px;
-				position: relative;
-				top: -1px;
-				left: 2px;
 				font-weight: 400;
 				border-radius: $radius;
 				background-color: rgba($purple, 0.05);

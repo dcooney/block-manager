@@ -16,10 +16,17 @@ import Icon from "../Global/Icon";
 function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	const { icon, name, description } = data;
 	const blockRef = useRef(null);
-	const disabled = disabledBlocks.indexOf(name) !== -1;
+
+	const disabled = disabledBlocks?.length
+		? disabledBlocks.indexOf(name) !== -1
+		: false;
 	const disabledClass = disabled ? "disabled" : "";
-	const isFiltered = filteredBlocks.indexOf(name) !== -1 ? true : false;
-	const filteredClass = isFiltered ? "filtered" : "";
+
+	const isFiltered =
+		filteredBlocks?.length && filteredBlocks?.indexOf(name) !== -1
+			? true
+			: false;
+	const filteredClass = isFiltered ? "disabled filtered" : "";
 
 	/**
 	 * Handle the click event for the block button.
@@ -32,12 +39,13 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 				toggleBlock(target, id);
 				target.blur();
 			} else {
+				// eslint-disable-next-line no-alert
 				alert(
 					__(
 						"This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.",
 						"block-manager",
 					),
-				); // eslint-disable-line no-alert
+				);
 				target.blur();
 			}
 		}

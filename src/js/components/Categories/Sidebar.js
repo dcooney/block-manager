@@ -33,25 +33,31 @@ export default function Sidebar() {
 	return (
 		<div className="gbm-sidebar">
 			<h3>{__("Help", "block-manager")}</h3>
-			<div className="gbm-sidebar-wrap">
-				<p>
-					{__(
-						"The Category Switcher provides functionality for changing the categories of Gutenberg blocks.",
-						"block-manager",
+			<div className="gbm-cta">
+				<div className="gbm-cta-wrap">
+					<p>
+						{__(
+							"The Category Switcher provides functionality for changing the categories of Gutenberg blocks.",
+							"block-manager",
+						)}
+					</p>
+					<p>
+						{__(
+							"Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts.",
+							"block-manager",
+						)}
+					</p>
+					{!!gbm_localize?.filteredCategories?.length > 0 && (
+						<button
+							type="button"
+							className="button"
+							onClick={() => reset()}
+						>
+							{__("Reset Categories", "block-manager")}
+						</button>
 					)}
-				</p>
-				<p>
-					{__(
-						"Changing a block category will update it's location in the Gutenberg Block Inserter while editing posts.",
-						"block-manager",
-					)}
-				</p>
-				{!!gbm_localize?.filteredCategories?.length > 0 && (
-					<button type="button" className="button" onClick={() => reset()}>
-						{__("Reset Categories", "block-manager")}
-					</button>
-				)}
-				<Search />
+					<Search />
+				</div>
 			</div>
 		</div>
 	);

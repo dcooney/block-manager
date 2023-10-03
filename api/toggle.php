@@ -34,7 +34,6 @@ add_action(
 function block_manager_toggle( WP_REST_Request $request ) {
 
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
 		// Get JSON Data.
@@ -42,44 +41,47 @@ function block_manager_toggle( WP_REST_Request $request ) {
 		$data = json_decode( $body['data'] ); // Get contents of data.
 
 		if ( $body && $data ) {
-			$block  = $data && $data->block ? $data->block : ''; // block name.
-			$type   = $data && $data->type ? $data->type : 'enable'; // enable/disable.
-			$blocks = (array) get_option( BLOCK_MANAGER_OPTION, array() ); // all currently disabled blocks.
+			$block           = $data && $data->block ? $data->block : ''; // block name.
+			$type            = $data && $data->type ? $data->type : 'enable'; // enable/disable.
+			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks(); // Get disabled blocks.
 
 			// Disable.
 			if ( $block && $type === 'disable' ) {
-				if ( ! in_array( $block, $blocks, true ) ) {
-					$blocks[] = $block;
+				if ( ! in_array( $block, $disabled_blocks, true ) ) {
+					$disabled_blocks[] = $block;
 				}
-				update_option( BLOCK_MANAGER_OPTION, $blocks );
+
+				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'Block Disabled', 'block-manager' ),
-					'disabled_blocks' => count( $blocks ),
-					'blocks'          => $blocks,
+					'disabled_blocks' => $disabled_blocks,
 				);
 			}
 
 			// Enable.
 			if ( $block && $type === 'enable' ) {
-				$new_blocks = [];
-				if ( in_array( $block, $blocks, true ) ) {
-					$new_blocks = array_diff( $blocks, array( $block ) );
+				$blocks = [];
+
+				// Loop all blocks and remove the specific block to be enabled.
+				foreach ( $disabled_blocks as $disabled_block ) {
+					if ( $block !== $disabled_block ) {
+						$blocks[] = $disabled_block;
+					}
 				}
 
-				update_option( BLOCK_MANAGER_OPTION, $new_blocks );
+				update_option( BLOCK_MANAGER_OPTION, $blocks );
 				$response = array(
 					'success'         => true,
 					'msg'             => __( 'Block enabled', 'block-manager' ),
-					'disabled_blocks' => count( $new_blocks ),
-					'blocks'          => $new_blocks,
+					'disabled_blocks' => $blocks,
 				);
 			}
 		} else {
 			$response = array(
 				'success'         => false,
 				'msg'             => __( 'Error accessing API data.', 'block-manager' ),
-				'disabled_blocks' => count( get_option( BLOCK_MANAGER_OPTION ) ),
+				'disabled_blocks' => [],
 			);
 		}
 

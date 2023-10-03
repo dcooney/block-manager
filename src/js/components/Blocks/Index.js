@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
 import Category from "./Category";
-import Sidebar from "./Sidebar";
+import Sidebar from "./components/Sidebar";
+import Reset from "./components/Reset";
+import Export from "./components/Export";
+import ExportModal from "./components/ExportModal";
 
 /**
  * Render the Blocks component.
@@ -14,17 +17,18 @@ import Sidebar from "./Sidebar";
  */
 export default function Blocks({ wpBlocks, wpCategories }) {
 	const wrapperRef = useRef();
-	const exportDivRef = useRef();
-	const exportRef = useRef();
-	const exportBtnRef = useRef();
-	const copyRef = useRef();
-	const [blocks, setBlocks] = useState([]);
+	const resetButtonRef = useRef();
+	const exportModalRef = useRef();
+	const exportButtonRef = useRef();
 
-	const disabledBlocks = gbm_localize?.disabledBlocks || 0;
-	const filteredBlocks = gbm_localize?.filteredBlocks || 0;
-	const has_disabled_blocks = true;
+	const [loading, setLoading] = useState(false);
+	const [blocks, setBlocks] = useState([]);
+	const [disabledBlocks, setDisabledBlocks] = useState(
+		gbm_localize?.disabledBlocks,
+	);
 
 	const heading = sprintf(
+		// translators: %s: The number of blocks.
 		__(
 			"Manage the status of your %s blocks - disabled blocks will be globally removed from the block inserter.",
 			"block-manager",
@@ -72,7 +76,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		}
 
 		blocksWrapper.classList.add("loading");
-
 		const blockArray = Array.prototype.map.call(allBlocks, function (block) {
 			return block.dataset.id;
 		});
@@ -94,10 +97,9 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				},
 			})
 				.then(function (res) {
-					const response = res.data;
-					if (response && res.status === 200) {
+					const { data = {}, status } = res;
+					if (status === 200 && data.success) {
 						// Success
-
 						[...allBlocks].forEach(function (block) {
 							if (type === "enable") {
 								block.classList.remove("disabled");
@@ -106,6 +108,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							}
 						});
 						blocksWrapper.classList.remove("loading");
+						setDisabledBlocks(data.disabled_blocks);
 						setCategoryStatus(allBlocks[0]);
 					} else {
 						console.warn("an error has occurred");
@@ -139,8 +142,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			? "enable"
 			: "disable";
 
-		const data = { block, type };
-
 		// Send API Request
 		axios({
 			method: "POST",
@@ -150,13 +151,13 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				"Content-Type": "application/json",
 			},
 			data: {
-				data: JSON.stringify(data),
+				data: JSON.stringify({ block, type }),
 			},
 		})
 			.then(function (res) {
-				const response = res.data;
-				if (response && res?.status === 200) {
-					if (response.success) {
+				const { data, status } = res;
+				if (data && status === 200) {
+					if (data.success) {
 						if (type === "disable") {
 							element.classList.add("disabled");
 						} else {
@@ -165,6 +166,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						element.classList.remove("loading");
 						setCategoryStatus(element);
 					}
+					setDisabledBlocks(data.disabled_blocks);
 				} else {
 					console.warn("an error has occurred");
 					element.classList.remove("loading");
@@ -213,92 +215,58 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	};
 
 	/**
-	 * Export blocks as PHP.
+	 * Export blocks as PHP code.
 	 */
-	const exportBlocks = () => {
-		const url = gbm_localize.root + "gbm/export/";
-		exportDivRef.current.classList.add("active");
+	function exportBlocks() {
+		exportModalRef?.current?.classList.add("active"); // Loading state.
+		const code = exportModalRef?.current?.querySelector("#gbm-export");
 
-		// Send API Request
 		axios({
 			method: "GET",
-			url,
+			url: gbm_localize.root + "gbm/export/",
 			headers: {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
 			},
 		})
 			.then(function (res) {
-				if (res.status === 200 && res.data && res.data.success) {
-					let blockReturn = res.data.blocks;
+				const { data, status } = res;
+				if (status === 200 && data?.success && data?.blocks) {
+					let blockReturn = data.blocks;
 					blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
 					blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
 					blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
 					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn};<br/>});`;
-					exportRef.current.innerHTML = results;
+					code.innerHTML = results;
 					setTimeout(function () {
-						exportDivRef.current.focus();
-					}, 100);
+						code.focus();
+					}, 250);
 				} else {
-					console.warn("There was an error exporting disabled blocks.");
-					exportDivRef.current.classList.remove("active");
+					console.warn(
+						__(
+							"There was an error exporting disabled blocks.",
+							"block-manager",
+						),
+					);
+					exportModalRef?.current?.classList.remove("active");
 				}
 			})
 			.catch(function (error) {
 				// Error
 				console.warn(error);
-				exportDivRef.current.classList.remove("active");
+				exportModalRef?.current?.classList.remove("active");
 			});
-	};
-
-	/**
-	 * Copy export code to clipboard.
-	 */
-	const copyExport = () => {
-		const range = document.createRange();
-		range.selectNodeContents(exportRef.current);
-		const sel = window?.getSelection(); //eslint-disable-line
-		sel.removeAllRanges();
-		sel.addRange(range);
-
-		// Copy to clipboard
-		document.execCommand("copy");
-		copyRef.current.innerHTML = __("Copied", "block-manager");
-		setTimeout(function () {
-			copyRef.current.disabled = true;
-		}, 500);
-	};
-
-	/**
-	 * Close export modal.
-	 */
-	const closeExport = () => {
-		exportDivRef.current.classList.remove("active");
-		setTimeout(function () {
-			exportBtnRef.current.focus();
-			exportRef.current.innerHTML = __(
-				"Getting export data…",
-				"block-manager",
-			);
-		}, 350);
-	};
+	}
 
 	/**
 	 * Reset blocks to default state.
-	 *
-	 * @param {Event} e The event object.
 	 */
-	const resetBlocks = (e) => {
-		const target = e.currentTarget;
-		target.classList.add("spin");
+	function resetBlocks() {
+		resetButtonRef?.current?.classList.add("spin"); // Loading state.
 
-		// API Request.
-		const url = gbm_localize.root + "gbm/blocks_reset/";
-
-		// Send request.
 		axios({
 			method: "POST",
-			url,
+			url: gbm_localize.root + "gbm/blocks_reset/",
 			headers: {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
@@ -313,13 +281,16 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						item.classList.remove("disabled");
 					});
 				}
-				target.classList.remove("spin");
-				target.classList.add("hidden");
+				setDisabledBlocks([]);
+				setTimeout(function () {
+					resetButtonRef?.current?.classList.remove("spin");
+				}, 250);
 			})
 			.catch(function (error) {
 				console.warn(error);
+				resetButtonRef?.current?.classList.remove("spin");
 			});
-	};
+	}
 
 	/**
 	 * Mutate Blocks on load.
@@ -374,106 +345,47 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 		// Set Loaded.
 		wrapperRef?.current.classList.add("loaded");
-
-		// Export settings.
-		document.addEventListener(
-			"keyup",
-			function (e) {
-				if (e.key === "Escape") {
-					closeExport();
-				}
-			},
-			false,
-		);
-		return () => {};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div className="gbm-block-list-wrapper" ref={wrapperRef}>
-			<Sidebar blocks={blocks} />
-			<div className="gbm-blocks">
-				<span className="global-loader loading">
-					{__("Loading", "block-manager")}…
-				</span>
-				<div className="gbm-options">
-					<p
-						className="gbm-heading"
-						dangerouslySetInnerHTML={{ __html: heading }}
-					/>
-					<div>
-						{has_disabled_blocks && (
-							<button
-								type="button"
-								className="resetblocks"
-								onClick={(e) => resetBlocks(e)}
-								title={__("Clear all disabled blocks", "block-manager")}
-							>
-								<span className="dashicons dashicons-update-alt"></span>
-								{__("Reset", "block-manager")}
-							</button>
-						)}
-						<button
-							type="button"
-							className="export"
-							ref={exportBtnRef}
-							onClick={() => exportBlocks()}
-							title={__(
-								"Export a list of disabled blocks via WordPress filter.",
-								"block-manager",
-							)}
-						>
-							<span className="dashicons dashicons-database-export"></span>
-							{__("Export", "block-manager")}
-						</button>
-					</div>
-				</div>
-				<div className="gbm-code-export" ref={exportDivRef} tabIndex="0">
-					<div className="gbm-code-export--inner">
-						<div>
-							<p>
-								{__(
-									"Add the the following code to your functions.php to remove blocks at the theme level.",
-									"block-manager",
-								)}
-							</p>
-							<div>
-								<button
-									type="button"
-									className="button button-primary"
-									onClick={copyExport}
-									ref={copyRef}
-								>
-									{__("Copy Code", "block-manager")}
-								</button>
-								<button
-									type="button"
-									className="button"
-									onClick={closeExport}
-								>
-									{__("Close", "block-manager")}
-								</button>
-							</div>
-						</div>
-						<code
-							id="gbm-export"
-							ref={exportRef}
-							contentEditable="true"
-							suppressContentEditableWarning={true}
-						>
-							{__("Getting export data…", "block-manager")}
-						</code>
-					</div>
-				</div>
-				{!!blocks?.length &&
-					blocks.map((category) => (
-						<Category
-							key={category.info.slug}
-							data={category}
-							toggleBlock={toggleBlock}
-							categoryClickHandler={categoryClickHandler}
+		<>
+			<div className="gbm-block-list-wrapper" ref={wrapperRef}>
+				<Sidebar blocks={blocks} />
+				<div className="gbm-blocks">
+					<span className="global-loader loading">
+						{__("Loading", "block-manager")}…
+					</span>
+					<div className="gbm-options">
+						<p
+							className="gbm-heading"
+							dangerouslySetInnerHTML={{ __html: heading }}
 						/>
-					))}
+						<div>
+							<Reset
+								ref={resetButtonRef}
+								callback={resetBlocks}
+								total={disabledBlocks?.length}
+							/>
+							<Export
+								ref={exportButtonRef}
+								callback={exportBlocks}
+								total={disabledBlocks?.length}
+							/>
+						</div>
+					</div>
+					{!!blocks?.length &&
+						blocks.map((category) => (
+							<Category
+								key={category.info.slug}
+								data={category}
+								toggleBlock={toggleBlock}
+								disabledBlocks={disabledBlocks}
+								callback={categoryClickHandler}
+							/>
+						))}
+				</div>
 			</div>
-		</div>
+			<ExportModal ref={exportModalRef} returnButtonRef={exportButtonRef} />
+		</>
 	);
 }

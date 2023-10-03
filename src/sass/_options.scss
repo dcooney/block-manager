@@ -6,7 +6,6 @@
 		gap: 20px;
 		justify-content: space-between;
 		align-items: center;
-		width: 100%;
 		p.gbm-heading {
 			margin: 0;
 			span {
@@ -62,6 +61,10 @@
 					animation-iteration-count: infinite;
 					animation-timing-function: linear;
 				}
+			}
+			&[disabled]{
+				pointer-events: none;
+				opacity: 0.5;
 			}
 		}
 	}

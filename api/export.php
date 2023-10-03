@@ -33,11 +33,12 @@ add_action(
  */
 function block_manager_export( WP_REST_Request $request ) {
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-		$blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
+		$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
+		$blocks          = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
 
 		$response = array(
 			'success' => true,
-			'blocks'  => wp_json_encode( $blocks ),
+			'blocks'  => wp_json_encode( array_merge( $blocks, $filtered_blocks ) ),
 		);
 
 		wp_send_json( $response );

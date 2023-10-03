@@ -1,7 +1,9 @@
 @import './variables.scss';
-@import './options.scss';
-@import './block-list.scss';
 @import './header.scss';
+@import './options.scss';
+@import './sidebar.scss';
+@import './block-list.scss';
+@import './export-modal.scss';
 
 .settings_page_block-manager {
 	#wpbody-content {
@@ -46,56 +48,6 @@
 			border-radius: $radius;
 			overflow: hidden;
 		}
-		// Sidebar.
-		.gbm-sidebar {
-			align-self: flex-start;
-			width: 100%;
-			margin-bottom: 15px;
-			padding: 0;
-			background-color: #fff;
-			border-radius: $radius;
-			border: 1px solid $grey;
-			box-shadow: 0 5px 10px rgba(0,0,0,.035);
-			@media screen and (min-width: $xsmall) {
-				width: 200px;
-			}
-			@media screen and (min-width: $small) {
-				width: 275px;
-				position: sticky;
-				top: 50px;
-				left: 0;
-			}
-			h3 {
-				font-size: 15px;
-				border-bottom: 1px solid $grey;
-				padding: 15px;
-				margin: 0;
-			}
-			&-wrap {
-				padding: 15px;
-				button {
-					background: none;
-					border: none;
-					outline: none;
-					text-align: left;
-					padding: 0 0 5px;
-					margin: 0 0 5px;
-					width: 100%;
-					display: block;
-					font-size: 13px;
-					&:hover,
-					&:focus {
-						border: none;
-						background-color: transparent;
-						text-decoration: underline;
-						color: $purple;
-					}
-				}
-				p {
-					margin: 0 0 15px;
-				}
-			}
-		}
 
 		// Block listing.
 		.gbm-blocks {
@@ -119,112 +71,6 @@
 					}
 				}
 			}
-		}
-		// Search Input
-		.gbm-search {
-			display: block;
-			width: 100%;
-			position: relative;
-			padding: 0;
-			margin-top: 10px;
-			input {
-				border-radius: $radius;
-				width: 100%;
-				margin: 0;
-				padding: 10px;
-				border-color: $grey;
-				background-color: #f7f7f7;
-				height: auto;
-				font-size: 13px;
-				line-height: 1;
-				&:focus{
-					outline-offset: 1px;
-					outline: 2px solid $purple;
-					box-shadow: none;
-				}
-			}
-			button {
-				margin: 0;
-				padding: 0 5px;
-				background: transparent;
-				color: $grey;
-				border: none;
-				border-radius: 0;
-				height: 32px;
-				font-size: 13px;
-				position: absolute;
-				top: calc(50%);
-				transform: translateY(-50%);
-				width: auto;
-				right: 0;
-				&:focus,
-				&:hover {
-					border: none;
-					background-color: transparent;
-					text-decoration: none;
-					color: $purple;
-				}
-			}
-		}
-	}
-	&-code-export {
-		position: fixed;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(255, 255, 255, 0.85);
-		z-index: 99999;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		opacity: 0;
-		visibility: hidden;
-		transition: all 0.35s ease-in-out 0.1s;
-		transform: scale(1.1);
-		&.active {
-			opacity: 1;
-			visibility: visible;
-			transform: scale(1);
-		}
-		&--inner {
-			max-width: 680px;
-			margin: 0 auto;
-			padding: 20px;
-			background-color: #fff;
-			border-radius: 10px;
-			border: 1px solid $grey;
-			box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-			> div {
-				display: flex;
-				width: 100%;
-				padding: 0 0 10px 5px;
-				justify-content: space-between;
-				align-items: center;
-			}
-			button {
-				margin-left: 5px !important;
-				border-radius: $radius;
-			}
-			p {
-				margin: 0;
-				padding: 0;
-				max-width: 60%;
-			}
-		}
-		code {
-			display: block;
-			padding: 20px;
-			word-break: break-word;
-			font-size: 11px;
-			border-radius: $radius;
-			font-family: 'consolas', Monaco, monospace;
-			border: 1px solid $grey;
-			max-height: 300px;
-			overflow: hidden;
-			overflow-y: auto;
-			-webkit-overflow-scrolling: touch;
 		}
 	}
 

@@ -4,31 +4,30 @@ import Block from "./Block";
 /**
  * Render the Category component for the category listing.
  *
- * @param {Object}   props                      The component properties.
- * @param {Object}   props.data                 Data for an individual block.
- * @param {Function} props.toggleBlock          Function to toggle the activation of a block.
- * @param {Function} props.categoryClickHandler Function to call after category change.
- * @return {Element}                            The Category component.
+ * @param {Object}   props                The component properties.
+ * @param {Object}   props.data           Data for an individual block.
+ * @param {Function} props.toggleBlock    Function to toggle the activation of a block.
+ * @param {Array}    props.disabledBlocks Array of disabled blocks.
+ * @param {Function} props.callback       Function to call after category change.
+ * @return {Element}                      The Category component.
  */
-export default function Category({ data, toggleBlock, categoryClickHandler }) {
+export default function Category({
+	data,
+	toggleBlock,
+	disabledBlocks,
+	callback,
+}) {
 	const { blocks, info } = data;
 	const { title } = info;
-
-	let disabledBlocks = gbm_localize.disabledBlocks;
 	const filteredBlocks = gbm_localize.filteredBlocks;
 
-	if (typeof disabledBlocks === "object") {
-		// Convert `disabledBlocks` to array if required.
-		disabledBlocks = Object.keys(disabledBlocks).map(
-			(i) => disabledBlocks[i],
-		);
-	}
+	// Count disabled blocks.
+	let disabledBlockCount = disabledBlocks?.length || 0;
 
-	// Count disabled blocks
-	let disabledBlockCount = 0;
-	if (disabledBlocks.length) {
-		[...blocks].forEach(function (block) {
-			const found = disabledBlocks.indexOf(block.name);
+	// Loop filtered blocks to add to count.
+	if (filteredBlocks.length) {
+		[...filteredBlocks].forEach(function (block) {
+			const found = filteredBlocks.indexOf(block);
 			if (found !== -1) {
 				disabledBlockCount++;
 			}
@@ -49,10 +48,11 @@ export default function Category({ data, toggleBlock, categoryClickHandler }) {
 			id={"block-" + data.info.slug}
 			className="gbm-block-group"
 			data-total-blocks={data.blocks.length}
+			tabIndex={-1}
 		>
 			<div className="gbm-block-list-controls">
 				<h3>
-					{title}{" "}
+					{title}
 					<span>
 						({data.blocks.length - disabledBlockCount}/
 						{data.blocks.length})
@@ -61,7 +61,7 @@ export default function Category({ data, toggleBlock, categoryClickHandler }) {
 				<button
 					className={switchClass}
 					data-state={switchState}
-					onClick={categoryClickHandler}
+					onClick={callback}
 					title={__("Toggle all blocks in this category", "block-manager")}
 				>
 					<div className="gbm-block-switch--wrap">

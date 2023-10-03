@@ -191,6 +191,7 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(function () {
             wp.blocks.unregisterBlockVariation(variation[1], variation[2]); // `core/embed`, `twitter`
           }
         } else {
+          // Prevent paragraph from being disabled.
           // eslint-disable-next-line no-lonely-if
           if (blockName !== "core/paragraph" && blockName && 0 !== blockName.length && undefined !== wp.blocks.getBlockType(blockName)) {
             wp.blocks.unregisterBlockType(blockName);
