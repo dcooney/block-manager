@@ -17,7 +17,7 @@ const Reset = forwardRef(function Reset(props, ref) {
 			// eslint-disable-next-line no-alert
 			window?.confirm(
 				__(
-					"Are you sure you want to clear your disabled blocks?",
+					"Are you sure you want to clear and reset all your disabled blocks?",
 					"block-manager",
 				),
 			)

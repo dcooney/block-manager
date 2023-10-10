@@ -1,8 +1,8 @@
 import { useState } from "@wordpress/element";
 import getBlockData from "../functions/getBlockData";
 import getCategoryData from "../functions/getCategoryData";
-import Blocks from "./Blocks/Index";
 import Categories from "./Categories/Index";
+import Blocks from "./Blocks/Blocks";
 
 export default function App() {
 	const [blocks] = useState(getBlockData());

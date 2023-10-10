@@ -6,9 +6,6 @@
 		margin-bottom: 15px;
 		padding: 0;
 
-		@media screen and (min-width: $xsmall) {
-			width: 200px;
-		}
 		@media screen and (min-width: $small) {
 			width: 275px;
 			position: sticky;
@@ -23,9 +20,9 @@
 			box-shadow: 0 5px 10px rgba(0,0,0,.035);
 			margin-bottom: $padding;
 			h3 {
-				font-size: 15px;
+				font-size: 14px;
 				border-bottom: 1px solid $grey;
-				padding: 15px;
+				padding: $padding;
 				margin: 0;
 				color: $text;
 			}
@@ -97,6 +94,63 @@
 						background-color: transparent;
 						text-decoration: none;
 						color: $purple;
+					}
+				}
+			}
+
+			// Legend.
+			&-block-legend{
+				display: none;
+				@media screen and (min-width: $small) {
+					display: block;
+				}
+
+				.gbm-cta-wrap{
+					display: flex;
+					width: 100%;
+					padding: 0;
+					overflow: hidden;
+				}
+
+				.gbm-legend{
+					display: block;
+					width: 100%;
+					text-align: center;
+					border: none;
+					border-right: 1px solid $grey;
+					padding: 0 0 10px;
+					&:last-of-type {
+						border-right: none;
+					}
+					&:last-of-type{
+						margin: 0;
+					}
+					> span {
+						color: $text;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 100%;
+						height: 50px;
+						position: relative;
+						font-size: 16px;
+						margin-bottom: 10px;
+						border-bottom: 1px solid $grey;
+						& strong {
+							position: relative;
+							z-index: 9;
+							font-weight: 800;
+						}
+					}
+					&--disabled{
+						> span {
+							background-color: $block_disabled;
+						}
+					}
+					&--filtered{
+						> span {
+							background-color: $block_filtered;
+						}
 					}
 				}
 			}

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import axios from "axios";
-import Category from "./Category";
-import Sidebar from "./components/Sidebar";
-import Reset from "./components/Reset";
+import Category from "./components/Category";
 import Export from "./components/Export";
 import ExportModal from "./components/ExportModal";
+import Reset from "./components/Reset";
+import Sidebar from "./components/Sidebar";
 
 /**
  * Render the Blocks component.
@@ -16,32 +16,23 @@ import ExportModal from "./components/ExportModal";
  * @return {Element}                  The Blocks component.
  */
 export default function Blocks({ wpBlocks, wpCategories }) {
-	const wrapperRef = useRef();
 	const resetButtonRef = useRef();
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
 
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [blocks, setBlocks] = useState([]);
 	const [disabledBlocks, setDisabledBlocks] = useState(
 		gbm_localize?.disabledBlocks,
 	);
-
-	const heading = sprintf(
-		// translators: %s: The number of blocks.
-		__(
-			"Manage the status of your %s blocks - disabled blocks will be globally removed from the block inserter.",
-			"block-manager",
-		),
-		`<span>${wpBlocks?.length}</span>`,
-	);
+	const filteredBlocks = gbm_localize?.filteredBlocks || [];
 
 	/**
-	 * Category level block toggle click.
+	 * Category level block toggle switch.
 	 *
 	 * @param {Event} e The event object.
 	 */
-	const categoryClickHandler = (e) => {
+	function categoryToggleSwitch(e) {
 		const target = e?.currentTarget;
 		if (!target) {
 			return false;
@@ -55,7 +46,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			target.classList.remove("disabled");
 			target.dataset.state = "active";
 		}
-	};
+	}
 
 	/**
 	 * Toggle all blocks in a category.
@@ -63,11 +54,11 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	 * @param {Element} target The target element.
 	 * @param {string}  type   The type of toggle.
 	 */
-	const bulkProcess = (target, type = "enable") => {
-		const blocksWrapper =
+	function bulkProcess(target, type = "enable") {
+		const container =
 			target?.parentNode?.parentNode?.querySelector(".gbm-block-list");
 
-		const allBlocks = blocksWrapper?.querySelectorAll(
+		const allBlocks = container?.querySelectorAll(
 			".gbm-block-list .item:not(.filtered)",
 		);
 
@@ -75,31 +66,28 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			return false;
 		}
 
-		blocksWrapper.classList.add("loading");
+		container.classList.add("loading");
+
+		// Create array of block IDs/names.
 		const blockArray = Array.prototype.map.call(allBlocks, function (block) {
 			return block.dataset.id;
 		});
 
 		if (blockArray?.length) {
-			const url = gbm_localize.root + "gbm/bulk_process/";
-			const data = { blocks: blockArray, type };
-
-			// Send API Request
 			axios({
 				method: "POST",
-				url,
+				url: gbm_localize.root + "gbm/bulk_process/",
 				headers: {
 					"X-WP-Nonce": gbm_localize.nonce,
 					"Content-Type": "application/json",
 				},
 				data: {
-					data: JSON.stringify(data),
+					data: JSON.stringify({ blocks: blockArray, type }),
 				},
 			})
 				.then(function (res) {
 					const { data = {}, status } = res;
 					if (status === 200 && data.success) {
-						// Success
 						[...allBlocks].forEach(function (block) {
 							if (type === "enable") {
 								block.classList.remove("disabled");
@@ -107,22 +95,22 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 								block.classList.add("disabled");
 							}
 						});
-						blocksWrapper.classList.remove("loading");
+						container.classList.remove("loading");
 						setDisabledBlocks(data.disabled_blocks);
 						setCategoryStatus(allBlocks[0]);
 					} else {
 						console.warn("an error has occurred");
-						blocksWrapper.classList.remove("loading");
+						container.classList.remove("loading");
 					}
 				})
 				.catch(function (error) {
 					console.warn(error);
-					blocksWrapper.classList.remove("loading");
+					container.classList.remove("loading");
 				});
 		} else {
 			alert(__("No blocks found", "block-manager")); // eslint-disable-line no-alert
 		}
-	};
+	}
 
 	/**
 	 * Toggle the status of a block.
@@ -130,14 +118,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	 * @param {Element} element The target element.
 	 * @param {Object}  block   Block data as an object.
 	 */
-	const toggleBlock = (element, block) => {
+	function toggleBlock(element, block) {
 		if (!element || element.classList.contains("loading")) {
-			// Exit if loading
 			return false;
 		}
 
 		element.classList.add("loading");
-		const url = gbm_localize.root + "gbm/toggle/";
 		const type = element.classList.contains("disabled")
 			? "enable"
 			: "disable";
@@ -145,7 +131,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		// Send API Request
 		axios({
 			method: "POST",
-			url,
+			url: gbm_localize.root + "gbm/toggle/",
 			headers: {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
@@ -176,20 +162,18 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				console.warn(error);
 				element.classList.remove("loading");
 			});
-	};
+	}
 
 	/**
 	 * Set the status indicator and button states for each category.
 	 *
 	 * @param {Element} element The target element.
 	 */
-	const setCategoryStatus = (element) => {
+	function setCategoryStatus(element) {
 		if (!element) {
 			return false;
 		}
 		const parent = element.parentNode.parentNode;
-		const totalBlocks = parent.dataset.totalBlocks;
-		const feedback = parent.querySelector("h3 span");
 		const toggleBtn = parent.querySelector(".gbm-block-switch");
 		const items = parent.querySelectorAll(".gbm-block-list .item");
 
@@ -198,10 +182,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			const disabledBlocksFiltered = blockArr.filter((block) => {
 				return block.classList.contains("disabled");
 			});
-
-			feedback.innerHTML = `(${
-				totalBlocks - disabledBlocksFiltered.length
-			}/${totalBlocks})`;
 
 			// If disabled === total items, toggle the switch
 			if (disabledBlocksFiltered.length === items.length) {
@@ -212,14 +192,13 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				toggleBtn.dataset.state = "active";
 			}
 		}
-	};
+	}
 
 	/**
 	 * Export blocks as PHP code.
 	 */
 	function exportBlocks() {
 		exportModalRef?.current?.classList.add("active"); // Loading state.
-		const code = exportModalRef?.current?.querySelector("#gbm-export");
 
 		axios({
 			method: "GET",
@@ -237,6 +216,8 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
 					blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
 					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn};<br/>});`;
+					const code =
+						exportModalRef?.current?.querySelector("#gbm-export");
 					code.innerHTML = results;
 					setTimeout(function () {
 						code.focus();
@@ -343,49 +324,66 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	useEffect(() => {
 		onLoad();
 
-		// Set Loaded.
-		wrapperRef?.current.classList.add("loaded");
+		setTimeout(function () {
+			setLoading(false);
+		}, 250);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<>
-			<div className="gbm-block-list-wrapper" ref={wrapperRef}>
-				<Sidebar blocks={blocks} />
-				<div className="gbm-blocks">
-					<span className="global-loader loading">
-						{__("Loading", "block-manager")}…
-					</span>
-					<div className="gbm-options">
-						<p
-							className="gbm-heading"
-							dangerouslySetInnerHTML={{ __html: heading }}
+			{loading ? (
+				<span className="gbm-loader">
+					{__("Fetching Blocks", "block-manager")}…
+				</span>
+			) : (
+				<>
+					<div className="gbm-block-list-wrapper">
+						<Sidebar
+							blocks={blocks}
+							total={wpBlocks?.length}
+							disabled={disabledBlocks?.length}
+							filtered={filteredBlocks?.length}
 						/>
-						<div>
-							<Reset
-								ref={resetButtonRef}
-								callback={resetBlocks}
-								total={disabledBlocks?.length}
-							/>
-							<Export
-								ref={exportButtonRef}
-								callback={exportBlocks}
-								total={disabledBlocks?.length}
-							/>
+						<div className="gbm-blocks">
+							<div className="gbm-options">
+								<p className="gbm-heading">
+									{__(
+										"Select blocks below to globally remove them from the WordPress Block Inserter.",
+										"block-manager",
+									)}
+								</p>
+								<div>
+									<Reset
+										ref={resetButtonRef}
+										callback={resetBlocks}
+										total={disabledBlocks?.length}
+									/>
+									<Export
+										ref={exportButtonRef}
+										callback={exportBlocks}
+										total={disabledBlocks?.length}
+									/>
+								</div>
+							</div>
+							{!!blocks?.length &&
+								blocks.map((category) => (
+									<Category
+										key={category.info.slug}
+										data={category}
+										toggleBlock={toggleBlock}
+										disabledBlocks={disabledBlocks}
+										filteredBlocks={filteredBlocks}
+										callback={categoryToggleSwitch}
+									/>
+								))}
 						</div>
 					</div>
-					{!!blocks?.length &&
-						blocks.map((category) => (
-							<Category
-								key={category.info.slug}
-								data={category}
-								toggleBlock={toggleBlock}
-								disabledBlocks={disabledBlocks}
-								callback={categoryClickHandler}
-							/>
-						))}
-				</div>
-			</div>
-			<ExportModal ref={exportModalRef} returnButtonRef={exportButtonRef} />
+					<ExportModal
+						ref={exportModalRef}
+						returnButtonRef={exportButtonRef}
+					/>
+				</>
+			)}
 		</>
 	);
 }

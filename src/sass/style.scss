@@ -2,6 +2,7 @@
 @import './header.scss';
 @import './options.scss';
 @import './sidebar.scss';
+@import './loader.scss';
 @import './block-list.scss';
 @import './export-modal.scss';
 
@@ -20,11 +21,13 @@
 		cursor: pointer;
 	}
 
+	padding: 0 20px;
+
 	&-block-list-wrapper {
-		padding: 0 20px;
+		padding: 0;
 		width: 100%;
 		max-width: 1800px;
-		@media screen and (min-width: $xsmall) {
+		@media screen and (min-width: $small) {
 			display: flex;
 			flex-direction: row-reverse;
 		}
@@ -52,7 +55,7 @@
 		// Block listing.
 		.gbm-blocks {
 			flex: 1;
-			@media screen and (min-width: $xsmall) {
+			@media screen and (min-width: $small) {
 				padding-right: 25px;
 			}
 			// List View
@@ -74,56 +77,6 @@
 		}
 	}
 
-	&-block-list-controls {
-		display: flex;
-		width: 100%;
-		align-items: center;
-		flex-wrap: nowrap;
-		margin: 0;
-		padding: 10px $padding;
-		border-bottom: 1px solid $grey;
-		background-color: #fff;
-		border-radius: 3px 3px 0 0;
-		&.no-border {
-			border: none;
-		}
-		&.categories {
-			padding: 0 25px;
-			height: 45px;
-			font-weight: 600;
-			text-transform: uppercase;
-			display: none;
-			@media screen and (min-width: $small) {
-				display: flex;
-			}
-			p {
-				margin: 0;
-			}
-			h3:last-of-type {
-				text-align: right;
-			}
-		}
-		h3 {
-			flex: 1;
-			text-transform: capitalize;
-			padding: 0;
-			margin: 0;
-			font-size: 14px;
-			span {
-				font-weight: 400;
-				opacity: 0.5;
-				font-size: 12px;
-				position: relative;
-				left: 2px;
-			}
-		}
-		.gbm-block-switch {
-			position: relative;
-			top: -1px;
-			width: 30px;
-			height: 30px;
-		}
-	}
 	&-block-switch {
 		cursor: pointer;
 		height: 13px;

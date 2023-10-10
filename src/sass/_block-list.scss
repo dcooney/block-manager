@@ -2,10 +2,11 @@
 	width: 100%;
 	width: 100%;
 	display: grid;
-	gap: 1px;
-	background-color: $grey;
+	gap: 5px;
+	background-color: #ebedee;
+	background-color: #fff;
 	position: relative;
-	padding: 0;
+	padding: 10px;
 	text-align: left;
 	grid-template-columns: repeat(2, minmax(0,1fr));
 	@media screen and (min-width: $xsmall) {
@@ -23,14 +24,6 @@
 	@media screen and (min-width: $xlarge) {
 		grid-template-columns: repeat(8, minmax(0,1fr));
 	}
-
-	&.loading {
-		.loader {
-			opacity: 0.5;
-			visibility: visible;
-		}
-	}
-
 	.item {
 		padding: 30px 10px;
 		margin: 0;
@@ -42,13 +35,13 @@
 		position: relative;
 		width: 100%;
 		background-color: #fff;
-		border: none;
+		border: 1px solid $border_light;
 		cursor: pointer;
 		overflow: hidden;
+		border-radius: $radius;
 
 		// Block display.
 		&.block-button{
-			position: relative;
 			& > div {
 				position: relative;
 				z-index: 1;
@@ -81,7 +74,10 @@
 				font-weight: 400;
 				line-height: 1.35;
 				text-transform: capitalize;
-				font-size: 13px;
+				font-size: 12px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				&.block-desc{
 					//color: $grey_dark;
 					//width: 100%;
@@ -101,62 +97,30 @@
 			&:hover:not(.disabled):not(.filtered),
 			&:focus:not(.disabled):not(.filtered) {
 				background-color: #f7f7f7;
+				background-color: #f0faff;
 			}
 
 			&:focus-visible:not(.filtered) {
 				outline: 2px solid $purple;
 				outline-offset: -2px;
 			}
-			.disabled-svg{
-				z-index: 0;
-				visibility: hidden;
-				opacity: 0;
-				display: block;
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				left: 0;
-				top: 0;
-				right: 0;
-				bottom: 0;
-				transition: $transition;
-				padding: 1px;
-				line {
-					stroke: #d6dbdf;
-					stroke-width: 1;
-				}
-			}
+
 		}
 
 		// Disabled
-		&.disabled {
-			background-color: #f7f7f7;
+		&.disabled,
+		&.filtered {
+			background-color: $grey_light;
 			.icon,
 			p {
-				opacity: 0.4;
-				text-decoration: line-through;
-			}
-			.disabled-svg{
-				visibility: visible;
-				opacity: 1;
-			}
-			&:hover:not(.filtered) p,
-			&:focus:not(.filtered) p{
-				opacity: 0.75;
+				opacity: 0.5;
 			}
 		}
 
 		// Filtered
 		&.filtered {
-			opacity: 1;
-			background-color: #fffeee;
+			background-color: $block_filtered;
 			cursor: not-allowed;
-
-			.disabled-svg{
-				line {
-					stroke: #edebd2;
-				}
-			}
 		}
 
 		&.loading {
@@ -297,17 +261,88 @@
 		}
 	}
 
-	.loader {
-		position: absolute;
-		left: 0;
-		top: 0;
+	// Section heading.
+	&-heading {
+		display: flex;
 		width: 100%;
-		height: 100%;
+		align-items: center;
+		flex-wrap: nowrap;
+		margin: 0;
+		padding: 10px $padding;
+		border-bottom: 1px solid $border_light;
 		background-color: #fff;
-		z-index: 9999;
-		transition: $transition;
-		visibility: hidden;
-		opacity: 0;
-		cursor: default;
+		border-radius: 3px 3px 0 0;
+		&.no-border {
+			border: none;
+		}
+		&.categories {
+			padding: 0 25px;
+			height: 45px;
+			font-weight: 600;
+			text-transform: uppercase;
+			display: none;
+			@media screen and (min-width: $small) {
+				display: flex;
+			}
+			p {
+				margin: 0;
+			}
+			h3:last-of-type {
+				text-align: right;
+			}
+		}
+		h3 {
+			flex: 1;
+			text-transform: capitalize;
+			padding: 0;
+			margin: 0;
+			font-size: 14px;
+			span {
+				font-weight: 400;
+				font-size: 12px;
+				position: relative;
+				left: 5px;
+				color: $text;
+				opacity: 0.65;
+			}
+		}
+		.gbm-block-switch {
+			position: relative;
+			top: -1px;
+			width: 30px;
+			height: 30px;
+		}
+	}
+}
+
+
+.disabled-svg{
+	z-index: 0;
+	visibility: hidden;
+	opacity: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	transition: $transition;
+	padding: 1px;
+	line {
+		stroke: #d6dbdf;
+		stroke-width: 1;
+	}
+	&.disabled{
+		visibility: visible;
+		opacity: 0.45;
+	}
+	&.filtered{
+		visibility: visible;
+		opacity: 0.45;
+		line {
+			stroke: #e1e0c8;
+		}
 	}
 }

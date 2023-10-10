@@ -1,7 +1,8 @@
 import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import cn from "classnames";
-import Icon from "../Global/Icon";
+import Icon from "../../Global/Icon";
+import DisabledSVG from "./DisabledSVG";
 
 /**
  * Render a Block component to display an individual block.
@@ -14,7 +15,7 @@ import Icon from "../Global/Icon";
  * @return {Element}                      The Block component.
  */
 function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
-	const { icon, name, description } = data;
+	const { icon, name, title, description } = data;
 	const blockRef = useRef(null);
 
 	const disabled = disabledBlocks?.length
@@ -26,7 +27,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		filteredBlocks?.length && filteredBlocks?.indexOf(name) !== -1
 			? true
 			: false;
-	const filteredClass = isFiltered ? "disabled filtered" : "";
+	const filteredClass = isFiltered ? "filtered" : "";
 
 	/**
 	 * Handle the click event for the block button.
@@ -56,8 +57,8 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 			ref={blockRef}
 			tabIndex={isFiltered ? -1 : null}
 			aria-label={__("Toggle Block Activation", "block-manager")}
-			data-title={data.title}
-			data-description={data.description}
+			data-title={title}
+			data-description={description}
 			className={cn("item block-button", disabledClass, filteredClass)}
 			data-id={name}
 			data-category={data.category}
@@ -66,15 +67,13 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		>
 			<div>
 				<Icon icon={icon} />
-				{!!data.title && <p className="block-title">{data.title}</p>}
-				{!!description && typeof description === "string" && (
-					<p className="block-desc">{description}</p>
+				{!!title && (
+					<p className="block-title" title={title}>
+						{title}
+					</p>
 				)}
 			</div>
-			<svg className="disabled-svg">
-				<line x1="0" y1="100%" x2="100%" y2="0" />
-				<line x1="0" y1="0" x2="100%" y2="100%" />
-			</svg>
+			<DisabledSVG className={disabled ? disabledClass : filteredClass} />
 		</button>
 	);
 }
