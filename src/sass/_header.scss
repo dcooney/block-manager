@@ -11,10 +11,10 @@
 			display: none;
 		}
 		&-title {
-			background: url('../images/icon.png') no-repeat 0 0;
-			background-size: 42px 42px;
+			background: url('../images/icon.png') no-repeat 1px center;
+			background-size: 40px 40px;
 			min-height: 42px;
-			padding: 0 0 0 50px;
+			padding: 0 0 0 48px;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
@@ -23,7 +23,7 @@
 		h2 {
 			margin: 0;
 			padding: 0;
-			font-size: 25px;
+			font-size: 24px;
 			width: 100%;
 			color: $text;
 			display: flex;

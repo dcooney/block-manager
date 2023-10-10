@@ -21,7 +21,7 @@
 			margin-bottom: $padding;
 			h3 {
 				font-size: 14px;
-				border-bottom: 1px solid $grey;
+				border-bottom: 1px solid $border_light;
 				padding: $padding;
 				margin: 0;
 				color: $text;
@@ -117,8 +117,9 @@
 					width: 100%;
 					text-align: center;
 					border: none;
-					border-right: 1px solid $grey;
+					border-right: 1px solid $border_light;
 					padding: 0 0 10px;
+					cursor: default;
 					&:last-of-type {
 						border-right: none;
 					}
@@ -135,7 +136,7 @@
 						position: relative;
 						font-size: 16px;
 						margin-bottom: 10px;
-						border-bottom: 1px solid $grey;
+						border-bottom: 1px solid $border_light;
 						& strong {
 							position: relative;
 							z-index: 9;

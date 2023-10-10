@@ -13,6 +13,8 @@ import DisabledSVG from "./DisabledSVG";
  * @return {Element}              The Sidebar component.
  */
 export default function Sidebar({ blocks, total, disabled, filtered }) {
+	const active = total - disabled - filtered;
+
 	/**
 	 * Scroll to the selected block.
 	 *
@@ -34,16 +36,24 @@ export default function Sidebar({ blocks, total, disabled, filtered }) {
 
 	return (
 		<div className="gbm-sidebar">
-			<div className="gbm-cta gbm-cta-block-legend">
-				<h3>{__("Block Status", "block-manager")}</h3>
+			<div
+				className="gbm-cta gbm-cta-block-legend"
+				aria-label={__("Current Block Status", "block-manager")}
+			>
 				<div className="gbm-cta-wrap">
-					<div className="gbm-legend gbm-legend--total">
+					<div
+						className="gbm-legend gbm-legend--total"
+						title={__("Blocks Active", "block-manager")}
+					>
 						<span>
-							<strong>{total}</strong>
-						</span>{" "}
+							<strong>{active}</strong>
+						</span>
 						{__("Active", "block-manager")}
 					</div>
-					<div className="gbm-legend gbm-legend--disabled">
+					<div
+						className="gbm-legend gbm-legend--disabled"
+						title={__("Blocks Disabled", "block-manager")}
+					>
 						<span>
 							<strong>{disabled}</strong>
 							<DisabledSVG className="disabled" />
@@ -51,7 +61,10 @@ export default function Sidebar({ blocks, total, disabled, filtered }) {
 						{__("Disabled", "block-manager")}
 					</div>
 					{!!filtered && (
-						<div className="gbm-legend gbm-legend--filtered">
+						<div
+							className="gbm-legend gbm-legend--filtered"
+							title={__("Blocks Filtered", "block-manager")}
+						>
 							<span>
 								<strong>{filtered}</strong>
 								<DisabledSVG className="filtered" />

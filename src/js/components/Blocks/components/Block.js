@@ -63,7 +63,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 			data-id={name}
 			data-category={data.category}
 			onClick={(e) => click(e)}
-			title={name}
+			title={`${description} - ${name}`}
 		>
 			<div>
 				<Icon icon={icon} />

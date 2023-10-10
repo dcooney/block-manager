@@ -5,11 +5,10 @@ registerCoreBlocks();
 const excludedBlocks = [
 	"core/paragraph",
 	"core/missing",
-	"core/block",
 	"core/text-columns",
 	"core/navigation-submenu",
-	"core/pattern",
-	"core/post-navigation-link",
+	//"core/pattern",
+	//"core/post-navigation-link",
 ];
 
 /**

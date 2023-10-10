@@ -15,10 +15,10 @@
   display: none;
 }
 .gbm-page-wrap--header-title {
-  background: url(images/icon.2937822d.png) no-repeat 0 0;
-  background-size: 42px 42px;
+  background: url(images/icon.2937822d.png) no-repeat 1px center;
+  background-size: 40px 40px;
   min-height: 42px;
-  padding: 0 0 0 50px;
+  padding: 0 0 0 48px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -27,7 +27,7 @@
 .gbm-page-wrap--header h2 {
   margin: 0;
   padding: 0;
-  font-size: 25px;
+  font-size: 24px;
   width: 100%;
   color: #3d3e40;
   display: flex;
@@ -156,7 +156,7 @@
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta h3 {
   font-size: 14px;
-  border-bottom: 1px solid #e2e5e7;
+  border-bottom: 1px solid rgba(226, 229, 231, 0.5);
   padding: 15px;
   margin: 0;
   color: #3d3e40;
@@ -248,8 +248,9 @@
   width: 100%;
   text-align: center;
   border: none;
-  border-right: 1px solid #e2e5e7;
+  border-right: 1px solid rgba(226, 229, 231, 0.5);
   padding: 0 0 10px;
+  cursor: default;
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend:last-of-type {
   border-right: none;
@@ -267,7 +268,7 @@
   position: relative;
   font-size: 16px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #e2e5e7;
+  border-bottom: 1px solid rgba(226, 229, 231, 0.5);
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > span strong {
   position: relative;
@@ -809,7 +810,6 @@
 .settings_page_block-manager #gbm-container .nav-tab-wrapper {
   padding: 0 15px 0;
   margin: 0 0 20px;
-  border-color: #e2e5e7;
   background: #fff;
   display: flex;
   width: 100%;
@@ -817,11 +817,15 @@
 }
 .settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab {
   padding: 7px 16px;
-  border-radius: 3px 3px 0 0;
+  border-radius: 4px 3px 0 0;
   float: none;
+  margin-left: 5px;
 }
 .settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab-active {
   cursor: default;
+}
+.settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab:hover, .settings_page_block-manager #gbm-container .nav-tab-wrapper .nav-tab:focus {
+  background-color: #f0f0f1;
 }
 .settings_page_block-manager #gbm-container .nav-tab-wrapper i {
   opacity: 0.35;

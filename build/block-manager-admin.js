@@ -556,7 +556,7 @@ function Block(_ref) {
     onClick: function onClick(e) {
       return click(e);
     },
-    title: name
+    title: "".concat(description, " - ").concat(name)
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Icon__WEBPACK_IMPORTED_MODULE_3__["default"], {
     icon: icon
   }), !!title && /*#__PURE__*/React.createElement("p", {
@@ -920,6 +920,8 @@ function Sidebar(_ref) {
     total = _ref.total,
     disabled = _ref.disabled,
     filtered = _ref.filtered;
+  var active = total - disabled - filtered;
+
   /**
    * Scroll to the selected block.
    *
@@ -943,17 +945,21 @@ function Sidebar(_ref) {
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-cta gbm-cta-block-legend"
-  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Block Status", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta gbm-cta-block-legend",
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Current Block Status", "block-manager")
+  }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-legend gbm-legend--total"
-  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, total)), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active", "block-manager")), /*#__PURE__*/React.createElement("div", {
-    className: "gbm-legend gbm-legend--disabled"
+    className: "gbm-legend gbm-legend--total",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Active", "block-manager")
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, active)), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--disabled",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Disabled", "block-manager")
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, disabled), /*#__PURE__*/React.createElement(_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "disabled"
   })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
-    className: "gbm-legend gbm-legend--filtered"
+    className: "gbm-legend gbm-legend--filtered",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Filtered", "block-manager")
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "filtered"
   })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
@@ -1442,7 +1448,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
-var excludedBlocks = ["core/paragraph", "core/missing", "core/block", "core/text-columns", "core/navigation-submenu", "core/pattern", "core/post-navigation-link"];
+var excludedBlocks = ["core/paragraph", "core/missing", "core/text-columns", "core/navigation-submenu"
+//"core/pattern",
+//"core/post-navigation-link",
+];
 
 /**
  * Get all WP blocks and updated categories.
