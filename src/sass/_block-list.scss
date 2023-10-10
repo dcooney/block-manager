@@ -79,12 +79,6 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				&.block-desc{
-					//color: $grey_dark;
-					//width: 100%;
-					//display: -webkit-box;
-					//-webkit-line-clamp: 3;
-					//-webkit-box-orient: vertical;
-					//overflow: hidden;
 					display: none;
 				}
 			}
@@ -93,7 +87,10 @@
 			.block-id{
 				display: none;
 			}
-
+			&:hover,
+			&:focus{
+				border-color: $grey;
+			}
 			&:hover:not(.disabled):not(.filtered),
 			&:focus:not(.disabled):not(.filtered) {
 				background-color: #f7f7f7;

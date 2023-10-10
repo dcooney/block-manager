@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import Icon from "../Global/Icon";
+import Icon from "../../Global/Icon";
 
 /**
  * Render the Block component for a category listing.

@@ -16,10 +16,11 @@
 }
 .gbm-page-wrap--header-title {
   background: url(images/icon.2937822d.png) no-repeat 1px center;
-  background-size: 40px 40px;
-  min-height: 42px;
-  padding: 0 0 0 48px;
+  background-size: 44px 44px;
+  min-height: 44px;
+  padding: 0 0 0 54px;
   display: flex;
+  gap: 2px;
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
@@ -32,17 +33,23 @@
   color: #3d3e40;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 .gbm-page-wrap--header h2 span {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   border-radius: 4px;
-  background-color: rgba(133, 104, 193, 0.05);
+  background-color: rgba(133, 104, 193, 0.075);
   display: inline-block;
   line-height: 1;
-  padding: 6px;
+  padding: 5px;
   color: #8568c1;
+  position: relative;
+  top: 2px;
+}
+.gbm-page-wrap--header p {
+  margin: 0;
+  color: #999ea2;
 }
 .gbm-page-wrap--header button.button {
   margin-top: 10px;
@@ -264,22 +271,22 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 50px;
+  height: 60px;
   position: relative;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(226, 229, 231, 0.5);
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > span strong {
   position: relative;
   z-index: 9;
-  font-weight: 800;
+  font-weight: 700;
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--disabled > span {
   background-color: #f7f7f7;
 }
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--filtered > span {
-  background-color: #f9f8e7;
+  background-color: #fefdd9;
 }
 .gbm-loader {
   padding: 0 0 0 30px;
@@ -389,6 +396,9 @@
 .gbm-block-list .item.block-button .block-id {
   display: none;
 }
+.gbm-block-list .item.block-button:hover, .gbm-block-list .item.block-button:focus {
+  border-color: #e2e5e7;
+}
 .gbm-block-list .item.block-button:hover:not(.disabled):not(.filtered), .gbm-block-list .item.block-button:focus:not(.disabled):not(.filtered) {
   background-color: #f7f7f7;
   background-color: #f0faff;
@@ -406,7 +416,7 @@
   opacity: 0.5;
 }
 .gbm-block-list .item.filtered {
-  background-color: #f9f8e7;
+  background-color: #fefdd9;
   cursor: not-allowed;
 }
 .gbm-block-list .item.loading > .gbm-block-group {

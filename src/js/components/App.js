@@ -1,7 +1,7 @@
 import { useState } from "@wordpress/element";
 import getBlockData from "../functions/getBlockData";
 import getCategoryData from "../functions/getCategoryData";
-import Categories from "./Categories/Index";
+import Categories from "./Categories/Categories";
 import Blocks from "./Blocks/Blocks";
 
 export default function App() {

@@ -12,10 +12,11 @@
 		}
 		&-title {
 			background: url('../images/icon.png') no-repeat 1px center;
-			background-size: 40px 40px;
-			min-height: 42px;
-			padding: 0 0 0 48px;
+			background-size: 44px 44px;
+			min-height: 44px;
+			padding: 0 0 0 54px;
 			display: flex;
+			gap: 2px;
 			flex-wrap: wrap;
 			align-items: center;
 			width: 100%;
@@ -28,18 +29,24 @@
 			color: $text;
 			display: flex;
 			align-items: center;
-			gap: 5px;
+			gap: 8px;
 
 			span {
-				font-size: 13px;
+				font-size: 12px;
 				font-weight: 400;
 				border-radius: $radius;
-				background-color: rgba($purple, 0.05);
+				background-color: rgba($purple, 0.075);
 				display: inline-block;
 				line-height: 1;
-				padding: 6px;
+				padding: 5px;
 				color: $purple;
+				position: relative;
+				top: 2px;
 			}
+		}
+		p {
+			margin: 0;
+			color: $grey_dark;
 		}
 		button.button {
 			margin-top: 10px;

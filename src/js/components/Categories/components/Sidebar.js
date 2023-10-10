@@ -1,5 +1,5 @@
 import axios from "axios";
-import Search from "../Global/Search";
+import Search from "../../Global/Search";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -32,8 +32,8 @@ export default function Sidebar() {
 
 	return (
 		<div className="gbm-sidebar">
-			<h3>{__("Help", "block-manager")}</h3>
 			<div className="gbm-cta">
+				<h3>{__("Help", "block-manager")}</h3>
 				<div className="gbm-cta-wrap">
 					<p>
 						{__(

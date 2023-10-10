@@ -1,8 +1,9 @@
-import { useEffect } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
-import Block from "./Block";
-import Sidebar from "./Sidebar";
+import Block from "./components/Block";
+import Sidebar from "./components/Sidebar";
+import { organizeCategories } from "../../functions/getCategoryData";
 
 /**
  * Render the Categories component.
@@ -13,6 +14,9 @@ import Sidebar from "./Sidebar";
  * @return {Element}                  The Categories component.
  */
 export default function Categories({ wpBlocks, wpCategories }) {
+	const [loading, setLoading] = useState(true);
+	const data = organizeCategories(wpCategories, wpBlocks);
+
 	const heading = sprintf(
 		// translators: %s: The number of blocks.
 		__(
@@ -88,9 +92,9 @@ export default function Categories({ wpBlocks, wpCategories }) {
 
 	// On Load
 	useEffect(() => {
-		// Set Loaded.
-		const wrapperDiv = document.querySelector(".gbm-block-list-wrapper");
-		wrapperDiv.classList.add("loaded");
+		setTimeout(function () {
+			setLoading(false);
+		}, 250);
 
 		// Export settings.
 		document.addEventListener(
@@ -106,34 +110,40 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	}, []);
 
 	return (
-		<div className="gbm-block-list-wrapper categories">
-			<Sidebar />
-			<div className="gbm-blocks">
-				<span className="global-loader loading">
-					{__("Loading", "block-manager")}…
+		<>
+			{loading ? (
+				<span className="gbm-loader">
+					{__("Fetching Blocks and Categories", "block-manager")}…
 				</span>
-				<p
-					className="gbm-heading"
-					dangerouslySetInnerHTML={{ __html: heading }}
-				/>
-				<div className="gbm-block-group">
-					<header className="gbm-block-list-controls categories">
-						<h3>{__("Block Name", "block-manager")}</h3>
-						<h3>{__("Block Category", "block-manager")}</h3>
-					</header>
-					<div className="gbm-block-list categories">
-						{!!wpBlocks?.length &&
-							wpBlocks.map((block, index) => (
-								<Block
-									key={index}
-									callback={changeCategory}
-									data={block}
-									wpCategories={wpCategories}
-								/>
-							))}
+			) : (
+				<div className="gbm-block-list-wrapper categories">
+					<Sidebar />
+					<div className="gbm-blocks">
+						<div className="gbm-options">
+							<p
+								className="gbm-heading"
+								dangerouslySetInnerHTML={{ __html: heading }}
+							/>
+						</div>
+						<div className="gbm-block-group">
+							<div className="gbm-block-list categories">
+								{!!wpCategories?.length && <span>dwdw</span>}
+								<>
+									{!!wpBlocks?.length &&
+										wpBlocks.map((block, index) => (
+											<Block
+												key={index}
+												callback={changeCategory}
+												data={block}
+												wpCategories={wpCategories}
+											/>
+										))}
+								</>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			)}
+		</>
 	);
 }

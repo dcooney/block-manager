@@ -125,6 +125,7 @@ class GBM_Admin {
 				<h1><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 				<div class="gbm-page-wrap--header-title">
 					<h2><?php esc_html_e( 'Block Manager', 'block-manager' ); ?> <span><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span></h2>
+					<p><?php esc_html_e( 'Take control of your WordPress Blocks.', 'block-manager' ); ?></p>
 				</div>
 				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?></button>
 			</div>
@@ -178,7 +179,7 @@ class GBM_Admin {
 						echo ' nav-tab-active'; }
 					?>
 					" href="options-general.php?page=block-manager&category-switcher">
-						<?php esc_html_e( 'Categories', 'block-manager' ); ?>
+						<?php esc_html_e( 'Block Categories', 'block-manager' ); ?>
 					</a>
 				</div>
 				<div id="app" class="gbm"></div>
