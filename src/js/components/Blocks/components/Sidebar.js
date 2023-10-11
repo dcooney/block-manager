@@ -1,19 +1,68 @@
 import { __ } from "@wordpress/i18n";
 import Search from "../../Global/Search";
 import DisabledSVG from "./DisabledSVG";
+import { useEffect, useRef, useState } from "@wordpress/element";
 
 /**
  * Render the Sidebar for Block Manager.
  *
  * @param {Object} props          The component props.
  * @param {Array}  props.blocks   WP Blocks.
- * @param {number} props.total    Total number of blocks.
+ * @param {number} props.active   Total number of active blocks.
  * @param {number} props.disabled Total number of disabled blocks.
  * @param {number} props.filtered Total number of filtered blocks.
  * @return {Element}              The Sidebar component.
  */
-export default function Sidebar({ blocks, total, disabled, filtered }) {
-	const active = total - disabled - filtered;
+export default function Sidebar({ blocks, active, disabled, filtered }) {
+	const activeRef = useRef(null);
+	const disabledRef = useRef(null);
+	const mountedRef = useRef(false);
+
+	const [activeTotal, setActiveTotal] = useState(active);
+	const [disabledTotal, setDisabledTotal] = useState(disabled);
+
+	/**
+	 * Block total update animation.
+	 * @param {Element}  ref      The ref element.
+	 * @param {Number}   value    The current value.
+	 * @param {FUnction} callback The callback function.
+	 */
+	function change(ref, value, callback) {
+		if (!mountedRef?.current || !ref) {
+			return;
+		}
+		const prev = ref?.dataset?.prev;
+		const direction = parseInt(prev) > value ? "up" : "down";
+		ref?.classList?.add(`slide-${direction}`);
+
+		console.log(`slide-done-${direction}`);
+		setTimeout(() => {
+			callback(value);
+			ref?.classList?.add(`slide-${direction}-done`);
+			ref?.classList?.remove(`slide-${direction}`);
+			setTimeout(() => {
+				ref?.classList?.remove(`slide-${direction}-done`);
+			}, 75);
+		}, 200);
+	}
+
+	// Update the active blocks.
+	useEffect(() => {
+		change(activeRef.current, active, setActiveTotal);
+	}, [active]);
+
+	// Update the disabled blocks.
+	useEffect(() => {
+		setTimeout(() => {
+			change(disabledRef.current, disabled, setDisabledTotal);
+		}, 125);
+	}, [disabled]);
+
+	useEffect(() => {
+		setTimeout(() => {
+			mountedRef.current = true;
+		}, 500);
+	}, []);
 
 	/**
 	 * Scroll to the selected block.
@@ -45,19 +94,27 @@ export default function Sidebar({ blocks, total, disabled, filtered }) {
 						className="gbm-legend gbm-legend--total"
 						title={__("Blocks Active", "block-manager")}
 					>
-						<span>
-							<strong>{active}</strong>
-						</span>
+						<div>
+							<span>
+								<strong ref={activeRef} data-prev={activeTotal}>
+									{activeTotal}
+								</strong>
+							</span>
+						</div>
 						{__("Active", "block-manager")}
 					</div>
 					<div
 						className="gbm-legend gbm-legend--disabled"
 						title={__("Blocks Disabled", "block-manager")}
 					>
-						<span>
-							<strong>{disabled}</strong>
+						<div>
+							<span>
+								<strong ref={disabledRef} data-prev={disabledTotal}>
+									{disabledTotal}
+								</strong>
+							</span>
 							<DisabledSVG className="disabled" />
-						</span>
+						</div>
 						{__("Disabled", "block-manager")}
 					</div>
 					{!!filtered && (
@@ -65,10 +122,12 @@ export default function Sidebar({ blocks, total, disabled, filtered }) {
 							className="gbm-legend gbm-legend--filtered"
 							title={__("Blocks Filtered", "block-manager")}
 						>
-							<span>
-								<strong>{filtered}</strong>
-								<DisabledSVG className="filtered" />
-							</span>
+							<div>
+								<span>
+									<strong>{filtered}</strong>
+									<DisabledSVG className="filtered" />
+								</span>
+							</div>
 							{__("Filtered", "block-manager")}
 						</div>
 					)}

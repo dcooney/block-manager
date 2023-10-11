@@ -154,6 +154,11 @@
     left: 0;
   }
 }
+@media screen and (min-width: 1300px) {
+  .gbm-page-wrap .gbm-sidebar {
+    width: 300px;
+  }
+}
 .gbm-page-wrap .gbm-sidebar .gbm-cta {
   background-color: #fff;
   border-radius: 4px;
@@ -265,27 +270,63 @@
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend:last-of-type {
   margin: 0;
 }
-.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > span {
-  color: #3d3e40;
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(226, 229, 231, 0.5);
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span {
+  color: rgba(61, 62, 64, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 60px;
+  height: 100%;
   position: relative;
-  font-size: 18px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(226, 229, 231, 0.5);
+  overflow: hidden;
 }
-.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > span strong {
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong {
   position: relative;
   z-index: 9;
-  font-weight: 700;
+  font-weight: 800;
+  transition: all 0.25s cubic-bezier(0.86, 0, 0.07, 1);
+  line-height: 1;
+  font-size: 22px;
+  height: 22px;
+  opacity: 0.85;
+  top: 0;
 }
-.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--disabled > span {
+@media screen and (min-width: 1300px) {
+  .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong {
+    font-size: 24px;
+    height: 24px;
+  }
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-down, .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-up {
+  opacity: 0;
+  filter: blur(1px);
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-down {
+  top: 20px;
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-up {
+  top: -20px;
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-down-done, .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-up-done {
+  transition: none;
+  opacity: 0;
+  filter: blur(1px);
+  top: -20px;
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend > div span strong.slide-up-done {
+  top: 20px;
+}
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--disabled span {
   background-color: #f7f7f7;
 }
-.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--filtered > span {
+.gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend--filtered span {
   background-color: #fefdd9;
 }
 .gbm-loader {
@@ -456,6 +497,7 @@
 }
 .gbm-block-list.categories {
   padding: 10px 25px;
+  display: block;
 }
 .gbm-block-list.categories .item {
   width: 100%;

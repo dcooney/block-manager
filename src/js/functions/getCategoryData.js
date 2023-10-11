@@ -27,19 +27,3 @@ export default function getCategoryData() {
 
 	return wpCategories;
 }
-
-export function organizeCategories(categories, blocks) {
-	if (!categories || !blocks) {
-		return false;
-	}
-
-	// Loop through categories.
-	const organized = categories.map((category) => {
-		// Add blocks to category.
-		category.blocks = blocks.filter((block) => {
-			return block.category === category.slug;
-		});
-		return category;
-	});
-	console.log(organized);
-}

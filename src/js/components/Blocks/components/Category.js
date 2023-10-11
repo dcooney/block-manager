@@ -87,7 +87,6 @@ export default function Category({
 							filteredBlocks={filteredBlocks}
 						/>
 					))}
-				<div className="loader"></div>
 			</div>
 		</div>
 	);

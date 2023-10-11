@@ -12,6 +12,9 @@
 			top: 50px;
 			left: 0;
 		}
+		@media screen and (min-width: $large) {
+			width: 300px;
+		}
 
 		.gbm-cta {
 			background-color: #fff;
@@ -126,30 +129,68 @@
 					&:last-of-type{
 						margin: 0;
 					}
-					> span {
-						color: $text;
-						display: flex;
-						align-items: center;
-						justify-content: center;
+					> div {
 						width: 100%;
 						height: 60px;
 						position: relative;
-						font-size: 18px;
 						margin-bottom: 10px;
 						border-bottom: 1px solid $border_light;
-						& strong {
+						span {
+							color: rgba($text, 0.9);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 100%;
+							height: 100%;
 							position: relative;
-							z-index: 9;
-							font-weight: 700;
+							overflow: hidden;
+							& strong {
+								position: relative;
+								z-index: 9;
+								font-weight: 800;
+								transition: all 0.25s cubic-bezier(0.86,0,0.07,1);
+								line-height: 1;
+								font-size: 22px;
+								height: 22px;
+								@media screen and (min-width: $large) {
+									font-size: 24px;
+									height: 24px;
+								}
+								opacity: 0.85;
+								top: 0;
+
+								&.slide-down,
+								&.slide-up{
+									opacity: 0;
+									filter: blur(1px);
+								}
+								&.slide-down{
+									top: 20px;
+								}
+								&.slide-up{
+									top: -20px;
+								}
+
+								&.slide-down-done,
+								&.slide-up-done{
+									transition: none;
+									opacity: 0;
+									filter: blur(1px);
+									top: -20px;
+								}
+								&.slide-up-done{
+									top: 20px;
+								}
+							}
 						}
 					}
 					&--disabled{
-						> span {
+						span {
 							background-color: $block_disabled;
 						}
 					}
 					&--filtered{
-						> span {
+						span {
 							background-color: $block_filtered;
 						}
 					}

@@ -281,8 +281,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	function onLoad() {
 		if (wpBlocks && wpCategories) {
 			// Filter blocks by categories.
-			const blockArray = [];
-			wpCategories.forEach(function (cat) {
+			const data = wpCategories.map(function (cat) {
 				let filtered = wpBlocks.filter(function (block) {
 					return block.category === cat.slug;
 				});
@@ -308,22 +307,22 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				}
 
 				if (filtered.length > 0) {
-					blockArray.push({
+					return {
 						info: cat,
 						blocks: filtered,
-					});
+					};
 				}
 			});
 
 			// Set blocks state.
-			setBlocks(blockArray);
+			console.log(data);
+			setBlocks(data);
 		}
 	}
 
 	// On Load
 	useEffect(() => {
 		onLoad();
-
 		setTimeout(function () {
 			setLoading(false);
 		}, 250);
@@ -340,7 +339,11 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					<div className="gbm-block-list-wrapper">
 						<Sidebar
 							blocks={blocks}
-							total={wpBlocks?.length}
+							active={
+								wpBlocks?.length -
+								disabledBlocks?.length -
+								filteredBlocks?.length
+							}
 							disabled={disabledBlocks?.length}
 							filtered={filteredBlocks?.length}
 						/>

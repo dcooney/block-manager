@@ -1,9 +1,11 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
 import Block from "./components/Block";
+import Reset from "./components/Reset";
 import Sidebar from "./components/Sidebar";
-import { organizeCategories } from "../../functions/getCategoryData";
+import getBlockData from "../../functions/getBlockData";
+import getCategoryData from "../../functions/getCategoryData";
 
 /**
  * Render the Categories component.
@@ -14,8 +16,13 @@ import { organizeCategories } from "../../functions/getCategoryData";
  * @return {Element}                  The Categories component.
  */
 export default function Categories({ wpBlocks, wpCategories }) {
+	const resetButtonRef = useRef(null);
 	const [loading, setLoading] = useState(true);
-	const data = organizeCategories(wpCategories, wpBlocks);
+	const [categories] = useState(wpCategories);
+	const [blocks, setBlocks] = useState(wpBlocks);
+	const [filteredCategories, setFilteredCategories] = useState(
+		gbm_localize?.filteredCategories || [],
+	);
 
 	const heading = sprintf(
 		// translators: %s: The number of blocks.
@@ -23,7 +30,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			"Update the categories of your %s blocks with the category switcher.",
 			"block-manager",
 		),
-		`<span>${wpBlocks?.length}</span>`,
+		`<span>${blocks?.length}</span>`,
 	);
 
 	/**
@@ -33,7 +40,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * @param {Object} select The select element.
 	 * @since 1.0
 	 */
-	const changeCategory = (id, select) => {
+	function switchCategory(id, select) {
 		if (!id || !select) {
 			return false;
 		}
@@ -46,20 +53,16 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			status = element.querySelector(".gbm-cat-status");
 		}
 
-		// API Request.
-		const url = gbm_localize.root + "gbm/category_switch/";
-		const data = { block: id, cat: value };
-
-		// Send request.
+		// Send API request.
 		axios({
 			method: "POST",
-			url,
+			url: gbm_localize.root + "gbm/category_switch/",
 			headers: {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
 			},
 			data: {
-				data: JSON.stringify(data),
+				data: JSON.stringify({ block: id, cat: value }),
 			},
 		})
 			.then(function (res) {
@@ -88,7 +91,33 @@ export default function Categories({ wpBlocks, wpCategories }) {
 					element.classList.remove("loading");
 				}
 			});
-	};
+	}
+
+	/**
+	 * Reset categories to default.
+	 */
+	function resetCategories() {
+		resetButtonRef?.current?.classList.add("spin"); // Loading state.
+		axios({
+			method: "POST",
+			url: gbm_localize.root + "gbm/category_reset/",
+			headers: {
+				"X-WP-Nonce": gbm_localize.nonce,
+				"Content-Type": "application/json",
+			},
+		})
+			.then(function () {
+				setFilteredCategories([]);
+				setTimeout(function () {
+					setBlocks(getBlockData([]));
+					resetButtonRef?.current?.classList.remove("spin");
+				}, 250);
+			})
+			.catch(function (error) {
+				console.warn(error);
+				resetButtonRef?.current?.classList.remove("spin");
+			});
+	}
 
 	// On Load
 	useEffect(() => {
@@ -124,20 +153,35 @@ export default function Categories({ wpBlocks, wpCategories }) {
 								className="gbm-heading"
 								dangerouslySetInnerHTML={{ __html: heading }}
 							/>
+							<div>
+								<Reset
+									ref={resetButtonRef}
+									callback={resetCategories}
+									total={filteredCategories?.length}
+								/>
+							</div>
 						</div>
 						<div className="gbm-block-group">
 							<div className="gbm-block-list categories">
-								{!!wpCategories?.length && <span>dwdw</span>}
+								{!!categories?.length &&
+									categories.map((cat, index) => (
+										<section key={index}>
+											<h3>{cat?.title}</h3>
+										</section>
+									))}
 								<>
-									{!!wpBlocks?.length &&
-										wpBlocks.map((block, index) => (
-											<Block
-												key={index}
-												callback={changeCategory}
-												data={block}
-												wpCategories={wpCategories}
-											/>
-										))}
+									{!!blocks?.length &&
+										blocks.map((block) => {
+											console.log(block);
+											return (
+												<Block
+													key={`${block?.name}-${block?.category}`}
+													callback={switchCategory}
+													categories={categories}
+													data={block}
+												/>
+											);
+										})}
 								</>
 							</div>
 						</div>

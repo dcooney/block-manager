@@ -4,13 +4,13 @@ import Icon from "../../Global/Icon";
 /**
  * Render the Block component for a category listing.
  *
- * @param {Object}   props              The component properties.
- * @param {Object}   props.data         Data for an individual block.
- * @param {Array}    props.wpCategories Array of block categories.
- * @param {Function} props.callback     Function to call after category change.
- * @return {Element}                    The Block component.
+ * @param {Object}   props            The component properties.
+ * @param {Object}   props.data       Data for an individual block.
+ * @param {Array}    props.categories Array of block categories.
+ * @param {Function} props.callback   Function to call after category change.
+ * @return {Element}                  The Block component.
  */
-export default function Block({ data, wpCategories, callback }) {
+export default function Block({ data, categories, callback }) {
 	const { name, icon, title, category, description } = data;
 
 	return (
@@ -39,8 +39,8 @@ export default function Block({ data, wpCategories, callback }) {
 								defaultValue={category}
 								onChange={(e) => callback(name, e)}
 							>
-								{!!wpCategories?.length &&
-									wpCategories.map((cat, index) => {
+								{!!categories?.length &&
+									categories.map((cat, index) => {
 										return (
 											<option
 												key={`cat-${cat.slug}-${index}`}

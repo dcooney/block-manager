@@ -14,9 +14,10 @@ const excludedBlocks = [
 /**
  * Get all WP blocks and updated categories.
  *
- * @return {Array} The list of blocks.
+ * @param {Array} filteredCategories The filtered categories.
+ * @return {Array}                   The list of blocks.
  */
-export default function getBlockData() {
+export default function getBlockData(filteredCategories = []) {
 	let wpBlocks = [];
 
 	const blocks = getBlockTypes();
@@ -36,10 +37,9 @@ export default function getBlockData() {
 	}
 
 	// Updated block categories.
-	const filteredCats = gbm_localize.filteredCategories;
-	if (wpBlocks && filteredCats?.length > 0) {
+	if (wpBlocks && filteredCategories?.length > 0) {
 		// Loop saved categories..
-		filteredCats.forEach((item) => {
+		filteredCategories.forEach((item) => {
 			const name = item.block;
 			const category = item.cat;
 			// Loop all blocks.
