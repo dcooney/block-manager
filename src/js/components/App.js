@@ -1,13 +1,13 @@
-import getBlockData from "../functions/getBlockData";
+import getBlockData from "../functions/blocks";
 import getCategoryData from "../functions/getCategoryData";
-import Categories from "./Categories/Categories";
 import Blocks from "./Blocks/Blocks";
+import Categories from "./Categories/Categories";
 
 export default function App() {
 	const blocks = getBlockData(gbm_localize?.filteredCategories);
 	const categories = getCategoryData();
 
-	// Parse URL to get active plugin view.
+	// Parse URL to get current view.
 	const url = window?.location?.href;
 	const isCategory = url.includes("category-switcher") ? true : false;
 

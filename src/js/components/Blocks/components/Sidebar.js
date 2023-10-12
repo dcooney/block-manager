@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "@wordpress/element";
  * Render the Sidebar for Block Manager.
  *
  * @param {Object} props          The component props.
- * @param {Array}  props.blocks   WP Blocks.
+ * @param {Array}  props.blocks   Array of WP Blocks.
  * @param {number} props.active   Total number of active blocks.
  * @param {number} props.disabled Total number of disabled blocks.
  * @param {number} props.filtered Total number of filtered blocks.
@@ -35,7 +35,6 @@ export default function Sidebar({ blocks, active, disabled, filtered }) {
 		const direction = parseInt(prev) > value ? "up" : "down";
 		ref?.classList?.add(`slide-${direction}`);
 
-		console.log(`slide-done-${direction}`);
 		setTimeout(() => {
 			callback(value);
 			ref?.classList?.add(`slide-${direction}-done`);

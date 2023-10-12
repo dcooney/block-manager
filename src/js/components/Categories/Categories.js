@@ -4,15 +4,15 @@ import axios from "axios";
 import Block from "./components/Block";
 import Reset from "./components/Reset";
 import Sidebar from "./components/Sidebar";
-import getBlockData from "../../functions/getBlockData";
+import getBlockData from "../../functions/blocks";
 import getCategoryData from "../../functions/getCategoryData";
 
 /**
  * Render the Categories component.
  *
  * @param {Object} props              The component properties.
- * @param {Array}  props.wpBlocks     The blocks.
- * @param {Array}  props.wpCategories The block categories
+ * @param {Array}  props.wpBlocks     Array of WP blocks.
+ * @param {Array}  props.wpCategories Array of WP block categories
  * @return {Element}                  The Categories component.
  */
 export default function Categories({ wpBlocks, wpCategories }) {

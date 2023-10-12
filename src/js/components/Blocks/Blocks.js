@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import axios from "axios";
+import { countBlocks } from "../../functions/blocks";
 import Category from "./components/Category";
 import Export from "./components/Export";
 import ExportModal from "./components/ExportModal";
@@ -278,51 +279,51 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	 *
 	 * @since 1.0
 	 */
-	function onLoad() {
-		if (wpBlocks && wpCategories) {
-			// Filter blocks by categories.
-			const data = wpCategories.map(function (cat) {
-				let filtered = wpBlocks.filter(function (block) {
-					return block.category === cat.slug;
-				});
-
-				// Embed block.
-				if ("embed" === cat.slug) {
-					// core/embed block only
-					const embedBlock = wpBlocks.filter(function (block) {
-						return block.category === cat.slug;
-					});
-					// Get `variations`.
-					const variations = embedBlock[0] ? embedBlock[0].variations : [];
-					const modVariations = variations.map((item) => {
-						item.name = "variation;core/embed;" + item.name;
-						return item;
-					});
-
-					// Add to block array.
-					filtered.push(modVariations);
-
-					// Concat array to top level.
-					filtered = [].concat.apply([], filtered);
-				}
-
-				if (filtered.length > 0) {
-					return {
-						info: cat,
-						blocks: filtered,
-					};
-				}
+	function organizeBlocks() {
+		if (!wpBlocks?.length || !wpCategories?.length) {
+			return false;
+		}
+		// Loop block categories to build return data with category as parent.
+		const data = wpCategories.map(function (cat) {
+			// Group blocks into categories.
+			let filtered = wpBlocks.filter(function (block) {
+				return block.category === cat.slug;
 			});
 
-			// Set blocks state.
-			console.log(data);
-			setBlocks(data);
-		}
+			// Handle core/embed block.
+			if ("embed" === cat.slug) {
+				const embedBlock = wpBlocks.filter(function (block) {
+					return block.category === cat.slug;
+				});
+				// Handle variations of the embed block.
+				const variations = embedBlock[0] ? embedBlock[0].variations : [];
+
+				// Loop variations and modify block name to add `variation;core/embed;` pattern.
+				const modVariations = variations.map((item) => {
+					item.name = `variation;core/embed;${item.name}`;
+					return item;
+				});
+
+				// Add to block array.
+				filtered.push(modVariations);
+
+				// Concat array to top level.
+				filtered = [].concat.apply([], filtered);
+			}
+
+			return {
+				info: cat,
+				blocks: filtered,
+			};
+		});
+
+		// Set blocks state.
+		setBlocks(data);
 	}
 
 	// On Load
 	useEffect(() => {
-		onLoad();
+		organizeBlocks();
 		setTimeout(function () {
 			setLoading(false);
 		}, 250);
@@ -340,7 +341,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						<Sidebar
 							blocks={blocks}
 							active={
-								wpBlocks?.length -
+								countBlocks(blocks) -
 								disabledBlocks?.length -
 								filteredBlocks?.length
 							}

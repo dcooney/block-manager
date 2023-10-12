@@ -1,25 +1,16 @@
 import { registerCoreBlocks } from "@wordpress/block-library";
 import { getBlockTypes } from "@wordpress/blocks";
+import { excludedBlocks } from "../constants";
 registerCoreBlocks();
 
-const excludedBlocks = [
-	"core/paragraph",
-	"core/missing",
-	"core/text-columns",
-	"core/navigation-submenu",
-	//"core/pattern",
-	//"core/post-navigation-link",
-];
-
 /**
- * Get all WP blocks and updated categories.
+ * Get all WP blocks with updated categories.
  *
  * @param {Array} filteredCategories The filtered categories.
  * @return {Array}                   The list of blocks.
  */
 export default function getBlockData(filteredCategories = []) {
 	let wpBlocks = [];
-
 	const blocks = getBlockTypes();
 
 	if (blocks) {
@@ -38,11 +29,10 @@ export default function getBlockData(filteredCategories = []) {
 
 	// Updated block categories.
 	if (wpBlocks && filteredCategories?.length > 0) {
-		// Loop saved categories..
+		// Loop saved categories.
 		filteredCategories.forEach((item) => {
-			const name = item.block;
-			const category = item.cat;
-			// Loop all blocks.
+			const { block: name, cat: category } = item;
+			// Loop all blocks and update category.
 			// eslint-disable-next-line
 			const loop = wpBlocks.find(function (block, index) {
 				if (block.name === name) {
@@ -53,4 +43,23 @@ export default function getBlockData(filteredCategories = []) {
 	}
 
 	return wpBlocks;
+}
+
+/**
+ * Count total blocks including variations.
+ * Loop blocks and return total count.
+ *
+ * @param {Array} blocks Array of blocks with parent categories
+ * @return {number}      Total number of blocks
+ */
+export function countBlocks(blocks) {
+	if (!blocks?.length) {
+		return 0;
+	}
+
+	let count = 0;
+	blocks.forEach((category) => {
+		count += category?.blocks?.length;
+	});
+	return count;
 }
