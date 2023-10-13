@@ -25,8 +25,7 @@
 		"@wordpress/hooks": "^3.42.0",
 		"@wordpress/i18n": "^4.42.0",
 		"axios": "^1.5.1",
-		"classnames": "^2.3.2",
-		"react-beautiful-dnd": "^13.1.1"
+		"classnames": "^2.3.2"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.13.0",

@@ -30,7 +30,6 @@ const Reset = forwardRef(function Reset(props, ref) {
 		<button
 			ref={ref}
 			type="button"
-			className="resetblocks"
 			onClick={() => confirm()}
 			title={__("Clear all disabled blocks", "block-manager")}
 			disabled={total < 1}

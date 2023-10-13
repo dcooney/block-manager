@@ -13,6 +13,19 @@
  * @package blockmanager
  */
 
+/*
+* NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
+
+
+TODO:
+- Implement gbm_block_categories hook in block inserter.
+- Disable gbm_block_categories blocks in backend admin.
+- Add visual representation of block categories in backend admin
+
+- Render Variations. Might be not worth it. Seems too complicated.
+
+*/
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

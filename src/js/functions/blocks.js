@@ -28,17 +28,15 @@ export default function getBlockData(filteredCategories = []) {
 	}
 
 	// Updated block categories.
-	if (wpBlocks && filteredCategories?.length > 0) {
+	if (wpBlocks && filteredCategories?.length) {
 		// Loop saved categories.
 		filteredCategories.forEach((item) => {
 			const { block: name, cat: category } = item;
-			// Loop all blocks and update category.
-			// eslint-disable-next-line
-			const loop = wpBlocks.find(function (block, index) {
-				if (block.name === name) {
-					wpBlocks[index].category = category;
-				}
-			});
+			// Find block by name and update category.
+			const match = wpBlocks.find((block) => block.name === name);
+			if (match) {
+				match.category = category;
+			}
 		});
 	}
 

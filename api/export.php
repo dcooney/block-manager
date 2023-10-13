@@ -33,15 +33,33 @@ add_action(
  */
 function block_manager_export( WP_REST_Request $request ) {
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-		$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
-		$blocks          = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
+		$type = filter_input( INPUT_GET, 'type', @FILTER_SANITIZE_STRING ); // phpcs:ignore
 
-		$response = array(
-			'success' => true,
-			'blocks'  => wp_json_encode( array_merge( $blocks, $filtered_blocks ) ),
+		if ( $type === 'blocks' ) {
+			$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
+			$blocks          = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
+			wp_send_json(
+				[
+					'success' => true,
+					'code'    => wp_json_encode( array_merge( $blocks, $filtered_blocks ) ),
+				]
+			);
+		}
+
+		if ( $type === 'categories' ) {
+			wp_send_json(
+				[
+					'success' => true,
+					'code'    => wp_json_encode( Gutenberg_Block_Manager::gbm_get_filtered_cats() ),
+				]
+			);
+		}
+
+		wp_send_json(
+			[
+				'success' => false,
+			]
 		);
-
-		wp_send_json( $response );
 
 	} else {
 		$response = array(

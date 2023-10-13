@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
  * @return {Element} The Reset component.
  */
 const Reset = forwardRef(function Reset(props, ref) {
-	const { callback, total = 0 } = props;
+	const { callback, total = 0, msg, title } = props;
 
 	/**
 	 * Confirm user wants to clear disabled blocks.
@@ -15,12 +15,7 @@ const Reset = forwardRef(function Reset(props, ref) {
 	function confirm() {
 		if (
 			// eslint-disable-next-line no-alert
-			window?.confirm(
-				__(
-					"Are you sure you want to reset your modified block categories?",
-					"block-manager",
-				),
-			)
+			window?.confirm(msg)
 		) {
 			callback();
 		}
@@ -30,9 +25,8 @@ const Reset = forwardRef(function Reset(props, ref) {
 		<button
 			ref={ref}
 			type="button"
-			className="resetblocks"
 			onClick={() => confirm()}
-			title={__("Clear all modified block categories", "block-manager")}
+			title={title}
 			disabled={total < 1}
 		>
 			<span className="dashicons dashicons-update-alt"></span>

@@ -2,12 +2,17 @@
 	.gbm-options {
 		width: 100%;
 		padding: 0 0 15px;
-		display: flex;
+		@media screen and (min-width: $medium) {
+			display: flex;
+		}
 		gap: 20px;
 		justify-content: space-between;
 		align-items: center;
 		p.gbm-heading {
-			margin: 0;
+			margin: 0 0 15px;
+			@media screen and (min-width: $medium) {
+				margin: 0;
+			}
 			span {
 				display: inline-block;
 				padding: 1px 4px;

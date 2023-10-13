@@ -3,10 +3,11 @@ import { __ } from "@wordpress/i18n";
 import axios from "axios";
 import { countBlocks } from "../../functions/blocks";
 import Category from "./components/Category";
-import Export from "./components/Export";
-import ExportModal from "./components/ExportModal";
-import Reset from "./components/Reset";
+import Export from "../Global/Export";
+import ExportModal from "../Global/ExportModal";
+import Reset from "../Global/Reset";
 import Sidebar from "./components/Sidebar";
+import { exportHook } from "../../functions/export";
 
 /**
  * Render the Blocks component.
@@ -196,48 +197,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	}
 
 	/**
-	 * Export blocks as PHP code.
+	 * Export as PHP code.
 	 */
 	function exportBlocks() {
-		exportModalRef?.current?.classList.add("active"); // Loading state.
-
-		axios({
-			method: "GET",
-			url: gbm_localize.root + "gbm/export/",
-			headers: {
-				"X-WP-Nonce": gbm_localize.nonce,
-				"Content-Type": "application/json",
-			},
-		})
-			.then(function (res) {
-				const { data, status } = res;
-				if (status === 200 && data?.success && data?.blocks) {
-					let blockReturn = data.blocks;
-					blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
-					blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
-					blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
-					const results = `// functions.php<br/>add_filter( 'gbm_disabled_blocks', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn};<br/>});`;
-					const code =
-						exportModalRef?.current?.querySelector("#gbm-export");
-					code.innerHTML = results;
-					setTimeout(function () {
-						code.focus();
-					}, 250);
-				} else {
-					console.warn(
-						__(
-							"There was an error exporting disabled blocks.",
-							"block-manager",
-						),
-					);
-					exportModalRef?.current?.classList.remove("active");
-				}
-			})
-			.catch(function (error) {
-				// Error
-				console.warn(error);
-				exportModalRef?.current?.classList.remove("active");
-			});
+		exportHook(exportModalRef?.current, "blocks");
 	}
 
 	/**
@@ -292,11 +255,16 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 			// Handle core/embed block.
 			if ("embed" === cat.slug) {
-				const embedBlock = wpBlocks.filter(function (block) {
-					return block.category === cat.slug;
-				});
+				// Pluck core/embed block.
+				const embedBlock = wpBlocks.find(
+					(block) =>
+						block.category === cat.slug && block.name === "core/embed",
+				);
+
 				// Handle variations of the embed block.
-				const variations = embedBlock[0] ? embedBlock[0].variations : [];
+				const variations = embedBlock?.variations
+					? embedBlock.variations
+					: [];
 
 				// Loop variations and modify block name to add `variation;core/embed;` pattern.
 				const modVariations = variations.map((item) => {
@@ -361,11 +329,23 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 										ref={resetButtonRef}
 										callback={resetBlocks}
 										total={disabledBlocks?.length}
+										msg={__(
+											"Are you sure you want to reset and activate all currently disabled blocks?",
+											"block-manager",
+										)}
+										title={__(
+											"Clear all disabled blocks",
+											"block-manager",
+										)}
 									/>
 									<Export
 										ref={exportButtonRef}
 										callback={exportBlocks}
 										total={disabledBlocks?.length}
+										title={__(
+											"Export an array of disabled blocks as a WordPress hook",
+											"block-manager",
+										)}
 									/>
 								</div>
 							</div>
@@ -385,6 +365,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					<ExportModal
 						ref={exportModalRef}
 						returnButtonRef={exportButtonRef}
+						desc={__(
+							"Add the the following code to your functions.php to remove blocks at the theme level.",
+							"block-manager",
+						)}
 					/>
 				</>
 			)}

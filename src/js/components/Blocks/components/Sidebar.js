@@ -24,8 +24,8 @@ export default function Sidebar({ blocks, active, disabled, filtered }) {
 	/**
 	 * Block total update animation.
 	 * @param {Element}  ref      The ref element.
-	 * @param {Number}   value    The current value.
-	 * @param {FUnction} callback The callback function.
+	 * @param {number}   value    The current value.
+	 * @param {Function} callback The callback function.
 	 */
 	function change(ref, value, callback) {
 		if (!mountedRef?.current || !ref) {

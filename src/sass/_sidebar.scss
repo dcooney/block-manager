@@ -18,7 +18,7 @@
 
 		.gbm-cta {
 			background-color: #fff;
-			border-radius: $radius;
+			border-radius: $radius_lg;
 			border: 1px solid $grey;
 			box-shadow: 0 5px 10px rgba(0,0,0,.035);
 			margin-bottom: $padding;
@@ -165,21 +165,21 @@
 									filter: blur(1px);
 								}
 								&.slide-down{
-									top: 20px;
+									top: 15px;
 								}
 								&.slide-up{
-									top: -20px;
+									top: -15px;
 								}
 
 								&.slide-down-done,
 								&.slide-up-done{
 									transition: none;
 									opacity: 0;
-									filter: blur(1px);
-									top: -20px;
+									filter: blur(0.5px);
+									top: -15px;
 								}
 								&.slide-up-done{
-									top: 20px;
+									top: 15px;
 								}
 							}
 						}

@@ -32,9 +32,7 @@ add_action(
  * @since 1.0
  */
 function block_manager_category_switch( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
 		// Get JSON Data.
@@ -43,8 +41,8 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 
 		if ( $body && $data ) {
 
-			$block = ( $data && $data->block ) ? $data->block : '';
-			$cat   = ( $data && $data->cat ) ? $data->cat : '';
+			$block = $data && $data->block ? $data->block : '';
+			$cat   = $data && $data->cat ? $data->cat : '';
 
 			// Get current options.
 			$options = (array) get_option( BLOCK_MANAGER_CATEGORIES, array() );
@@ -63,10 +61,10 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 			}
 
 			// Create array of new data.
-			$item = array(
+			$item = [
 				'block' => $block,
 				'cat'   => $cat,
-			);
+			];
 
 			// Add $object to array.
 			if ( ! $duplicate ) {
@@ -77,16 +75,17 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 			update_option( BLOCK_MANAGER_CATEGORIES, $options );
 
 			// Send Response.
-			$response = array(
-				'success' => true,
-				'msg'     => $block . __( ' category updated to successfully to ', 'block-manager' ) . $cat . '.',
-			);
+			$response = [
+				'success'    => true,
+				'msg'        => $block . __( ' category updated to successfully to ', 'block-manager' ) . $cat . '.',
+				'categories' => $options,
+			];
 		} else {
-
-			$response = array(
-				'success' => false,
-				'msg'     => __( 'Error accessing API data.', 'block-manager' ),
-			);
+			$response = [
+				'success'    => false,
+				'msg'        => __( 'Error accessing API data.', 'block-manager' ),
+				'categories' => false,
+			];
 		}
 		wp_send_json( $response ); // Send response as JSON.
 	}

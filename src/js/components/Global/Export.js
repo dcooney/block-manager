@@ -7,17 +7,13 @@ import { __ } from "@wordpress/i18n";
  * @return {Element} The Export component.
  */
 const Export = forwardRef(function Export(props, ref) {
-	const { callback, total = 0 } = props;
+	const { callback, total = 0, title } = props;
 	return (
 		<button
 			ref={ref}
 			type="button"
-			className="resetblocks"
 			onClick={() => callback()}
-			title={__(
-				"Export the list of disabled blocks via WordPress filter",
-				"block-manager",
-			)}
+			title={title}
 			disabled={total < 1}
 		>
 			<span className="dashicons dashicons-database-export"></span>

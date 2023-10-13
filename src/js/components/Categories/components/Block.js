@@ -11,54 +11,43 @@ import Icon from "../../Global/Icon";
  * @return {Element}                  The Block component.
  */
 export default function Block({ data, categories, callback }) {
-	const { name, icon, title, category, description } = data;
-
+	const { name, icon, title, category } = data;
 	return (
-		<div data-title={title} className="item" data-id={name}>
-			<div className="item--wrap">
+		<div data-title={title} className="item gbm-category" data-id={name}>
+			<div className="gbm-category-wrap">
 				<Icon icon={icon} />
-				<div className="block-info--wrap">
-					<div className="block-info--details">
-						<span className="block-info block-info--title">{title}</span>
-						{description && typeof description === "string" ? (
-							<span
-								className="block-info block-info--desc"
-								title={description}
-							>
-								{description}
-							</span>
-						) : null}
-						<span className="block-info block-info--id">{name}</span>
-					</div>
-					<div className="block-info--action">
-						<label>
-							<span className="offscreen">
-								{gbm_localize.cat_switch}
-							</span>
-							<select
-								defaultValue={category}
-								onChange={(e) => callback(name, e)}
-							>
-								{!!categories?.length &&
-									categories.map((cat, index) => {
-										return (
-											<option
-												key={`cat-${cat.slug}-${index}`}
-												value={cat.slug}
-											>
-												{cat.title}
-											</option>
-										);
-									})}
-							</select>
-						</label>
-					</div>
-				</div>
+				<p>
+					{title}
+					<span>{name}</span>
+				</p>
 			</div>
-			<div className="loading-cover"></div>
+			<div className="gbm-category-wrap category-switch">
+				<label htmlFor={`select-${name}`} className="offscreen">
+					{__("Update block category", "block-manager")}
+				</label>
+				<select
+					defaultValue={category}
+					onChange={(e) => callback(name, e)}
+					id={`select-${name}`}
+				>
+					{!!categories?.length &&
+						categories.map((cat, index) => {
+							return (
+								<option
+									key={`cat-${cat.slug}-${index}`}
+									value={cat.slug}
+								>
+									{cat.title}
+								</option>
+							);
+						})}
+				</select>
+			</div>
 			<div className="gbm-cat-status">
-				<i className="fa fa-check" aria-hidden="true"></i>{" "}
-				{__("Category Updated", "block-manager")}
+				<i className="fa fa-check" aria-hidden="true"></i>
+				<span className="offscreen">
+					{__("Category Updated", "block-manager")}
+				</span>
 			</div>
 		</div>
 	);

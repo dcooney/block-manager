@@ -40,68 +40,70 @@
 		overflow: hidden;
 		border-radius: $radius;
 
-		// Block display.
-		&.block-button{
-			& > div {
-				position: relative;
-				z-index: 1;
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				width: 100%;
-				gap: 8px;
+		> div {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			width: 100%;
+			gap: 8px;
+		}
+
+		.icon {
+			width: 28px;
+			display: block;
+			margin: 0;
+			opacity: 0.75;
+			text-align: center;
+			svg {
+				max-width: 100%;
+				fill: $text;
+				height: 28px;
+				max-height: 28px;
 			}
-			p {
-				color: $text;
-			}
-			.icon {
-				width: 28px;
+		}
+		p {
+			color: $text;
+			width: 100%;
+			text-align: center;
+			padding: 0;
+			margin: 0;
+			font-weight: 400;
+			line-height: 1.35;
+			text-transform: capitalize;
+			font-size: 12px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			span {
 				display: block;
-				margin: 0;
-				opacity: 0.75;
-				svg {
-					max-width: 100%;
-					fill: $text;
-					height: 28px;
-					max-height: 28px;
-				}
+				color: $grey_dark;
+				text-transform: lowercase;
 			}
-			& p {
-				width: 100%;
-				text-align: center;
-				padding: 0;
-				margin: 0;
-				font-weight: 400;
-				line-height: 1.35;
-				text-transform: capitalize;
-				font-size: 12px;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				&.block-desc{
-					display: none;
-				}
-			}
-			.gbm-block-switch,
-			.block-desc,
-			.block-id{
+			&.block-desc{
 				display: none;
 			}
-			&:hover,
-			&:focus{
-				border-color: $grey;
-			}
-			&:hover:not(.disabled):not(.filtered),
-			&:focus:not(.disabled):not(.filtered) {
-				background-color: #f7f7f7;
-				background-color: #f0faff;
-			}
+		}
+		.gbm-block-switch,
+		.block-desc,
+		.block-id{
+			display: none;
+		}
+		&:hover,
+		&:focus{
+			border-color: $grey;
+		}
+		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
+		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
+			background-color: #f7f7f7;
+			background-color: #f0faff;
+		}
 
-			&:focus-visible:not(.filtered) {
-				outline: 2px solid $purple;
-				outline-offset: -2px;
-			}
-
+		&:focus-visible:not(.filtered) {
+			outline: 2px solid $purple;
+			outline-offset: -2px;
 		}
 
 		// Disabled
@@ -165,34 +167,68 @@
 
 	// Category Switcher
 	&.categories {
-		padding: 10px 25px;
-		display: block;
+		grid-template-columns: repeat(1, minmax(0,1fr));
+		@media screen and (min-width: $xsmall) {
+			grid-template-columns: repeat(2, minmax(0,1fr));
+		}
+		@media screen and (min-width: $small) {
+			grid-template-columns: repeat(3, minmax(0,1fr));
+		}
+		@media screen and (min-width: $medium) {
+			grid-template-columns: repeat(3, minmax(0,1fr));
+		}
+		@media screen and (min-width: $large) {
+			grid-template-columns: repeat(4, minmax(0,1fr));
+		}
+		@media screen and (min-width: $xlarge) {
+			grid-template-columns: repeat(6, minmax(0,1fr));
+		}
 		.item {
-			width: 100%;
-			padding: 15px 2px;
-			margin: 0;
-			background: #fff !important;
-			border: none;
-			border-top: 1px solid $grey;
-			border-radius: 0;
-			&:hover,
-			:focus-within {
-				.block-info--title {
-					text-decoration: underline;
+			padding: 0;
+			cursor: default;
+			> .gbm-category-wrap {
+				padding: $padding;
+				&.category-switch{
+					background-color: $grey_light;
+					border-top: 1px solid $border_light;
+					select {
+						width: 100%;
+						border-color: $grey;
+						color: $text;
+						&:hover,
+						&:focus {
+							color: $purple;
+							border-color: $purple;
+							box-shadow: none !important;
+						}
+						&:focus{
+							outline: 2px solid $purple;
+							outline-offset: 2px;
+						}
+					}
 				}
 			}
-			&:first-of-type {
-				border: none;
+			p {
+				font-size: 13px;
+				line-height: 1.5;
+				span {
+					font-size: 12px;
+					font-family: Menlo,Consolas,Monaco,Lucida Console,monospace;
+				}
 			}
 			.gbm-cat-status {
 				position: absolute;
+				top: 5px;
 				right: 5px;
-				bottom: 5px;
-				transition: all 0.25s ease;
+				transition: all 0.15s ease;
 				color: #fff;
+				width: 24px;
+				height: 24px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				background-color: $green;
-				padding: 9px 11px;
-				border-radius: 2px;
+				border-radius: $radius;
 				font-size: 12px;
 				line-height: 1;
 				opacity: 0;
@@ -201,60 +237,6 @@
 					opacity: 0.9;
 					visibility: visible;
 				}
-			}
-			.block-info--title {
-				font-size: 15px;
-				padding-top: 2px;
-			}
-			.block-info--desc {
-				display: none;
-			}
-			.block-info--id {
-				display: block;
-			}
-			.block-info--wrap {
-				width: 100%;
-				@media screen and (min-width: $small) {
-					display: flex;
-					flex-wrap: nowrap;
-					align-items: center;
-				}
-			}
-			.block-info--action {
-				padding-top: 15px;
-				@media screen and (min-width: $small) {
-					padding-top: 0;
-					margin-left: auto;
-				}
-			}
-			label {
-				span {
-					display: block;
-				}
-				select {
-					margin: 0;
-					min-width: 160px;
-					//max-width: 200px;
-				}
-			}
-			&.loading {
-				.loading-cover {
-					opacity: 1;
-					visibility: visible;
-				}
-			}
-			.loading-cover {
-				display: block;
-				opacity: 0;
-				visibility: hidden;
-				position: absolute;
-				left: 0;
-				top: 0;
-				bottom: 0;
-				right: 0;
-				z-index: 9999;
-				background: rgba(255, 255, 255, 0.65) url('../images/ajax-loader.gif') no-repeat center center;
-				transition: all 0.25s ease;
 			}
 		}
 	}
@@ -272,22 +254,6 @@
 		border-radius: 3px 3px 0 0;
 		&.no-border {
 			border: none;
-		}
-		&.categories {
-			padding: 0 25px;
-			height: 45px;
-			font-weight: 600;
-			text-transform: uppercase;
-			display: none;
-			@media screen and (min-width: $small) {
-				display: flex;
-			}
-			p {
-				margin: 0;
-			}
-			h3:last-of-type {
-				text-align: right;
-			}
 		}
 		h3 {
 			flex: 1;
@@ -313,7 +279,7 @@
 	}
 }
 
-
+// Disabled SVG styles.
 .disabled-svg{
 	z-index: 0;
 	visibility: hidden;

@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import copyToClipboard from "../../../functions/copyToClipboard";
+import copyToClipboard from "../../functions/copyToClipboard";
 
 /**
  * Render the ExportModal overlay.
@@ -8,7 +8,7 @@ import copyToClipboard from "../../../functions/copyToClipboard";
  * @return {Element} The ExportModal component.
  */
 const ExportModal = forwardRef(function ExportModal(props, ref) {
-	const { data, returnButtonRef } = props;
+	const { data, returnButtonRef, desc } = props;
 	const copyButtonRef = useRef();
 	const codeRef = useRef();
 
@@ -43,12 +43,7 @@ const ExportModal = forwardRef(function ExportModal(props, ref) {
 		<div className="gbm-export-modal" ref={ref} tabIndex="0">
 			<div className="gbm-export-modal--inner">
 				<div>
-					<p>
-						{__(
-							"Add the the following code to your functions.php to remove blocks at the theme level.",
-							"block-manager",
-						)}
-					</p>
+					<p>{desc}</p>
 					<div>
 						<button
 							type="button"

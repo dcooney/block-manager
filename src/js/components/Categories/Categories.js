@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
-import Block from "./components/Block";
-import Reset from "./components/Reset";
-import Sidebar from "./components/Sidebar";
 import getBlockData from "../../functions/blocks";
-import getCategoryData from "../../functions/getCategoryData";
+import Block from "./components/Block";
+import Reset from "../Global/Reset";
+import Sidebar from "./components/Sidebar";
+import Export from "../Global/Export";
+import ExportModal from "../Global/ExportModal";
+import { exportHook } from "../../functions/export";
 
 /**
  * Render the Categories component.
@@ -17,6 +19,9 @@ import getCategoryData from "../../functions/getCategoryData";
  */
 export default function Categories({ wpBlocks, wpCategories }) {
 	const resetButtonRef = useRef(null);
+	const exportModalRef = useRef();
+	const exportButtonRef = useRef();
+
 	const [loading, setLoading] = useState(true);
 	const [categories] = useState(wpCategories);
 	const [blocks, setBlocks] = useState(wpBlocks);
@@ -27,7 +32,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const heading = sprintf(
 		// translators: %s: The number of blocks.
 		__(
-			"Update the categories of your %s blocks with the category switcher.",
+			"Organize blocks by modifying the assigned category for each of your %s blocks.",
 			"block-manager",
 		),
 		`<span>${blocks?.length}</span>`,
@@ -46,12 +51,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 		}
 		const value = select.target.value;
 		const element = select.target.closest(".item");
-		let status = "";
-
-		if (element) {
-			element.classList.add("loading");
-			status = element.querySelector(".gbm-cat-status");
-		}
+		const catStatus = element?.querySelector(".gbm-cat-status");
 
 		// Send API request.
 		axios({
@@ -66,30 +66,30 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			},
 		})
 			.then(function (res) {
-				const response = res.data;
-				if (response && res.status === 200) {
-					// Success
-					if (element) {
-						element.classList.remove("loading");
-						if (status) {
-							status.classList.add("active");
-							setTimeout(function () {
-								status.classList.remove("active");
-							}, 2500);
-						}
-					}
+				const { data, status } = res;
+				if (data && status === 200 && data?.categories) {
+					catStatus?.classList?.add("active");
+					// Success: update state for categories and blocks.
+					setFilteredCategories([...data?.categories]);
+					setTimeout(function () {
+						catStatus?.classList?.remove("active");
+						// Delay state for saving animation.
+						setTimeout(function () {
+							setBlocks(getBlockData(data?.categories));
+						}, 150);
+					}, 850);
 				} else {
-					console.warn("an error has occurred");
-					if (element) {
-						element.classList.remove("loading");
-					}
+					console.warn(
+						__(
+							"An unknown error has occurred and the block category could not be updated",
+							"block-manager",
+						),
+					);
 				}
 			})
 			.catch(function (error) {
 				console.warn(error);
-				if (element) {
-					element.classList.remove("loading");
-				}
+				catStatus?.classList?.remove("active");
 			});
 	}
 
@@ -107,16 +107,19 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			},
 		})
 			.then(function () {
-				setFilteredCategories([]);
-				setTimeout(function () {
-					setBlocks(getBlockData([]));
-					resetButtonRef?.current?.classList.remove("spin");
-				}, 250);
+				window?.location?.reload();
 			})
 			.catch(function (error) {
 				console.warn(error);
 				resetButtonRef?.current?.classList.remove("spin");
 			});
+	}
+
+	/**
+	 * Export as PHP code.
+	 */
+	function exportCategories() {
+		exportHook(exportModalRef?.current, "categories");
 	}
 
 	// On Load
@@ -145,48 +148,68 @@ export default function Categories({ wpBlocks, wpCategories }) {
 					{__("Fetching Blocks and Categories", "block-manager")}…
 				</span>
 			) : (
-				<div className="gbm-block-list-wrapper categories">
-					<Sidebar />
-					<div className="gbm-blocks">
-						<div className="gbm-options">
-							<p
-								className="gbm-heading"
-								dangerouslySetInnerHTML={{ __html: heading }}
-							/>
-							<div>
-								<Reset
-									ref={resetButtonRef}
-									callback={resetCategories}
-									total={filteredCategories?.length}
+				<>
+					<div className="gbm-block-list-wrapper categories">
+						<Sidebar />
+						<div className="gbm-blocks">
+							<div className="gbm-options">
+								<p
+									className="gbm-heading"
+									dangerouslySetInnerHTML={{ __html: heading }}
 								/>
+								<div>
+									<Reset
+										ref={resetButtonRef}
+										callback={resetCategories}
+										total={filteredCategories?.length}
+										msg={__(
+											"Are you sure you want to reset your modified block categories?",
+											"block-manager",
+										)}
+										title={__(
+											"Clear all modified block categories",
+											"block-manager",
+										)}
+									/>
+									<Export
+										ref={exportButtonRef}
+										callback={exportCategories}
+										total={filteredCategories?.length}
+										title={__(
+											"Export an array of updated blocks categories as a WordPress hook",
+											"block-manager",
+										)}
+									/>
+								</div>
 							</div>
-						</div>
-						<div className="gbm-block-group">
-							<div className="gbm-block-list categories">
-								{!!categories?.length &&
-									categories.map((cat, index) => (
-										<section key={index}>
-											<h3>{cat?.title}</h3>
-										</section>
-									))}
-								<>
-									{!!blocks?.length &&
-										blocks.map((block) => {
-											console.log(block);
-											return (
-												<Block
-													key={`${block?.name}-${block?.category}`}
-													callback={switchCategory}
-													categories={categories}
-													data={block}
-												/>
-											);
-										})}
-								</>
+							<div className="gbm-block-group">
+								<div className="gbm-block-list categories">
+									<>
+										{!!blocks?.length &&
+											blocks.map((block) => {
+												return (
+													<Block
+														key={`${block?.name}-${block?.category}`}
+														callback={switchCategory}
+														categories={categories}
+														data={block}
+													/>
+												);
+											})}
+									</>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+					<ExportModal
+						ref={exportModalRef}
+						returnButtonRef={exportButtonRef}
+						desc={__(
+							"Add the the following code to your functions.php to update block categories at the theme level.",
+							"block-manager",
+						)}
+					/>
+				</>
 			)}
 		</>
 	);
