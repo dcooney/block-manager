@@ -39,7 +39,7 @@
 		cursor: pointer;
 		overflow: hidden;
 		border-radius: $radius;
-
+		transition: border-color 0.1s ease;
 		> div {
 			position: relative;
 			z-index: 1;
@@ -91,13 +91,13 @@
 		.block-id{
 			display: none;
 		}
-		&:hover,
-		&:focus{
-			border-color: $grey;
+		&:hover:not(.filtered),
+		&:focus:not(.filtered){
+			border-color: #c3c4c7;
+			//order-color: rgba($grey_dark, 0.5);
 		}
 		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
 		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
-			background-color: #f7f7f7;
 			background-color: #f0faff;
 		}
 
@@ -186,11 +186,18 @@
 		.item {
 			padding: 0;
 			cursor: default;
+			&.filtered{
+				pointer-events: none;
+				.category-switch{
+					background-color: rgba($grey_light, 0.5);
+				}
+			}
 			> .gbm-category-wrap {
 				padding: $padding;
 				&.category-switch{
 					background-color: $grey_light;
 					border-top: 1px solid $border_light;
+					margin-top: auto;
 					select {
 						width: 100%;
 						border-color: $grey;
@@ -204,6 +211,9 @@
 						&:focus{
 							outline: 2px solid $purple;
 							outline-offset: 2px;
+						}
+						&[disabled]{
+							pointer-events: none;
 						}
 					}
 				}

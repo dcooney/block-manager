@@ -21,8 +21,8 @@ TODO:
 - Implement gbm_block_categories hook in block inserter.
 - Disable gbm_block_categories blocks in backend admin.
 - Add visual representation of block categories in backend admin
-
-- Render Variations. Might be not worth it. Seems too complicated.
+- Check that filtered blocks are actually disabled in bock inserter. [DONE]
+- Render Variations. Might be not worth it. Seems too complicated. [DO NOT DO]
 
 */
 
@@ -117,8 +117,8 @@ class Gutenberg_Block_Manager {
 			'block-manager',
 			'gutenberg_block_manager',
 			[
-				'blocks'     => $this->gbm_get_disabled_blocks(),
-				'categories' => $this->gbm_get_filtered_cats(),
+				'blocks'     => $this->gbm_get_all_disabled_blocks(),
+				'categories' => $this->gbm_get_all_block_categories(),
 			]
 		);
 	}
@@ -130,9 +130,35 @@ class Gutenberg_Block_Manager {
 	 * @since 1.2
 	 * @return array
 	 */
-	public static function gbm_get_filtered_cats() {
+	public static function gbm_get_block_categories() {
 		$categories = get_option( BLOCK_MANAGER_CATEGORIES, [] ); // Get option.
 		return $categories ? $categories : [];
+	}
+
+	/**
+	 * Get all filtered categories.
+	 *
+	 * @author ConnektMedia
+	 * @since 2.0
+	 * @return array
+	 */
+	public static function gbm_get_filtered_categories() {
+		$blocks = apply_filters( 'gbm_block_categories', [] ); // Get filtered block categories.
+		return ! empty( $blocks ) ? $blocks : [];
+	}
+
+	/**
+	 * Get all disabled blocks.
+	 *
+	 * @author ConnektMedia
+	 * @since 1.0
+	 * @return array
+	 */
+	public static function gbm_get_all_block_categories() {
+		$updated  = self::gbm_get_block_categories();
+		$filtered = self::gbm_get_filtered_categories();
+		$blocks   = array_merge( $updated, $filtered );
+		return ! empty( $blocks ) ? $blocks : [];
 	}
 
 	/**
@@ -144,6 +170,20 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_disabled_blocks() {
 		$blocks = get_option( BLOCK_MANAGER_OPTION, [] ); // Get disabled blocks.
+		return ! empty( $blocks ) ? $blocks : [];
+	}
+
+	/**
+	 * Get all disabled blocks.
+	 *
+	 * @author ConnektMedia
+	 * @since 1.0
+	 * @return array
+	 */
+	public static function gbm_get_all_disabled_blocks() {
+		$disabled = self::gbm_get_disabled_blocks();
+		$filtered = self::gbm_get_filtered_blocks();
+		$blocks   = array_merge( $disabled, $filtered );
 		return ! empty( $blocks ) ? $blocks : [];
 	}
 

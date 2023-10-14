@@ -52,11 +52,11 @@ function block_manager_toggle( WP_REST_Request $request ) {
 				}
 
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
-				$response = array(
+				$response = [
 					'success'         => true,
 					'msg'             => __( 'Block Disabled', 'block-manager' ),
 					'disabled_blocks' => $disabled_blocks,
-				);
+				];
 			}
 
 			// Enable.
@@ -71,18 +71,18 @@ function block_manager_toggle( WP_REST_Request $request ) {
 				}
 
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
-				$response = array(
+				$response = [
 					'success'         => true,
 					'msg'             => __( 'Block enabled', 'block-manager' ),
 					'disabled_blocks' => $blocks,
-				);
+				];
 			}
 		} else {
-			$response = array(
+			$response = [
 				'success'         => false,
 				'msg'             => __( 'Error accessing API data.', 'block-manager' ),
 				'disabled_blocks' => [],
-			);
+			];
 		}
 
 		wp_send_json( $response );

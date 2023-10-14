@@ -13,6 +13,7 @@ export default function filterBlockCategories(options) {
 	options.forEach((cat) => {
 		// Extract values from object.
 		const values = Object.values(cat);
+
 		// Convert values into object.
 		categories[values[0]] = values[1];
 	});
@@ -29,15 +30,9 @@ export default function filterBlockCategories(options) {
 			settings.gbm = true;
 		}
 
-		// We need to pass along the settings object
-		// even if we haven't modified them!
 		return settings;
 	};
 
 	// Add filter when blocks register.
-	addFilter(
-		"blocks.registerBlockType", // hook name, important!
-		"gbm/filter-blocks", // your name, arbitrary!
-		filterBlocks, // function to run.
-	);
+	addFilter("blocks.registerBlockType", "gbm/filter-blocks", filterBlocks);
 }

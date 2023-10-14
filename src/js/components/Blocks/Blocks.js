@@ -8,6 +8,7 @@ import ExportModal from "../Global/ExportModal";
 import Reset from "../Global/Reset";
 import Sidebar from "./components/Sidebar";
 import { exportHook } from "../../functions/export";
+import SearchResults from "../Global/SearchResults";
 
 /**
  * Render the Blocks component.
@@ -22,6 +23,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
 
+	const [search, setSearch] = useState({ term: "", results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [blocks, setBlocks] = useState([]);
 	const [disabledBlocks, setDisabledBlocks] = useState(
@@ -238,6 +240,67 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	}
 
 	/**
+	 * Handle search.
+	 */
+	function searchHandler(term) {
+		let count = 0;
+		const groups = document.querySelectorAll(".gbm-block-group");
+		if (term !== "") {
+			groups?.length &&
+				[...groups].forEach(function (group) {
+					let total = 0;
+					const blocks = group.querySelectorAll(".item");
+					[...blocks].map(function (block, index) {
+						const str = block.dataset.title.toLowerCase();
+						const found = str.search(term.toLowerCase());
+
+						// Show/hide blocks.
+						if (found !== -1) {
+							block.removeAttribute("style");
+							total++;
+							count++;
+						} else {
+							block.style.display = "none";
+						}
+
+						// Show/hide entire group if no results.
+						if (blocks.length === index + 1) {
+							if (total === 0) {
+								group.style.display = "none";
+							} else {
+								group.removeAttribute("style");
+							}
+						}
+					});
+				});
+			setSearch({ term, results: count });
+		} else {
+			setSearch({ term: "", results: 0 });
+			groups?.length &&
+				[...groups].forEach(function (group) {
+					group.removeAttribute("style");
+					const blocks = group.querySelectorAll(".item");
+					blocks?.length &&
+						[...blocks].map(function (block) {
+							block.removeAttribute("style");
+						});
+				});
+		}
+	}
+
+	/**
+	 * Clear the block search.
+	 */
+	function clearSearch() {
+		searchHandler("");
+		setSearch({ term: "", results: 0 });
+		const input = document.querySelector("#gbm-search");
+		if (input) {
+			input.value = "";
+		}
+	}
+
+	/**
 	 * Mutate Blocks on load.
 	 *
 	 * @since 1.0
@@ -315,6 +378,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							}
 							disabled={disabledBlocks?.length}
 							filtered={filteredBlocks?.length}
+							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
@@ -349,6 +413,11 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 									/>
 								</div>
 							</div>
+							<SearchResults
+								data={search}
+								callback={clearSearch}
+								className="blocks-render"
+							/>
 							{!!blocks?.length &&
 								blocks.map((category) => (
 									<Category

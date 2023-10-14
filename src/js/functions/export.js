@@ -23,16 +23,36 @@ export function exportHook(ref, type = "blocks") {
 		.then(function (res) {
 			const { data, status } = res;
 			if (status === 200 && data?.success && data?.code) {
-				let blockReturn = data.code;
-				blockReturn = blockReturn.replace(/\\/g, ""); // Replace `\`.
-				blockReturn = blockReturn.replace(/"/g, "'"); // Replace `"`.
-				blockReturn = blockReturn.replace(/,'/g, ", '"); // Replace `,'`.
+				let code = "";
 
-				const results = `// functions.php<br/>add_filter( '${hook}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${blockReturn};<br/>});`;
-				const code = ref?.querySelector("#gbm-export");
-				code.innerHTML = results;
+				// Blocks return data.
+				if (type === "blocks") {
+					code = data.code;
+					code = code.replace(/\\/g, ""); // Replace `\`.
+					code = code.replace(/"/g, "'"); // Replace `"`.
+					code = code.replace(/,'/g, ", '"); // Replace `,'`.
+				}
+
+				// Category return data.
+				if (type === "categories") {
+					const entries = JSON.parse(data.code);
+					if (entries?.length) {
+						code = "[";
+						entries.forEach((entry, index) => {
+							code += "[";
+							code += `'block' => '${entry.block}', 'cat' => '${entry.cat}'`;
+							code += "]";
+							code += index === entries.length - 1 ? "" : ", ";
+						});
+						code += "]";
+					}
+				}
+
+				const results = `// functions.php<br/>add_filter( '${hook}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${code};<br/>});`;
+				const target = ref?.querySelector("#gbm-export");
+				target.innerHTML = results;
 				setTimeout(function () {
-					code.focus();
+					target.focus();
 				}, 250);
 			} else {
 				console.warn(

@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Export from "../Global/Export";
 import ExportModal from "../Global/ExportModal";
 import { exportHook } from "../../functions/export";
+import SearchResults from "../Global/SearchResults";
 
 /**
  * Render the Categories component.
@@ -22,9 +23,13 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
 
+	const [search, setSearch] = useState({ term: "", results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [categories] = useState(wpCategories);
 	const [blocks, setBlocks] = useState(wpBlocks);
+	const [blockCategories, setBlockCategories] = useState(
+		gbm_localize?.blockCategories || [],
+	);
 	const [filteredCategories, setFilteredCategories] = useState(
 		gbm_localize?.filteredCategories || [],
 	);
@@ -32,7 +37,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const heading = sprintf(
 		// translators: %s: The number of blocks.
 		__(
-			"Organize blocks by modifying the assigned category for each of your %s blocks.",
+			"Organize your %s WordPress blocks by modifying the assigned category of each.",
 			"block-manager",
 		),
 		`<span>${blocks?.length}</span>`,
@@ -70,7 +75,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 				if (data && status === 200 && data?.categories) {
 					catStatus?.classList?.add("active");
 					// Success: update state for categories and blocks.
-					setFilteredCategories([...data?.categories]);
+					setBlockCategories([...data?.categories]);
 					setTimeout(function () {
 						catStatus?.classList?.remove("active");
 						// Delay state for saving animation.
@@ -116,6 +121,47 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	}
 
 	/**
+	 * Handle search.
+	 */
+	function searchHandler(term) {
+		const blocks = document.querySelectorAll(
+			".gbm-blocks .gbm-block-list .item",
+		);
+
+		if (term !== "") {
+			let count = 0;
+			[...blocks].map(function (block) {
+				const str = block.dataset.title.toLowerCase();
+				const found = str.search(term.toLowerCase());
+				if (found !== -1) {
+					block.removeAttribute("style");
+					count++;
+				} else {
+					block.style.display = "none";
+				}
+			});
+			setSearch({ term, results: count });
+		} else {
+			setSearch({ term, results: false });
+			[...blocks].map(function (block) {
+				block.removeAttribute("style");
+			});
+		}
+	}
+
+	/**
+	 * Clear the block search.
+	 */
+	function clearSearch() {
+		searchHandler("");
+		setSearch({ term: "", results: false });
+		const input = document.querySelector("#gbm-search");
+		if (input) {
+			input.value = "";
+		}
+	}
+
+	/**
 	 * Export as PHP code.
 	 */
 	function exportCategories() {
@@ -150,7 +196,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			) : (
 				<>
 					<div className="gbm-block-list-wrapper categories">
-						<Sidebar />
+						<Sidebar search={searchHandler} />
 						<div className="gbm-blocks">
 							<div className="gbm-options">
 								<p
@@ -161,7 +207,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 									<Reset
 										ref={resetButtonRef}
 										callback={resetCategories}
-										total={filteredCategories?.length}
+										total={blockCategories?.length}
 										msg={__(
 											"Are you sure you want to reset your modified block categories?",
 											"block-manager",
@@ -174,7 +220,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 									<Export
 										ref={exportButtonRef}
 										callback={exportCategories}
-										total={filteredCategories?.length}
+										total={blockCategories?.length}
 										title={__(
 											"Export an array of updated blocks categories as a WordPress hook",
 											"block-manager",
@@ -183,6 +229,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 								</div>
 							</div>
 							<div className="gbm-block-group">
+								<SearchResults data={search} callback={clearSearch} />
 								<div className="gbm-block-list categories">
 									<>
 										{!!blocks?.length &&
@@ -193,6 +240,10 @@ export default function Categories({ wpBlocks, wpCategories }) {
 														callback={switchCategory}
 														categories={categories}
 														data={block}
+														filteredCategories={
+															filteredCategories
+														}
+														blockCategories={blockCategories}
 													/>
 												);
 											})}

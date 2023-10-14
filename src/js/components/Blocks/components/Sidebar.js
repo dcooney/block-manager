@@ -6,14 +6,21 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 /**
  * Render the Sidebar for Block Manager.
  *
- * @param {Object} props          The component props.
- * @param {Array}  props.blocks   Array of WP Blocks.
- * @param {number} props.active   Total number of active blocks.
- * @param {number} props.disabled Total number of disabled blocks.
- * @param {number} props.filtered Total number of filtered blocks.
- * @return {Element}              The Sidebar component.
+ * @param {Object}   props          The component props.
+ * @param {Array}    props.blocks   Array of WP Blocks.
+ * @param {number}   props.active   Total number of active blocks.
+ * @param {number}   props.disabled Total number of disabled blocks.
+ * @param {number}   props.filtered Total number of filtered blocks.
+ * @param {Function} props.search   The search handler function.
+ * @return {Element}                The Sidebar component.
  */
-export default function Sidebar({ blocks, active, disabled, filtered }) {
+export default function Sidebar({
+	blocks,
+	active,
+	disabled,
+	filtered,
+	search,
+}) {
 	const activeRef = useRef(null);
 	const disabledRef = useRef(null);
 	const mountedRef = useRef(false);
@@ -146,7 +153,7 @@ export default function Sidebar({ blocks, active, disabled, filtered }) {
 								{category?.info?.title}
 							</button>
 						))}
-					<Search />
+					<Search callback={search} />
 				</div>
 			</div>
 		</div>

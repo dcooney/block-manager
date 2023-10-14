@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import Icon from "../../Global/Icon";
+import cn from "classnames";
 
 /**
  * Render the Block component for a category listing.
@@ -8,15 +9,30 @@ import Icon from "../../Global/Icon";
  * @param {Object}   props.data       Data for an individual block.
  * @param {Array}    props.categories Array of block categories.
  * @param {Function} props.callback   Function to call after category change.
+ * @param {Array}    props.callback   Array of filtered cateogries.
  * @return {Element}                  The Block component.
  */
-export default function Block({ data, categories, callback }) {
+export default function Block({
+	data,
+	categories,
+	callback,
+	filteredCategories,
+	blockCategories,
+}) {
 	const { name, icon, title, category } = data;
+
+	// Is this block filtered?
+	const isfiltered = filteredCategories?.find((cat) => cat.block === name);
+
 	return (
-		<div data-title={title} className="item gbm-category" data-id={name}>
+		<div
+			data-title={title}
+			className={cn("item", "gbm-category", isfiltered ? "filtered" : null)}
+			data-id={name}
+		>
 			<div className="gbm-category-wrap">
 				<Icon icon={icon} />
-				<p>
+				<p title={name}>
 					{title}
 					<span>{name}</span>
 				</p>
@@ -29,6 +45,7 @@ export default function Block({ data, categories, callback }) {
 					defaultValue={category}
 					onChange={(e) => callback(name, e)}
 					id={`select-${name}`}
+					disabled={isfiltered}
 				>
 					{!!categories?.length &&
 						categories.map((cat, index) => {

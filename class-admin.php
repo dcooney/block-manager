@@ -82,7 +82,8 @@ class GBM_Admin {
 			array(
 				'disabledBlocks'     => Gutenberg_Block_Manager::gbm_get_disabled_blocks(),
 				'filteredBlocks'     => Gutenberg_Block_Manager::gbm_get_filtered_blocks(),
-				'filteredCategories' => Gutenberg_Block_Manager::gbm_get_filtered_cats(),
+				'blockCategories'    => Gutenberg_Block_Manager::gbm_get_block_categories(),
+				'filteredCategories' => Gutenberg_Block_Manager::gbm_get_filtered_categories(),
 				'root'               => esc_url_raw( rest_url() ),
 				'nonce'              => wp_create_nonce( 'wp_rest' ),
 			)

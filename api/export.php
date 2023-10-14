@@ -47,10 +47,12 @@ function block_manager_export( WP_REST_Request $request ) {
 		}
 
 		if ( $type === 'categories' ) {
+			$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
+			$categories          = Gutenberg_Block_Manager::gbm_get_block_categories();
 			wp_send_json(
 				[
 					'success' => true,
-					'code'    => wp_json_encode( Gutenberg_Block_Manager::gbm_get_filtered_cats() ),
+					'code'    => wp_json_encode( array_merge( $categories, $filtered_categories ) ),
 				]
 			);
 		}

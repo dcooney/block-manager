@@ -30,6 +30,7 @@ function filterBlockCategories(options) {
   options.forEach(function (cat) {
     // Extract values from object.
     var values = Object.values(cat);
+
     // Convert values into object.
     categories[values[0]] = values[1];
   });
@@ -45,19 +46,11 @@ function filterBlockCategories(options) {
       settings.category = categories[name];
       settings.gbm = true;
     }
-
-    // We need to pass along the settings object
-    // even if we haven't modified them!
     return settings;
   };
 
   // Add filter when blocks register.
-  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.addFilter)("blocks.registerBlockType",
-  // hook name, important!
-  "gbm/filter-blocks",
-  // your name, arbitrary!
-  filterBlocks // function to run.
-  );
+  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.addFilter)("blocks.registerBlockType", "gbm/filter-blocks", filterBlocks);
 }
 
 /***/ }),
