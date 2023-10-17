@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
-import getBlockData from "../../functions/blocks";
-import Block from "./components/Block";
-import Reset from "../Global/Reset";
-import Sidebar from "./components/Sidebar";
+import { getBlockCategoryData } from "../../functions/blocks";
+import { exportHook } from "../../functions/export";
 import Export from "../Global/Export";
 import ExportModal from "../Global/ExportModal";
-import { exportHook } from "../../functions/export";
+import Loader from "../Global/Loader";
+import Reset from "../Global/Reset";
 import SearchResults from "../Global/SearchResults";
+import Block from "./components/Block";
+import Sidebar from "./components/Sidebar";
 
 /**
  * Render the Categories component.
@@ -26,11 +27,12 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const [search, setSearch] = useState({ term: "", results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [categories] = useState(wpCategories);
+
 	const [blocks, setBlocks] = useState(wpBlocks);
 	const [blockCategories, setBlockCategories] = useState(
 		gbm_localize?.blockCategories || [],
 	);
-	const [filteredCategories, setFilteredCategories] = useState(
+	const [filteredCategories] = useState(
 		gbm_localize?.filteredCategories || [],
 	);
 
@@ -46,17 +48,17 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	/**
 	 * Change the block category.
 	 *
-	 * @param {string} id     The block ID.
-	 * @param {Object} select The select element.
+	 * @param {string} block The block ID.
+	 * @param {Event}  e     The select change event.
 	 * @since 1.0
 	 */
-	function switchCategory(id, select) {
-		if (!id || !select) {
-			return false;
-		}
-		const value = select.target.value;
-		const element = select.target.closest(".item");
+	function switchCategory(block, e) {
+		const { target } = e;
+		const category = target.value;
+		const original = target.dataset.original;
+		const element = target.closest(".item");
 		const catStatus = element?.querySelector(".gbm-cat-status");
+		const type = category === original ? "remove" : "add";
 
 		// Send API request.
 		axios({
@@ -67,7 +69,9 @@ export default function Categories({ wpBlocks, wpCategories }) {
 				"Content-Type": "application/json",
 			},
 			data: {
-				data: JSON.stringify({ block: id, cat: value }),
+				type,
+				block,
+				category,
 			},
 		})
 			.then(function (res) {
@@ -80,7 +84,9 @@ export default function Categories({ wpBlocks, wpCategories }) {
 						catStatus?.classList?.remove("active");
 						// Delay state for saving animation.
 						setTimeout(function () {
-							setBlocks(getBlockData(data?.categories));
+							setBlocks(
+								getBlockCategoryData(wpBlocks, data?.categories),
+							);
 						}, 150);
 					}, 850);
 				} else {
@@ -122,15 +128,17 @@ export default function Categories({ wpBlocks, wpCategories }) {
 
 	/**
 	 * Handle search.
+	 *
+	 * @param {string} term The search term.
 	 */
 	function searchHandler(term) {
-		const blocks = document.querySelectorAll(
+		const theBlocks = document.querySelectorAll(
 			".gbm-blocks .gbm-block-list .item",
 		);
 
 		if (term !== "") {
 			let count = 0;
-			[...blocks].map(function (block) {
+			[...theBlocks].forEach(function (block) {
 				const str = block.dataset.title.toLowerCase();
 				const found = str.search(term.toLowerCase());
 				if (found !== -1) {
@@ -143,7 +151,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			setSearch({ term, results: count });
 		} else {
 			setSearch({ term, results: false });
-			[...blocks].map(function (block) {
+			[...theBlocks].forEach(function (block) {
 				block.removeAttribute("style");
 			});
 		}
@@ -170,10 +178,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 
 	// On Load
 	useEffect(() => {
-		setTimeout(function () {
-			setLoading(false);
-		}, 250);
-
 		// Export settings.
 		document.addEventListener(
 			"keyup",
@@ -190,13 +194,16 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	return (
 		<>
 			{loading ? (
-				<span className="gbm-loader">
-					{__("Fetching Blocks and Categories", "block-manager")}…
-				</span>
+				<Loader callback={setLoading} />
 			) : (
 				<>
 					<div className="gbm-block-list-wrapper categories">
-						<Sidebar search={searchHandler} />
+						<Sidebar
+							search={searchHandler}
+							total={blocks?.length}
+							updated={blockCategories?.length}
+							filtered={filteredCategories?.length}
+						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
 								<p

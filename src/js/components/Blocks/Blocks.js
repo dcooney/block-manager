@@ -9,6 +9,7 @@ import Reset from "../Global/Reset";
 import Sidebar from "./components/Sidebar";
 import { exportHook } from "../../functions/export";
 import SearchResults from "../Global/SearchResults";
+import Loader from "../Global/Loader";
 
 /**
  * Render the Blocks component.
@@ -85,9 +86,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					"X-WP-Nonce": gbm_localize.nonce,
 					"Content-Type": "application/json",
 				},
-				data: {
-					data: JSON.stringify({ blocks: blockArray, type }),
-				},
+				data: { blocks: blockArray, type },
 			})
 				.then(function (res) {
 					const { data = {}, status } = res;
@@ -140,9 +139,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
 			},
-			data: {
-				data: JSON.stringify({ block, type }),
-			},
+			data: { block, type },
 		})
 			.then(function (res) {
 				const { data, status } = res;
@@ -241,50 +238,53 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 	/**
 	 * Handle search.
+	 *
+	 * @param {string} term The search term.
 	 */
 	function searchHandler(term) {
 		let count = 0;
 		const groups = document.querySelectorAll(".gbm-block-group");
+		if (!groups?.length) {
+			return;
+		}
+
 		if (term !== "") {
-			groups?.length &&
-				[...groups].forEach(function (group) {
-					let total = 0;
-					const blocks = group.querySelectorAll(".item");
-					[...blocks].map(function (block, index) {
-						const str = block.dataset.title.toLowerCase();
-						const found = str.search(term.toLowerCase());
+			[...groups].forEach(function (group) {
+				let total = 0;
+				const theBlocks = group.querySelectorAll(".item");
+				[...theBlocks].forEach(function (block, index) {
+					const str = block.dataset.title.toLowerCase();
+					const found = str.search(term.toLowerCase());
 
-						// Show/hide blocks.
-						if (found !== -1) {
-							block.removeAttribute("style");
-							total++;
-							count++;
+					// Show/hide blocks.
+					if (found !== -1) {
+						block.removeAttribute("style");
+						total++;
+						count++;
+					} else {
+						block.style.display = "none";
+					}
+
+					// Show/hide entire group if no results.
+					if (theBlocks.length === index + 1) {
+						if (total === 0) {
+							group.style.display = "none";
 						} else {
-							block.style.display = "none";
+							group.removeAttribute("style");
 						}
-
-						// Show/hide entire group if no results.
-						if (blocks.length === index + 1) {
-							if (total === 0) {
-								group.style.display = "none";
-							} else {
-								group.removeAttribute("style");
-							}
-						}
-					});
+					}
 				});
+			});
 			setSearch({ term, results: count });
 		} else {
 			setSearch({ term: "", results: 0 });
-			groups?.length &&
-				[...groups].forEach(function (group) {
-					group.removeAttribute("style");
-					const blocks = group.querySelectorAll(".item");
-					blocks?.length &&
-						[...blocks].map(function (block) {
-							block.removeAttribute("style");
-						});
+			[...groups].forEach(function (group) {
+				group.removeAttribute("style");
+				const theBlocks = group.querySelectorAll(".item");
+				[...theBlocks].forEach(function (block) {
+					block.removeAttribute("style");
 				});
+			});
 		}
 	}
 
@@ -355,17 +355,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	// On Load
 	useEffect(() => {
 		organizeBlocks();
-		setTimeout(function () {
-			setLoading(false);
-		}, 250);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<>
 			{loading ? (
-				<span className="gbm-loader">
-					{__("Fetching Blocks", "block-manager")}…
-				</span>
+				<Loader callback={setLoading} />
 			) : (
 				<>
 					<div className="gbm-block-list-wrapper">

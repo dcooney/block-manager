@@ -98,7 +98,10 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					<div
 						className="gbm-legend gbm-legend--total"
-						title={__("Blocks Active", "block-manager")}
+						title={`${activeTotal} ${__(
+							"Active Blocks & Block Variations",
+							"block-manager",
+						)}`}
 					>
 						<div>
 							<span>
@@ -111,7 +114,14 @@ export default function Sidebar({
 					</div>
 					<div
 						className="gbm-legend gbm-legend--disabled"
-						title={__("Blocks Disabled", "block-manager")}
+						title={
+							disabledTotal === 1
+								? `1 ${__("Disabled Block", "block-manager")}`
+								: `${disabledTotal} ${__(
+										"Disabled Blocks",
+										"block-manager",
+								  )}`
+						}
 					>
 						<div>
 							<span>
@@ -126,7 +136,14 @@ export default function Sidebar({
 					{!!filtered && (
 						<div
 							className="gbm-legend gbm-legend--filtered"
-							title={__("Blocks Filtered", "block-manager")}
+							title={
+								filtered === 1
+									? `1 ${__("Filtered Block", "block-manager")}`
+									: `${disabledTotal} ${__(
+											"Filtered Blocks",
+											"block-manager",
+									  )}`
+							}
 						>
 							<div>
 								<span>

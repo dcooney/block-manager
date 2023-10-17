@@ -194,6 +194,11 @@
 							background-color: $block_filtered;
 						}
 					}
+					&--updated{
+						span {
+							background-color: $block_hover;
+						}
+					}
 				}
 			}
 		}

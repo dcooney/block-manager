@@ -98,7 +98,7 @@
 		}
 		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
 		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
-			background-color: #f0faff;
+			background-color: $block_hover;
 		}
 
 		&:focus-visible:not(.filtered) {
@@ -112,7 +112,7 @@
 			background-color: $grey_light;
 			.icon,
 			p {
-				opacity: 0.5;
+				opacity: 0.65;
 			}
 		}
 
@@ -186,37 +186,39 @@
 		.item {
 			padding: 0;
 			cursor: default;
-			&.filtered{
-				pointer-events: none;
-				.category-switch{
-					background-color: rgba($grey_light, 0.5);
-				}
-			}
-			> .gbm-category-wrap {
+			.gbm-category-wrap {
 				padding: $padding;
-				&.category-switch{
-					background-color: $grey_light;
-					border-top: 1px solid $border_light;
-					margin-top: auto;
-					select {
-						width: 100%;
-						border-color: $grey;
-						color: $text;
-						&:hover,
-						&:focus {
-							color: $purple;
-							border-color: $purple;
-							box-shadow: none !important;
-						}
-						&:focus{
-							outline: 2px solid $purple;
-							outline-offset: 2px;
-						}
-						&[disabled]{
-							pointer-events: none;
-						}
+			}
+			.category-switch{
+				background-color: rgba(0, 0, 0, 0.035);
+				border-top: 1px solid $border_light;
+				margin-top: auto;
+				select {
+					width: 100%;
+					border-color: $grey_dark;
+					color: $text;
+					&:hover,
+					&:focus {
+						color: $purple;
+						border-color: $purple;
+						box-shadow: none !important;
+					}
+					&:focus{
+						outline: 2px solid $purple;
+						outline-offset: 2px;
+					}
+					&[disabled]{
+						background-color: #fff;
+						pointer-events: none;
+						opacity: 0.75;
 					}
 				}
+			}
+			&.updated{
+				background-color: $block_hover;
+			}
+			&.filtered{
+				pointer-events: none;
 			}
 			p {
 				font-size: 13px;
@@ -310,11 +312,11 @@
 	}
 	&.disabled{
 		visibility: visible;
-		opacity: 0.45;
+		opacity: 0.5;
 	}
 	&.filtered{
 		visibility: visible;
-		opacity: 0.45;
+		opacity: 0.5;
 		line {
 			stroke: #e1e0c8;
 		}

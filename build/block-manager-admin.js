@@ -40,27 +40,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ App; }
 /* harmony export */ });
-/* harmony import */ var _functions_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions/blocks */ "./src/js/functions/blocks.js");
-/* harmony import */ var _functions_getCategoryData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/getCategoryData */ "./src/js/functions/getCategoryData.js");
-/* harmony import */ var _Blocks_Blocks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Blocks/Blocks */ "./src/js/components/Blocks/Blocks.js");
-/* harmony import */ var _Categories_Categories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Categories/Categories */ "./src/js/components/Categories/Categories.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _functions_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/blocks */ "./src/js/functions/blocks.js");
+/* harmony import */ var _functions_getCategoryData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/getCategoryData */ "./src/js/functions/getCategoryData.js");
+/* harmony import */ var _Blocks_Blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Blocks/Blocks */ "./src/js/components/Blocks/Blocks.js");
+/* harmony import */ var _Categories_Categories__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Categories/Categories */ "./src/js/components/Categories/Categories.js");
+
 
 
 
 
 function App() {
-  var _gbm_localize, _window;
-  var blocks = (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_0__["default"])((_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.filteredCategories);
-  var categories = (0,_functions_getCategoryData__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  var _window, _gbm_localize;
+  var blocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.getBlockTypes)();
+  var categories = (0,_functions_getCategoryData__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
   // Parse URL to get current view.
   var url = (_window = window) === null || _window === void 0 || (_window = _window.location) === null || _window === void 0 ? void 0 : _window.href;
   var isCategory = url.includes("category-switcher") ? true : false;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, isCategory ? /*#__PURE__*/React.createElement(_Categories_Categories__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    wpBlocks: blocks,
+  return /*#__PURE__*/React.createElement(React.Fragment, null, isCategory ? /*#__PURE__*/React.createElement(_Categories_Categories__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockCategoryData)(blocks),
     wpCategories: categories
-  }) : /*#__PURE__*/React.createElement(_Blocks_Blocks__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    wpBlocks: blocks,
+  }) : /*#__PURE__*/React.createElement(_Blocks_Blocks__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockData)(blocks, (_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.filteredCategoriesAll),
     wpCategories: categories
   }));
 }
@@ -82,7 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _functions_blocks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../functions/blocks */ "./src/js/functions/blocks.js");
 /* harmony import */ var _components_Category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Category */ "./src/js/components/Blocks/components/Category.js");
 /* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
@@ -91,6 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Blocks/components/Sidebar.js");
 /* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
 /* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
+/* harmony import */ var _Global_Loader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Global/Loader */ "./src/js/components/Global/Loader.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -101,6 +105,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -191,7 +196,7 @@ function Blocks(_ref) {
       return block.dataset.id;
     });
     if (blockArray !== null && blockArray !== void 0 && blockArray.length) {
-      (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+      (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
         method: "POST",
         url: gbm_localize.root + "gbm/bulk_process/",
         headers: {
@@ -199,10 +204,8 @@ function Blocks(_ref) {
           "Content-Type": "application/json"
         },
         data: {
-          data: JSON.stringify({
-            blocks: blockArray,
-            type: type
-          })
+          blocks: blockArray,
+          type: type
         }
       }).then(function (res) {
         var _res$data = res.data,
@@ -246,7 +249,7 @@ function Blocks(_ref) {
     var type = element.classList.contains("disabled") ? "enable" : "disable";
 
     // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
       url: gbm_localize.root + "gbm/toggle/",
       headers: {
@@ -254,10 +257,8 @@ function Blocks(_ref) {
         "Content-Type": "application/json"
       },
       data: {
-        data: JSON.stringify({
-          block: block,
-          type: type
-        })
+        block: block,
+        type: type
       }
     }).then(function (res) {
       var data = res.data,
@@ -326,7 +327,7 @@ function Blocks(_ref) {
     var _resetButtonRef$curre;
     resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
 
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
       url: gbm_localize.root + "gbm/blocks_reset/",
       headers: {
@@ -354,15 +355,20 @@ function Blocks(_ref) {
 
   /**
    * Handle search.
+   *
+   * @param {string} term The search term.
    */
   function searchHandler(term) {
     var count = 0;
     var groups = document.querySelectorAll(".gbm-block-group");
+    if (!(groups !== null && groups !== void 0 && groups.length)) {
+      return;
+    }
     if (term !== "") {
-      (groups === null || groups === void 0 ? void 0 : groups.length) && _toConsumableArray(groups).forEach(function (group) {
+      _toConsumableArray(groups).forEach(function (group) {
         var total = 0;
-        var blocks = group.querySelectorAll(".item");
-        _toConsumableArray(blocks).map(function (block, index) {
+        var theBlocks = group.querySelectorAll(".item");
+        _toConsumableArray(theBlocks).forEach(function (block, index) {
           var str = block.dataset.title.toLowerCase();
           var found = str.search(term.toLowerCase());
 
@@ -376,7 +382,7 @@ function Blocks(_ref) {
           }
 
           // Show/hide entire group if no results.
-          if (blocks.length === index + 1) {
+          if (theBlocks.length === index + 1) {
             if (total === 0) {
               group.style.display = "none";
             } else {
@@ -394,10 +400,10 @@ function Blocks(_ref) {
         term: "",
         results: 0
       });
-      (groups === null || groups === void 0 ? void 0 : groups.length) && _toConsumableArray(groups).forEach(function (group) {
+      _toConsumableArray(groups).forEach(function (group) {
         group.removeAttribute("style");
-        var blocks = group.querySelectorAll(".item");
-        (blocks === null || blocks === void 0 ? void 0 : blocks.length) && _toConsumableArray(blocks).map(function (block) {
+        var theBlocks = group.querySelectorAll(".item");
+        _toConsumableArray(theBlocks).forEach(function (block) {
           block.removeAttribute("style");
         });
       });
@@ -470,14 +476,11 @@ function Blocks(_ref) {
   // On Load
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     organizeBlocks();
-    setTimeout(function () {
-      setLoading(false);
-    }, 250);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement("span", {
-    className: "gbm-loader"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fetching Blocks", "block-manager"), "\u2026") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement(_Global_Loader__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    callback: setLoading
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_7__["default"], {
     blocks: blocks,
@@ -882,13 +885,13 @@ function Sidebar(_ref) {
     className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--total",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Active", "block-manager")
+    title: "".concat(activeTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active Blocks & Block Variations", "block-manager"))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: activeRef,
     "data-prev": activeTotal
   }, activeTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active", "block-manager")), /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--disabled",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Disabled", "block-manager")
+    title: disabledTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled Block", "block-manager")) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled Blocks", "block-manager"))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: disabledRef,
     "data-prev": disabledTotal
@@ -896,7 +899,7 @@ function Sidebar(_ref) {
     className: "disabled"
   })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--filtered",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Blocks Filtered", "block-manager")
+    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered Block", "block-manager")) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered Blocks", "block-manager"))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "filtered"
   }))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
@@ -935,15 +938,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _functions_blocks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../functions/blocks */ "./src/js/functions/blocks.js");
-/* harmony import */ var _components_Block__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Block */ "./src/js/components/Categories/components/Block.js");
-/* harmony import */ var _Global_Reset__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/Reset */ "./src/js/components/Global/Reset.js");
-/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Categories/components/Sidebar.js");
-/* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
-/* harmony import */ var _Global_ExportModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Global/ExportModal */ "./src/js/components/Global/ExportModal.js");
-/* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
-/* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
+/* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
+/* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
+/* harmony import */ var _Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Global/ExportModal */ "./src/js/components/Global/ExportModal.js");
+/* harmony import */ var _Global_Loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Global/Loader */ "./src/js/components/Global/Loader.js");
+/* harmony import */ var _Global_Reset__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Global/Reset */ "./src/js/components/Global/Reset.js");
+/* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
+/* harmony import */ var _components_Block__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Block */ "./src/js/components/Categories/components/Block.js");
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Categories/components/Sidebar.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -954,6 +958,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -1004,9 +1009,8 @@ function Categories(_ref) {
     blockCategories = _useState10[0],
     setBlockCategories = _useState10[1];
   var _useState11 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.filteredCategories) || []),
-    _useState12 = _slicedToArray(_useState11, 2),
-    filteredCategories = _useState12[0],
-    setFilteredCategories = _useState12[1];
+    _useState12 = _slicedToArray(_useState11, 1),
+    filteredCategories = _useState12[0];
   var heading = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
   // translators: %s: The number of blocks.
   (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Organize your %s WordPress blocks by modifying the assigned category of each.", "block-manager"), "<span>".concat(blocks === null || blocks === void 0 ? void 0 : blocks.length, "</span>"));
@@ -1014,20 +1018,20 @@ function Categories(_ref) {
   /**
    * Change the block category.
    *
-   * @param {string} id     The block ID.
-   * @param {Object} select The select element.
+   * @param {string} block The block ID.
+   * @param {Event}  e     The select change event.
    * @since 1.0
    */
-  function switchCategory(id, select) {
-    if (!id || !select) {
-      return false;
-    }
-    var value = select.target.value;
-    var element = select.target.closest(".item");
+  function switchCategory(block, e) {
+    var target = e.target;
+    var category = target.value;
+    var original = target.dataset.original;
+    var element = target.closest(".item");
     var catStatus = element === null || element === void 0 ? void 0 : element.querySelector(".gbm-cat-status");
+    var type = category === original ? "remove" : "add";
 
     // Send API request.
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
       url: gbm_localize.root + "gbm/category_switch/",
       headers: {
@@ -1035,10 +1039,9 @@ function Categories(_ref) {
         "Content-Type": "application/json"
       },
       data: {
-        data: JSON.stringify({
-          block: id,
-          cat: value
-        })
+        type: type,
+        block: block,
+        category: category
       }
     }).then(function (res) {
       var data = res.data,
@@ -1053,7 +1056,7 @@ function Categories(_ref) {
           catStatus === null || catStatus === void 0 || (_catStatus$classList2 = catStatus.classList) === null || _catStatus$classList2 === void 0 || _catStatus$classList2.remove("active");
           // Delay state for saving animation.
           setTimeout(function () {
-            setBlocks((0,_functions_blocks__WEBPACK_IMPORTED_MODULE_2__["default"])(data === null || data === void 0 ? void 0 : data.categories));
+            setBlocks((0,_functions_blocks__WEBPACK_IMPORTED_MODULE_2__.getBlockCategoryData)(wpBlocks, data === null || data === void 0 ? void 0 : data.categories));
           }, 150);
         }, 850);
       } else {
@@ -1072,7 +1075,7 @@ function Categories(_ref) {
   function resetCategories() {
     var _resetButtonRef$curre;
     resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
       url: gbm_localize.root + "gbm/category_reset/",
       headers: {
@@ -1091,12 +1094,14 @@ function Categories(_ref) {
 
   /**
    * Handle search.
+   *
+   * @param {string} term The search term.
    */
   function searchHandler(term) {
-    var blocks = document.querySelectorAll(".gbm-blocks .gbm-block-list .item");
+    var theBlocks = document.querySelectorAll(".gbm-blocks .gbm-block-list .item");
     if (term !== "") {
       var count = 0;
-      _toConsumableArray(blocks).map(function (block) {
+      _toConsumableArray(theBlocks).forEach(function (block) {
         var str = block.dataset.title.toLowerCase();
         var found = str.search(term.toLowerCase());
         if (found !== -1) {
@@ -1115,7 +1120,7 @@ function Categories(_ref) {
         term: term,
         results: false
       });
-      _toConsumableArray(blocks).map(function (block) {
+      _toConsumableArray(theBlocks).forEach(function (block) {
         block.removeAttribute("style");
       });
     }
@@ -1140,15 +1145,11 @@ function Categories(_ref) {
    * Export as PHP code.
    */
   function exportCategories() {
-    (0,_functions_export__WEBPACK_IMPORTED_MODULE_8__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, "categories");
+    (0,_functions_export__WEBPACK_IMPORTED_MODULE_3__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, "categories");
   }
 
   // On Load
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setTimeout(function () {
-      setLoading(false);
-    }, 250);
-
     // Export settings.
     document.addEventListener("keyup", function (e) {
       if (e.key === "Escape") {
@@ -1157,12 +1158,15 @@ function Categories(_ref) {
     }, false);
     return function () {};
   }, []);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement("span", {
-    className: "gbm-loader"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fetching Blocks and Categories", "block-manager"), "\u2026") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement(_Global_Loader__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    callback: setLoading
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper categories"
-  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    search: searchHandler
+  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    search: searchHandler,
+    total: blocks === null || blocks === void 0 ? void 0 : blocks.length,
+    updated: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
+    filtered: filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.length
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1172,26 +1176,26 @@ function Categories(_ref) {
     dangerouslySetInnerHTML: {
       __html: heading
     }
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ref: resetButtonRef,
     callback: resetCategories,
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Are you sure you want to reset your modified block categories?", "block-manager"),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Clear all modified block categories", "block-manager")
-  }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_4__["default"], {
     ref: exportButtonRef,
     callback: exportCategories,
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export an array of updated blocks categories as a WordPress hook", "block-manager")
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-group"
-  }, /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_8__["default"], {
     data: search,
     callback: clearSearch
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list categories"
   }, /*#__PURE__*/React.createElement(React.Fragment, null, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (block) {
-    return /*#__PURE__*/React.createElement(_components_Block__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    return /*#__PURE__*/React.createElement(_components_Block__WEBPACK_IMPORTED_MODULE_9__["default"], {
       key: "".concat(block === null || block === void 0 ? void 0 : block.name, "-").concat(block === null || block === void 0 ? void 0 : block.category),
       callback: switchCategory,
       categories: categories,
@@ -1199,7 +1203,7 @@ function Categories(_ref) {
       filteredCategories: filteredCategories,
       blockCategories: blockCategories
     });
-  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add the the following code to your functions.php to update block categories at the theme level.", "block-manager")
@@ -1231,12 +1235,13 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Render the Block component for a category listing.
  *
- * @param {Object}   props            The component properties.
- * @param {Object}   props.data       Data for an individual block.
- * @param {Array}    props.categories Array of block categories.
- * @param {Function} props.callback   Function to call after category change.
- * @param {Array}    props.callback   Array of filtered cateogries.
- * @return {Element}                  The Block component.
+ * @param {Object}   props                    The component properties.
+ * @param {Object}   props.data               Data for an individual block.
+ * @param {Array}    props.categories         Array of block categories.
+ * @param {Function} props.callback           Function to call after category change.
+ * @param {Array}    props.filteredCategories Array of filtered cateogries.
+ * @param {Array}    props.blockCategories    Array of updated cateogries.
+ * @return {Element}                          The Block component.
  */
 function Block(_ref) {
   var data = _ref.data,
@@ -1247,15 +1252,21 @@ function Block(_ref) {
   var name = data.name,
     icon = data.icon,
     title = data.title,
-    category = data.category;
+    category = data.category,
+    orginalCategory = data.orginalCategory;
 
-  // Is this block filtered?
-  var isfiltered = filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.find(function (cat) {
+  // Is this block category filtered?
+  var filtered = filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.find(function (cat) {
+    return cat.block === name;
+  });
+
+  // Is this block category updated?
+  var updated = blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.find(function (cat) {
     return cat.block === name;
   });
   return /*#__PURE__*/React.createElement("div", {
     "data-title": title,
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("item", "gbm-category", isfiltered ? "filtered" : null),
+    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("item", "gbm-category", updated ? "updated" : null, filtered ? "filtered" : null),
     "data-id": name
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-category-wrap"
@@ -1274,12 +1285,13 @@ function Block(_ref) {
       return callback(name, e);
     },
     id: "select-".concat(name),
-    disabled: isfiltered
+    "data-original": orginalCategory,
+    disabled: filtered
   }, !!(categories !== null && categories !== void 0 && categories.length) && categories.map(function (cat, index) {
     return /*#__PURE__*/React.createElement("option", {
       key: "cat-".concat(cat.slug, "-").concat(index),
       value: cat.slug
-    }, cat.title);
+    }, cat.title, orginalCategory !== category && orginalCategory === cat.slug ? " - ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("[Default]", "block-manager")) : null);
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cat-status"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1303,28 +1315,102 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Sidebar; }
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
 /**
  * Render the Sidebar for Category Manager.
  *
- * @param {Object}   props        The component properties.
- * @param {Function} props.search The search handler function.
- * @return {Element}              The Sidebar component.
+ * @param {Object}   props          The component properties.
+ * @param {Function} props.search   The search handler function.
+ * @param {number}   props.total    Total blocks.
+ * @param {number}   props.updated  Updated block categories.
+ * @param {number}   props.filtered Total number of filtered block categories.
+ * @return {Element}                The Sidebar component.
  */
 function Sidebar(_ref) {
-  var search = _ref.search;
+  var search = _ref.search,
+    total = _ref.total,
+    updated = _ref.updated,
+    filtered = _ref.filtered;
+  var updatedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var mountedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(updated),
+    _useState2 = _slicedToArray(_useState, 2),
+    updatedTotal = _useState2[0],
+    setUpdatedTotal = _useState2[1];
+
+  /**
+   * Block total update animation.
+   * @param {Element}  ref      The ref element.
+   * @param {number}   value    The current value.
+   * @param {Function} callback The callback function.
+   */
+  function change(ref, value, callback) {
+    var _ref$dataset, _ref$classList;
+    if (!(mountedRef !== null && mountedRef !== void 0 && mountedRef.current) || !ref) {
+      return;
+    }
+    var prev = ref === null || ref === void 0 || (_ref$dataset = ref.dataset) === null || _ref$dataset === void 0 ? void 0 : _ref$dataset.prev;
+    var direction = parseInt(prev) > value ? "up" : "down";
+    ref === null || ref === void 0 || (_ref$classList = ref.classList) === null || _ref$classList === void 0 || _ref$classList.add("slide-".concat(direction));
+    setTimeout(function () {
+      var _ref$classList2, _ref$classList3;
+      callback(value);
+      ref === null || ref === void 0 || (_ref$classList2 = ref.classList) === null || _ref$classList2 === void 0 || _ref$classList2.add("slide-".concat(direction, "-done"));
+      ref === null || ref === void 0 || (_ref$classList3 = ref.classList) === null || _ref$classList3 === void 0 || _ref$classList3.remove("slide-".concat(direction));
+      setTimeout(function () {
+        var _ref$classList4;
+        ref === null || ref === void 0 || (_ref$classList4 = ref.classList) === null || _ref$classList4 === void 0 || _ref$classList4.remove("slide-".concat(direction, "-done"));
+      }, 75);
+    }, 200);
+  }
+
+  // Update the updated blocks.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    change(updatedRef.current, updated, setUpdatedTotal);
+  }, [updated]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTimeout(function () {
+      mountedRef.current = true;
+    }, 500);
+  }, []);
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-cta"
-  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Help", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta gbm-cta-block-legend",
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Block Status", "block-manager")
+  }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
-  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.", "block-manager")), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Modifying a category will update the blocks location in the Block Inserter while editing posts.", "block-manager")), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--total",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Active Blocks", "block-manager")
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, total))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Blocks", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--updated",
+    title: updatedTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated Block Category", "block-manager")) : "".concat(updatedTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated Block Categories", "block-manager"))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
+    ref: updatedRef,
+    "data-prev": updatedRef
+  }, updatedTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--filtered",
+    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Category", "block-manager")) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Categories", "block-manager"))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta"
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Help", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta-wrap"
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.", "block-manager")), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Modifying a category will update the blocks location in the Block Inserter while editing posts.", "block-manager")), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_2__["default"], {
     callback: search
   }))));
 }
@@ -1490,6 +1576,49 @@ function Icon(_ref) {
       __html: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.renderToString)(src)
     }
   });
+}
+
+/***/ }),
+
+/***/ "./src/js/components/Global/Loader.js":
+/*!********************************************!*\
+  !*** ./src/js/components/Global/Loader.js ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Loader; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * Render the Loader component.
+ *
+ * @param {Object}   props          The component props.
+ * @param {Function} props.callback The callback function.
+ * @return {Element}                The Loader component.
+ */
+function Loader(_ref) {
+  var callback = _ref.callback;
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTimeout(function () {
+      callback();
+    }, 1);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return /*#__PURE__*/React.createElement("div", {
+    className: "gbm-loader"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-loader-pulse-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-loader-pulse"
+  })), /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fetching Blocks and Categories", "block-manager"), "\u2026")));
 }
 
 /***/ }),
@@ -1687,48 +1816,56 @@ var excludedBlocks = ["core/missing", "core/text-columns", "core/navigation-subm
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   countBlocks: function() { return /* binding */ countBlocks; },
-/* harmony export */   "default": function() { return /* binding */ getBlockData; }
+/* harmony export */   getBlockCategoryData: function() { return /* binding */ getBlockCategoryData; },
+/* harmony export */   getBlockData: function() { return /* binding */ getBlockData; }
 /* harmony export */ });
 /* harmony import */ var _wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-library */ "@wordpress/block-library");
 /* harmony import */ var _wordpress_block_library__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants */ "./src/js/constants.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./src/js/constants.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers */ "./src/js/functions/helpers.js");
 
 
 
 (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
 
 /**
+ * Get array of blocks for the Category listing.
+ *
+ * @param {Array} blocks Array of WP Blocks.
+ * @return {Array}       Filtered array of blocks.
+ */
+function getBlockCategoryData(blocks) {
+  if (!(blocks !== null && blocks !== void 0 && blocks.length)) {
+    return [];
+  }
+  return (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.setBlockCategory)((0,_helpers__WEBPACK_IMPORTED_MODULE_2__.sortBlocks)(blocks));
+}
+
+/**
  * Get all WP blocks with updated categories.
  *
+ * @param {Array} blocks             Array of WP Blocks.
  * @param {Array} filteredCategories The filtered categories.
  * @return {Array}                   The list of blocks.
  */
-function getBlockData() {
-  var filteredCategories = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var wpBlocks = [];
-  var blocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockTypes)();
-  if (blocks) {
-    // Sort blocks by name.
-    wpBlocks = blocks.sort(function (a, b) {
-      var textA = a.title.toUpperCase();
-      var textB = b.title.toUpperCase();
-      return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
-    });
-
-    // Remove/Filter out the following blocks.
-    wpBlocks = wpBlocks.filter(function (block) {
-      return _constants__WEBPACK_IMPORTED_MODULE_2__.excludedBlocks.indexOf(block.name) === -1;
-    });
+function getBlockData(blocks) {
+  var filteredCategories = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  if (!(blocks !== null && blocks !== void 0 && blocks.length)) {
+    return [];
   }
 
-  // Updated block categories.
-  if (wpBlocks && filteredCategories !== null && filteredCategories !== void 0 && filteredCategories.length) {
+  // Sort block alpha and then remove excluded blocks.
+  var wpBlocks = (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.sortBlocks)(blocks).filter(function (block) {
+    return _constants__WEBPACK_IMPORTED_MODULE_1__.excludedBlocks.indexOf(block.name) === -1;
+  });
+
+  // Update block categories.
+  if (filteredCategories !== null && filteredCategories !== void 0 && filteredCategories.length) {
     // Loop saved categories.
     filteredCategories.forEach(function (item) {
       var name = item.block,
         category = item.cat;
+
       // Find block by name and update category.
       var match = wpBlocks.find(function (block) {
         return block.name === name;
@@ -1922,6 +2059,81 @@ function getCategoryData() {
     });
   }
   return wpCategories;
+}
+
+/***/ }),
+
+/***/ "./src/js/functions/helpers.js":
+/*!*************************************!*\
+  !*** ./src/js/functions/helpers.js ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   removeDisabledBlocks: function() { return /* binding */ removeDisabledBlocks; },
+/* harmony export */   setBlockCategory: function() { return /* binding */ setBlockCategory; },
+/* harmony export */   sortBlocks: function() { return /* binding */ sortBlocks; }
+/* harmony export */ });
+/**
+ * Sort the blocks alpha.
+ *
+ * @param {Array} blocks Array of WP Blocks.
+ * @return {Array}       The sorted array of blocks.
+ */
+function sortBlocks(blocks) {
+  return blocks.sort(function (a, b) {
+    var textA = a.title.toUpperCase();
+    var textB = b.title.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
+  });
+}
+
+/**
+ * Remove all disabled blocks from blocks array.
+ *
+ * @param {Array} blocks Array of WP Blocks.
+ * @return {Array}       Filtered array of blocks.
+ */
+function removeDisabledBlocks() {
+  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  if (!(blocks !== null && blocks !== void 0 && blocks.length)) {
+    return [];
+  }
+  var _gbm_localize = gbm_localize,
+    _gbm_localize$disable = _gbm_localize.disabledBlocksAll,
+    disabledBlocksAll = _gbm_localize$disable === void 0 ? [] : _gbm_localize$disable;
+  return blocks === null || blocks === void 0 ? void 0 : blocks.filter(function (block) {
+    return !(disabledBlocksAll !== null && disabledBlocksAll !== void 0 && disabledBlocksAll.includes(block === null || block === void 0 ? void 0 : block.name));
+  });
+}
+
+/**
+ * Set block categories.
+ *
+ * @param {Array} blocks Array of WP Blocks.
+ * @return {Array}       Modified blocks with categories.
+ */
+function setBlockCategory() {
+  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var _gbm_localize2 = gbm_localize,
+    _gbm_localize2$filter = _gbm_localize2.filteredCategoriesAll,
+    filteredCategoriesAll = _gbm_localize2$filter === void 0 ? [] : _gbm_localize2$filter;
+  return blocks.map(function (block) {
+    if (filteredCategoriesAll !== null && filteredCategoriesAll !== void 0 && filteredCategoriesAll.length) {
+      var match = filteredCategoriesAll.find(function (item) {
+        return item.block === block.name;
+      });
+      if (match) {
+        block.orginalCategory = block.category;
+        block.category = match.cat;
+      } else {
+        block.orginalCategory = block.category;
+      }
+    }
+    return block;
+  });
 }
 
 /***/ }),

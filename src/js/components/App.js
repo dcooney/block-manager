@@ -1,10 +1,11 @@
-import getBlockData from "../functions/blocks";
+import { getBlockTypes } from "@wordpress/blocks";
+import { getBlockCategoryData, getBlockData } from "../functions/blocks";
 import getCategoryData from "../functions/getCategoryData";
 import Blocks from "./Blocks/Blocks";
 import Categories from "./Categories/Categories";
 
 export default function App() {
-	const blocks = getBlockData(gbm_localize?.filteredCategories);
+	const blocks = getBlockTypes();
 	const categories = getCategoryData();
 
 	// Parse URL to get current view.
@@ -14,9 +15,18 @@ export default function App() {
 	return (
 		<>
 			{isCategory ? (
-				<Categories wpBlocks={blocks} wpCategories={categories} />
+				<Categories
+					wpBlocks={getBlockCategoryData(blocks)}
+					wpCategories={categories}
+				/>
 			) : (
-				<Blocks wpBlocks={blocks} wpCategories={categories} />
+				<Blocks
+					wpBlocks={getBlockData(
+						blocks,
+						gbm_localize?.filteredCategoriesAll,
+					)}
+					wpCategories={categories}
+				/>
 			)}
 		</>
 	);

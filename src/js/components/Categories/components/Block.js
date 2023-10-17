@@ -5,12 +5,13 @@ import cn from "classnames";
 /**
  * Render the Block component for a category listing.
  *
- * @param {Object}   props            The component properties.
- * @param {Object}   props.data       Data for an individual block.
- * @param {Array}    props.categories Array of block categories.
- * @param {Function} props.callback   Function to call after category change.
- * @param {Array}    props.callback   Array of filtered cateogries.
- * @return {Element}                  The Block component.
+ * @param {Object}   props                    The component properties.
+ * @param {Object}   props.data               Data for an individual block.
+ * @param {Array}    props.categories         Array of block categories.
+ * @param {Function} props.callback           Function to call after category change.
+ * @param {Array}    props.filteredCategories Array of filtered cateogries.
+ * @param {Array}    props.blockCategories    Array of updated cateogries.
+ * @return {Element}                          The Block component.
  */
 export default function Block({
 	data,
@@ -19,15 +20,23 @@ export default function Block({
 	filteredCategories,
 	blockCategories,
 }) {
-	const { name, icon, title, category } = data;
+	const { name, icon, title, category, orginalCategory } = data;
 
-	// Is this block filtered?
-	const isfiltered = filteredCategories?.find((cat) => cat.block === name);
+	// Is this block category filtered?
+	const filtered = filteredCategories?.find((cat) => cat.block === name);
+
+	// Is this block category updated?
+	const updated = blockCategories?.find((cat) => cat.block === name);
 
 	return (
 		<div
 			data-title={title}
-			className={cn("item", "gbm-category", isfiltered ? "filtered" : null)}
+			className={cn(
+				"item",
+				"gbm-category",
+				updated ? "updated" : null,
+				filtered ? "filtered" : null,
+			)}
 			data-id={name}
 		>
 			<div className="gbm-category-wrap">
@@ -45,7 +54,8 @@ export default function Block({
 					defaultValue={category}
 					onChange={(e) => callback(name, e)}
 					id={`select-${name}`}
-					disabled={isfiltered}
+					data-original={orginalCategory}
+					disabled={filtered}
 				>
 					{!!categories?.length &&
 						categories.map((cat, index) => {
@@ -55,6 +65,10 @@ export default function Block({
 									value={cat.slug}
 								>
 									{cat.title}
+									{orginalCategory !== category &&
+									orginalCategory === cat.slug
+										? ` - ${__("[Default]", "block-manager")}`
+										: null}
 								</option>
 							);
 						})}

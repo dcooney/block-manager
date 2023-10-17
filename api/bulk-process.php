@@ -39,12 +39,10 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 
 		// Get JSON Data.
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
-		$data = json_decode( $body['data'] ); // Get contents of data.
 
-		if ( $body && $data ) {
-
-			$blocks_array = $data && $data->blocks ? $data->blocks : []; // block array.
-			$type         = $data && $data->type ? $data->type : 'enable'; // enable/disable.
+		if ( $body ) {
+			$blocks_array = $body['blocks'] ? $body['blocks'] : []; // block array.
+			$type         = $body['type'] ? $body['type'] : 'enable'; // enable/disable.
 
 			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
 			$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
@@ -63,11 +61,11 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
 
 				// Send response.
-				$response = array(
+				$response = [
 					'success'         => true,
 					'msg'             => __( 'All Blocks Disabled', 'block-manager' ),
 					'disabled_blocks' => $disabled_blocks,
-				);
+				];
 			}
 
 			// Enable All.
@@ -84,18 +82,18 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
 
 				// Send response.
-				$response = array(
+				$response = [
 					'success'         => true,
 					'msg'             => __( 'All Blocks Enabled', 'block-manager' ),
 					'disabled_blocks' => $blocks,
-				);
+				];
 			}
 		} else {
-			$response = array(
+			$response = [
 				'success'         => false,
 				'msg'             => __( 'Error accessing API data.', 'block-manager' ),
 				'disabled_blocks' => [],
-			);
+			];
 		}
 
 		wp_send_json( $response ); // Send response as JSON.

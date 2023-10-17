@@ -31,19 +31,7 @@
 			display: flex;
 			flex-direction: row-reverse;
 		}
-		&.categories {
-			max-width: 1400px;
-		}
-		.global-loader.loading {
-			background: url('../images/ajax-loader.gif') no-repeat 2px 26px;
-			padding: 25px 0 25px 26px;
-			display: block;
-		}
-		&.loaded {
-			.global-loader.loading {
-				display: none;
-			}
-		}
+
 		.gbm-block-group {
 			margin: 0 0 15px;
 			background: #fff;

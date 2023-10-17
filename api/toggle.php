@@ -38,11 +38,10 @@ function block_manager_toggle( WP_REST_Request $request ) {
 
 		// Get JSON Data.
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
-		$data = json_decode( $body['data'] ); // Get contents of data.
 
-		if ( $body && $data ) {
-			$block           = $data && $data->block ? $data->block : ''; // block name.
-			$type            = $data && $data->type ? $data->type : 'enable'; // enable/disable.
+		if ( $body ) {
+			$block           = $body['block'] ? $body['block'] : ''; // block name.
+			$type            = $body['type'] ? $body['type'] : 'enable'; // enable/disable.
 			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks(); // Get disabled blocks.
 
 			// Disable.

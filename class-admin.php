@@ -75,20 +75,78 @@ class GBM_Admin {
 			true
 		);
 
+		$filtered_blocks     = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
+		$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
+
 		// Localize Scripts.
 		wp_localize_script(
 			'block-manager-admin',
 			'gbm_localize',
-			array(
-				'disabledBlocks'     => Gutenberg_Block_Manager::gbm_get_disabled_blocks(),
-				'filteredBlocks'     => Gutenberg_Block_Manager::gbm_get_filtered_blocks(),
-				'blockCategories'    => Gutenberg_Block_Manager::gbm_get_block_categories(),
-				'filteredCategories' => Gutenberg_Block_Manager::gbm_get_filtered_categories(),
-				'root'               => esc_url_raw( rest_url() ),
-				'nonce'              => wp_create_nonce( 'wp_rest' ),
-			)
+			[
+				'disabledBlocks'        => $this->gbm_remove_duplicate_blocks( Gutenberg_Block_Manager::gbm_get_disabled_blocks(), $filtered_blocks ),
+				'filteredBlocks'        => $filtered_blocks,
+				'disabledBlocksAll'     => Gutenberg_Block_Manager::gbm_get_all_disabled_blocks(),
+				'blockCategories'       => $this->gbm_remove_duplicate_categories( Gutenberg_Block_Manager::gbm_get_block_categories(), $filtered_categories ),
+				'filteredCategories'    => $filtered_categories,
+				'filteredCategoriesAll' => Gutenberg_Block_Manager::gbm_get_all_block_categories(),
+				'root'                  => esc_url_raw( rest_url() ),
+				'nonce'                 => wp_create_nonce( 'wp_rest' ),
+			]
 		);
+	}
 
+	/**
+	 * Remove any duplicate block categories when using category hook.
+	 *
+	 * @param array $options  The categories from WP options.
+	 * @param array $filtered The filtered categories.
+	 * @return array          Modified options.
+	 */
+	public function gbm_remove_duplicate_blocks( $options, $filtered ) {
+		if ( $options && $filtered ) {
+			$updated = false;
+			foreach ( $filtered as $filter ) {
+				// Search array for filtered block.
+				$key = array_search( $filter, $options, true );
+				if ( $key !== false ) {
+					unset( $options[ $key ] ); // Remove filtered item from array.
+					$options = array_values( $options ); // Reset array keys.
+					$updated = true;
+				}
+			}
+			if ( $updated ) {
+				update_option( BLOCK_MANAGER_OPTION, $options );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Remove any duplicate block categories when using category hook.
+	 *
+	 * @param array $options  The categories from WP options.
+	 * @param array $filtered The filtered categories.
+	 * @return array          Modified options.
+	 */
+	public function gbm_remove_duplicate_categories( $options, $filtered ) {
+		if ( $options && $filtered ) {
+			$updated = false;
+			foreach ( $filtered as $filter ) {
+				// Search array for filtered category.
+				$key = array_search( $filter['block'], array_column( $options, 'block' ), true );
+				if ( $key !== false ) {
+					unset( $options[ $key ] ); // Remove filtered item from array.
+					$options = array_values( $options ); // Reset array keys.
+					$updated = true;
+				}
+			}
+			if ( $updated ) {
+				update_option( BLOCK_MANAGER_CATEGORIES, $options );
+			}
+		}
+
+		return $options;
 	}
 
 	/**

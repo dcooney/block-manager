@@ -1,37 +1,44 @@
 import { registerCoreBlocks } from "@wordpress/block-library";
-import { getBlockTypes } from "@wordpress/blocks";
 import { excludedBlocks } from "../constants";
+import { removeDisabledBlocks, setBlockCategory, sortBlocks } from "./helpers";
 registerCoreBlocks();
+
+/**
+ * Get array of blocks for the Category listing.
+ *
+ * @param {Array} blocks Array of WP Blocks.
+ * @return {Array}       Filtered array of blocks.
+ */
+export function getBlockCategoryData(blocks) {
+	if (!blocks?.length) {
+		return [];
+	}
+	return setBlockCategory(sortBlocks(blocks));
+}
 
 /**
  * Get all WP blocks with updated categories.
  *
+ * @param {Array} blocks             Array of WP Blocks.
  * @param {Array} filteredCategories The filtered categories.
  * @return {Array}                   The list of blocks.
  */
-export default function getBlockData(filteredCategories = []) {
-	let wpBlocks = [];
-	const blocks = getBlockTypes();
-
-	if (blocks) {
-		// Sort blocks by name.
-		wpBlocks = blocks.sort(function (a, b) {
-			const textA = a.title.toUpperCase();
-			const textB = b.title.toUpperCase();
-			return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
-		});
-
-		// Remove/Filter out the following blocks.
-		wpBlocks = wpBlocks.filter((block) => {
-			return excludedBlocks.indexOf(block.name) === -1;
-		});
+export function getBlockData(blocks, filteredCategories = []) {
+	if (!blocks?.length) {
+		return [];
 	}
 
-	// Updated block categories.
-	if (wpBlocks && filteredCategories?.length) {
+	// Sort block alpha and then remove excluded blocks.
+	const wpBlocks = sortBlocks(blocks).filter((block) => {
+		return excludedBlocks.indexOf(block.name) === -1;
+	});
+
+	// Update block categories.
+	if (filteredCategories?.length) {
 		// Loop saved categories.
 		filteredCategories.forEach((item) => {
 			const { block: name, cat: category } = item;
+
 			// Find block by name and update category.
 			const match = wpBlocks.find((block) => block.name === name);
 			if (match) {
