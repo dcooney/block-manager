@@ -1,6 +1,6 @@
 import { registerCoreBlocks } from "@wordpress/block-library";
 import { excludedBlocks } from "../constants";
-import { removeDisabledBlocks, setBlockCategory, sortBlocks } from "./helpers";
+import { setBlockCategory, sortBlocks } from "./helpers";
 registerCoreBlocks();
 
 /**
