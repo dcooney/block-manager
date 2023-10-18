@@ -161,14 +161,18 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					{!!blocks?.length &&
 						blocks.map((category) => (
-							<button
-								key={category?.info?.slug}
-								type="button"
-								data-to={"block-" + category?.info?.slug}
-								onClick={(e) => scrollTo(e)}
-							>
-								{category?.info?.title}
-							</button>
+							<>
+								{!!category?.blocks?.length && (
+									<button
+										key={category?.info?.slug}
+										type="button"
+										data-to={"block-" + category?.info?.slug}
+										onClick={(e) => scrollTo(e)}
+									>
+										{category?.info?.title}
+									</button>
+								)}
+							</>
 						))}
 					<Search callback={search} />
 				</div>

@@ -1,5 +1,5 @@
 import { getBlockTypes } from "@wordpress/blocks";
-import { getBlockCategoryData, getBlockData } from "../functions/blocks";
+import { getBlockCategoryData, getBlocksData } from "../functions/blocks";
 import getCategoryData from "../functions/getCategoryData";
 import Blocks from "./Blocks/Blocks";
 import Categories from "./Categories/Categories";
@@ -21,7 +21,7 @@ export default function App() {
 				/>
 			) : (
 				<Blocks
-					wpBlocks={getBlockData(
+					wpBlocks={getBlocksData(
 						blocks,
 						gbm_localize?.filteredCategoriesAll,
 					)}

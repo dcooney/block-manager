@@ -1,6 +1,5 @@
 import { registerCoreBlocks } from "@wordpress/block-library";
-import { excludedBlocks } from "../constants";
-import { setBlockCategory, sortBlocks } from "./helpers";
+import { removeDisabledBlocks, setBlockCategory, sortBlocks } from "./helpers";
 registerCoreBlocks();
 
 /**
@@ -13,7 +12,7 @@ export function getBlockCategoryData(blocks) {
 	if (!blocks?.length) {
 		return [];
 	}
-	return setBlockCategory(sortBlocks(blocks));
+	return removeDisabledBlocks(setBlockCategory(sortBlocks(blocks)));
 }
 
 /**
@@ -23,15 +22,13 @@ export function getBlockCategoryData(blocks) {
  * @param {Array} filteredCategories The filtered categories.
  * @return {Array}                   The list of blocks.
  */
-export function getBlockData(blocks, filteredCategories = []) {
+export function getBlocksData(blocks, filteredCategories = []) {
 	if (!blocks?.length) {
 		return [];
 	}
 
-	// Sort block alpha and then remove excluded blocks.
-	const wpBlocks = sortBlocks(blocks).filter((block) => {
-		return excludedBlocks.indexOf(block.name) === -1;
-	});
+	// Get and sort blocks.
+	const wpBlocks = sortBlocks(blocks);
 
 	// Update block categories.
 	if (filteredCategories?.length) {

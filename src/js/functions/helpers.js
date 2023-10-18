@@ -1,15 +1,21 @@
+import { excludedBlocks } from "../constants";
+
 /**
- * Sort the blocks alpha.
+ * Sort the blocks alpha and then remove excluded blocks.
  *
  * @param {Array} blocks Array of WP Blocks.
  * @return {Array}       The sorted array of blocks.
  */
 export function sortBlocks(blocks) {
-	return blocks.sort(function (a, b) {
-		const textA = a.title.toUpperCase();
-		const textB = b.title.toUpperCase();
-		return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
-	});
+	return blocks
+		.sort(function (a, b) {
+			const textA = a.title.toUpperCase();
+			const textB = b.title.toUpperCase();
+			return textA < textB ? -1 : textA > textB ? 1 : 0; //eslint-disable-line
+		})
+		.filter((block) => {
+			return excludedBlocks.indexOf(block.name) === -1;
+		});
 }
 
 /**
@@ -22,9 +28,14 @@ export function removeDisabledBlocks(blocks = []) {
 	if (!blocks?.length) {
 		return [];
 	}
-	const { disabledBlocksAll = [] } = gbm_localize;
+
+	const { disabledBlocksAll: disabled = [] } = gbm_localize;
+	if (!disabled?.length) {
+		return blocks;
+	}
+
 	return blocks?.filter((block) => {
-		return !disabledBlocksAll?.includes(block?.name);
+		return !disabled?.includes(block?.name);
 	});
 }
 

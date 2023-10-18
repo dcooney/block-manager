@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import Icon from "../../Global/Icon";
 import cn from "classnames";
+import { useState } from "@wordpress/element";
 
 /**
  * Render the Block component for a category listing.
@@ -21,6 +22,7 @@ export default function Block({
 	blockCategories,
 }) {
 	const { name, icon, title, category, orginalCategory } = data;
+	const [activeCategory, setActiveCategory] = useState(category);
 
 	// Is this block category filtered?
 	const filtered = filteredCategories?.find((cat) => cat.block === name);
@@ -52,7 +54,9 @@ export default function Block({
 				</label>
 				<select
 					defaultValue={category}
-					onChange={(e) => callback(name, e)}
+					onChange={(e) => {
+						callback(name, e), setActiveCategory(e?.target?.value);
+					}}
 					id={`select-${name}`}
 					data-original={orginalCategory}
 					disabled={filtered}
@@ -60,14 +64,11 @@ export default function Block({
 					{!!categories?.length &&
 						categories.map((cat, index) => {
 							return (
-								<option
-									key={`cat-${cat.slug}-${index}`}
-									value={cat.slug}
-								>
+								<option key={`${cat.slug}-${index}`} value={cat.slug}>
 									{cat.title}
-									{orginalCategory !== category &&
+									{orginalCategory !== activeCategory &&
 									orginalCategory === cat.slug
-										? ` - ${__("[Default]", "block-manager")}`
+										? ` - [${__("Default", "block-manager")}]`
 										: null}
 								</option>
 							);

@@ -20,6 +20,12 @@ import Sidebar from "./components/Sidebar";
  * @return {Element}                  The Categories component.
  */
 export default function Categories({ wpBlocks, wpCategories }) {
+	const {
+		blockCategories: block_cats = [],
+		filteredCategories: filtered_cats = [],
+		disabledBlocksAll: disabled_blocks = [],
+	} = gbm_localize;
+
 	const resetButtonRef = useRef(null);
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
@@ -29,21 +35,18 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const [categories] = useState(wpCategories);
 
 	const [blocks, setBlocks] = useState(wpBlocks);
-	const [blockCategories, setBlockCategories] = useState(
-		gbm_localize?.blockCategories || [],
-	);
-	const [filteredCategories] = useState(
-		gbm_localize?.filteredCategories || [],
-	);
+	const [blockCategories, setBlockCategories] = useState(block_cats);
+	const [filteredCategories] = useState(filtered_cats);
 
-	const heading = sprintf(
-		// translators: %s: The number of blocks.
-		__(
-			"Organize your %s WordPress blocks by modifying the assigned category of each.",
-			"block-manager",
-		),
-		`<span>${blocks?.length}</span>`,
-	);
+	// Count the number of disabled blocks modify display in the sidebar.
+	const disabledBlocksCount = blockCategories.filter((block) => {
+		return disabled_blocks.includes(block.block);
+	}).length;
+
+	// Count the number of filtered blocks modify display in the sidebar.
+	const filteredBlocksCount = filteredCategories.filter((block) => {
+		return disabled_blocks.includes(block?.block);
+	}).length;
 
 	/**
 	 * Change the block category.
@@ -82,12 +85,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 					setBlockCategories([...data?.categories]);
 					setTimeout(function () {
 						catStatus?.classList?.remove("active");
-						// Delay state for saving animation.
-						setTimeout(function () {
-							setBlocks(
-								getBlockCategoryData(wpBlocks, data?.categories),
-							);
-						}, 150);
 					}, 850);
 				} else {
 					console.warn(
@@ -203,12 +200,23 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							total={blocks?.length}
 							updated={blockCategories?.length}
 							filtered={filteredCategories?.length}
+							disabledBlocksCount={disabledBlocksCount}
+							filteredBlocksCount={filteredBlocksCount}
 						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
 								<p
 									className="gbm-heading"
-									dangerouslySetInnerHTML={{ __html: heading }}
+									dangerouslySetInnerHTML={{
+										__html: sprintf(
+											// translators: %s: The number of blocks.
+											__(
+												"Organize your %s WordPress blocks by modifying the assigned category of each.",
+												"block-manager",
+											),
+											`<span>${blocks?.length}</span>`,
+										),
+									}}
 								/>
 								<div>
 									<Reset

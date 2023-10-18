@@ -11,7 +11,7 @@ export default function getCategoryData() {
 	// Get WP Block Categories
 	const categories = getCategories();
 
-	if (categories) {
+	if (categories?.length) {
 		// Sort categories by name.
 		wpCategories = categories.sort(function (a, b) {
 			const textA = a.title.toUpperCase();

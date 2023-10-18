@@ -56,7 +56,7 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 		$options = (array) get_option( BLOCK_MANAGER_CATEGORIES, [] );
 
 		if ( $type === 'remove' ) {
-			// Remove category.
+			// Remove block category.
 			foreach ( $options as $index => $item ) {
 				// Duplicate found.
 				if ( $block === $item['block'] ) {
@@ -66,9 +66,10 @@ function block_manager_category_switch( WP_REST_Request $request ) {
 				}
 			}
 		} else {
+			// Add block category.
 			$duplicate = false;
 
-			// Remove duplicates.
+			// Remove duplicates if required.
 			if ( $options ) {
 				// Loop all current options.
 				foreach ( $options as $index => $item ) {

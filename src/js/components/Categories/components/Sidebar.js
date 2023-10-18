@@ -5,17 +5,28 @@ import Search from "../../Global/Search";
 /**
  * Render the Sidebar for Category Manager.
  *
- * @param {Object}   props          The component properties.
- * @param {Function} props.search   The search handler function.
- * @param {number}   props.total    Total blocks.
- * @param {number}   props.updated  Updated block categories.
- * @param {number}   props.filtered Total number of filtered block categories.
- * @return {Element}                The Sidebar component.
+ * @param {Object}   props                     The component properties.
+ * @param {Function} props.search              The search handler function.
+ * @param {number}   props.total               Total blocks.
+ * @param {number}   props.updated             Updated block categories.
+ * @param {number}   props.filtered            Total number of filtered block categories.
+ * @param {number}   props.disabledBlocksCount Total number of disabled blocks.
+ * @param {number}   props.filteredBlocksCount Total number of filtered blocks.
+ * @return {Element}                           The Sidebar component.
  */
-export default function Sidebar({ search, total, updated, filtered }) {
+export default function Sidebar({
+	search,
+	total,
+	updated,
+	filtered,
+	disabledBlocksCount,
+	filteredBlocksCount,
+}) {
 	const updatedRef = useRef(null);
 	const mountedRef = useRef(false);
-	const [updatedTotal, setUpdatedTotal] = useState(updated);
+	const [updatedTotal, setUpdatedTotal] = useState(
+		updated - disabledBlocksCount,
+	);
 
 	/**
 	 * Block total update animation.
@@ -43,8 +54,12 @@ export default function Sidebar({ search, total, updated, filtered }) {
 
 	// Update the updated blocks.
 	useEffect(() => {
-		change(updatedRef.current, updated, setUpdatedTotal);
-	}, [updated]);
+		change(
+			updatedRef.current,
+			updated - disabledBlocksCount,
+			setUpdatedTotal,
+		);
+	}, [updated]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -61,7 +76,7 @@ export default function Sidebar({ search, total, updated, filtered }) {
 				<div className="gbm-cta-wrap">
 					<div
 						className="gbm-legend gbm-legend--total"
-						title={__("Active Blocks", "block-manager")}
+						title={`${total} ${__("Total Blocks", "block-manager")}`}
 					>
 						<div>
 							<span>
@@ -107,7 +122,7 @@ export default function Sidebar({ search, total, updated, filtered }) {
 						>
 							<div>
 								<span>
-									<strong>{filtered}</strong>
+									<strong>{filtered - filteredBlocksCount}</strong>
 								</span>
 							</div>
 							{__("Filtered", "block-manager")}

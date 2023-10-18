@@ -20,8 +20,29 @@ class GBM_Admin {
 	 * @since 1.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'gbm_register_sub_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'gbm_admin_enqueue' ) );
+		add_action( 'admin_menu', [ $this, 'gbm_register_sub_menu' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'gbm_admin_enqueue' ] );
+		add_action( 'block_categories_all', [ $this, 'gbm_add_block_categories' ] );
+	}
+
+	/**
+	 * Add custom block categories.
+	 *
+	 * @param  array $categories The existing block categories.
+	 * @return array             New array of categories.
+	 */
+	public function gbm_add_block_categories( $categories ) {
+		// Adding a new category.
+		return array_merge(
+			[
+				[
+					'slug'  => 'sam-health',
+					'title' => 'Sam Health',
+					'icon'  => 'heart',
+				],
+			],
+			$categories
+		);
 	}
 
 	/**

@@ -104,6 +104,7 @@
 			// Legend.
 			&-block-legend{
 				display: none;
+				overflow: hidden;
 				@media screen and (min-width: $small) {
 					display: block;
 				}

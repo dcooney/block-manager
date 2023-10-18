@@ -415,14 +415,18 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							/>
 							{!!blocks?.length &&
 								blocks.map((category) => (
-									<Category
-										key={category.info.slug}
-										data={category}
-										toggleBlock={toggleBlock}
-										disabledBlocks={disabledBlocks}
-										filteredBlocks={filteredBlocks}
-										callback={categoryToggleSwitch}
-									/>
+									<>
+										{!!category?.blocks?.length && (
+											<Category
+												key={category.info.slug}
+												data={category}
+												toggleBlock={toggleBlock}
+												disabledBlocks={disabledBlocks}
+												filteredBlocks={filteredBlocks}
+												callback={categoryToggleSwitch}
+											/>
+										)}
+									</>
 								))}
 						</div>
 					</div>
