@@ -181,6 +181,7 @@ class GBM_Admin {
 			$active = 'categories';
 		}
 		?>
+		<h1 class="gbm-h1"><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 		<div class="gbm-page-wrap">
 			<div class="gbm-page-wrap--header">
 				<div class="gbm-page-wrap--header-title">
@@ -245,7 +246,6 @@ class GBM_Admin {
 						<?php esc_html_e( 'Block Categories', 'block-manager' ); ?>
 					</a>
 				</div>
-				<h1 class="gbm-h1"><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 				<div id="app" class="gbm"></div>
 			</div>
 		</div>
