@@ -8,6 +8,7 @@ $green: #8ddc77;
 $grey_light: #f7f7f7;
 $grey: #e2e5e7;
 $grey_dark: #999ea2;
+$grey_darker: #858789;
 $yellow: #ffdb28;
 $text: #3d3e40;
 $blue: #007cba;
@@ -23,3 +24,17 @@ $small: 768px;
 $medium: 1024px;
 $large: 1300px;
 $xlarge: 1500px;
+
+
+@mixin buttonHover(){
+	&:hover,
+	&:focus {
+		color: #fff;
+		border-color: $purple;
+		background-color: $purple;
+	}
+	&:focus {
+		outline: 2px solid $purple;
+		outline-offset: 2px;
+	}
+}

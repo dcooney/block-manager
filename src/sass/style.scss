@@ -214,9 +214,10 @@
 }
 
 #gbm-other-plugins {
-	background: #f7f7f7;
-	padding: 20px 20px 0;
-	border-bottom: 1px solid $grey;
+	background: #fff;
+	padding: 25px 20px;
+	border-top: 1px solid $border_light;
+	box-shadow: inset 0 75px 75px #f7f7f7;
 	display: none;
 	h2 {
 		padding: 0;
@@ -225,13 +226,66 @@
 	section {
 		max-width: 1800px;
 		position: relative;
-		> h2 {
-			margin: 0 0 20px;
+		& > div {
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+			> h2 {
+				margin: 0 0 20px;
+				font-size: 16px;
+				font-weight: 500;
+				a {
+					color: $purple;
+					font-weight: 600;
+					&:hover,
+					&:focus{
+						text-decoration: none;
+					}
+				}
+			}
 		}
+	}
+	.gbm-close-wrap{
+		display: flex;
+		width: 100%;
+		justify-content: flex-end;
+		padding-top: 10px;
 		> button {
-			position: absolute;
-			right: 0;
-			top: -8px;
+			all: unset;
+			cursor: pointer;
+			display: inline-block;
+			padding: 5px 8px;
+			font-weight: 400;
+			font-size: 13px;
+			border-radius: $radius;
+			@include buttonHover();
+
+		}
+	}
+	.cnkt-plugin-installer{
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(1, minmax(0,1fr));
+		@media screen and (min-width: $small) {
+			grid-template-columns: repeat(2, minmax(0,1fr));
+		}
+		@media screen and (min-width: $medium) {
+			grid-template-columns: repeat(3, minmax(0,1fr));
+		}
+		position: static;
+		&:after{
+			display: none;
+		}
+		.plugin{
+			width: 100%;
+			margin: 0;
+			padding:0 ;
+			border-radius: $radius;
+			overflow: hidden;
 		}
 	}
 }
@@ -248,13 +302,4 @@ body.settings_page_block-manager #wpfooter {
 	p {
 		line-height: 40px;
   }
-}
-
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
 }

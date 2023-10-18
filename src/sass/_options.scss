@@ -1,7 +1,7 @@
 .gbm-page-wrap {
 	.gbm-options {
 		width: 100%;
-		padding: 0 0 15px;
+		padding: 0 0 20px;
 		@media screen and (min-width: $medium) {
 			display: flex;
 		}
@@ -34,17 +34,9 @@
 			display: flex;
 			align-items: center;
 			line-height: 1;
-			color: #777;
-			&:hover,
-			&:focus {
-				color: #fff;
-				border-color: $purple;
-				background-color: $purple;
-			}
-			&:focus {
-				outline: 2px solid $purple;
-				outline-offset: 2px;
-			}
+			color: $grey_darker;
+			@include buttonHover();
+
 			span {
 				margin-right: 5px;
 				opacity: 0.75;
@@ -72,5 +64,14 @@
 				opacity: 0.65;
 			}
 		}
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
 	}
 }

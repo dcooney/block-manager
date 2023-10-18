@@ -59,7 +59,7 @@ class GBM_Admin {
 		}
 
 		// Register Block Categories.
-		$block_categories = array();
+		$block_categories = [];
 		if ( function_exists( 'get_block_categories' ) ) {
 			$block_categories = get_block_categories( get_post() );
 		}
@@ -84,7 +84,7 @@ class GBM_Admin {
 				'build/style-block-manager-admin.css',
 				__FILE__
 			),
-			array(),
+			[],
 			BLOCK_MANAGER_VERSION
 		);
 
@@ -104,14 +104,14 @@ class GBM_Admin {
 			'block-manager-admin',
 			'gbm_localize',
 			[
+				'root'                  => esc_url_raw( rest_url() ),
+				'nonce'                 => wp_create_nonce( 'wp_rest' ),
 				'disabledBlocks'        => $this->gbm_remove_duplicate_blocks( Gutenberg_Block_Manager::gbm_get_disabled_blocks(), $filtered_blocks ),
 				'filteredBlocks'        => $filtered_blocks,
 				'disabledBlocksAll'     => Gutenberg_Block_Manager::gbm_get_all_disabled_blocks(),
 				'blockCategories'       => $this->gbm_remove_duplicate_categories( Gutenberg_Block_Manager::gbm_get_block_categories(), $filtered_categories ),
 				'filteredCategories'    => $filtered_categories,
 				'filteredCategoriesAll' => Gutenberg_Block_Manager::gbm_get_all_block_categories(),
-				'root'                  => esc_url_raw( rest_url() ),
-				'nonce'                 => wp_create_nonce( 'wp_rest' ),
 			]
 		);
 	}
@@ -183,7 +183,10 @@ class GBM_Admin {
 			esc_html__( 'Block Manager', 'block-manager' ),
 			apply_filters( 'block_manager_user_role', 'activate_plugins' ),
 			'block-manager',
-			array( $this, 'gbm_submenu_page_callback' )
+			[
+				$this,
+				'gbm_submenu_page_callback',
+			]
 		);
 	}
 
@@ -205,42 +208,45 @@ class GBM_Admin {
 				<h1><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 				<div class="gbm-page-wrap--header-title">
 					<h2><?php esc_html_e( 'Block Manager', 'block-manager' ); ?> <span><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span></h2>
-					<p><?php esc_html_e( 'Take control of your WordPress Blocks.', 'block-manager' ); ?></p>
+					<p><?php esc_html_e( 'Take back control of your WordPress Blocks.', 'block-manager' ); ?></p>
 				</div>
-				<button class="button" id="otherPlugins"><span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?></button>
+				<button class="gbm-other-button" id="otherPlugins">
+					<span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?>
+				</button>
 			</div>
 			<div id="gbm-container">
 				<div id="gbm-other-plugins">
 					<?php
-					$plugin_array = array(
-						array(
+					$plugin_array = [
+						[
 							'slug' => 'ajax-load-more',
-						),
-						array(
+						],
+						[
 							'slug' => 'easy-query',
-						),
-						array(
+						],
+						[
 							'slug' => 'instant-images',
-						),
-						array(
-							'slug' => 'velocity',
-						),
-					);
+						],
+					];
 					?>
 					<section>
-						<h2>
-						<?php
-						/* translators: %1$s & %2$s is replaced with the link content */
-						echo sprintf( __( 'Other Plugins from %1$s Connekt %2$s', 'block-manager' ), '<a href="https://connekthq.com" target="_blank">', '</a>' ); // @codingStandardsIgnoreLine
-						?>
-						</h2>
-						<button class="button button-secondary" id="otherPluginsClose">&times; <?php esc_html_e( 'Close', 'block-manager' ); ?></button>
+						<div>
+							<h2>
+							<?php
+							/* translators: %1$s & %2$s is replaced with the link content */
+							echo sprintf( __( 'Other WordPress Plugins from %1$s Connekt %2$s', 'block-manager' ), '<a href="https://connekthq.com" target="_blank">', '</a>' ); // @codingStandardsIgnoreLine
+							?>
+							</h2>
+						</div>
 						<div class="cta-wrap">
 							<?php
 							if ( class_exists( 'Connekt_Plugin_Installer' ) ) {
 								Connekt_Plugin_Installer::init( $plugin_array );
 							}
 							?>
+						</div>
+						<div class="gbm-close-wrap">
+							<button class="gbm-other-button--close" id="otherPluginsClose"><?php esc_html_e( 'Close', 'block-manager' ); ?></button>
 						</div>
 					</section>
 				</div>

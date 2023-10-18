@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import Icon from "../../Global/Icon";
 import cn from "classnames";
-import { useState } from "@wordpress/element";
+import { useRef, useState } from "@wordpress/element";
 
 /**
  * Render the Block component for a category listing.
@@ -21,6 +21,7 @@ export default function Block({
 	filteredCategories,
 	blockCategories,
 }) {
+	const selectRef = useRef(null);
 	const { name, icon, title, category, orginalCategory } = data;
 	const [activeCategory, setActiveCategory] = useState(category);
 
@@ -29,6 +30,11 @@ export default function Block({
 
 	// Is this block category updated?
 	const updated = blockCategories?.find((cat) => cat.block === name);
+
+	function handler() {
+		callback(name, selectRef?.current);
+		setActiveCategory(selectRef?.current?.value);
+	}
 
 	return (
 		<div
@@ -54,12 +60,11 @@ export default function Block({
 				</label>
 				<select
 					defaultValue={category}
-					onChange={(e) => {
-						callback(name, e), setActiveCategory(e?.target?.value);
-					}}
+					onChange={() => handler()}
 					id={`select-${name}`}
 					data-original={orginalCategory}
 					disabled={filtered}
+					ref={selectRef}
 				>
 					{!!categories?.length &&
 						categories.map((cat, index) => {

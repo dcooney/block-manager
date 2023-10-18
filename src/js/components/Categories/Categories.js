@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import axios from "axios";
-import { getBlockCategoryData } from "../../functions/blocks";
 import { exportHook } from "../../functions/export";
 import Export from "../Global/Export";
 import ExportModal from "../Global/ExportModal";
@@ -34,7 +33,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const [loading, setLoading] = useState(true);
 	const [categories] = useState(wpCategories);
 
-	const [blocks, setBlocks] = useState(wpBlocks);
+	const [blocks] = useState(wpBlocks);
 	const [blockCategories, setBlockCategories] = useState(block_cats);
 	const [filteredCategories] = useState(filtered_cats);
 

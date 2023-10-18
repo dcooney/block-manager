@@ -16,7 +16,7 @@
 			min-height: 44px;
 			padding: 0 0 0 54px;
 			display: flex;
-			gap: 3px;
+			gap: 5px;
 			flex-wrap: wrap;
 			align-items: center;
 			width: 100%;
@@ -31,6 +31,7 @@
 			align-items: center;
 			gap: 8px;
 			font-weight: 700;
+			line-height: 1;
 
 			span {
 				font-size: 12px;
@@ -48,13 +49,31 @@
 		p {
 			margin: 0;
 			color: $grey_dark;
+			line-height: 1;
 		}
-		button.button {
+		button.gbm-other-button {
+			all: unset;
 			margin-top: 10px;
 			display: none;
+			align-items: center;
+			gap: 3px;
+			border-radius: $radius;
+			border: 1px solid $purple;
+			background-color: $grey_light;
+			margin: 10px 0 0;
+			padding: 8px 10px;
+			line-height: 1;
+			color: $purple;
+			cursor: pointer;
+			span {
+				font-size: 18px;
+				width: 18px;
+				height: 18px;
+			}
+			@include buttonHover();
+
 			@media screen and (min-width: $xsmall) {
 				display: flex;
-				align-items: center;
 			}
 			@media screen and (min-width: $small) {
 				margin-top: 0;
@@ -62,10 +81,6 @@
 				right: 20px;
 				top: 50%;
 				transform: translateY(-50%);
-			}
-			span {
-				position: relative;
-				left: -2px;
 			}
 		}
 	}
