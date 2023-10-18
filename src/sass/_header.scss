@@ -1,4 +1,8 @@
 // Header
+
+h1.gbm-h1{
+	display: none;
+}
 .gbm-page-wrap {
 	&--header {
 		background-color: #fff;
@@ -6,9 +10,6 @@
 		position: relative;
 		@media screen and (min-width: $small) {
 			padding-right: 200px;
-		}
-		h1{
-			display: none;
 		}
 		&-title {
 			background: url('../images/icon.png') no-repeat 1px center;
@@ -58,7 +59,7 @@
 			align-items: center;
 			gap: 3px;
 			border-radius: $radius;
-			border: 1px solid $purple;
+			border: 1px solid $grey_dark;
 			background-color: $grey_light;
 			margin: 10px 0 0;
 			padding: 8px 10px;
