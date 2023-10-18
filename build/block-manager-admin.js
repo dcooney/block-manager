@@ -1033,8 +1033,7 @@ function Categories(_ref) {
    * @param {Event}  e     The select change event.
    * @since 1.0
    */
-  function switchCategory(block, e) {
-    var target = e.target;
+  function switchCategory(block, target) {
     var category = target.value;
     var original = target.dataset.original;
     var element = target.closest(".item");

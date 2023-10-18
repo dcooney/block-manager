@@ -54,8 +54,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * @param {Event}  e     The select change event.
 	 * @since 1.0
 	 */
-	function switchCategory(block, e) {
-		const { target } = e;
+	function switchCategory(block, target) {
 		const category = target.value;
 		const original = target.dataset.original;
 		const element = target.closest(".item");

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Block Manager
  * Plugin URI: https://connekthq.com/plugins/block-manager/
- * Description: Globally manage the active state of each Gutenberg block.
+ * Description: Take back control of your WordPress blocks.
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
@@ -18,11 +18,8 @@
 
 
 TODO:
-- Implement gbm_block_categories hook in block inserter.
-- Disable gbm_block_categories blocks in backend admin.
-- Add visual representation of block categories in backend admin
-- Check that filtered blocks are actually disabled in bock inserter. [DONE]
-- Render Variations. Might be not worth it. Seems too complicated. [DO NOT DO]
+- Update Readme.txt
+- Add new screenshots.
 
 */
 
@@ -208,8 +205,9 @@ class Gutenberg_Block_Manager {
 	 * @return array
 	 */
 	public static function gbm_action_links( $links ) {
-		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Manage Blocks', 'block-manager' ) . '</a>';
-		array_unshift( $links, $settings );
+		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Blocks', 'block-manager' ) . '</a>';
+		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&category-switcher' ) . '">' . __( 'Block Categories', 'block-manager' ) . '</a>';
+		array_unshift( $links, $settings, $cats );
 		return $links;
 	}
 

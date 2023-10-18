@@ -63,7 +63,6 @@ h1.gbm-h1 {
 
 .gbm-page-wrap--header button.gbm-other-button {
   all: unset;
-  margin-top: 10px;
   display: none;
   align-items: center;
   gap: 3px;
@@ -1289,7 +1288,7 @@ h1.gbm-h1 {
   }
 }
 
-#gbm-other-plugins .cnkt-plugin-installer:after {
+#gbm-other-plugins .cnkt-plugin-installer::after {
   display: none;
 }
 
