@@ -12,13 +12,13 @@ Block Manager by [Connekt](https://connekthq.com) will allow you to manage the a
 
 == Description ==
 
-The Block Manager is an intuitive tool for WordPress site admins to globally manage the enabled/disabled state of each block. Disabled blocks will be removed from the block inserter on post edit screens.
+The Block Manager is an intuitive tool for site admins to globally remove unwanted blocks and update the assigned category of individual blocks to organize the admin editing expereince.
 
 ### Features
 
 -  **Disable Blocks** - Unlike the block manager functionality in the WordPress Block Editor, this plugin will globally disable (remove) blocks for all users on your site.
--  **Block Categories** - The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.
--  **Block Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
+-  **Block Categories** - The Category Switcher provides functionality for updating the category assigned to each WordPress blocks.
+-  **Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
 -  **Hooks** - Use the various hooks and filters to update your blocks from `functions.php`.
 
 ### Hooks & Filters
@@ -83,15 +83,20 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Screenshots ==
 
-1. Block Manager WordPress Admin
-1. Disable all (or some) of the useless Embed blocks
-1. Disable entire block categories with a single click.
+1. Disable Blocks: Easily remove unwanted WordPress blocks by toggling the active state of each block.
+2. Block Toggle: Disable all blocks in a block categories with a single click.
+3. Block Categories: Improve the admin editing experience by updating the category of each block using the Category Switcher.
+4. Status Reports: Total active and disabled blocks are displayed in the plugin sidebar.
 
 == Changelog ==
+
 == 2.0.0 - October 20, 2023 ==
 * NEW - New admin interface and interactions for the Block and Block Categories pages.
 * NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
+* FIX: Fixed issue with various blocks crashing the Block Manager edit screen.
+* FIX: Various bug fixes and improvements.
 * UPDATE: Updated build scripts and dependencies.
+
 
 = 1.2.5 - May 23, 2023 =
 * FIX - Fixed potential issue with JS errors on Site Editor screens.
