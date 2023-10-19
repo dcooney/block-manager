@@ -52,6 +52,16 @@ Use the `gbm_block_categories` filter to update block categories blocks via back
 		];
 	});
 
+#### block_manager_user_role
+
+Update the minimum user role allowed to access the Block Manager plugin.
+
+	// functions.php
+	add_filter(
+		'block_manager_user_role',
+		'edit_theme_options' // Default: activate_plugins
+	);
+
 
 == Installation ==
 
