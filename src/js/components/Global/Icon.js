@@ -1,20 +1,24 @@
-import React from 'react';
+import { renderToString } from "@wordpress/element";
 
 /**
  * Block Icon display.
  *
- * @param {string} src The svg source.
- * @param {string} type The type of icon.
+ * @param {Object} props      The component properties.
+ * @param {string} props.icon The icon source - svg or string.
+ * @return {Element}          The Icon component.
  */
-function Icon({ src, type }) {
-	let iconSrc = type === 'dashicon' ? '<span class="dashicons dashicons-' + src + '"></span>' : src;
+export default function Icon({ icon }) {
+	const src = icon?.src || icon;
 
-	// Custom Heading Icon
-	if (src === 'heading') {
-		iconSrc =
-			'<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path d="M5 4v3h5.5v12h3V7H19V4z"></path><path fill="none" d="M0 0h24v24H0V0z"></path></svg>';
+	if (src === "block-default") {
+		return null;
 	}
 
-	return <div className="icon" dangerouslySetInnerHTML={{ __html: iconSrc }}></div>;
+	return (
+		<div
+			aria-hidden="true"
+			className="icon"
+			dangerouslySetInnerHTML={{ __html: renderToString(src) }}
+		></div>
+	);
 }
-export default Icon;

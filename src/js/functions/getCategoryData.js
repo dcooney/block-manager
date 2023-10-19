@@ -1,24 +1,27 @@
+import { getCategories } from "@wordpress/blocks";
+
 /**
  * Get all WP block categories.
  *
- * @return {array} The array of categories.
+ * @return {Array} The array of categories.
  */
 export default function getCategoryData() {
-	// Get WP Block Categories
-	const categories = wp.blocks.getCategories();
-	let wpCategories = '';
+	let wpCategories = [];
 
-	if (categories) {
+	// Get WP Block Categories
+	const categories = getCategories();
+
+	if (categories?.length) {
 		// Sort categories by name.
-		wpCategories = categories.sort(function(a, b) {
+		wpCategories = categories.sort(function (a, b) {
 			const textA = a.title.toUpperCase();
 			const textB = b.title.toUpperCase();
-			return textA < textB ? -1 : textA > textB ? 1 : 0;
+			return textA < textB ? -1 : textA > textB ? 1 : 0; // eslint-disable-line
 		});
 
 		// Filter categories for `reusable`.
-		wpCategories = wpCategories.filter(cat => {
-			return cat.slug !== 'reusable';
+		wpCategories = wpCategories.filter((cat) => {
+			return cat.slug !== "reusable";
 		});
 	}
 

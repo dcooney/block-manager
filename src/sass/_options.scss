@@ -1,0 +1,77 @@
+.gbm-page-wrap {
+	.gbm-options {
+		width: 100%;
+		padding: 0 0 20px;
+		@media screen and (min-width: $medium) {
+			display: flex;
+		}
+		gap: 20px;
+		justify-content: space-between;
+		align-items: center;
+		p.gbm-heading {
+			margin: 0 0 15px;
+			@media screen and (min-width: $medium) {
+				margin: 0;
+			}
+			span {
+				display: inline-block;
+				padding: 1px 4px;
+				background-color: #fff;
+				border-radius: 3px;
+			}
+		}
+		div {
+			display: flex;
+			gap: 5px;
+			width: auto;
+		}
+		button {
+			border-radius: $radius;
+			border: 1px solid $grey;
+			background-color: #fff;
+			margin: 0;
+			padding: 10px 12px 10px 10px;
+			display: flex;
+			align-items: center;
+			line-height: 1;
+			color: $grey_darker;
+			@include buttonHover();
+
+			span {
+				margin-right: 5px;
+				opacity: 0.75;
+				transition: none;
+			}
+			span,
+			span::before {
+				height: 15px;
+				width: 15px;
+				font-size: 15px;
+			}
+			&.hidden {
+				display: none;
+			}
+			&.spin {
+				.dashicons {
+					animation-name: spin;
+					animation-duration: 1250ms;
+					animation-iteration-count: infinite;
+					animation-timing-function: linear;
+				}
+			}
+			&[disabled]{
+				pointer-events: none;
+				opacity: 0.65;
+			}
+		}
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

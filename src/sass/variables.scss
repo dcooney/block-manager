@@ -1,0 +1,40 @@
+$transition: all 0.15s ease;
+$radius: 4px;
+$radius_lg: 6px;
+$padding: 15px;
+$purple: #8568c1;
+$purple_alt: #a788e5;
+$green: #8ddc77;
+$grey_light: #f7f7f7;
+$grey: #e2e5e7;
+$grey_dark: #999ea2;
+$grey_darker: #858789;
+$yellow: #ffdb28;
+$text: #3d3e40;
+$blue: #007cba;
+$border_light: rgba($grey, 0.5);
+
+$block_filtered: #fefdd9;
+$block_disabled: $grey_light;
+$block_updated: #f5f1ff;
+$block_hover: #f0faff;
+
+$xsmall: 480px;
+$small: 768px;
+$medium: 1024px;
+$large: 1300px;
+$xlarge: 1500px;
+
+
+@mixin buttonHover(){
+	&:hover,
+	&:focus {
+		color: #fff;
+		border-color: $purple;
+		background-color: $purple;
+	}
+	&:focus {
+		outline: 2px solid $purple;
+		outline-offset: 2px;
+	}
+}

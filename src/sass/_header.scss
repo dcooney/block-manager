@@ -1,0 +1,89 @@
+// Header
+
+h1.gbm-h1{
+	display: none;
+}
+.gbm-page-wrap {
+	&--header {
+		background-color: #fff;
+		padding: 20px;
+		position: relative;
+		@media screen and (min-width: $small) {
+			padding-right: 200px;
+		}
+		&-title {
+			background: url('../images/icon.png') no-repeat 1px center;
+			background-size: 44px 44px;
+			min-height: 44px;
+			padding: 0 0 0 54px;
+			display: flex;
+			gap: 5px;
+			flex-wrap: wrap;
+			align-items: center;
+			width: 100%;
+		}
+		h2 {
+			margin: 0;
+			padding: 0;
+			font-size: 22px;
+			width: 100%;
+			color: $text;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-weight: 700;
+			line-height: 1;
+
+			span {
+				font-size: 12px;
+				font-weight: 400;
+				border-radius: $radius;
+				background-color: rgba($purple, 0.075);
+				display: inline-block;
+				line-height: 1;
+				padding: 5px;
+				color: $purple;
+				position: relative;
+				top: 2px;
+			}
+		}
+		p {
+			margin: 0;
+			color: $grey_dark;
+			line-height: 1;
+			font-size: 14px;
+		}
+		button.gbm-other-button {
+			all: unset;
+			display: none;
+			align-items: center;
+			gap: 3px;
+			border-radius: $radius;
+			border: 1px solid $grey_dark;
+			background-color: $grey_light;
+			margin: 10px 0 0;
+			padding: 8px 10px;
+			line-height: 1;
+			color: $purple;
+			cursor: pointer;
+			span {
+				font-size: 18px;
+				width: 18px;
+				height: 18px;
+				transition: none;
+			}
+			@include buttonHover();
+
+			@media screen and (min-width: $xsmall) {
+				display: flex;
+			}
+			@media screen and (min-width: $small) {
+				margin-top: 0;
+				position: absolute;
+				right: 20px;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+	}
+}

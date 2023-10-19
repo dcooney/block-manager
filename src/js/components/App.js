@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-import getBlockData from '../functions/getBlockData';
-import getCategoryData from '../functions/getCategoryData';
-import Blocks from './Blocks/Index';
-import Categories from './Categories/Index';
+import { getBlockTypes } from "@wordpress/blocks";
+import { getBlockCategoryData, getBlocksData } from "../functions/blocks";
+import getCategoryData from "../functions/getCategoryData";
+import Blocks from "./Blocks/Blocks";
+import Categories from "./Categories/Categories";
 
-function App() {
-	const [wpBlocks] = useState(getBlockData());
-	const [wpCategories] = useState(getCategoryData());
+export default function App() {
+	const blocks = getBlockTypes();
+	const categories = getCategoryData();
 
-	// Parse URL to get active plugin view.
-	const url = window.location.href;
-	const isCategory = url.includes('category-switcher') ? true : false;
-
-	// Display total blocks in header
-	let totalDiv = document.querySelector('span.block-total');
-	if (totalDiv) {
-		totalDiv.innerHTML = wpBlocks.length;
-	}
+	// Parse URL to get current view.
+	const url = window?.location?.href;
+	const isCategory = url.includes("category-switcher") ? true : false;
 
 	return (
-		<React.Fragment>
-			{isCategory ? <Categories wpBlocks={wpBlocks} wpCategories={wpCategories} /> : <Blocks wpBlocks={wpBlocks} wpCategories={wpCategories} />}
-		</React.Fragment>
+		<>
+			{isCategory ? (
+				<Categories
+					wpBlocks={getBlockCategoryData(blocks)}
+					wpCategories={categories}
+				/>
+			) : (
+				<Blocks
+					wpBlocks={getBlocksData(
+						blocks,
+						gbm_localize?.filteredCategoriesAll,
+					)}
+					wpCategories={categories}
+				/>
+			)}
+		</>
 	);
 }
-export default App;

@@ -1,64 +1,36 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var path = require('path');
-var dir = 'dist';
+const defaults = require("@wordpress/scripts/config/webpack.config");
+const ESLintPlugin = require("eslint-webpack-plugin");
+const StylelintPlugin = require("stylelint-webpack-plugin");
 
+/**
+ * WP-Scripts Webpack config.
+ *
+ * @see https://developer.wordpress.org/block-editor/packages/packages-scripts/#provide-your-own-webpack-config
+ */
 module.exports = {
+	...defaults,
+	externals: {
+		react: "React",
+		"react-dom": "ReactDOM",
+	},
 	entry: {
-		gbm: './src/js/gbm.js',
-		'gbm-admin': './src/js/index.js',
-		style: './src/style.scss'
+		"block-manager": "./src/js/block-manager.js",
+		"block-manager-admin": "./src/js/admin.js",
 	},
-	output: {
-		path: path.join(__dirname, dir),
-		filename: 'js/[name].js'
-	},
-	watch: true,
-	module: {
-		rules: [
-			{
-				test: /.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['env', 'react']
-				}
-			},
-			{
-				test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
-				loader: 'file-loader',
-				options: {
-					name: 'img/[name].[ext]',
-					publicPath: '../'
-				}
-			},
-			{
-				test: /\.scss$/,
-				use: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								sourceMap: true
-							}
-						},
-						{
-							loader: 'postcss-loader',
-							options: {
-								sourceMap: true
-							}
-						},
-						{
-							loader: 'sass-loader',
-							options: {
-								sourceMap: true
-							}
-						}
-					]
-				}),
-				exclude: /node_modules/
-			}
-		]
-	},
-	plugins: [new ExtractTextPlugin({ filename: 'css/[name].css' })]
+	plugins: [
+		...defaults.plugins,
+		/**
+		 * Report JS warnings and errors to the command line.
+		 *
+		 * @see https://www.npmjs.com/package/eslint-webpack-plugin
+		 */
+		new ESLintPlugin(),
+
+		/**
+		 * Report css warnings and errors to the command line.
+		 *
+		 * @see https://www.npmjs.com/package/stylelint-webpack-plugin
+		 */
+		new StylelintPlugin(),
+	],
 };

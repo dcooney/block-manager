@@ -1,0 +1,6 @@
+build/
+node_modules/
+vendor/
+dist/
+build/
+includes/connekt-plugin-installer/

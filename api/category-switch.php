@@ -32,62 +32,75 @@ add_action(
  * @since 1.0
  */
 function block_manager_category_switch( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
 		// Get JSON Data.
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
-		$data = json_decode( $body['data'] ); // Get contents of data.
 
-		if ( $body && $data ) {
+		if ( ! $body ) {
+			wp_send_json(
+				[
+					'success'    => false,
+					'msg'        => __( 'Error accessing API data.', 'block-manager' ),
+					'categories' => false,
+				]
+			);
+		}
 
-			$block = ( $data && $data->block ) ? $data->block : '';
-			$cat   = ( $data && $data->cat ) ? $data->cat : '';
+		$type     = $body['type'] ? $body['type'] : 'add';
+		$block    = $body['block'] ? $body['block'] : '';
+		$category = $body['category'] ? $body['category'] : '';
 
-			// Get current options.
-			$options = (array) get_option( BLOCK_MANAGER_CATEGORIES, array() );
+		// Get current options.
+		$options = (array) get_option( BLOCK_MANAGER_CATEGORIES, [] );
 
-			// Remove duplicates.
+		if ( $type === 'remove' ) {
+			// Remove block category.
+			foreach ( $options as $index => $item ) {
+				// Duplicate found.
+				if ( $block === $item['block'] ) {
+					unset( $options[ $index ] );
+					$options = array_values( $options );  // Reset array keys.
+					break;
+				}
+			}
+		} else {
+			// Add block category.
 			$duplicate = false;
+
+			// Remove duplicates if required.
 			if ( $options ) {
 				// Loop all current options.
 				foreach ( $options as $index => $item ) {
 					// Duplicate found.
 					if ( $block === $item['block'] ) {
 						$duplicate                = true;
-						$options[ $index ]['cat'] = $cat;
+						$options[ $index ]['cat'] = $category;
 					}
 				}
 			}
 
-			// Create array of new data.
-			$item = array(
-				'block' => $block,
-				'cat'   => $cat,
-			);
-
-			// Add $object to array.
+			// Add item to array.
 			if ( ! $duplicate ) {
-				$options[] = $item;
+				$options[] = [
+					'block' => $block,
+					'cat'   => $category,
+				];
 			}
-
-			// Update WP Options table.
-			update_option( BLOCK_MANAGER_CATEGORIES, $options );
-
-			// Send Response.
-			$response = array(
-				'success' => true,
-				'msg'     => $block . __( ' category updated to successfully to ', 'block-manager' ) . $cat . '.',
-			);
-		} else {
-
-			$response = array(
-				'success' => false,
-				'msg'     => __( 'Error accessing API data.', 'block-manager' ),
-			);
 		}
-		wp_send_json( $response ); // Send response as JSON.
+
+		// Update WP Options table.
+		update_option( BLOCK_MANAGER_CATEGORIES, $options );
+
+		// Send Response.
+		wp_send_json(
+			[
+				'success'    => true,
+				'msg'        => __( 'Block category updated successfully.', 'block-manager' ),
+				'categories' => $options,
+			]
+		);
+
 	}
 }
