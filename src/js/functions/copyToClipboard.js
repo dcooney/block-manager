@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /**
  * Copy export code to clipboard.
@@ -16,10 +16,10 @@ export default function copyToClipboard(input, trigger) {
 	sel.addRange(range);
 
 	// Copy to clipboard.
-	document.execCommand("copy");
+	document.execCommand('copy');
 	if (trigger) {
 		// Set the Copy button text.
-		trigger.innerHTML = __("Copied", "block-manager");
+		trigger.innerHTML = __('Copied', 'block-manager');
 		setTimeout(function () {
 			trigger.disabled = true;
 		}, 500);

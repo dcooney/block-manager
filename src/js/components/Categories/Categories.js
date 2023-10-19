@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import axios from "axios";
-import { exportHook } from "../../functions/export";
-import Export from "../Global/Export";
-import ExportModal from "../Global/ExportModal";
-import Loader from "../Global/Loader";
-import Reset from "../Global/Reset";
-import SearchResults from "../Global/SearchResults";
-import Block from "./components/Block";
-import Sidebar from "./components/Sidebar";
-import { categoryOffsetCount } from "../../functions/helpers";
+import { useEffect, useRef, useState } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import axios from 'axios';
+import { exportHook } from '../../functions/export';
+import Export from '../Global/Export';
+import ExportModal from '../Global/ExportModal';
+import Loader from '../Global/Loader';
+import Reset from '../Global/Reset';
+import SearchResults from '../Global/SearchResults';
+import Block from './components/Block';
+import Sidebar from './components/Sidebar';
+import { categoryOffsetCount } from '../../functions/helpers';
 
 /**
  * Render the Categories component.
@@ -30,7 +30,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
 
-	const [search, setSearch] = useState({ term: "", results: 0 });
+	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [categories] = useState(wpCategories);
 
@@ -39,7 +39,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const [filteredCategories] = useState(filtered_cats);
 
 	// Create array containing only active block names.
-	const block_names = blocks.map((i) => i["name"]);
+	const block_names = blocks.map((i) => i.name);
 
 	/**
 	 * Change the block category.
@@ -51,17 +51,17 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	function updateCategory(block, target) {
 		const category = target.value;
 		const original = target.dataset.original;
-		const element = target.closest(".item");
-		const catStatus = element?.querySelector(".gbm-cat-status");
-		const type = category === original ? "remove" : "add";
+		const element = target.closest('.item');
+		const catStatus = element?.querySelector('.gbm-cat-status');
+		const type = category === original ? 'remove' : 'add';
 
 		// Send API request.
 		axios({
-			method: "POST",
-			url: gbm_localize.root + "gbm/category_update/",
+			method: 'POST',
+			url: gbm_localize.root + 'gbm/category_update/',
 			headers: {
-				"X-WP-Nonce": gbm_localize.nonce,
-				"Content-Type": "application/json",
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json',
 			},
 			data: {
 				type,
@@ -72,24 +72,24 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			.then(function (res) {
 				const { data, status } = res;
 				if (data && status === 200 && data?.categories) {
-					catStatus?.classList?.add("active");
+					catStatus?.classList?.add('active');
 					// Success: update state for categories and blocks.
 					setBlockCategories([...data?.categories]);
 					setTimeout(function () {
-						catStatus?.classList?.remove("active");
+						catStatus?.classList?.remove('active');
 					}, 850);
 				} else {
 					console.warn(
 						__(
-							"An unknown error has occurred and the block category could not be updated",
-							"block-manager",
-						),
+							'An unknown error has occurred and the block category could not be updated',
+							'block-manager'
+						)
 					);
 				}
 			})
 			.catch(function (error) {
 				console.warn(error);
-				catStatus?.classList?.remove("active");
+				catStatus?.classList?.remove('active');
 			});
 	}
 
@@ -97,13 +97,13 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * Reset categories to default.
 	 */
 	function resetCategories() {
-		resetButtonRef?.current?.classList.add("spin"); // Loading state.
+		resetButtonRef?.current?.classList.add('spin'); // Loading state.
 		axios({
-			method: "POST",
-			url: gbm_localize.root + "gbm/category_reset/",
+			method: 'POST',
+			url: gbm_localize.root + 'gbm/category_reset/',
 			headers: {
-				"X-WP-Nonce": gbm_localize.nonce,
-				"Content-Type": "application/json",
+				'X-WP-Nonce': gbm_localize.nonce,
+				'Content-Type': 'application/json',
 			},
 		})
 			.then(function () {
@@ -111,7 +111,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			})
 			.catch(function (error) {
 				console.warn(error);
-				resetButtonRef?.current?.classList.remove("spin");
+				resetButtonRef?.current?.classList.remove('spin');
 			});
 	}
 
@@ -122,26 +122,26 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 */
 	function searchHandler(term) {
 		const theBlocks = document.querySelectorAll(
-			".gbm-blocks .gbm-block-list .item",
+			'.gbm-blocks .gbm-block-list .item'
 		);
 
-		if (term !== "") {
+		if (term !== '') {
 			let count = 0;
 			[...theBlocks].forEach(function (block) {
 				const str = block.dataset.title.toLowerCase();
 				const found = str.search(term.toLowerCase());
 				if (found !== -1) {
-					block.removeAttribute("style");
+					block.removeAttribute('style');
 					count++;
 				} else {
-					block.style.display = "none";
+					block.style.display = 'none';
 				}
 			});
 			setSearch({ term, results: count });
 		} else {
 			setSearch({ term, results: false });
 			[...theBlocks].forEach(function (block) {
-				block.removeAttribute("style");
+				block.removeAttribute('style');
 			});
 		}
 	}
@@ -150,11 +150,11 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * Clear the block search.
 	 */
 	function clearSearch() {
-		searchHandler("");
-		setSearch({ term: "", results: false });
-		const input = document.querySelector("#gbm-search");
+		searchHandler('');
+		setSearch({ term: '', results: false });
+		const input = document.querySelector('#gbm-search');
 		if (input) {
-			input.value = "";
+			input.value = '';
 		}
 	}
 
@@ -162,20 +162,20 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * Export as PHP code.
 	 */
 	function exportCategories() {
-		exportHook(exportModalRef?.current, "categories");
+		exportHook(exportModalRef?.current, 'categories');
 	}
 
 	// On Load
 	useEffect(() => {
 		// Export settings.
 		document.addEventListener(
-			"keyup",
+			'keyup',
 			function (e) {
-				if (e.key === "Escape") {
+				if (e.key === 'Escape') {
 					closeExport();
 				}
 			},
-			false,
+			false
 		);
 		return () => {};
 	}, []);
@@ -195,12 +195,12 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							updatedBlocksOffset={categoryOffsetCount(
 								blockCategories,
 								disabled_blocks,
-								block_names,
+								block_names
 							)}
 							filteredBlocksOffset={categoryOffsetCount(
 								filteredCategories,
 								disabled_blocks,
-								block_names,
+								block_names
 							)}
 						/>
 						<div className="gbm-blocks">
@@ -211,10 +211,10 @@ export default function Categories({ wpBlocks, wpCategories }) {
 										__html: sprintf(
 											// translators: %s: The number of blocks.
 											__(
-												"Organize your %s WordPress blocks by modifying the assigned category of each.",
-												"block-manager",
+												'Organize your %s WordPress blocks by modifying the assigned category of each.',
+												'block-manager'
 											),
-											`<span>${blocks?.length}</span>`,
+											`<span>${blocks?.length}</span>`
 										),
 									}}
 								/>
@@ -224,12 +224,12 @@ export default function Categories({ wpBlocks, wpCategories }) {
 										callback={resetCategories}
 										total={blockCategories?.length}
 										msg={__(
-											"Are you sure you want to reset your modified block categories?",
-											"block-manager",
+											'Are you sure you want to reset your modified block categories?',
+											'block-manager'
 										)}
 										title={__(
-											"Clear all modified block categories",
-											"block-manager",
+											'Clear all modified block categories',
+											'block-manager'
 										)}
 									/>
 									<Export
@@ -237,14 +237,17 @@ export default function Categories({ wpBlocks, wpCategories }) {
 										callback={exportCategories}
 										total={blockCategories?.length}
 										title={__(
-											"Export an array of updated blocks categories as a WordPress hook",
-											"block-manager",
+											'Export an array of updated blocks categories as a WordPress hook',
+											'block-manager'
 										)}
 									/>
 								</div>
 							</div>
 							<div className="gbm-block-group">
-								<SearchResults data={search} callback={clearSearch} />
+								<SearchResults
+									data={search}
+									callback={clearSearch}
+								/>
 								<div className="gbm-block-list categories">
 									<>
 										{!!blocks?.length &&
@@ -252,13 +255,17 @@ export default function Categories({ wpBlocks, wpCategories }) {
 												return (
 													<Block
 														key={`${block?.name}-${block?.category}`}
-														callback={updateCategory}
+														callback={
+															updateCategory
+														}
 														categories={categories}
 														data={block}
 														filteredCategories={
 															filteredCategories
 														}
-														blockCategories={blockCategories}
+														blockCategories={
+															blockCategories
+														}
 													/>
 												);
 											})}
@@ -271,8 +278,8 @@ export default function Categories({ wpBlocks, wpCategories }) {
 						ref={exportModalRef}
 						returnButtonRef={exportButtonRef}
 						desc={__(
-							"Add the the following code to your functions.php to update block categories at the theme level.",
-							"block-manager",
+							'Add the the following code to your functions.php to update block categories at the theme level.',
+							'block-manager'
 						)}
 					/>
 				</>

@@ -1,7 +1,7 @@
-import { __ } from "@wordpress/i18n";
-import Search from "../../Global/Search";
-import DisabledSVG from "./DisabledSVG";
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { __ } from '@wordpress/i18n';
+import Search from '../../Global/Search';
+import DisabledSVG from './DisabledSVG';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 /**
  * Render the Sidebar for Block Manager.
@@ -39,7 +39,7 @@ export default function Sidebar({
 			return;
 		}
 		const prev = ref?.dataset?.prev;
-		const direction = parseInt(prev) > value ? "up" : "down";
+		const direction = parseInt(prev) > value ? 'up' : 'down';
 		ref?.classList?.add(`slide-${direction}`);
 
 		setTimeout(() => {
@@ -80,10 +80,11 @@ export default function Sidebar({
 		const to = el.dataset.to;
 		const target = document.querySelector(`#${to}`);
 		if (target) {
-			const top = target.getBoundingClientRect().top + window.scrollY - 50;
+			const top =
+				target.getBoundingClientRect().top + window.scrollY - 50;
 			window.scrollTo({
 				top,
-				behavior: "smooth",
+				behavior: 'smooth',
 			});
 			target.focus({ preventScroll: true });
 		}
@@ -93,14 +94,14 @@ export default function Sidebar({
 		<div className="gbm-sidebar">
 			<div
 				className="gbm-cta gbm-cta-block-legend"
-				aria-label={__("Current Block Status", "block-manager")}
+				aria-label={__('Current Block Status', 'block-manager')}
 			>
 				<div className="gbm-cta-wrap">
 					<div
 						className="gbm-legend gbm-legend--total"
 						title={`${activeTotal} ${__(
-							"Active Blocks & Block Variations",
-							"block-manager",
+							'Active Blocks & Block Variations',
+							'block-manager'
 						)}`}
 					>
 						<div>
@@ -110,38 +111,44 @@ export default function Sidebar({
 								</strong>
 							</span>
 						</div>
-						{__("Active", "block-manager")}
+						{__('Active', 'block-manager')}
 					</div>
 					<div
 						className="gbm-legend gbm-legend--disabled"
 						title={
 							disabledTotal === 1
-								? `1 ${__("Disabled Block", "block-manager")}`
+								? `1 ${__('Disabled Block', 'block-manager')}`
 								: `${disabledTotal} ${__(
-										"Disabled Blocks",
-										"block-manager",
+										'Disabled Blocks',
+										'block-manager'
 								  )}`
 						}
 					>
 						<div>
 							<span>
-								<strong ref={disabledRef} data-prev={disabledTotal}>
+								<strong
+									ref={disabledRef}
+									data-prev={disabledTotal}
+								>
 									{disabledTotal}
 								</strong>
 							</span>
 							<DisabledSVG className="disabled" />
 						</div>
-						{__("Disabled", "block-manager")}
+						{__('Disabled', 'block-manager')}
 					</div>
 					{!!filtered && (
 						<div
 							className="gbm-legend gbm-legend--filtered"
 							title={
 								filtered === 1
-									? `1 ${__("Filtered Block", "block-manager")}`
+									? `1 ${__(
+											'Filtered Block',
+											'block-manager'
+									  )}`
 									: `${disabledTotal} ${__(
-											"Filtered Blocks",
-											"block-manager",
+											'Filtered Blocks',
+											'block-manager'
 									  )}`
 							}
 						>
@@ -151,13 +158,13 @@ export default function Sidebar({
 									<DisabledSVG className="filtered" />
 								</span>
 							</div>
-							{__("Filtered", "block-manager")}
+							{__('Filtered', 'block-manager')}
 						</div>
 					)}
 				</div>
 			</div>
 			<div className="gbm-cta">
-				<h3>{__("Categories", "block-manager")}</h3>
+				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
 					{!!blocks?.length &&
 						blocks.map((category) => (
@@ -166,7 +173,9 @@ export default function Sidebar({
 									<button
 										key={category?.info?.slug}
 										type="button"
-										data-to={"block-" + category?.info?.slug}
+										data-to={
+											'block-' + category?.info?.slug
+										}
 										onClick={(e) => scrollTo(e)}
 									>
 										{category?.info?.title}

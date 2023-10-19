@@ -1,5 +1,5 @@
-import { __, sprintf } from "@wordpress/i18n";
-import cn from "classnames";
+import { __, sprintf } from '@wordpress/i18n';
+import cn from 'classnames';
 
 /**
  * Render the SearchResults component.
@@ -14,7 +14,9 @@ export default function SearchResults({ data, callback, className }) {
 	return (
 		<>
 			{!!data?.term && (
-				<div className={cn("gbm-search-results", className && className)}>
+				<div
+					className={cn('gbm-search-results', className && className)}
+				>
 					{data?.results > 0 ? (
 						<>
 							<p
@@ -22,17 +24,17 @@ export default function SearchResults({ data, callback, className }) {
 									__html: sprintf(
 										// translators: 1: The search term. 2: Total results.
 										__(
-											"Your block search for %1$s returned %2$s result(s)",
-											"block-manager",
+											'Your block search for %1$s returned %2$s result(s)',
+											'block-manager'
 										),
 										`<strong>${data?.term}</strong>`,
-										`<strong>${data?.results}</strong>`,
+										`<strong>${data?.results}</strong>`
 									),
 								}}
 							/>
 							<span>-</span>
 							<button onClick={callback}>
-								{__("Clear Search", "block-manager")}
+								{__('Clear Search', 'block-manager')}
 							</button>
 						</>
 					) : (
@@ -42,14 +44,17 @@ export default function SearchResults({ data, callback, className }) {
 								dangerouslySetInnerHTML={{
 									__html: sprintf(
 										// translators: The search term
-										__("No blocks found for %s", "block-manager"),
-										`<strong>${data?.term}</strong>`,
+										__(
+											'No blocks found for %s',
+											'block-manager'
+										),
+										`<strong>${data?.term}</strong>`
 									),
 								}}
 							/>
 							<span>-</span>
 							<button onClick={callback}>
-								{__("Clear Search", "block-manager")}
+								{__('Clear Search', 'block-manager')}
 							</button>
 						</>
 					)}

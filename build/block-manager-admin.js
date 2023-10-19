@@ -19,7 +19,7 @@ __webpack_require__(/*! ./helpers/otherPlugins */ "./src/js/helpers/otherPlugins
 
 
 // Render App.
-var app = document.getElementById("app");
+var app = document.getElementById('app');
 if (_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createRoot) {
   var root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createRoot)(app);
   root.render( /*#__PURE__*/React.createElement(_components_App__WEBPACK_IMPORTED_MODULE_1__["default"], null));
@@ -61,7 +61,7 @@ function App() {
 
   // Parse URL to get current view.
   var url = (_window = window) === null || _window === void 0 || (_window = _window.location) === null || _window === void 0 ? void 0 : _window.href;
-  var isCategory = url.includes("category-switcher") ? true : false;
+  var isCategory = url.includes('category-switcher') ? true : false;
   return /*#__PURE__*/React.createElement(React.Fragment, null, isCategory ? /*#__PURE__*/React.createElement(_Categories_Categories__WEBPACK_IMPORTED_MODULE_4__["default"], {
     wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockCategoryData)(blocks),
     wpCategories: categories
@@ -137,7 +137,7 @@ function Blocks(_ref) {
   var exportModalRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var exportButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      term: "",
+      term: '',
       results: 0
     }),
     _useState2 = _slicedToArray(_useState, 2),
@@ -176,14 +176,14 @@ function Blocks(_ref) {
     if (!target) {
       return false;
     }
-    if (target.dataset.state === "active") {
-      bulkProcess(target, "disable");
-      target.classList.add("disabled");
-      target.dataset.state = "inactive";
+    if (target.dataset.state === 'active') {
+      bulkProcess(target, 'disable');
+      target.classList.add('disabled');
+      target.dataset.state = 'inactive';
     } else {
-      bulkProcess(target, "enable");
-      target.classList.remove("disabled");
-      target.dataset.state = "active";
+      bulkProcess(target, 'enable');
+      target.classList.remove('disabled');
+      target.dataset.state = 'active';
     }
   }
 
@@ -195,13 +195,13 @@ function Blocks(_ref) {
    */
   function bulkProcess(target) {
     var _target$parentNode;
-    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "enable";
-    var container = target === null || target === void 0 || (_target$parentNode = target.parentNode) === null || _target$parentNode === void 0 || (_target$parentNode = _target$parentNode.parentNode) === null || _target$parentNode === void 0 ? void 0 : _target$parentNode.querySelector(".gbm-block-list");
-    var allBlocks = container === null || container === void 0 ? void 0 : container.querySelectorAll(".gbm-block-list .item:not(.filtered)");
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'enable';
+    var container = target === null || target === void 0 || (_target$parentNode = target.parentNode) === null || _target$parentNode === void 0 || (_target$parentNode = _target$parentNode.parentNode) === null || _target$parentNode === void 0 ? void 0 : _target$parentNode.querySelector('.gbm-block-list');
+    var allBlocks = container === null || container === void 0 ? void 0 : container.querySelectorAll('.gbm-block-list .item:not(.filtered)');
     if (!allBlocks) {
       return false;
     }
-    container.classList.add("loading");
+    container.classList.add('loading');
 
     // Create array of block IDs/names.
     var blockArray = Array.prototype.map.call(allBlocks, function (block) {
@@ -209,11 +209,11 @@ function Blocks(_ref) {
     });
     if (blockArray !== null && blockArray !== void 0 && blockArray.length) {
       (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
-        method: "POST",
-        url: gbm_localize.root + "gbm/bulk_process/",
+        method: 'POST',
+        url: gbm_localize.root + 'gbm/bulk_process/',
         headers: {
-          "X-WP-Nonce": gbm_localize.nonce,
-          "Content-Type": "application/json"
+          'X-WP-Nonce': gbm_localize.nonce,
+          'Content-Type': 'application/json'
         },
         data: {
           blocks: blockArray,
@@ -225,25 +225,25 @@ function Blocks(_ref) {
           status = res.status;
         if (status === 200 && data.success) {
           _toConsumableArray(allBlocks).forEach(function (block) {
-            if (type === "enable") {
-              block.classList.remove("disabled");
+            if (type === 'enable') {
+              block.classList.remove('disabled');
             } else {
-              block.classList.add("disabled");
+              block.classList.add('disabled');
             }
           });
-          container.classList.remove("loading");
+          container.classList.remove('loading');
           setDisabledBlocks(data.disabled_blocks);
           setCategoryStatus(allBlocks[0]);
         } else {
-          console.warn("an error has occurred");
-          container.classList.remove("loading");
+          console.warn('an error has occurred');
+          container.classList.remove('loading');
         }
       })["catch"](function (error) {
         console.warn(error);
-        container.classList.remove("loading");
+        container.classList.remove('loading');
       });
     } else {
-      alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("No blocks found", "block-manager")); // eslint-disable-line no-alert
+      alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No blocks found', 'block-manager')); // eslint-disable-line no-alert
     }
   }
 
@@ -254,19 +254,19 @@ function Blocks(_ref) {
    * @param {Object}  block   Block data as an object.
    */
   function toggleBlock(element, block) {
-    if (!element || element.classList.contains("loading")) {
+    if (!element || element.classList.contains('loading')) {
       return false;
     }
-    element.classList.add("loading");
-    var type = element.classList.contains("disabled") ? "enable" : "disable";
+    element.classList.add('loading');
+    var type = element.classList.contains('disabled') ? 'enable' : 'disable';
 
     // Send API Request
     (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
-      method: "POST",
-      url: gbm_localize.root + "gbm/toggle/",
+      method: 'POST',
+      url: gbm_localize.root + 'gbm/toggle/',
       headers: {
-        "X-WP-Nonce": gbm_localize.nonce,
-        "Content-Type": "application/json"
+        'X-WP-Nonce': gbm_localize.nonce,
+        'Content-Type': 'application/json'
       },
       data: {
         block: block,
@@ -277,22 +277,22 @@ function Blocks(_ref) {
         status = res.status;
       if (data && status === 200) {
         if (data.success) {
-          if (type === "disable") {
-            element.classList.add("disabled");
+          if (type === 'disable') {
+            element.classList.add('disabled');
           } else {
-            element.classList.remove("disabled");
+            element.classList.remove('disabled');
           }
-          element.classList.remove("loading");
+          element.classList.remove('loading');
           setCategoryStatus(element);
         }
         setDisabledBlocks(data.disabled_blocks);
       } else {
-        console.warn("an error has occurred");
-        element.classList.remove("loading");
+        console.warn('an error has occurred');
+        element.classList.remove('loading');
       }
     })["catch"](function (error) {
       console.warn(error);
-      element.classList.remove("loading");
+      element.classList.remove('loading');
     });
   }
 
@@ -306,21 +306,21 @@ function Blocks(_ref) {
       return false;
     }
     var parent = element.parentNode.parentNode;
-    var toggleBtn = parent.querySelector(".gbm-block-switch");
-    var items = parent.querySelectorAll(".gbm-block-list .item");
+    var toggleBtn = parent.querySelector('.gbm-block-switch');
+    var items = parent.querySelectorAll('.gbm-block-list .item');
     if (items) {
       var blockArr = Array.prototype.slice.call(items);
       var disabledBlocksFiltered = blockArr.filter(function (block) {
-        return block.classList.contains("disabled");
+        return block.classList.contains('disabled');
       });
 
       // If disabled === total items, toggle the switch
       if (disabledBlocksFiltered.length === items.length) {
-        toggleBtn.classList.add("disabled");
-        toggleBtn.dataset.state = "inactive";
+        toggleBtn.classList.add('disabled');
+        toggleBtn.dataset.state = 'inactive';
       } else {
-        toggleBtn.classList.remove("disabled");
-        toggleBtn.dataset.state = "active";
+        toggleBtn.classList.remove('disabled');
+        toggleBtn.dataset.state = 'active';
       }
     }
   }
@@ -329,7 +329,7 @@ function Blocks(_ref) {
    * Export as PHP code.
    */
   function exportBlocks() {
-    (0,_functions_export__WEBPACK_IMPORTED_MODULE_8__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, "blocks");
+    (0,_functions_export__WEBPACK_IMPORTED_MODULE_8__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, 'blocks');
   }
 
   /**
@@ -337,31 +337,31 @@ function Blocks(_ref) {
    */
   function resetBlocks() {
     var _resetButtonRef$curre;
-    resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
+    resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add('spin'); // Loading state.
 
     (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
-      method: "POST",
-      url: gbm_localize.root + "gbm/blocks_reset/",
+      method: 'POST',
+      url: gbm_localize.root + 'gbm/blocks_reset/',
       headers: {
-        "X-WP-Nonce": gbm_localize.nonce,
-        "Content-Type": "application/json"
+        'X-WP-Nonce': gbm_localize.nonce,
+        'Content-Type': 'application/json'
       }
     }).then(function () {
-      var items = document.querySelectorAll(".gbm-block-list .item.disabled:not(.filtered)");
+      var items = document.querySelectorAll('.gbm-block-list .item.disabled:not(.filtered)');
       if (items) {
         items.forEach(function (item) {
-          item.classList.remove("disabled");
+          item.classList.remove('disabled');
         });
       }
       setDisabledBlocks([]);
       setTimeout(function () {
         var _resetButtonRef$curre2;
-        resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre2 = resetButtonRef.current) === null || _resetButtonRef$curre2 === void 0 || _resetButtonRef$curre2.classList.remove("spin");
+        resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre2 = resetButtonRef.current) === null || _resetButtonRef$curre2 === void 0 || _resetButtonRef$curre2.classList.remove('spin');
       }, 250);
     })["catch"](function (error) {
       var _resetButtonRef$curre3;
       console.warn(error);
-      resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre3 = resetButtonRef.current) === null || _resetButtonRef$curre3 === void 0 || _resetButtonRef$curre3.classList.remove("spin");
+      resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre3 = resetButtonRef.current) === null || _resetButtonRef$curre3 === void 0 || _resetButtonRef$curre3.classList.remove('spin');
     });
   }
 
@@ -372,33 +372,33 @@ function Blocks(_ref) {
    */
   function searchHandler(term) {
     var count = 0;
-    var groups = document.querySelectorAll(".gbm-block-group");
+    var groups = document.querySelectorAll('.gbm-block-group');
     if (!(groups !== null && groups !== void 0 && groups.length)) {
       return;
     }
-    if (term !== "") {
+    if (term !== '') {
       _toConsumableArray(groups).forEach(function (group) {
         var total = 0;
-        var theBlocks = group.querySelectorAll(".item");
+        var theBlocks = group.querySelectorAll('.item');
         _toConsumableArray(theBlocks).forEach(function (block, index) {
           var str = block.dataset.title.toLowerCase();
           var found = str.search(term.toLowerCase());
 
           // Show/hide blocks.
           if (found !== -1) {
-            block.removeAttribute("style");
+            block.removeAttribute('style');
             total++;
             count++;
           } else {
-            block.style.display = "none";
+            block.style.display = 'none';
           }
 
           // Show/hide entire group if no results.
           if (theBlocks.length === index + 1) {
             if (total === 0) {
-              group.style.display = "none";
+              group.style.display = 'none';
             } else {
-              group.removeAttribute("style");
+              group.removeAttribute('style');
             }
           }
         });
@@ -409,14 +409,14 @@ function Blocks(_ref) {
       });
     } else {
       setSearch({
-        term: "",
+        term: '',
         results: 0
       });
       _toConsumableArray(groups).forEach(function (group) {
-        group.removeAttribute("style");
-        var theBlocks = group.querySelectorAll(".item");
+        group.removeAttribute('style');
+        var theBlocks = group.querySelectorAll('.item');
         _toConsumableArray(theBlocks).forEach(function (block) {
-          block.removeAttribute("style");
+          block.removeAttribute('style');
         });
       });
     }
@@ -426,14 +426,14 @@ function Blocks(_ref) {
    * Clear the block search.
    */
   function clearSearch() {
-    searchHandler("");
+    searchHandler('');
     setSearch({
-      term: "",
+      term: '',
       results: 0
     });
-    var input = document.querySelector("#gbm-search");
+    var input = document.querySelector('#gbm-search');
     if (input) {
-      input.value = "";
+      input.value = '';
     }
   }
 
@@ -454,10 +454,10 @@ function Blocks(_ref) {
       });
 
       // Handle core/embed block.
-      if ("embed" === cat.slug) {
+      if ('embed' === cat.slug) {
         // Pluck core/embed block.
         var embedBlock = wpBlocks.find(function (block) {
-          return block.category === cat.slug && block.name === "core/embed";
+          return block.category === cat.slug && block.name === 'core/embed';
         });
 
         // Handle variations of the embed block.
@@ -506,17 +506,17 @@ function Blocks(_ref) {
     className: "gbm-options"
   }, /*#__PURE__*/React.createElement("p", {
     className: "gbm-heading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Select blocks below to globally remove them from the WordPress Block Inserter.", "block-manager")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select blocks below to globally remove them from the WordPress Block Inserter.', 'block-manager')), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_6__["default"], {
     ref: resetButtonRef,
     callback: resetBlocks,
     total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length,
-    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Are you sure you want to reset and activate all currently disabled blocks?", "block-manager"),
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Clear all disabled blocks", "block-manager")
+    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset and activate all currently disabled blocks?', 'block-manager'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Clear all disabled blocks', 'block-manager')
   }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_4__["default"], {
     ref: exportButtonRef,
     callback: exportBlocks,
     total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length,
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export an array of disabled blocks as a WordPress hook", "block-manager")
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of disabled blocks as a WordPress hook', 'block-manager')
   }))), /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__["default"], {
     data: search,
     callback: clearSearch,
@@ -534,7 +534,7 @@ function Blocks(_ref) {
   }))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add the the following code to your functions.php to remove blocks at the theme level.", "block-manager")
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to remove blocks at the theme level.', 'block-manager')
   })));
 }
 
@@ -583,9 +583,9 @@ function Block(_ref) {
     description = data.description;
   var blockRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var disabled = disabledBlocks !== null && disabledBlocks !== void 0 && disabledBlocks.length ? disabledBlocks.indexOf(name) !== -1 : false;
-  var disabledClass = disabled ? "disabled" : "";
+  var disabledClass = disabled ? 'disabled' : '';
   var isFiltered = filteredBlocks !== null && filteredBlocks !== void 0 && filteredBlocks.length && (filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.indexOf(name)) !== -1 ? true : false;
-  var filteredClass = isFiltered ? "filtered" : "";
+  var filteredClass = isFiltered ? 'filtered' : '';
 
   /**
    * Handle the click event for the block button.
@@ -594,12 +594,12 @@ function Block(_ref) {
     var target = blockRef === null || blockRef === void 0 ? void 0 : blockRef.current;
     if (target) {
       var id = target.dataset.id;
-      if (!target.classList.contains("filtered")) {
+      if (!target.classList.contains('filtered')) {
         toggleBlock(target, id);
         target.blur();
       } else {
         // eslint-disable-next-line no-alert
-        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", "block-manager"));
+        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", 'block-manager'));
         target.blur();
       }
     }
@@ -607,10 +607,10 @@ function Block(_ref) {
   return /*#__PURE__*/React.createElement("button", {
     ref: blockRef,
     tabIndex: isFiltered ? -1 : null,
-    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Toggle Block Activation", "block-manager"),
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Toggle Block Activation', 'block-manager'),
     "data-title": title,
     "data-description": description,
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("item block-button", disabledClass, filteredClass),
+    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('item block-button', disabledClass, filteredClass),
     "data-id": name,
     "data-category": data.category,
     onClick: function onClick(e) {
@@ -694,11 +694,11 @@ function Category(_ref) {
   }
 
   // Set toggle button attributes
-  var switchClass = count === total ? "gbm-block-switch disabled" : "gbm-block-switch";
-  var state = count === total ? "inactive" : "active";
+  var switchClass = count === total ? 'gbm-block-switch disabled' : 'gbm-block-switch';
+  var state = count === total ? 'inactive' : 'active';
   return /*#__PURE__*/React.createElement("div", {
     key: data.info.slug,
-    id: "block-" + data.info.slug,
+    id: 'block-' + data.info.slug,
     className: "gbm-block-group",
     "data-total-blocks": data.blocks.length,
     tabIndex: -1
@@ -708,12 +708,12 @@ function Category(_ref) {
     className: switchClass,
     "data-state": state,
     onClick: callback,
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Toggle all blocks in this category", "block-manager")
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-switch--wrap"
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
     className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Toggle all blocks in this category", "block-manager")))))), /*#__PURE__*/React.createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager')))))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (block, index) {
     return /*#__PURE__*/React.createElement(_Block__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -753,7 +753,7 @@ __webpack_require__.r(__webpack_exports__);
 function DisabledSVG(_ref) {
   var className = _ref.className;
   return /*#__PURE__*/React.createElement("svg", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()("disabled-svg", className && className)
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('disabled-svg', className && className)
   }, /*#__PURE__*/React.createElement("line", {
     x1: "0",
     y1: "100%",
@@ -838,7 +838,7 @@ function Sidebar(_ref) {
       return;
     }
     var prev = ref === null || ref === void 0 || (_ref$dataset = ref.dataset) === null || _ref$dataset === void 0 ? void 0 : _ref$dataset.prev;
-    var direction = parseInt(prev) > value ? "up" : "down";
+    var direction = parseInt(prev) > value ? 'up' : 'down';
     ref === null || ref === void 0 || (_ref$classList = ref.classList) === null || _ref$classList === void 0 || _ref$classList.add("slide-".concat(direction));
     setTimeout(function () {
       var _ref$classList2, _ref$classList3;
@@ -882,7 +882,7 @@ function Sidebar(_ref) {
       var top = target.getBoundingClientRect().top + window.scrollY - 50;
       window.scrollTo({
         top: top,
-        behavior: "smooth"
+        behavior: 'smooth'
       });
       target.focus({
         preventScroll: true
@@ -893,38 +893,38 @@ function Sidebar(_ref) {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta gbm-cta-block-legend",
-    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Current Block Status", "block-manager")
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Current Block Status', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--total",
-    title: "".concat(activeTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active Blocks & Block Variations", "block-manager"))
+    title: "".concat(activeTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Active Blocks & Block Variations', 'block-manager'))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: activeRef,
     "data-prev": activeTotal
-  }, activeTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Active", "block-manager")), /*#__PURE__*/React.createElement("div", {
+  }, activeTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Active', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--disabled",
-    title: disabledTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled Block", "block-manager")) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled Blocks", "block-manager"))
+    title: disabledTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Disabled Block', 'block-manager')) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Disabled Blocks', 'block-manager'))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: disabledRef,
     "data-prev": disabledTotal
   }, disabledTotal)), /*#__PURE__*/React.createElement(_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "disabled"
-  })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Disabled", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
+  })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Disabled', 'block-manager')), !!filtered && /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--filtered",
-    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered Block", "block-manager")) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered Blocks", "block-manager"))
+    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Filtered Block', 'block-manager')) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Filtered Blocks', 'block-manager'))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "filtered"
-  }))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
+  }))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Filtered', 'block-manager')))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
-  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Categories", "block-manager")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Categories', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
     var _category$blocks, _category$info, _category$info2, _category$info3;
     return /*#__PURE__*/React.createElement(React.Fragment, null, !!(category !== null && category !== void 0 && (_category$blocks = category.blocks) !== null && _category$blocks !== void 0 && _category$blocks.length) && /*#__PURE__*/React.createElement("button", {
       key: category === null || category === void 0 || (_category$info = category.info) === null || _category$info === void 0 ? void 0 : _category$info.slug,
       type: "button",
-      "data-to": "block-" + (category === null || category === void 0 || (_category$info2 = category.info) === null || _category$info2 === void 0 ? void 0 : _category$info2.slug),
+      "data-to": 'block-' + (category === null || category === void 0 || (_category$info2 = category.info) === null || _category$info2 === void 0 ? void 0 : _category$info2.slug),
       onClick: function onClick(e) {
         return scrollTo(e);
       }
@@ -1006,7 +1006,7 @@ function Categories(_ref) {
   var exportModalRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var exportButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      term: "",
+      term: '',
       results: 0
     }),
     _useState2 = _slicedToArray(_useState, 2),
@@ -1032,7 +1032,7 @@ function Categories(_ref) {
 
   // Create array containing only active block names.
   var block_names = blocks.map(function (i) {
-    return i["name"];
+    return i.name;
   });
 
   /**
@@ -1045,17 +1045,17 @@ function Categories(_ref) {
   function updateCategory(block, target) {
     var category = target.value;
     var original = target.dataset.original;
-    var element = target.closest(".item");
-    var catStatus = element === null || element === void 0 ? void 0 : element.querySelector(".gbm-cat-status");
-    var type = category === original ? "remove" : "add";
+    var element = target.closest('.item');
+    var catStatus = element === null || element === void 0 ? void 0 : element.querySelector('.gbm-cat-status');
+    var type = category === original ? 'remove' : 'add';
 
     // Send API request.
     (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
-      method: "POST",
-      url: gbm_localize.root + "gbm/category_update/",
+      method: 'POST',
+      url: gbm_localize.root + 'gbm/category_update/',
       headers: {
-        "X-WP-Nonce": gbm_localize.nonce,
-        "Content-Type": "application/json"
+        'X-WP-Nonce': gbm_localize.nonce,
+        'Content-Type': 'application/json'
       },
       data: {
         type: type,
@@ -1067,20 +1067,20 @@ function Categories(_ref) {
         status = res.status;
       if (data && status === 200 && data !== null && data !== void 0 && data.categories) {
         var _catStatus$classList;
-        catStatus === null || catStatus === void 0 || (_catStatus$classList = catStatus.classList) === null || _catStatus$classList === void 0 || _catStatus$classList.add("active");
+        catStatus === null || catStatus === void 0 || (_catStatus$classList = catStatus.classList) === null || _catStatus$classList === void 0 || _catStatus$classList.add('active');
         // Success: update state for categories and blocks.
         setBlockCategories(_toConsumableArray(data === null || data === void 0 ? void 0 : data.categories));
         setTimeout(function () {
           var _catStatus$classList2;
-          catStatus === null || catStatus === void 0 || (_catStatus$classList2 = catStatus.classList) === null || _catStatus$classList2 === void 0 || _catStatus$classList2.remove("active");
+          catStatus === null || catStatus === void 0 || (_catStatus$classList2 = catStatus.classList) === null || _catStatus$classList2 === void 0 || _catStatus$classList2.remove('active');
         }, 850);
       } else {
-        console.warn((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("An unknown error has occurred and the block category could not be updated", "block-manager"));
+        console.warn((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('An unknown error has occurred and the block category could not be updated', 'block-manager'));
       }
     })["catch"](function (error) {
       var _catStatus$classList3;
       console.warn(error);
-      catStatus === null || catStatus === void 0 || (_catStatus$classList3 = catStatus.classList) === null || _catStatus$classList3 === void 0 || _catStatus$classList3.remove("active");
+      catStatus === null || catStatus === void 0 || (_catStatus$classList3 = catStatus.classList) === null || _catStatus$classList3 === void 0 || _catStatus$classList3.remove('active');
     });
   }
 
@@ -1089,13 +1089,13 @@ function Categories(_ref) {
    */
   function resetCategories() {
     var _resetButtonRef$curre;
-    resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
+    resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add('spin'); // Loading state.
     (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
-      method: "POST",
-      url: gbm_localize.root + "gbm/category_reset/",
+      method: 'POST',
+      url: gbm_localize.root + 'gbm/category_reset/',
       headers: {
-        "X-WP-Nonce": gbm_localize.nonce,
-        "Content-Type": "application/json"
+        'X-WP-Nonce': gbm_localize.nonce,
+        'Content-Type': 'application/json'
       }
     }).then(function () {
       var _window;
@@ -1103,7 +1103,7 @@ function Categories(_ref) {
     })["catch"](function (error) {
       var _resetButtonRef$curre2;
       console.warn(error);
-      resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre2 = resetButtonRef.current) === null || _resetButtonRef$curre2 === void 0 || _resetButtonRef$curre2.classList.remove("spin");
+      resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre2 = resetButtonRef.current) === null || _resetButtonRef$curre2 === void 0 || _resetButtonRef$curre2.classList.remove('spin');
     });
   }
 
@@ -1113,17 +1113,17 @@ function Categories(_ref) {
    * @param {string} term The search term.
    */
   function searchHandler(term) {
-    var theBlocks = document.querySelectorAll(".gbm-blocks .gbm-block-list .item");
-    if (term !== "") {
+    var theBlocks = document.querySelectorAll('.gbm-blocks .gbm-block-list .item');
+    if (term !== '') {
       var count = 0;
       _toConsumableArray(theBlocks).forEach(function (block) {
         var str = block.dataset.title.toLowerCase();
         var found = str.search(term.toLowerCase());
         if (found !== -1) {
-          block.removeAttribute("style");
+          block.removeAttribute('style');
           count++;
         } else {
-          block.style.display = "none";
+          block.style.display = 'none';
         }
       });
       setSearch({
@@ -1136,7 +1136,7 @@ function Categories(_ref) {
         results: false
       });
       _toConsumableArray(theBlocks).forEach(function (block) {
-        block.removeAttribute("style");
+        block.removeAttribute('style');
       });
     }
   }
@@ -1145,14 +1145,14 @@ function Categories(_ref) {
    * Clear the block search.
    */
   function clearSearch() {
-    searchHandler("");
+    searchHandler('');
     setSearch({
-      term: "",
+      term: '',
       results: false
     });
-    var input = document.querySelector("#gbm-search");
+    var input = document.querySelector('#gbm-search');
     if (input) {
-      input.value = "";
+      input.value = '';
     }
   }
 
@@ -1160,14 +1160,14 @@ function Categories(_ref) {
    * Export as PHP code.
    */
   function exportCategories() {
-    (0,_functions_export__WEBPACK_IMPORTED_MODULE_2__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, "categories");
+    (0,_functions_export__WEBPACK_IMPORTED_MODULE_2__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, 'categories');
   }
 
   // On Load
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Export settings.
-    document.addEventListener("keyup", function (e) {
-      if (e.key === "Escape") {
+    document.addEventListener('keyup', function (e) {
+      if (e.key === 'Escape') {
         closeExport();
       }
     }, false);
@@ -1193,19 +1193,19 @@ function Categories(_ref) {
     dangerouslySetInnerHTML: {
       __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
       // translators: %s: The number of blocks.
-      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Organize your %s WordPress blocks by modifying the assigned category of each.", "block-manager"), "<span>".concat(blocks === null || blocks === void 0 ? void 0 : blocks.length, "</span>"))
+      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize your %s WordPress blocks by modifying the assigned category of each.', 'block-manager'), "<span>".concat(blocks === null || blocks === void 0 ? void 0 : blocks.length, "</span>"))
     }
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_6__["default"], {
     ref: resetButtonRef,
     callback: resetCategories,
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
-    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Are you sure you want to reset your modified block categories?", "block-manager"),
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Clear all modified block categories", "block-manager")
+    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset your modified block categories?', 'block-manager'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Clear all modified block categories', 'block-manager')
   }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_3__["default"], {
     ref: exportButtonRef,
     callback: exportCategories,
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export an array of updated blocks categories as a WordPress hook", "block-manager")
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of updated blocks categories as a WordPress hook', 'block-manager')
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-group"
   }, /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -1225,7 +1225,7 @@ function Categories(_ref) {
   })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add the the following code to your functions.php to update block categories at the theme level.", "block-manager")
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to update block categories at the theme level.', 'block-manager')
   })));
 }
 
@@ -1304,7 +1304,7 @@ function Block(_ref) {
   }
   return /*#__PURE__*/React.createElement("div", {
     "data-title": title,
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("item", "gbm-category", updated ? "updated" : null, filtered ? "filtered" : null),
+    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('item', 'gbm-category', updated ? 'updated' : null, filtered ? 'filtered' : null),
     "data-id": name
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-category-wrap"
@@ -1317,7 +1317,7 @@ function Block(_ref) {
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "select-".concat(name),
     className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Update block category", "block-manager")), /*#__PURE__*/React.createElement("select", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Update block category', 'block-manager')), /*#__PURE__*/React.createElement("select", {
     defaultValue: category,
     onChange: function onChange() {
       return handler();
@@ -1330,7 +1330,7 @@ function Block(_ref) {
     return /*#__PURE__*/React.createElement("option", {
       key: "".concat(cat.slug, "-").concat(index),
       value: cat.slug
-    }, cat.title, orginalCategory !== activeCategory && orginalCategory === cat.slug ? " - [".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Default", "block-manager"), "]") : null);
+    }, cat.title, orginalCategory !== activeCategory && orginalCategory === cat.slug ? " - [".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default', 'block-manager'), "]") : null);
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cat-status"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1338,7 +1338,7 @@ function Block(_ref) {
     "aria-hidden": "true"
   }), /*#__PURE__*/React.createElement("span", {
     className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Category Updated", "block-manager"))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Category Updated', 'block-manager'))));
 }
 
 /***/ }),
@@ -1407,7 +1407,7 @@ function Sidebar(_ref) {
       return;
     }
     var prev = ref === null || ref === void 0 || (_ref$dataset = ref.dataset) === null || _ref$dataset === void 0 ? void 0 : _ref$dataset.prev;
-    var direction = parseInt(prev) > value ? "up" : "down";
+    var direction = parseInt(prev) > value ? 'up' : 'down';
     ref === null || ref === void 0 || (_ref$classList = ref.classList) === null || _ref$classList === void 0 || _ref$classList.add("slide-".concat(direction));
     setTimeout(function () {
       var _ref$classList2, _ref$classList3;
@@ -1435,26 +1435,26 @@ function Sidebar(_ref) {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta gbm-cta-block-legend",
-    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Block Status", "block-manager")
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current Block Status', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--total",
-    title: "".concat(total, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Total Blocks", "block-manager"))
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, total))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Blocks", "block-manager")), /*#__PURE__*/React.createElement("div", {
+    title: "".concat(total, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Total Blocks', 'block-manager'))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, total))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Blocks', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--updated",
-    title: updatedTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated Block Category", "block-manager")) : "".concat(updatedTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated Block Categories", "block-manager"))
+    title: updatedTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Updated Block Category', 'block-manager')) : "".concat(updatedTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Updated Block Categories', 'block-manager'))
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: updatedRef,
     "data-prev": updatedRef
-  }, updatedTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
+  }, updatedTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Updated', 'block-manager')), !!filtered && /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--filtered",
-    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Category", "block-manager")) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Categories", "block-manager"))
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered - filteredBlocksOffset))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
+    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Block Category', 'block-manager')) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Block Categories', 'block-manager'))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered - filteredBlocksOffset))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered', 'block-manager')))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
-  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Help", "block-manager")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Help', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
-  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.", "block-manager")), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Modifying a category will update the blocks location in the Block Inserter while editing posts.", "block-manager")), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the Block Inserter while editing posts.', 'block-manager')), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_2__["default"], {
     callback: search
   }))));
 }
@@ -1496,7 +1496,7 @@ var Export = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(func
     disabled: total < 1
   }, /*#__PURE__*/React.createElement("span", {
     className: "dashicons dashicons-database-export"
-  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Export", "block-manager"));
+  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export', 'block-manager'));
 });
 /* harmony default export */ __webpack_exports__["default"] = (Export);
 
@@ -1535,7 +1535,7 @@ var ExportModal = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)
    * Close modal.
    */
   function close() {
-    ref.current.classList.remove("active");
+    ref.current.classList.remove('active');
     setTimeout(function () {
       if (returnButtonRef !== null && returnButtonRef !== void 0 && returnButtonRef.current) {
         // Move focus back to the previous element.
@@ -1547,8 +1547,8 @@ var ExportModal = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)
   }
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Export settings.
-    document.addEventListener("keyup", function (e) {
-      if (e.key === "Escape") {
+    document.addEventListener('keyup', function (e) {
+      if (e.key === 'Escape') {
         close();
       }
     }, false);
@@ -1568,13 +1568,13 @@ var ExportModal = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)
       return (0,_functions_copyToClipboard__WEBPACK_IMPORTED_MODULE_2__["default"])(codeRef.current, copyButtonRef.current);
     },
     ref: copyButtonRef
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Copy Code", "block-manager")), /*#__PURE__*/React.createElement("button", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Copy Code', 'block-manager')), /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: "button",
     onClick: function onClick() {
       return close();
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Close", "block-manager")))), /*#__PURE__*/React.createElement("code", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Close', 'block-manager')))), /*#__PURE__*/React.createElement("code", {
     id: "gbm-export",
     contentEditable: "true",
     suppressContentEditableWarning: true,
@@ -1610,7 +1610,7 @@ __webpack_require__.r(__webpack_exports__);
 function Icon(_ref) {
   var icon = _ref.icon;
   var src = (icon === null || icon === void 0 ? void 0 : icon.src) || icon;
-  if (src === "block-default") {
+  if (src === 'block-default') {
     return null;
   }
   return /*#__PURE__*/React.createElement("div", {
@@ -1662,7 +1662,7 @@ function Loader(_ref) {
     className: "gbm-loader-pulse-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-loader-pulse"
-  })), /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fetching Blocks and Categories", "block-manager"), "\u2026")));
+  })), /*#__PURE__*/React.createElement("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fetching Blocks and Categories', 'block-manager'), "\u2026")));
 }
 
 /***/ }),
@@ -1714,7 +1714,7 @@ var Reset = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(funct
     disabled: total < 1
   }, /*#__PURE__*/React.createElement("span", {
     className: "dashicons dashicons-update-alt"
-  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reset", "block-manager"));
+  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset', 'block-manager'));
 });
 /* harmony default export */ __webpack_exports__["default"] = (Reset);
 
@@ -1753,10 +1753,10 @@ function Search(_ref) {
   }, /*#__PURE__*/React.createElement("label", {
     className: "offscreen",
     htmlFor: "gbm-search"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Search Blocks", "block-manager")), /*#__PURE__*/React.createElement("input", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager')), /*#__PURE__*/React.createElement("input", {
     type: "text",
     id: "gbm-search",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Search Blocks", "block-manager"),
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager'),
     onKeyUp: function onKeyUp() {
       var _inputRef$current;
       return callback(inputRef === null || inputRef === void 0 || (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.value);
@@ -1770,7 +1770,7 @@ function Search(_ref) {
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Submit", "block-manager")), /*#__PURE__*/React.createElement("span", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit', 'block-manager')), /*#__PURE__*/React.createElement("span", {
     className: "dashicons dashicons-search"
   })));
 }
@@ -1809,25 +1809,25 @@ function SearchResults(_ref) {
     callback = _ref.callback,
     className = _ref.className;
   return /*#__PURE__*/React.createElement(React.Fragment, null, !!(data !== null && data !== void 0 && data.term) && /*#__PURE__*/React.createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("gbm-search-results", className && className)
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('gbm-search-results', className && className)
   }, (data === null || data === void 0 ? void 0 : data.results) > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
     dangerouslySetInnerHTML: {
       __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.sprintf)(
       // translators: 1: The search term. 2: Total results.
-      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Your block search for %1$s returned %2$s result(s)", "block-manager"), "<strong>".concat(data === null || data === void 0 ? void 0 : data.term, "</strong>"), "<strong>".concat(data === null || data === void 0 ? void 0 : data.results, "</strong>"))
+      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Your block search for %1$s returned %2$s result(s)', 'block-manager'), "<strong>".concat(data === null || data === void 0 ? void 0 : data.term, "</strong>"), "<strong>".concat(data === null || data === void 0 ? void 0 : data.results, "</strong>"))
     }
   }), /*#__PURE__*/React.createElement("span", null, "-"), /*#__PURE__*/React.createElement("button", {
     onClick: callback
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Clear Search", "block-manager"))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Clear Search', 'block-manager'))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
     className: "gbm-no-results",
     dangerouslySetInnerHTML: {
       __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.sprintf)(
       // translators: The search term
-      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("No blocks found for %s", "block-manager"), "<strong>".concat(data === null || data === void 0 ? void 0 : data.term, "</strong>"))
+      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No blocks found for %s', 'block-manager'), "<strong>".concat(data === null || data === void 0 ? void 0 : data.term, "</strong>"))
     }
   }), /*#__PURE__*/React.createElement("span", null, "-"), /*#__PURE__*/React.createElement("button", {
     onClick: callback
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Clear Search", "block-manager")))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Clear Search', 'block-manager')))));
 }
 
 /***/ }),
@@ -1843,7 +1843,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   excludedBlocks: function() { return /* binding */ excludedBlocks; }
 /* harmony export */ });
-var excludedBlocks = ["core/missing", "core/text-columns", "core/navigation-submenu"
+var excludedBlocks = ['core/missing', 'core/text-columns', 'core/navigation-submenu'
 //"core/pattern",
 //"core/post-navigation-link",
 ];
@@ -1970,10 +1970,10 @@ function copyToClipboard(input, trigger) {
   sel.addRange(range);
 
   // Copy to clipboard.
-  document.execCommand("copy");
+  document.execCommand('copy');
   if (trigger) {
     // Set the Copy button text.
-    trigger.innerHTML = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Copied", "block-manager");
+    trigger.innerHTML = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Copied', 'block-manager');
     setTimeout(function () {
       trigger.disabled = true;
     }, 500);
@@ -2003,58 +2003,58 @@ __webpack_require__.r(__webpack_exports__);
  * @param {string}  type The type of export.
  */
 function exportHook(ref) {
-  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "blocks";
-  ref === null || ref === void 0 || ref.classList.add("active"); // Loading state.
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'blocks';
+  ref === null || ref === void 0 || ref.classList.add('active'); // Loading state.
 
-  var hook = type === "blocks" ? "gbm_disabled_blocks" : "gbm_block_categories";
+  var hook = type === 'blocks' ? 'gbm_disabled_blocks' : 'gbm_block_categories';
   (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    method: "GET",
+    method: 'GET',
     url: "".concat(gbm_localize.root, "gbm/export/?type=").concat(type),
     headers: {
-      "X-WP-Nonce": gbm_localize.nonce,
-      "Content-Type": "application/json"
+      'X-WP-Nonce': gbm_localize.nonce,
+      'Content-Type': 'application/json'
     }
   }).then(function (res) {
     var data = res.data,
       status = res.status;
     if (status === 200 && data !== null && data !== void 0 && data.success && data !== null && data !== void 0 && data.code) {
-      var code = "";
+      var code = '';
 
       // Blocks return data.
-      if (type === "blocks") {
+      if (type === 'blocks') {
         code = data.code;
-        code = code.replace(/\\/g, ""); // Replace `\`.
+        code = code.replace(/\\/g, ''); // Replace `\`.
         code = code.replace(/"/g, "'"); // Replace `"`.
         code = code.replace(/,'/g, ", '"); // Replace `,'`.
       }
 
       // Category return data.
-      if (type === "categories") {
+      if (type === 'categories') {
         var entries = JSON.parse(data.code);
         if (entries !== null && entries !== void 0 && entries.length) {
-          code = "[";
+          code = '[';
           entries.forEach(function (entry, index) {
-            code += "[";
+            code += '[';
             code += "'block' => '".concat(entry.block, "', 'cat' => '").concat(entry.cat, "'");
-            code += "]";
-            code += index === entries.length - 1 ? "" : ", ";
+            code += ']';
+            code += index === entries.length - 1 ? '' : ', ';
           });
-          code += "]";
+          code += ']';
         }
       }
       var results = "// functions.php<br/>add_filter( '".concat(hook, "', function() {<br/>&nbsp;&nbsp;&nbsp;return ").concat(code, ";<br/>});");
-      var target = ref === null || ref === void 0 ? void 0 : ref.querySelector("#gbm-export");
+      var target = ref === null || ref === void 0 ? void 0 : ref.querySelector('#gbm-export');
       target.innerHTML = results;
       setTimeout(function () {
         target.focus();
       }, 250);
     } else {
-      console.warn(__("There was an error fetching export data.", "block-manager"));
-      ref === null || ref === void 0 || ref.classList.remove("active");
+      console.warn(__('There was an error fetching export data.', 'block-manager'));
+      ref === null || ref === void 0 || ref.classList.remove('active');
     }
   })["catch"](function (error) {
     console.warn(error);
-    ref === null || ref === void 0 || ref.classList.remove("active");
+    ref === null || ref === void 0 || ref.classList.remove('active');
   });
 }
 
@@ -2095,7 +2095,7 @@ function getCategoryData() {
 
     // Filter categories for `reusable`.
     wpCategories = wpCategories.filter(function (cat) {
-      return cat.slug !== "reusable";
+      return cat.slug !== 'reusable';
     });
   }
   return wpCategories;
@@ -2212,25 +2212,25 @@ function categoryOffsetCount(data, disabled, block_names) {
  * Toggle Other Plugins display.
  */
 var otherPluginsClick = function otherPluginsClick() {
-  var otherPluginsDiv = document.getElementById("gbm-other-plugins");
+  var otherPluginsDiv = document.getElementById('gbm-other-plugins');
   if (!otherPluginsDiv) {
     return false;
   }
-  if (otherPluginsDiv.style.display === "block") {
-    otherPluginsDiv.style.display = "none";
+  if (otherPluginsDiv.style.display === 'block') {
+    otherPluginsDiv.style.display = 'none';
   } else {
-    otherPluginsDiv.style.display = "block";
+    otherPluginsDiv.style.display = 'block';
   }
-  var container = document.getElementById("gbm-container");
+  var container = document.getElementById('gbm-container');
   container.focus({
     preventScroll: true
   });
 };
-var otherPluginsBtn = document.getElementById("otherPlugins");
-var otherPluginsClose = document.getElementById("otherPluginsClose");
+var otherPluginsBtn = document.getElementById('otherPlugins');
+var otherPluginsClose = document.getElementById('otherPluginsClose');
 if (otherPluginsBtn) {
-  otherPluginsBtn.addEventListener("click", otherPluginsClick);
-  otherPluginsClose.addEventListener("click", otherPluginsClick);
+  otherPluginsBtn.addEventListener('click', otherPluginsClick);
+  otherPluginsClose.addEventListener('click', otherPluginsClick);
 }
 
 /***/ }),

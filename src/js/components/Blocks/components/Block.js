@@ -1,8 +1,8 @@
-import { useRef } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import cn from "classnames";
-import Icon from "../../Global/Icon";
-import DisabledSVG from "./DisabledSVG";
+import { useRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import cn from 'classnames';
+import Icon from '../../Global/Icon';
+import DisabledSVG from './DisabledSVG';
 
 /**
  * Render a Block component to display an individual block.
@@ -21,13 +21,13 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	const disabled = disabledBlocks?.length
 		? disabledBlocks.indexOf(name) !== -1
 		: false;
-	const disabledClass = disabled ? "disabled" : "";
+	const disabledClass = disabled ? 'disabled' : '';
 
 	const isFiltered =
 		filteredBlocks?.length && filteredBlocks?.indexOf(name) !== -1
 			? true
 			: false;
-	const filteredClass = isFiltered ? "filtered" : "";
+	const filteredClass = isFiltered ? 'filtered' : '';
 
 	/**
 	 * Handle the click event for the block button.
@@ -36,7 +36,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		const target = blockRef?.current;
 		if (target) {
 			const id = target.dataset.id;
-			if (!target.classList.contains("filtered")) {
+			if (!target.classList.contains('filtered')) {
 				toggleBlock(target, id);
 				target.blur();
 			} else {
@@ -44,8 +44,8 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 				alert(
 					__(
 						"This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.",
-						"block-manager",
-					),
+						'block-manager'
+					)
 				);
 				target.blur();
 			}
@@ -56,10 +56,10 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		<button
 			ref={blockRef}
 			tabIndex={isFiltered ? -1 : null}
-			aria-label={__("Toggle Block Activation", "block-manager")}
+			aria-label={__('Toggle Block Activation', 'block-manager')}
 			data-title={title}
 			data-description={description}
-			className={cn("item block-button", disabledClass, filteredClass)}
+			className={cn('item block-button', disabledClass, filteredClass)}
 			data-id={name}
 			data-category={data.category}
 			onClick={(e) => click(e)}

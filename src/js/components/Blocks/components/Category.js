@@ -1,5 +1,5 @@
-import { __ } from "@wordpress/i18n";
-import Block from "./Block";
+import { __ } from '@wordpress/i18n';
+import Block from './Block';
 
 /**
  * Render the Category component for the category listing.
@@ -40,13 +40,13 @@ export default function Category({
 
 	// Set toggle button attributes
 	const switchClass =
-		count === total ? "gbm-block-switch disabled" : "gbm-block-switch";
-	const state = count === total ? "inactive" : "active";
+		count === total ? 'gbm-block-switch disabled' : 'gbm-block-switch';
+	const state = count === total ? 'inactive' : 'active';
 
 	return (
 		<div
 			key={data.info.slug}
-			id={"block-" + data.info.slug}
+			id={'block-' + data.info.slug}
 			className="gbm-block-group"
 			data-total-blocks={data.blocks.length}
 			tabIndex={-1}
@@ -62,14 +62,17 @@ export default function Category({
 					className={switchClass}
 					data-state={state}
 					onClick={callback}
-					title={__("Toggle all blocks in this category", "block-manager")}
+					title={__(
+						'Toggle all blocks in this category',
+						'block-manager'
+					)}
 				>
 					<div className="gbm-block-switch--wrap">
 						<span>
 							<span className="offscreen">
 								{__(
-									"Toggle all blocks in this category",
-									"block-manager",
+									'Toggle all blocks in this category',
+									'block-manager'
 								)}
 							</span>
 						</span>

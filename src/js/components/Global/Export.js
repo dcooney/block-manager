@@ -1,5 +1,5 @@
-import { forwardRef } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { forwardRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Render the Export blocks button.
@@ -17,7 +17,7 @@ const Export = forwardRef(function Export(props, ref) {
 			disabled={total < 1}
 		>
 			<span className="dashicons dashicons-database-export"></span>
-			{__("Export", "block-manager")}
+			{__('Export', 'block-manager')}
 		</button>
 	);
 });

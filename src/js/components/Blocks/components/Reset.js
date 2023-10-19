@@ -1,5 +1,5 @@
-import { forwardRef } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { forwardRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Render the Reset blocks button.
@@ -17,9 +17,9 @@ const Reset = forwardRef(function Reset(props, ref) {
 			// eslint-disable-next-line no-alert
 			window?.confirm(
 				__(
-					"Are you sure you want to reset and activate all currently disabled blocks?",
-					"block-manager",
-				),
+					'Are you sure you want to reset and activate all currently disabled blocks?',
+					'block-manager'
+				)
 			)
 		) {
 			callback();
@@ -31,11 +31,11 @@ const Reset = forwardRef(function Reset(props, ref) {
 			ref={ref}
 			type="button"
 			onClick={() => confirm()}
-			title={__("Clear all disabled blocks", "block-manager")}
+			title={__('Clear all disabled blocks', 'block-manager')}
 			disabled={total < 1}
 		>
 			<span className="dashicons dashicons-update-alt"></span>
-			{__("Reset", "block-manager")}
+			{__('Reset', 'block-manager')}
 		</button>
 	);
 });

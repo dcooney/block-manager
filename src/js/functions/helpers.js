@@ -1,4 +1,4 @@
-import { excludedBlocks } from "../constants";
+import { excludedBlocks } from '../constants';
 
 /**
  * Sort the blocks alpha and then remove excluded blocks.
@@ -50,7 +50,7 @@ export function setBlockCategory(blocks = []) {
 	return blocks.map((block) => {
 		if (filteredCategoriesAll?.length) {
 			const match = filteredCategoriesAll.find(
-				(item) => item.block === block.name,
+				(item) => item.block === block.name
 			);
 			if (match) {
 				block.orginalCategory = block.category;
@@ -71,9 +71,11 @@ export function setBlockCategory(blocks = []) {
  * @param {Array} block_names Array of block names.
  * @return {number}           Length of the array.
  */
-export function categoryOffsetCount(data, disabled, block_names){
+export function categoryOffsetCount(data, disabled, block_names) {
 	return data.filter((item) => {
 		// Increment count if block is disabled or not in the block_names array.
-		return disabled.includes(item.block) || !block_names.includes(item?.block);
+		return (
+			disabled.includes(item.block) || !block_names.includes(item?.block)
+		);
 	}).length;
 }

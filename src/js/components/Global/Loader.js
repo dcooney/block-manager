@@ -1,5 +1,5 @@
-import { useEffect } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { useEffect } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Render the Loader component.
@@ -20,7 +20,9 @@ export default function Loader({ callback }) {
 				<div className="gbm-loader-pulse-wrap">
 					<div className="gbm-loader-pulse"></div>
 				</div>
-				<div>{__("Fetching Blocks and Categories", "block-manager")}…</div>
+				<div>
+					{__('Fetching Blocks and Categories', 'block-manager')}…
+				</div>
 			</div>
 		</div>
 	);

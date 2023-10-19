@@ -1,5 +1,5 @@
-import { registerCoreBlocks } from "@wordpress/block-library";
-import { removeDisabledBlocks, setBlockCategory, sortBlocks } from "./helpers";
+import { registerCoreBlocks } from '@wordpress/block-library';
+import { removeDisabledBlocks, setBlockCategory, sortBlocks } from './helpers';
 registerCoreBlocks();
 
 /**

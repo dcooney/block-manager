@@ -50,7 +50,7 @@ function filterBlockCategories(options) {
   };
 
   // Add filter when blocks register.
-  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.addFilter)("blocks.registerBlockType", "gbm/filter-blocks", filterBlocks);
+  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.addFilter)('blocks.registerBlockType', 'gbm/filter-blocks', filterBlocks);
 }
 
 /***/ }),
@@ -176,17 +176,17 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(function () {
       }
       Object.keys(blocks).forEach(function (key) {
         var blockName = blocks[key];
-        var is_variation = blockName.indexOf("variation") !== -1 ? true : false;
+        var is_variation = blockName.indexOf('variation') !== -1 ? true : false;
         if (is_variation) {
           // Block Variation handler
-          var variation = blockName.split(";"); // e.g. `variation;core/embed;twitter`
+          var variation = blockName.split(';'); // e.g. `variation;core/embed;twitter`
           if (variation.length === 3) {
             wp.blocks.unregisterBlockVariation(variation[1], variation[2]); // `core/embed`, `twitter`
           }
         } else {
           // Prevent paragraph from being disabled.
           // eslint-disable-next-line no-lonely-if
-          if (blockName !== "core/paragraph" && blockName && 0 !== blockName.length && undefined !== wp.blocks.getBlockType(blockName)) {
+          if (blockName !== 'core/paragraph' && blockName && 0 !== blockName.length && undefined !== wp.blocks.getBlockType(blockName)) {
             wp.blocks.unregisterBlockType(blockName);
           }
         }

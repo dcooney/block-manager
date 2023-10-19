@@ -1,7 +1,7 @@
-import { __ } from "@wordpress/i18n";
-import Icon from "../../Global/Icon";
-import cn from "classnames";
-import { useRef, useState } from "@wordpress/element";
+import { __ } from '@wordpress/i18n';
+import Icon from '../../Global/Icon';
+import cn from 'classnames';
+import { useRef, useState } from '@wordpress/element';
 
 /**
  * Render the Block component for a category listing.
@@ -40,10 +40,10 @@ export default function Block({
 		<div
 			data-title={title}
 			className={cn(
-				"item",
-				"gbm-category",
-				updated ? "updated" : null,
-				filtered ? "filtered" : null,
+				'item',
+				'gbm-category',
+				updated ? 'updated' : null,
+				filtered ? 'filtered' : null
 			)}
 			data-id={name}
 		>
@@ -56,7 +56,7 @@ export default function Block({
 			</div>
 			<div className="gbm-category-wrap category-switch">
 				<label htmlFor={`select-${name}`} className="offscreen">
-					{__("Update block category", "block-manager")}
+					{__('Update block category', 'block-manager')}
 				</label>
 				<select
 					defaultValue={category}
@@ -69,11 +69,17 @@ export default function Block({
 					{!!categories?.length &&
 						categories.map((cat, index) => {
 							return (
-								<option key={`${cat.slug}-${index}`} value={cat.slug}>
+								<option
+									key={`${cat.slug}-${index}`}
+									value={cat.slug}
+								>
 									{cat.title}
 									{orginalCategory !== activeCategory &&
 									orginalCategory === cat.slug
-										? ` - [${__("Default", "block-manager")}]`
+										? ` - [${__(
+												'Default',
+												'block-manager'
+										  )}]`
 										: null}
 								</option>
 							);
@@ -83,7 +89,7 @@ export default function Block({
 			<div className="gbm-cat-status">
 				<i className="fa fa-check" aria-hidden="true"></i>
 				<span className="offscreen">
-					{__("Category Updated", "block-manager")}
+					{__('Category Updated', 'block-manager')}
 				</span>
 			</div>
 		</div>

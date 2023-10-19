@@ -1,4 +1,4 @@
-import { getCategories } from "@wordpress/blocks";
+import { getCategories } from '@wordpress/blocks';
 
 /**
  * Get all WP block categories.
@@ -21,7 +21,7 @@ export default function getCategoryData() {
 
 		// Filter categories for `reusable`.
 		wpCategories = wpCategories.filter((cat) => {
-			return cat.slug !== "reusable";
+			return cat.slug !== 'reusable';
 		});
 	}
 

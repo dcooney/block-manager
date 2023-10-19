@@ -1,4 +1,4 @@
-import { addFilter } from "@wordpress/hooks";
+import { addFilter } from '@wordpress/hooks';
 
 /**
  * Use hooks to switch the block categories.
@@ -34,5 +34,5 @@ export default function filterBlockCategories(options) {
 	};
 
 	// Add filter when blocks register.
-	addFilter("blocks.registerBlockType", "gbm/filter-blocks", filterBlocks);
+	addFilter('blocks.registerBlockType', 'gbm/filter-blocks', filterBlocks);
 }

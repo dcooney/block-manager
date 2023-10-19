@@ -1,6 +1,6 @@
-import { forwardRef, useEffect, useRef } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import copyToClipboard from "../../functions/copyToClipboard";
+import { forwardRef, useEffect, useRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import copyToClipboard from '../../functions/copyToClipboard';
 
 /**
  * Render the ExportModal overlay.
@@ -16,7 +16,7 @@ const ExportModal = forwardRef(function ExportModal(props, ref) {
 	 * Close modal.
 	 */
 	function close() {
-		ref.current.classList.remove("active");
+		ref.current.classList.remove('active');
 		setTimeout(function () {
 			if (returnButtonRef?.current) {
 				// Move focus back to the previous element.
@@ -28,13 +28,13 @@ const ExportModal = forwardRef(function ExportModal(props, ref) {
 	useEffect(() => {
 		// Export settings.
 		document.addEventListener(
-			"keyup",
+			'keyup',
 			function (e) {
-				if (e.key === "Escape") {
+				if (e.key === 'Escape') {
 					close();
 				}
 			},
-			false,
+			false
 		);
 		return () => {};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -49,18 +49,21 @@ const ExportModal = forwardRef(function ExportModal(props, ref) {
 							type="button"
 							className="button button-primary"
 							onClick={() =>
-								copyToClipboard(codeRef.current, copyButtonRef.current)
+								copyToClipboard(
+									codeRef.current,
+									copyButtonRef.current
+								)
 							}
 							ref={copyButtonRef}
 						>
-							{__("Copy Code", "block-manager")}
+							{__('Copy Code', 'block-manager')}
 						</button>
 						<button
 							type="button"
 							className="button"
 							onClick={() => close()}
 						>
-							{__("Close", "block-manager")}
+							{__('Close', 'block-manager')}
 						</button>
 					</div>
 				</div>

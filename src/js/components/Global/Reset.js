@@ -1,5 +1,5 @@
-import { forwardRef } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { forwardRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Render the Reset blocks button.
@@ -30,7 +30,7 @@ const Reset = forwardRef(function Reset(props, ref) {
 			disabled={total < 1}
 		>
 			<span className="dashicons dashicons-update-alt"></span>
-			{__("Reset", "block-manager")}
+			{__('Reset', 'block-manager')}
 		</button>
 	);
 });
