@@ -18,26 +18,26 @@
 		"build:pot": "composer run pot"
 	},
 	"dependencies": {
-		"@wordpress/block-library": "^8.19.0",
-		"@wordpress/blocks": "^12.19.0",
-		"@wordpress/dom-ready": "^3.42.0",
-		"@wordpress/element": "^5.19.0",
-		"@wordpress/hooks": "^3.42.0",
-		"@wordpress/i18n": "^4.42.0",
+		"@wordpress/block-library": "^8.21.0",
+		"@wordpress/blocks": "^12.21.0",
+		"@wordpress/dom-ready": "^3.44.0",
+		"@wordpress/element": "^5.21.0",
+		"@wordpress/hooks": "^3.44.0",
+		"@wordpress/i18n": "^4.44.0",
 		"axios": "^1.5.1",
 		"classnames": "^2.3.2"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.13.0",
+		"@wordpress/scripts": "^26.15.0",
 		"eslint-webpack-plugin": "^4.0.1",
 		"npm-run-all": "^4.1.5",
 		"postcss-import": "^15.1.0",
-		"postcss-preset-env": "^9.1.4",
-		"postcss-scss": "^4.0.8",
+		"postcss-preset-env": "^9.2.0",
+		"postcss-scss": "^4.0.9",
 		"prettier": "^3.0.3",
 		"stylelint-config-prettier": "^9.0.5",
 		"stylelint-webpack-plugin": "^4.1.1",
 		"webpack-cli": "^5.1.4",
-		"webpack-merge": "^5.9.0"
+		"webpack-merge": "^5.10.0"
 	}
 }

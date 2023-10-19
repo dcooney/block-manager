@@ -1,6 +1,6 @@
-=== Gutenberg Block Manager ===
+=== Block Manager ===
 Contributors: dcooney, connekthq
-Tags: blocks, remove blocks, disable blocks, manage blocks, block category, category switcher, block administration
+Tags: blocks, remove blocks, disable blocks, manage blocks, block category, update category, block manager
 Requires at least: 5.0
 Tested up to: 6.3
 License: GPLv2 or later
@@ -8,7 +8,7 @@ Stable tag: trunk
 Homepage: https://connekthq.com/
 Version: 2.0.0
 
-Gutenberg Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of Gutenberg blocks and remove unwanted blocks from the WordPress post editor.
+Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of WordPress blocks and remove unwanted blocks from the WordPress post editor.
 
 == Description ==
 
@@ -21,11 +21,21 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 -  **Filter Hooks** - Use the `gbm_disabled_blocks` filter to control blocks from `functions.php`.
 -  **Category Switcher** - Functionality for changing the categories Gutenberg blocks.
 
-### Filters
+### Hooks & Filters
+
+Use Block Manager hooks to controls blocks via code and sync options across multiple WordPress environments.
 
 #### gbm_disabled_blocks
 
-Use the `gbm_disabled_blocks` filter to control blocks via backend code. This makes it easier to control the status of blocks across multiple WordPress environments.
+Use the `gbm_disabled_blocks` filter to control blocks via backend code.
+
+	add_filter('gbm_disabled_blocks', function(){
+		return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
+	});
+
+#### gbm_block_categories
+
+Use the `gbm_block_categories` filter to update block categories blocks via backend code.
 
 	add_filter('gbm_disabled_blocks', function(){
 		return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
@@ -63,7 +73,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 == Screenshots ==
 
 1. Block Manager WordPress Admin
-1. Disable all (or some) of the useless Embed blocks :)
+1. Disable all (or some) of the useless Embed blocks
 1. Disable entire block categories with a single click.
 
 == Changelog ==
