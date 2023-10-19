@@ -8,7 +8,7 @@ Stable tag: trunk
 Homepage: https://connekthq.com/
 Version: 2.0.0
 
-Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of WordPress blocks and remove unwanted blocks from the WordPress post editor.
+Globally remove blocks from being displayed in the WordPress Block Inserter and Editor.
 
 == Description ==
 
