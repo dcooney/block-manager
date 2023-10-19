@@ -16,10 +16,10 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 
 ### Features
 
--  **Globally Enable/Disable Blocks** - Unlike the block manager functionality in the Gutenberg editor, this tool will globally enable/disable blocks for all users on your site.
+-  **Enable/Disable Blocks** - Unlike the block manager functionality in the WordPress Block Editor, this plugin will globally enable/disable blocks for all users on your site.
+-  **Block Categories** - The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.
 -  **Block Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
--  **Filter Hooks** - Use the `gbm_disabled_blocks` filter to control blocks from `functions.php`.
--  **Category Switcher** - Functionality for changing the categories Gutenberg blocks.
+-  **Hooks** - Use the various hooks and filters to update your blocks from `functions.php`.
 
 ### Hooks & Filters
 
@@ -29,16 +29,27 @@ Use Block Manager hooks to controls blocks via code and sync options across mult
 
 Use the `gbm_disabled_blocks` filter to control blocks via backend code.
 
+	// functions.php
 	add_filter('gbm_disabled_blocks', function(){
-		return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
+		return [
+			'core/buttons',
+			'core/columns',
+			'core/freeform',
+			'core/table'
+		];
 	});
 
 #### gbm_block_categories
 
 Use the `gbm_block_categories` filter to update block categories blocks via backend code.
 
-	add_filter('gbm_disabled_blocks', function(){
-		return ['core/buttons', 'core/columns', 'core/freeform', 'core/table'];
+	// functions.php
+	add_filter( 'gbm_block_categories', function() {
+		return [
+			[ 'block' => 'core/html', 'cat' => 'design' ],
+			[ 'block' => 'core/cover', 'cat' => 'design' ],
+			[ 'block' => 'core/details', 'cat' => 'design' ]
+		];
 	});
 
 
