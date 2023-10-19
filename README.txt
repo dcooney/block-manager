@@ -6,7 +6,7 @@ Tested up to: 6.3
 License: GPLv2 or later
 Stable tag: trunk
 Homepage: https://connekthq.com/
-Version: 1.2.6
+Version: 2.0.0
 
 Gutenberg Block Manager by [Connekt](https://connekthq.com) will allow you to manage the activation status of Gutenberg blocks and remove unwanted blocks from the WordPress post editor.
 
@@ -16,7 +16,7 @@ The Gutenberg Block Manager is an intuitive tool for WordPress site admins to _g
 
 ### Features
 
--  **Globally Enable/Disable Blocks** - Unlike the block manager functionality in the Gutenberg editor, this tool will globally enables/disables blocks for all users on your site.
+-  **Globally Enable/Disable Blocks** - Unlike the block manager functionality in the Gutenberg editor, this tool will globally enable/disable blocks for all users on your site.
 -  **Block Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
 -  **Filter Hooks** - Use the `gbm_disabled_blocks` filter to control blocks from `functions.php`.
 -  **Category Switcher** - Functionality for changing the categories Gutenberg blocks.
@@ -67,18 +67,25 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 1. Disable entire block categories with a single click.
 
 == Changelog ==
+== 2.0.0 - October 20, 2023 ==
+* NEW - New admin interface and interactions for the Block and Block Categories pages.
+* NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
+* UPDATE: Updated build scripts and dependencies.
 
 = 1.2.5 - May 23, 2023 =
 * FIX - Fixed potential issue with JS errors on Site Editor screens.
 * UPDATE - WP version bump and testing.
 
+
 = 1.2.4 - November 30, 2022 =
 * HOTFIX - Fixed issue with plugin not working on `edit` screens.
+
 
 = 1.2.3 - November 19, 2022 =
 * FIX: Added fix for blank screen when users have JetPack plugin enabled.
 * FIX: Fixed issue with missing semi-colon in Block Manager export functionality.
 * FIX: Added fix for only loading the block removal script on `New` and `Edit` screens.
+
 
 = 1.2.2 - August 17, 2021 =
 * NEW - Added new Reset option that will clear all disabled blocks.

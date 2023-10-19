@@ -1,7 +1,7 @@
 {
 	"name": "block-manager",
-	"version": "1.0.0",
-	"description": "Manage all your Gutenberg blocks",
+	"version": "2.0.0",
+	"description": "Take control of your WordPress Blocks.",
 	"main": "src/js/app.js",
 	"author": "connekthq.com <support@connekthq.com>",
 	"license": "GPL-2.0-or-later",

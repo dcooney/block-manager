@@ -1,12 +1,15 @@
-# Gutenberg Block Manager
+# Block Manager for WordPress
 
-Remove unwanted Gutenberg blocks with the Gutenberg Block Manager for WordPress.
+Take full control of your WordPress Blocks.
+
+- Remove unwanted blocks from the Block Inserter.
+- Update the categories of your blocks to organize the Block Inserter.
 
 ![Block Manager Hero](https://ps.w.org/block-manager/assets/banner-772x250.jpg?rev=2483990)
 
 &raquo; [Download Plugin](https://wordpress.org/plugins/block-manager/)
 
-The Gutenberg Block Manager is an intuitive tool for WordPress site admins to globally manage the enabled/disabled state of each block. Disabled blocks will be removed from the block inserter on post edit screens.
+The Block Manager plugin is an intuitive tool for WordPress site admins to globally manage the acgtive state of each block. Disabled blocks will be removed from the block inserter on post edit screens.
 
 ![Block Manager Admin](https://ps.w.org/block-manager/assets/screenshot-1.png)
 

@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Block Manager
  * Plugin URI: https://connekthq.com/plugins/block-manager/
- * Description: Take back control of your WordPress blocks.
+ * Description: Take control of your WordPress blocks.
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 1.2.5
+ * Version: 2.0.0
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '1.2.5' );
-define( 'BLOCK_MANAGER_RELEASE', 'May 23, 2023' );
+define( 'BLOCK_MANAGER_VERSION', '2.0.0' );
+define( 'BLOCK_MANAGER_RELEASE', 'October 20, 2023' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
