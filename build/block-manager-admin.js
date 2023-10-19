@@ -52,7 +52,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function App() {
-  var _window, _gbm_localize;
+  var _window;
+  var _gbm_localize = gbm_localize,
+    _gbm_localize$filtere = _gbm_localize.filteredCategoriesAll,
+    filteredCategoriesAll = _gbm_localize$filtere === void 0 ? [] : _gbm_localize$filtere;
   var blocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.getBlockTypes)();
   var categories = (0,_functions_getCategoryData__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
@@ -63,7 +66,7 @@ function App() {
     wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockCategoryData)(blocks),
     wpCategories: categories
   }) : /*#__PURE__*/React.createElement(_Blocks_Blocks__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlocksData)(blocks, (_gbm_localize = gbm_localize) === null || _gbm_localize === void 0 ? void 0 : _gbm_localize.filteredCategoriesAll),
+    wpBlocks: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlocksData)(blocks, filteredCategoriesAll),
     wpCategories: categories
   }));
 }
@@ -127,7 +130,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * @return {Element}                  The Blocks component.
  */
 function Blocks(_ref) {
-  var _gbm_localize, _gbm_localize2;
+  var _gbm_localize, _gbm_localize2, _wpBlocks$filter, _wpBlocks$filter2;
   var wpBlocks = _ref.wpBlocks,
     wpCategories = _ref.wpCategories;
   var resetButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
@@ -153,6 +156,15 @@ function Blocks(_ref) {
     disabledBlocks = _useState8[0],
     setDisabledBlocks = _useState8[1];
   var filteredBlocks = ((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.filteredBlocks) || [];
+
+  // Count the disabled & filtered blocks.
+  // Make sure block is installed when being counted.
+  var disabledBlocksCount = (_wpBlocks$filter = wpBlocks.filter(function (block) {
+    return disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.includes(block.name);
+  })) === null || _wpBlocks$filter === void 0 ? void 0 : _wpBlocks$filter.length;
+  var filterBlocksCount = (_wpBlocks$filter2 = wpBlocks.filter(function (block) {
+    return filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.includes(block.name);
+  })) === null || _wpBlocks$filter2 === void 0 ? void 0 : _wpBlocks$filter2.length;
 
   /**
    * Category level block toggle switch.
@@ -484,9 +496,9 @@ function Blocks(_ref) {
     className: "gbm-block-list-wrapper"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_7__["default"], {
     blocks: blocks,
-    active: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_2__.countBlocks)(blocks) - (disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length) - (filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.length),
-    disabled: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length,
-    filtered: filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.length,
+    active: (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_2__.countBlocks)(blocks) - disabledBlocksCount - filterBlocksCount,
+    disabled: disabledBlocksCount,
+    filtered: filterBlocksCount,
     search: searchHandler
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
@@ -939,7 +951,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
 /* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
 /* harmony import */ var _Global_ExportModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/ExportModal */ "./src/js/components/Global/ExportModal.js");
@@ -948,6 +960,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
 /* harmony import */ var _components_Block__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Block */ "./src/js/components/Categories/components/Block.js");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Categories/components/Sidebar.js");
+/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../functions/helpers */ "./src/js/functions/helpers.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -958,6 +971,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -1016,15 +1030,10 @@ function Categories(_ref) {
     _useState12 = _slicedToArray(_useState11, 1),
     filteredCategories = _useState12[0];
 
-  // Count the number of disabled blocks modify display in the sidebar.
-  var disabledBlocksCount = blockCategories.filter(function (block) {
-    return disabled_blocks.includes(block.block);
-  }).length;
-
-  // Count the number of filtered blocks modify display in the sidebar.
-  var filteredBlocksCount = filteredCategories.filter(function (block) {
-    return disabled_blocks.includes(block === null || block === void 0 ? void 0 : block.block);
-  }).length;
+  // Create array containing only active block names.
+  var block_names = blocks.map(function (i) {
+    return i["name"];
+  });
 
   /**
    * Change the block category.
@@ -1033,7 +1042,7 @@ function Categories(_ref) {
    * @param {HTMLElement} target The select HTML element.
    * @since 1.0
    */
-  function switchCategory(block, target) {
+  function updateCategory(block, target) {
     var category = target.value;
     var original = target.dataset.original;
     var element = target.closest(".item");
@@ -1041,9 +1050,9 @@ function Categories(_ref) {
     var type = category === original ? "remove" : "add";
 
     // Send API request.
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
-      url: gbm_localize.root + "gbm/category_switch/",
+      url: gbm_localize.root + "gbm/category_update/",
       headers: {
         "X-WP-Nonce": gbm_localize.nonce,
         "Content-Type": "application/json"
@@ -1081,7 +1090,7 @@ function Categories(_ref) {
   function resetCategories() {
     var _resetButtonRef$curre;
     resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add("spin"); // Loading state.
-    (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "POST",
       url: gbm_localize.root + "gbm/category_reset/",
       headers: {
@@ -1173,8 +1182,8 @@ function Categories(_ref) {
     total: blocks === null || blocks === void 0 ? void 0 : blocks.length,
     updated: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     filtered: filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.length,
-    disabledBlocksCount: disabledBlocksCount,
-    filteredBlocksCount: filteredBlocksCount
+    updatedBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_10__.categoryOffsetCount)(blockCategories, disabled_blocks, block_names),
+    filteredBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_10__.categoryOffsetCount)(filteredCategories, disabled_blocks, block_names)
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1207,7 +1216,7 @@ function Categories(_ref) {
   }, /*#__PURE__*/React.createElement(React.Fragment, null, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (block) {
     return /*#__PURE__*/React.createElement(_components_Block__WEBPACK_IMPORTED_MODULE_8__["default"], {
       key: "".concat(block === null || block === void 0 ? void 0 : block.name, "-").concat(block === null || block === void 0 ? void 0 : block.category),
-      callback: switchCategory,
+      callback: updateCategory,
       categories: categories,
       data: block,
       filteredCategories: filteredCategories,
@@ -1363,25 +1372,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /**
  * Render the Sidebar for Category Manager.
  *
- * @param {Object}   props                     The component properties.
- * @param {Function} props.search              The search handler function.
- * @param {number}   props.total               Total blocks.
- * @param {number}   props.updated             Updated block categories.
- * @param {number}   props.filtered            Total number of filtered block categories.
- * @param {number}   props.disabledBlocksCount Total number of disabled blocks.
- * @param {number}   props.filteredBlocksCount Total number of filtered blocks.
- * @return {Element}                           The Sidebar component.
+ * @param {Object}   props                      The component properties.
+ * @param {Function} props.search               The search handler function.
+ * @param {number}   props.total                Total blocks.
+ * @param {number}   props.updated              Updated block categories.
+ * @param {number}   props.filtered             Total number of filtered block categories.
+ * @param {number}   props.updatedBlocksOffset  Total number of disabled blocks to offset the count.
+ * @param {number}   props.filteredBlocksOffset Total number of filtered blocks to offset the count.
+ * @return {Element}                            The Sidebar component.
  */
 function Sidebar(_ref) {
   var search = _ref.search,
     total = _ref.total,
     updated = _ref.updated,
     filtered = _ref.filtered,
-    disabledBlocksCount = _ref.disabledBlocksCount,
-    filteredBlocksCount = _ref.filteredBlocksCount;
+    updatedBlocksOffset = _ref.updatedBlocksOffset,
+    filteredBlocksOffset = _ref.filteredBlocksOffset;
   var updatedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var mountedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(updated - disabledBlocksCount),
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(updated - updatedBlocksOffset),
     _useState2 = _slicedToArray(_useState, 2),
     updatedTotal = _useState2[0],
     setUpdatedTotal = _useState2[1];
@@ -1414,7 +1423,7 @@ function Sidebar(_ref) {
 
   // Update the updated blocks.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    change(updatedRef.current, updated - disabledBlocksCount, setUpdatedTotal);
+    change(updatedRef.current, updated - updatedBlocksOffset, setUpdatedTotal);
   }, [updated]); // eslint-disable-line react-hooks/exhaustive-deps
 
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -1441,7 +1450,7 @@ function Sidebar(_ref) {
   }, updatedTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Updated", "block-manager")), !!filtered && /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--filtered",
     title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Category", "block-manager")) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered Block Categories", "block-manager"))
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered - filteredBlocksCount))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered - filteredBlocksOffset))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Filtered", "block-manager")))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Help", "block-manager")), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
@@ -2103,6 +2112,7 @@ function getCategoryData() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   categoryOffsetCount: function() { return /* binding */ categoryOffsetCount; },
 /* harmony export */   removeDisabledBlocks: function() { return /* binding */ removeDisabledBlocks; },
 /* harmony export */   setBlockCategory: function() { return /* binding */ setBlockCategory; },
 /* harmony export */   sortBlocks: function() { return /* binding */ sortBlocks; }
@@ -2173,6 +2183,21 @@ function setBlockCategory() {
     }
     return block;
   });
+}
+
+/**
+ * Filter blocks to see if they are disabled or not active(installed) on the site.
+ *
+ * @param {Array} data        The data to filter.
+ * @param {Array} disabled    Array of disabled blocks.
+ * @param {Array} block_names Array of block names.
+ * @return {number}           Length of the array.
+ */
+function categoryOffsetCount(data, disabled, block_names) {
+  return data.filter(function (item) {
+    // Increment count if block is disabled or not in the block_names array.
+    return disabled.includes(item.block) || !block_names.includes(item === null || item === void 0 ? void 0 : item.block);
+  }).length;
 }
 
 /***/ }),

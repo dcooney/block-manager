@@ -62,3 +62,18 @@ export function setBlockCategory(blocks = []) {
 		return block;
 	});
 }
+
+/**
+ * Filter blocks to see if they are disabled or not active(installed) on the site.
+ *
+ * @param {Array} data        The data to filter.
+ * @param {Array} disabled    Array of disabled blocks.
+ * @param {Array} block_names Array of block names.
+ * @return {number}           Length of the array.
+ */
+export function categoryOffsetCount(data, disabled, block_names){
+	return data.filter((item) => {
+		// Increment count if block is disabled or not in the block_names array.
+		return disabled.includes(item.block) || !block_names.includes(item?.block);
+	}).length;
+}

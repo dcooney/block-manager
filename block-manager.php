@@ -13,16 +13,6 @@
  * @package blockmanager
  */
 
-/*
-* NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
-
-
-TODO:
-- Update Readme.txt
-- Add new screenshots.
-
-*/
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -80,7 +70,7 @@ class Gutenberg_Block_Manager {
 		require_once 'api/blocks-reset.php';
 		require_once 'api/bulk-process.php';
 		require_once 'api/category-reset.php';
-		require_once 'api/category-switch.php';
+		require_once 'api/category-update.php';
 		require_once 'api/export.php';
 		require_once 'api/toggle.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';

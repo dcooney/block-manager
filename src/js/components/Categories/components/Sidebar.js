@@ -5,27 +5,27 @@ import Search from "../../Global/Search";
 /**
  * Render the Sidebar for Category Manager.
  *
- * @param {Object}   props                     The component properties.
- * @param {Function} props.search              The search handler function.
- * @param {number}   props.total               Total blocks.
- * @param {number}   props.updated             Updated block categories.
- * @param {number}   props.filtered            Total number of filtered block categories.
- * @param {number}   props.disabledBlocksCount Total number of disabled blocks.
- * @param {number}   props.filteredBlocksCount Total number of filtered blocks.
- * @return {Element}                           The Sidebar component.
+ * @param {Object}   props                      The component properties.
+ * @param {Function} props.search               The search handler function.
+ * @param {number}   props.total                Total blocks.
+ * @param {number}   props.updated              Updated block categories.
+ * @param {number}   props.filtered             Total number of filtered block categories.
+ * @param {number}   props.updatedBlocksOffset  Total number of disabled blocks to offset the count.
+ * @param {number}   props.filteredBlocksOffset Total number of filtered blocks to offset the count.
+ * @return {Element}                            The Sidebar component.
  */
 export default function Sidebar({
 	search,
 	total,
 	updated,
 	filtered,
-	disabledBlocksCount,
-	filteredBlocksCount,
+	updatedBlocksOffset,
+	filteredBlocksOffset,
 }) {
 	const updatedRef = useRef(null);
 	const mountedRef = useRef(false);
 	const [updatedTotal, setUpdatedTotal] = useState(
-		updated - disabledBlocksCount,
+		updated - updatedBlocksOffset,
 	);
 
 	/**
@@ -56,7 +56,7 @@ export default function Sidebar({
 	useEffect(() => {
 		change(
 			updatedRef.current,
-			updated - disabledBlocksCount,
+			updated - updatedBlocksOffset,
 			setUpdatedTotal,
 		);
 	}, [updated]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -122,7 +122,7 @@ export default function Sidebar({
 						>
 							<div>
 								<span>
-									<strong>{filtered - filteredBlocksCount}</strong>
+									<strong>{filtered - filteredBlocksOffset}</strong>
 								</span>
 							</div>
 							{__("Filtered", "block-manager")}

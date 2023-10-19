@@ -9,6 +9,7 @@ import Reset from "../Global/Reset";
 import SearchResults from "../Global/SearchResults";
 import Block from "./components/Block";
 import Sidebar from "./components/Sidebar";
+import { categoryOffsetCount } from "../../functions/helpers";
 
 /**
  * Render the Categories component.
@@ -37,15 +38,8 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const [blockCategories, setBlockCategories] = useState(block_cats);
 	const [filteredCategories] = useState(filtered_cats);
 
-	// Count the number of disabled blocks modify display in the sidebar.
-	const disabledBlocksCount = blockCategories.filter((block) => {
-		return disabled_blocks.includes(block.block);
-	}).length;
-
-	// Count the number of filtered blocks modify display in the sidebar.
-	const filteredBlocksCount = filteredCategories.filter((block) => {
-		return disabled_blocks.includes(block?.block);
-	}).length;
+	// Create array containing only active block names.
+	const block_names = blocks.map((i) => i["name"]);
 
 	/**
 	 * Change the block category.
@@ -54,7 +48,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * @param {HTMLElement} target The select HTML element.
 	 * @since 1.0
 	 */
-	function switchCategory(block, target) {
+	function updateCategory(block, target) {
 		const category = target.value;
 		const original = target.dataset.original;
 		const element = target.closest(".item");
@@ -64,7 +58,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 		// Send API request.
 		axios({
 			method: "POST",
-			url: gbm_localize.root + "gbm/category_switch/",
+			url: gbm_localize.root + "gbm/category_update/",
 			headers: {
 				"X-WP-Nonce": gbm_localize.nonce,
 				"Content-Type": "application/json",
@@ -198,8 +192,16 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							total={blocks?.length}
 							updated={blockCategories?.length}
 							filtered={filteredCategories?.length}
-							disabledBlocksCount={disabledBlocksCount}
-							filteredBlocksCount={filteredBlocksCount}
+							updatedBlocksOffset={categoryOffsetCount(
+								blockCategories,
+								disabled_blocks,
+								block_names,
+							)}
+							filteredBlocksOffset={categoryOffsetCount(
+								filteredCategories,
+								disabled_blocks,
+								block_names,
+							)}
 						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
@@ -250,7 +252,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 												return (
 													<Block
 														key={`${block?.name}-${block?.category}`}
-														callback={switchCategory}
+														callback={updateCategory}
 														categories={categories}
 														data={block}
 														filteredCategories={

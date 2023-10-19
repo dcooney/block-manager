@@ -32,6 +32,11 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	);
 	const filteredBlocks = gbm_localize?.filteredBlocks || [];
 
+	// Count the disabled & filtered blocks.
+	// Make sure block is installed when being counted.
+	const disabledBlocksCount = wpBlocks.filter(block => disabledBlocks?.includes(block.name))?.length
+	const filterBlocksCount = wpBlocks.filter(block => filteredBlocks?.includes(block.name))?.length
+
 	/**
 	 * Category level block toggle switch.
 	 *
@@ -368,11 +373,11 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							blocks={blocks}
 							active={
 								countBlocks(blocks) -
-								disabledBlocks?.length -
-								filteredBlocks?.length
+								disabledBlocksCount -
+								filterBlocksCount
 							}
-							disabled={disabledBlocks?.length}
-							filtered={filteredBlocks?.length}
+							disabled={disabledBlocksCount}
+							filtered={filterBlocksCount}
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">

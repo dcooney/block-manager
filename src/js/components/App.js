@@ -5,6 +5,7 @@ import Blocks from "./Blocks/Blocks";
 import Categories from "./Categories/Categories";
 
 export default function App() {
+	const {filteredCategoriesAll = []} = gbm_localize;
 	const blocks = getBlockTypes();
 	const categories = getCategoryData();
 
@@ -23,7 +24,7 @@ export default function App() {
 				<Blocks
 					wpBlocks={getBlocksData(
 						blocks,
-						gbm_localize?.filteredCategoriesAll,
+						filteredCategoriesAll,
 					)}
 					wpCategories={categories}
 				/>

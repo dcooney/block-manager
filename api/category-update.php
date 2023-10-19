@@ -10,13 +10,13 @@ add_action(
 	'rest_api_init',
 	function () {
 		$my_namespace = 'gbm';
-		$my_endpoint  = '/category_switch';
+		$my_endpoint  = '/category_update';
 		register_rest_route(
 			$my_namespace,
 			$my_endpoint,
 			array(
 				'methods'             => 'POST',
-				'callback'            => 'block_manager_category_switch',
+				'callback'            => 'block_manager_category_update',
 				'permission_callback' => function () {
 					return Gutenberg_Block_Manager::has_access();
 				},
@@ -31,7 +31,7 @@ add_action(
  * @param WP_REST_Request $request The content of the HTTP request.
  * @since 1.0
  */
-function block_manager_category_switch( WP_REST_Request $request ) {
+function block_manager_category_update( WP_REST_Request $request ) {
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
