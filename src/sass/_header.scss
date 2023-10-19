@@ -51,6 +51,7 @@ h1.gbm-h1{
 			margin: 0;
 			color: $grey_dark;
 			line-height: 1;
+			font-size: 14px;
 		}
 		button.gbm-other-button {
 			all: unset;
@@ -69,6 +70,7 @@ h1.gbm-h1{
 				font-size: 18px;
 				width: 18px;
 				height: 18px;
+				transition: none;
 			}
 			@include buttonHover();
 

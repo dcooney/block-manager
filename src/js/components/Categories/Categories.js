@@ -50,8 +50,8 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	/**
 	 * Change the block category.
 	 *
-	 * @param {string} block The block ID.
-	 * @param {Event}  e     The select change event.
+	 * @param {string}      block  The block ID.
+	 * @param {HTMLElement} target The select HTML element.
 	 * @since 1.0
 	 */
 	function switchCategory(block, target) {

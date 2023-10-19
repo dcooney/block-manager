@@ -59,6 +59,7 @@ h1.gbm-h1 {
   margin: 0;
   color: #999ea2;
   line-height: 1;
+  font-size: 14px;
 }
 
 .gbm-page-wrap--header button.gbm-other-button {
@@ -80,6 +81,7 @@ h1.gbm-h1 {
   font-size: 18px;
   width: 18px;
   height: 18px;
+  transition: none;
 }
 
 .gbm-page-wrap--header button.gbm-other-button:hover, .gbm-page-wrap--header button.gbm-other-button:focus {
@@ -212,11 +214,13 @@ h1.gbm-h1 {
   width: 100%;
   margin-bottom: 20px;
   padding: 0;
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
   .gbm-page-wrap .gbm-sidebar {
-    width: 275px;
+    display: block;
+    width: 250px;
     position: sticky;
     top: 50px;
     left: 0;
@@ -323,14 +327,7 @@ h1.gbm-h1 {
 }
 
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend {
-  display: none;
   overflow: hidden;
-}
-
-@media screen and (min-width: 768px) {
-  .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend {
-    display: block;
-  }
 }
 
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-cta-wrap {
