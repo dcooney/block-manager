@@ -16,10 +16,11 @@ The Block Manager is an intuitive tool for site admins to globally remove unwant
 
 ### Features
 
--  **Disable Blocks** - Unlike the block manager functionality in the WordPress Block Editor, this plugin will globally disable (remove) blocks for all users on your site.
--  **Block Categories** - The Category Switcher provides functionality for updating the category assigned to each WordPress blocks.
--  **Search and Filter** - Quickly locate blocks using the block search functionality in the sidebar.
--  **Hooks** - Use the various hooks and filters to update your blocks from `functions.php`.
+-  **Disable Blocks**:  Unlike the block manager functionality in the WordPress Block Editor, this plugin will globally disable (remove) blocks for all users on your site.
+-  **Block Categories**:  The Category Switcher provides functionality for updating the category assigned to each WordPress blocks.
+-  **Search and Filter**:  Quickly locate blocks using the block search functionality in the sidebar.
+-  **Hooks**:  Use the various hooks and filters to update your blocks from `functions.php`.
+-  **Embed Blocks**:  Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
 
 ### Hooks & Filters
 
@@ -97,15 +98,19 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 2. Block Toggle: Disable all blocks in a block categories with a single click.
 3. Block Categories: Improve the admin editing experience by updating the category of each block using the Category Switcher.
 4. Status Reports: Total active and disabled blocks are displayed in the plugin sidebar.
+4. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
 
 == 2.0.0 - October 20, 2023 ==
 * NEW - New admin interface and interactions for the Block and Block Categories pages.
 * NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
+* UPDATE: Updated build scripts and dependencies to use wp-scripts.
+* UPDATE: Block Manager is now supported on Widget screen.
+* FIX: Fixed issue with some missing block definitions.
+* FIX: Fixed issues with block icons not rendering for some blocks.
 * FIX: Fixed issue with various blocks crashing the Block Manager edit screen.
-* FIX: Various bug fixes and improvements.
-* UPDATE: Updated build scripts and dependencies.
+* FIX: Other various bug fixes and overall improvements.
 
 
 = 1.2.5 - May 23, 2023 =

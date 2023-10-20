@@ -1,6 +1,4 @@
-import { registerCoreBlocks } from '@wordpress/block-library';
 import { removeDisabledBlocks, setBlockCategory, sortBlocks } from './helpers';
-registerCoreBlocks();
 
 /**
  * Get array of blocks for the Category listing.

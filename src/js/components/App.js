@@ -1,3 +1,4 @@
+import { registerCoreBlocks } from '@wordpress/block-library';
 import { getBlockTypes } from '@wordpress/blocks';
 import { getBlockCategoryData, getBlocksData } from '../functions/blocks';
 import getCategoryData from '../functions/getCategoryData';
@@ -6,6 +7,7 @@ import Categories from './Categories/Categories';
 
 export default function App() {
 	const { filteredCategoriesAll = [] } = gbm_localize;
+	registerCoreBlocks();
 	const blocks = getBlockTypes();
 	const categories = getCategoryData();
 

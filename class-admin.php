@@ -29,11 +29,11 @@ class GBM_Admin {
 	 *
 	 * @author ConnektMedia
 	 * @since 1.0
-	 * @param string $hook The current page ID.
+	 * @param string $page The current page ID.
 	 * @return null
 	 */
-	public function gbm_admin_enqueue( $hook ) {
-		if ( 'settings_page_block-manager' !== $hook ) {
+	public function gbm_admin_enqueue( $page ) {
+		if ( $page !== 'settings_page_block-manager' ) {
 			return;
 		}
 
@@ -47,6 +47,8 @@ class GBM_Admin {
 		do_action( 'enqueue_block_editor_assets' );
 		wp_dequeue_script( 'block-manager' );
 
+		wp_add_inline_script( 'wp-blocks', 'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');' );
+
 		$block_registry = WP_Block_Type_Registry::get_instance();
 		foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
 			// Front-end script.
@@ -56,7 +58,6 @@ class GBM_Admin {
 		}
 
 		// Enqueue Scripts.
-
 		wp_enqueue_style(
 			'block-manager-styles',
 			plugins_url(
@@ -70,7 +71,7 @@ class GBM_Admin {
 		wp_enqueue_script(
 			'block-manager-admin',
 			plugins_url( 'build/block-manager-admin.js', __FILE__ ),
-			[ 'wp-element', 'wp-block-library' ],
+			[ 'jquery', 'wp-blocks', 'wp-element', 'wp-data', 'wp-components', 'wp-block-library' ],
 			BLOCK_MANAGER_VERSION,
 			true
 		);

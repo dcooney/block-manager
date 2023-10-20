@@ -8,10 +8,18 @@ import { renderToString } from '@wordpress/element';
  * @return {Element}          The Icon component.
  */
 export default function Icon({ icon }) {
-	const src = icon?.src || icon;
+	let src = icon?.src || icon;
 
+	// Exit if icon src is block default
 	if (src === 'block-default') {
 		return null;
+	}
+
+	// If icon is a function, render it.
+	if (typeof src === 'function') {
+		if (src.toString().indexOf('createElement') >= 0) {
+			src = src();
+		}
 	}
 
 	return (

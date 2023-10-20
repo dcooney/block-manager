@@ -83,20 +83,27 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	public function gbm_enqueue() {
-		$screen = get_current_screen();
-		// Don't load Block Manager on Widget screen.
-		if ( $screen->id === 'widgets' ) {
-			// Note: GBM throws an error around `_wpLoadBlockEditor` being not available on the screen.
-			// TODO: Investigate how the widgets screen loads the block editor.
-			return;
-		}
-
+		$screen        = get_current_screen();
 		$wp_asset_file = require BLOCK_MANAGER_DIR_PATH . 'build/block-manager.asset.php'; // Get webpack asset file.
+		$dependencies  = $wp_asset_file['dependencies'];
+
+		// Update script dependencies based on current screen.
+		if ( is_object( get_current_screen() ) ) {
+			if ( $screen == 'site-editor' ) {
+				$dependencies[] = 'wp-edit-site';
+			} elseif ( $screen->id == 'widgets' ) {
+				$dependencies[] = 'wp-edit-widgets';
+			} else {
+				$dependencies[] = 'wp-edit-post';
+			}
+		} else {
+			$dependencies[] = 'wp-edit-post';
+		}
 
 		wp_enqueue_script(
 			'block-manager',
 			plugins_url( 'build/block-manager.js', __FILE__ ),
-			$wp_asset_file['dependencies'],
+			$dependencies,
 			BLOCK_MANAGER_VERSION,
 			false
 		);
