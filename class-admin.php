@@ -47,6 +47,7 @@ class GBM_Admin {
 		do_action( 'enqueue_block_editor_assets' );
 		wp_dequeue_script( 'block-manager' );
 
+		// -> https://github.com/WordPress/gutenberg/issues/22812
 		wp_add_inline_script( 'wp-blocks', 'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');' );
 
 		$block_registry = WP_Block_Type_Registry::get_instance();

@@ -58,7 +58,7 @@
 			text-align: center;
 			svg {
 				max-width: 100%;
-				fill: $text;
+				//fill: $text;
 				height: 28px;
 				max-height: 28px;
 			}
@@ -110,7 +110,9 @@
 		&.disabled,
 		&.filtered {
 			background-color: $grey_light;
-			.icon,
+			.icon {
+				opacity: 0.5;
+			}
 			p {
 				opacity: 0.65;
 			}
