@@ -72,7 +72,7 @@ class GBM_Admin {
 		wp_enqueue_script(
 			'block-manager-admin',
 			plugins_url( 'build/block-manager-admin.js', __FILE__ ),
-			[ 'jquery', 'wp-blocks', 'wp-element', 'wp-data', 'wp-components', 'wp-block-library' ],
+			[ 'wp-blocks', 'wp-element', 'wp-data', 'wp-components', 'wp-block-library' ],
 			BLOCK_MANAGER_VERSION,
 			true
 		);

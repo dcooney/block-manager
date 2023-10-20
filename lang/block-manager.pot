@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-20T16:26:18+00:00\n"
+"POT-Creation-Date: 2023-10-20T17:19:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -79,8 +79,7 @@ msgstr ""
 
 #: block-manager.php:205
 #: class-admin.php:240
-#: build/block-manager-admin.js:1448
-#: build/block-manager-admin.js:1372
+#: src/js/components/Categories/components/Sidebar.js:89
 msgid "Blocks"
 msgstr ""
 
@@ -99,260 +98,209 @@ msgid "Other WordPress Plugins from %1$s Connekt %2$s"
 msgstr ""
 
 #: class-admin.php:229
-#: build/block-manager-admin.js:1581
-#: build/block-manager-admin.js:1536
+#: src/js/components/Global/ExportModal.js:66
 msgid "Close"
 msgstr ""
 
-#: build/block-manager-admin.js:250
-#: build/block-manager-admin.js:174
+#: src/js/components/Blocks/Blocks.js:126
 msgid "No blocks found"
 msgstr ""
 
-#: build/block-manager-admin.js:513
-#: build/block-manager-admin.js:442
+#: src/js/components/Blocks/Blocks.js:394
 msgid "Select blocks below to globally remove them from the WordPress Block Inserter."
 msgstr ""
 
-#: build/block-manager-admin.js:517
-#: build/block-manager-admin.js:452
+#: src/js/components/Blocks/Blocks.js:404
+#: src/js/components/Blocks/components/Reset.js:19
 msgid "Are you sure you want to reset and activate all currently disabled blocks?"
 msgstr ""
 
-#: build/block-manager-admin.js:518
-#: build/block-manager-admin.js:456
+#: src/js/components/Blocks/Blocks.js:408
+#: src/js/components/Blocks/components/Reset.js:34
 msgid "Clear all disabled blocks"
 msgstr ""
 
-#: build/block-manager-admin.js:523
-#: build/block-manager-admin.js:465
+#: src/js/components/Blocks/Blocks.js:417
 msgid "Export an array of disabled blocks as a WordPress hook"
 msgstr ""
 
-#: build/block-manager-admin.js:541
-#: build/block-manager-admin.js:497
+#: src/js/components/Blocks/Blocks.js:449
 msgid "Add the the following code to your functions.php to remove blocks at the theme level."
 msgstr ""
 
-#: build/block-manager-admin.js:606
-#: build/block-manager-admin.js:552
+#: src/js/components/Blocks/components/Block.js:45
 msgid "This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface."
 msgstr ""
 
-#: build/block-manager-admin.js:614
-#: build/block-manager-admin.js:566
+#: src/js/components/Blocks/components/Block.js:59
 msgid "Toggle Block Activation"
 msgstr ""
 
-#: build/block-manager-admin.js:715
-#: build/block-manager-admin.js:720
-#: build/block-manager-admin.js:653
-#: build/block-manager-admin.js:661
+#: src/js/components/Blocks/components/Category.js:65
+#: src/js/components/Blocks/components/Category.js:73
 msgid "Toggle all blocks in this category"
 msgstr ""
 
-#: build/block-manager-admin.js:900
-#: build/block-manager-admin.js:1442
-#: build/block-manager-admin.js:800
-#: build/block-manager-admin.js:1357
+#: src/js/components/Blocks/components/Reset.js:38
+#: src/js/components/Global/Reset.js:33
+msgid "Reset"
+msgstr ""
+
+#: src/js/components/Blocks/components/Sidebar.js:97
+#: src/js/components/Categories/components/Sidebar.js:74
 msgid "Current Block Status"
 msgstr ""
 
-#: build/block-manager-admin.js:905
-#: build/block-manager-admin.js:805
+#: src/js/components/Blocks/components/Sidebar.js:102
 msgid "Active Blocks & Block Variations"
 msgstr ""
 
-#: build/block-manager-admin.js:909
-#: build/block-manager-admin.js:817
+#: src/js/components/Blocks/components/Sidebar.js:114
 msgid "Active"
 msgstr ""
 
-#: build/block-manager-admin.js:911
-#: build/block-manager-admin.js:823
+#: src/js/components/Blocks/components/Sidebar.js:120
 msgid "Disabled Block"
 msgstr ""
 
-#: build/block-manager-admin.js:911
-#: build/block-manager-admin.js:824
+#: src/js/components/Blocks/components/Sidebar.js:121
 msgid "Disabled Blocks"
 msgstr ""
 
-#: build/block-manager-admin.js:917
-#: build/block-manager-admin.js:841
+#: src/js/components/Blocks/components/Sidebar.js:138
 msgid "Disabled"
 msgstr ""
 
-#: build/block-manager-admin.js:919
-#: build/block-manager-admin.js:848
+#: src/js/components/Blocks/components/Sidebar.js:145
 msgid "Filtered Block"
 msgstr ""
 
-#: build/block-manager-admin.js:919
-#: build/block-manager-admin.js:852
+#: src/js/components/Blocks/components/Sidebar.js:149
 msgid "Filtered Blocks"
 msgstr ""
 
-#: build/block-manager-admin.js:922
-#: build/block-manager-admin.js:1457
-#: build/block-manager-admin.js:864
-#: build/block-manager-admin.js:1419
+#: src/js/components/Blocks/components/Sidebar.js:161
+#: src/js/components/Categories/components/Sidebar.js:136
 msgid "Filtered"
 msgstr ""
 
-#: build/block-manager-admin.js:924
-#: build/block-manager-admin.js:870
+#: src/js/components/Blocks/components/Sidebar.js:167
 msgid "Categories"
 msgstr ""
 
-#: build/block-manager-admin.js:1082
-#: build/block-manager-admin.js:978
+#: src/js/components/Categories/Categories.js:83
 msgid "An unknown error has occurred and the block category could not be updated"
 msgstr ""
 
 #. translators: %s: The number of blocks.
-#: build/block-manager-admin.js:1200
-#: build/block-manager-admin.js:1108
+#: src/js/components/Categories/Categories.js:213
 msgid "Organize your %s WordPress blocks by modifying the assigned block category of each."
 msgstr ""
 
-#: build/block-manager-admin.js:1206
-#: build/block-manager-admin.js:1121
+#: src/js/components/Categories/Categories.js:226
 msgid "Are you sure you want to reset your modified block categories?"
 msgstr ""
 
-#: build/block-manager-admin.js:1207
-#: build/block-manager-admin.js:1125
+#: src/js/components/Categories/Categories.js:230
 msgid "Clear all modified block categories"
 msgstr ""
 
-#: build/block-manager-admin.js:1212
-#: build/block-manager-admin.js:1134
+#: src/js/components/Categories/Categories.js:239
 msgid "Export an array of updated blocks categories as a WordPress hook"
 msgstr ""
 
-#: build/block-manager-admin.js:1232
-#: build/block-manager-admin.js:1175
+#: src/js/components/Categories/Categories.js:280
 msgid "Add the the following code to your functions.php to update block categories at the theme level."
 msgstr ""
 
-#: build/block-manager-admin.js:1324
-#: build/block-manager-admin.js:1244
+#: src/js/components/Categories/components/Block.js:59
 msgid "Update block category"
 msgstr ""
 
-#: build/block-manager-admin.js:1337
-#: build/block-manager-admin.js:1264
+#: src/js/components/Categories/components/Block.js:79
 msgid "Default"
 msgstr ""
 
-#: build/block-manager-admin.js:1345
-#: build/block-manager-admin.js:1277
+#: src/js/components/Categories/components/Block.js:92
 msgid "Category Updated"
 msgstr ""
 
-#: build/block-manager-admin.js:1447
-#: build/block-manager-admin.js:1362
+#: src/js/components/Categories/components/Sidebar.js:79
 msgid "Total Blocks"
 msgstr ""
 
-#: build/block-manager-admin.js:1450
-#: build/block-manager-admin.js:1378
+#: src/js/components/Categories/components/Sidebar.js:95
 msgid "Updated Block Category"
 msgstr ""
 
-#: build/block-manager-admin.js:1450
-#: build/block-manager-admin.js:1382
+#: src/js/components/Categories/components/Sidebar.js:99
 msgid "Updated Block Categories"
 msgstr ""
 
-#: build/block-manager-admin.js:1454
-#: build/block-manager-admin.js:1395
+#: src/js/components/Categories/components/Sidebar.js:112
 msgid "Updated"
 msgstr ""
 
-#: build/block-manager-admin.js:1456
-#: build/block-manager-admin.js:1402
+#: src/js/components/Categories/components/Sidebar.js:119
 msgid "Filtered Block Category"
 msgstr ""
 
-#: build/block-manager-admin.js:1456
-#: build/block-manager-admin.js:1406
+#: src/js/components/Categories/components/Sidebar.js:123
 msgid "Filtered Block Categories"
 msgstr ""
 
-#: build/block-manager-admin.js:1459
-#: build/block-manager-admin.js:1425
+#: src/js/components/Categories/components/Sidebar.js:142
 msgid "Help"
 msgstr ""
 
-#: build/block-manager-admin.js:1461
-#: build/block-manager-admin.js:1428
+#: src/js/components/Categories/components/Sidebar.js:145
 msgid "The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks."
 msgstr ""
 
-#: build/block-manager-admin.js:1461
-#: build/block-manager-admin.js:1434
+#: src/js/components/Categories/components/Sidebar.js:151
 msgid "Modifying a category will update the blocks location in the Block Inserter while editing posts."
 msgstr ""
 
-#: build/block-manager-admin.js:1503
-#: build/block-manager-admin.js:1465
+#: src/js/components/Global/Export.js:20
 msgid "Export"
 msgstr ""
 
-#: build/block-manager-admin.js:1575
-#: build/block-manager-admin.js:1529
+#: src/js/components/Global/ExportModal.js:59
 msgid "Copy Code"
 msgstr ""
 
-#: build/block-manager-admin.js:1678
-#: build/block-manager-admin.js:1610
+#: src/js/components/Global/Loader.js:24
 msgid "Fetching Blocks and Categories"
 msgstr ""
 
-#: build/block-manager-admin.js:1730
-#: build/block-manager-admin.js:1649
-msgid "Reset"
-msgstr ""
-
-#: build/block-manager-admin.js:1769
-#: build/block-manager-admin.js:1772
-#: build/block-manager-admin.js:1671
-#: build/block-manager-admin.js:1676
+#: src/js/components/Global/Search.js:17
+#: src/js/components/Global/Search.js:22
 msgid "Search Blocks"
 msgstr ""
 
-#: build/block-manager-admin.js:1786
-#: build/block-manager-admin.js:1685
+#: src/js/components/Global/Search.js:31
 msgid "Submit"
 msgstr ""
 
 #. translators: 1: The search term. 2: Total results.
-#: build/block-manager-admin.js:1830
-#: build/block-manager-admin.js:1718
+#: src/js/components/Global/SearchResults.js:26
 msgid "Your block search for %1$s returned %2$s result(s)"
 msgstr ""
 
-#: build/block-manager-admin.js:1834
-#: build/block-manager-admin.js:1843
-#: build/block-manager-admin.js:1729
-#: build/block-manager-admin.js:1749
+#: src/js/components/Global/SearchResults.js:37
+#: src/js/components/Global/SearchResults.js:57
 msgid "Clear Search"
 msgstr ""
 
 #. translators: The search term
-#: build/block-manager-admin.js:1839
-#: build/block-manager-admin.js:1739
+#: src/js/components/Global/SearchResults.js:47
 msgid "No blocks found for %s"
 msgstr ""
 
-#: build/block-manager-admin.js:1985
-#: build/block-manager-admin.js:1854
+#: src/js/functions/copyToClipboard.js:22
 msgid "Copied"
 msgstr ""
 
-#: build/block-manager-admin.js:2061
-#: build/block-manager-admin.js:1919
+#: src/js/functions/export.js:59
 msgid "There was an error fetching export data."
 msgstr ""
