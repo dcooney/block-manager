@@ -48,7 +48,7 @@ export function exportHook(ref, type = 'blocks') {
 					}
 				}
 
-				const results = `// functions.php<br/>add_filter( '${hook}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${code};<br/>});`;
+				const results = `// functions.php<br/>add_filter( '${hook}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${code};<br/>} );`;
 				const target = ref?.querySelector('#gbm-export');
 				target.innerHTML = results;
 				setTimeout(function () {

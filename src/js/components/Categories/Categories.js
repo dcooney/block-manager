@@ -211,7 +211,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 										__html: sprintf(
 											// translators: %s: The number of blocks.
 											__(
-												'Organize your %s WordPress blocks by modifying the assigned category of each.',
+												'Organize your %s WordPress blocks by modifying the assigned block category of each.',
 												'block-manager'
 											),
 											`<span>${blocks?.length}</span>`
