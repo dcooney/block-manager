@@ -19,6 +19,7 @@ composer.lock
 .gitignore
 .nvmrc
 .phpcs.xml
+.prettierintignore
 .prettierrc.js
 .stylelintignore
 .stylelintrc.json
