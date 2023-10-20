@@ -1,5 +1,5 @@
 name: Deploy to WordPress.org
-'on':
+"on":
   release:
     types:
       - published
@@ -10,13 +10,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: 'Use Node.js 16'
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.13.2'
       - name: Build
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
       - name: WordPress Plugin Deploy
         id: deploy
@@ -24,14 +20,14 @@ jobs:
         with:
           generate-zip: true
         env:
-          SVN_USERNAME: '${{ secrets.SVN_USERNAME }}'
-          SVN_PASSWORD: '${{ secrets.SVN_PASSWORD }}'
+          SVN_USERNAME: "${{ secrets.SVN_USERNAME }}"
+          SVN_PASSWORD: "${{ secrets.SVN_PASSWORD }}"
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: '${{ github.event.release.upload_url }}'
-          asset_path: '${{github.workspace}}/${{ github.event.repository.name }}.zip'
-          asset_name: '${{ github.event.repository.name }}.zip'
+          upload_url: "${{ github.event.release.upload_url }}"
+          asset_path: "${{github.workspace}}/${{ github.event.repository.name }}.zip"
+          asset_name: "${{ github.event.repository.name }}.zip"
           asset_content_type: application/zip
