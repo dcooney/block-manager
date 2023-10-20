@@ -63,7 +63,6 @@ Update the minimum user role allowed to access the Block Manager plugin.
 		'edit_theme_options' // Default: activate_plugins
 	);
 
-
 == Installation ==
 
 How to install Block Manager.
