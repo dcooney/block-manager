@@ -230,28 +230,6 @@
 					font-family: Menlo,Consolas,Monaco,Lucida Console,monospace;
 				}
 			}
-			.gbm-cat-status {
-				position: absolute;
-				top: 5px;
-				right: 5px;
-				transition: all 0.15s ease;
-				color: #fff;
-				width: 24px;
-				height: 24px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				background-color: $green;
-				border-radius: $radius;
-				font-size: 12px;
-				line-height: 1;
-				opacity: 0;
-				visibility: hidden;
-				&.active {
-					opacity: 0.9;
-					visibility: visible;
-				}
-			}
 		}
 	}
 

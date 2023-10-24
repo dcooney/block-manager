@@ -61,11 +61,13 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
 
 				// Send response.
-				$response = [
-					'success'         => true,
-					'msg'             => __( 'All Blocks Disabled', 'block-manager' ),
-					'disabled_blocks' => $disabled_blocks,
-				];
+				wp_send_json(
+					[
+						'success'         => true,
+						'msg'             => __( 'All blocks in category disabled', 'block-manager' ),
+						'disabled_blocks' => $disabled_blocks,
+					]
+				);
 			}
 
 			// Enable All.
@@ -82,21 +84,22 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
 
 				// Send response.
-				$response = [
-					'success'         => true,
-					'msg'             => __( 'All Blocks Enabled', 'block-manager' ),
-					'disabled_blocks' => $blocks,
-				];
+				wp_send_json(
+					[
+						'success'         => true,
+						'msg'             => __( 'All blocks in category enabled', 'block-manager' ),
+						'disabled_blocks' => $blocks,
+					]
+				);
 			}
 		} else {
-			$response = [
-				'success'         => false,
-				'msg'             => __( 'Error accessing API data.', 'block-manager' ),
-				'disabled_blocks' => [],
-			];
+			wp_send_json(
+				[
+					'success'         => false,
+					'msg'             => __( 'Error accessing API data', 'block-manager' ),
+					'disabled_blocks' => [],
+				]
+			);
 		}
-
-		wp_send_json( $response ); // Send response as JSON.
-
 	}
 }

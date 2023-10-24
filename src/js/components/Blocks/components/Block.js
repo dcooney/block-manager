@@ -35,9 +35,9 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	function click() {
 		const target = blockRef?.current;
 		if (target) {
-			const id = target.dataset.id;
+			const { id, title: blockTitle } = target.dataset;
 			if (!target.classList.contains('filtered')) {
-				toggleBlock(target, id);
+				toggleBlock(target, id, blockTitle);
 				target.blur();
 			} else {
 				// eslint-disable-next-line no-alert

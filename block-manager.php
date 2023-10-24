@@ -13,6 +13,15 @@
  * @package blockmanager
  */
 
+/*
+* NEW: Adding notification system for feedback after action is performed.
+* FIX: Fixed issue with missing loading animation.
+
+TODO:
+- Embed variations are not counting.
+- Disabled all variations if parent is disabled.
+*/
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -72,7 +81,7 @@ class Gutenberg_Block_Manager {
 		require_once 'api/category-reset.php';
 		require_once 'api/category-update.php';
 		require_once 'api/export.php';
-		require_once 'api/toggle.php';
+		require_once 'api/blocks-toggle.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 
@@ -89,9 +98,9 @@ class Gutenberg_Block_Manager {
 
 		// Update script dependencies based on current screen.
 		if ( is_object( get_current_screen() ) ) {
-			if ( $screen == 'site-editor' ) {
+			if ( $screen === 'site-editor' ) {
 				$dependencies[] = 'wp-edit-site';
-			} elseif ( $screen->id == 'widgets' ) {
+			} elseif ( $screen->id === 'widgets' ) {
 				$dependencies[] = 'wp-edit-widgets';
 			} else {
 				$dependencies[] = 'wp-edit-post';

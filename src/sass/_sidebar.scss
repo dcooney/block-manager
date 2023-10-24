@@ -21,7 +21,7 @@
 			background-color: #fff;
 			border-radius: $radius_lg;
 			border: 1px solid $grey;
-			box-shadow: 0 5px 10px rgba(0,0,0,.035);
+			box-shadow: $shadow;
 			margin-bottom: $padding;
 			h3 {
 				font-size: 14px;

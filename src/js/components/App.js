@@ -7,6 +7,7 @@ import Categories from './Categories/Categories';
 
 export default function App() {
 	const { filteredCategoriesAll = [] } = gbm_localize;
+
 	registerCoreBlocks();
 	const blocks = getBlockTypes();
 	const categories = getCategoryData();

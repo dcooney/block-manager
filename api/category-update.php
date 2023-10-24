@@ -50,6 +50,7 @@ function block_manager_category_update( WP_REST_Request $request ) {
 
 		$type     = $body['type'] ? $body['type'] : 'add';
 		$block    = $body['block'] ? $body['block'] : '';
+		$title    = $body['title'] ? $body['title'] : '';
 		$category = $body['category'] ? $body['category'] : '';
 
 		// Get current options.
@@ -97,7 +98,8 @@ function block_manager_category_update( WP_REST_Request $request ) {
 		wp_send_json(
 			[
 				'success'    => true,
-				'msg'        => __( 'Block category updated successfully.', 'block-manager' ),
+				// translators: %s: The block title.
+				'msg'        => sprintf( __( '%s category updated', 'block-manager' ), '<strong>' . $title . '</strong>' ),
 				'categories' => $options,
 			]
 		);

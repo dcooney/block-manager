@@ -33,16 +33,13 @@ add_action(
  */
 function block_manager_blocks_reset( WP_REST_Request $request ) {
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
-
 		delete_option( BLOCK_MANAGER_OPTION );
-
-		$response = array(
-			'success' => true,
-			'msg'     => __( 'Blocks reset successfully.', 'block-manager' ),
+		wp_send_json(
+			[
+				'success' => true,
+				'msg'     => __( 'All blocks reset successfully', 'block-manager' ),
+			]
 		);
-
-		wp_send_json( $response );
 	}
 }

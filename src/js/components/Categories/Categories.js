@@ -10,6 +10,7 @@ import SearchResults from '../Global/SearchResults';
 import Block from './components/Block';
 import Sidebar from './components/Sidebar';
 import { categoryOffsetCount } from '../../functions/helpers';
+import Notifications from '../Global/Notifications';
 
 /**
  * Render the Categories component.
@@ -32,6 +33,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 
 	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
+	const [notifications, setNotifications] = useState([]);
 	const [categories] = useState(wpCategories);
 
 	const [blocks] = useState(wpBlocks);
@@ -45,14 +47,13 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	 * Change the block category.
 	 *
 	 * @param {string}      block  The block ID.
+	 * @param {string}      title  The block title.
 	 * @param {HTMLElement} target The select HTML element.
 	 * @since 1.0
 	 */
-	function updateCategory(block, target) {
+	function updateCategory(block, title, target) {
 		const category = target.value;
 		const original = target.dataset.original;
-		const element = target.closest('.item');
-		const catStatus = element?.querySelector('.gbm-cat-status');
 		const type = category === original ? 'remove' : 'add';
 
 		// Send API request.
@@ -66,18 +67,23 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			data: {
 				type,
 				block,
+				title,
 				category,
 			},
 		})
 			.then(function (res) {
 				const { data, status } = res;
 				if (data && status === 200 && data?.categories) {
-					catStatus?.classList?.add('active');
 					// Success: update state for categories and blocks.
 					setBlockCategories([...data?.categories]);
-					setTimeout(function () {
-						catStatus?.classList?.remove('active');
-					}, 850);
+					setNotifications((prev) => [
+						...prev,
+						{
+							id: Date.now(),
+							msg: data?.msg,
+							success: true,
+						},
+					]);
 				} else {
 					console.warn(
 						__(
@@ -89,7 +95,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			})
 			.catch(function (error) {
 				console.warn(error);
-				catStatus?.classList?.remove('active');
 			});
 	}
 
@@ -281,6 +286,10 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							'Add the the following code to your functions.php to update block categories at the theme level.',
 							'block-manager'
 						)}
+					/>
+					<Notifications
+						notifications={notifications}
+						setNotifications={setNotifications}
 					/>
 				</>
 			)}

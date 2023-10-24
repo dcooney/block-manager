@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { countBlocks } from '../../functions/blocks';
-import Category from './components/Category';
+import { exportHook } from '../../functions/export';
 import Export from '../Global/Export';
 import ExportModal from '../Global/ExportModal';
-import Reset from '../Global/Reset';
-import Sidebar from './components/Sidebar';
-import { exportHook } from '../../functions/export';
-import SearchResults from '../Global/SearchResults';
 import Loader from '../Global/Loader';
+import Notifications from '../Global/Notifications';
+import Reset from '../Global/Reset';
+import SearchResults from '../Global/SearchResults';
+import Category from './components/Category';
+import Sidebar from './components/Sidebar';
 
 /**
  * Render the Blocks component.
@@ -26,6 +27,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 
 	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
+	const [notifications, setNotifications] = useState([]);
 	const [blocks, setBlocks] = useState([]);
 	const [disabledBlocks, setDisabledBlocks] = useState(
 		gbm_localize?.disabledBlocks
@@ -102,7 +104,9 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			})
 				.then(function (res) {
 					const { data = {}, status } = res;
-					if (status === 200 && data.success) {
+					const { success = true } = data;
+
+					if (status === 200 && success) {
 						[...allBlocks].forEach(function (block) {
 							if (type === 'enable') {
 								block.classList.remove('disabled');
@@ -113,14 +117,24 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						container.classList.remove('loading');
 						setDisabledBlocks(data.disabled_blocks);
 						setCategoryStatus(allBlocks[0]);
+						setNotifications((prev) => [
+							...prev,
+							{
+								id: Date.now(),
+								msg: data?.msg,
+								success,
+							},
+						]);
 					} else {
-						console.warn('an error has occurred');
 						container.classList.remove('loading');
+						console.warn(
+							__('An error has occurred', 'block-manager')
+						);
 					}
 				})
 				.catch(function (error) {
-					console.warn(error);
 					container.classList.remove('loading');
+					console.warn(error);
 				});
 		} else {
 			alert(__('No blocks found', 'block-manager')); // eslint-disable-line no-alert
@@ -131,9 +145,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	 * Toggle the status of a block.
 	 *
 	 * @param {Element} element The target element.
-	 * @param {Object}  block   Block data as an object.
+	 * @param {string}  block   Block name.
+	 * @param {string}  title   Block title.
 	 */
-	function toggleBlock(element, block) {
+	function toggleBlock(element, block, title) {
 		if (!element || element.classList.contains('loading')) {
 			return false;
 		}
@@ -151,12 +166,13 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				'X-WP-Nonce': gbm_localize.nonce,
 				'Content-Type': 'application/json',
 			},
-			data: { block, type },
+			data: { block, title, type },
 		})
 			.then(function (res) {
-				const { data, status } = res;
+				const { data = {}, status } = res;
+				const { success = true } = data;
 				if (data && status === 200) {
-					if (data.success) {
+					if (success) {
 						if (type === 'disable') {
 							element.classList.add('disabled');
 						} else {
@@ -166,14 +182,18 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						setCategoryStatus(element);
 					}
 					setDisabledBlocks(data.disabled_blocks);
+					setNotifications((prev) => [
+						...prev,
+						{ id: Date.now(), msg: data?.msg, success },
+					]);
 				} else {
-					console.warn('an error has occurred');
 					element.classList.remove('loading');
+					console.warn(__('An error has occurred', 'block-manager'));
 				}
 			})
 			.catch(function (error) {
-				console.warn(error);
 				element.classList.remove('loading');
+				console.warn(error);
 			});
 	}
 
@@ -228,7 +248,8 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				'Content-Type': 'application/json',
 			},
 		})
-			.then(function () {
+			.then(function (res) {
+				const { data = {} } = res;
 				const items = document.querySelectorAll(
 					'.gbm-block-list .item.disabled:not(.filtered)'
 				);
@@ -238,6 +259,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					});
 				}
 				setDisabledBlocks([]);
+				setNotifications((prev) => [
+					...prev,
+					{ id: Date.now(), msg: data?.msg, success: true },
+				]);
 				setTimeout(function () {
 					resetButtonRef?.current?.classList.remove('spin');
 				}, 250);
@@ -392,7 +417,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							<div className="gbm-options">
 								<p className="gbm-heading">
 									{__(
-										'Select blocks below to globally remove them from the WordPress Block Inserter.',
+										'Select blocks below to globally removed from the WordPress Block Inserter.',
 										'block-manager'
 									)}
 								</p>
@@ -450,6 +475,10 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							'Add the the following code to your functions.php to remove blocks at the theme level.',
 							'block-manager'
 						)}
+					/>
+					<Notifications
+						notifications={notifications}
+						setNotifications={setNotifications}
 					/>
 				</>
 			)}

@@ -4,7 +4,8 @@ $radius_lg: 6px;
 $padding: 15px;
 $purple: #8568c1;
 $purple_alt: #a788e5;
-$green: #8ddc77;
+$green: #5fc067;
+$red: #be2d2d;
 $grey_light: #f7f7f7;
 $grey: #e2e5e7;
 $grey_dark: #999ea2;
@@ -13,6 +14,7 @@ $yellow: #ffdb28;
 $text: #3d3e40;
 $blue: #007cba;
 $border_light: rgba($grey, 0.5);
+$shadow: 0 5px 10px rgba(0,0,0,.035);
 
 $block_filtered: #fefdd9;
 $block_disabled: $grey_light;
@@ -21,6 +23,7 @@ $block_hover: #f0faff;
 
 $xsmall: 480px;
 $small: 768px;
+$wp_break: 782px;
 $medium: 1024px;
 $large: 1300px;
 $xlarge: 1500px;

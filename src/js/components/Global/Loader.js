@@ -12,7 +12,7 @@ export default function Loader({ callback }) {
 	useEffect(() => {
 		setTimeout(() => {
 			callback();
-		}, 1);
+		}, 1000);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 	return (
 		<div className="gbm-loader">

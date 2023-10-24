@@ -32,7 +32,7 @@ export default function Block({
 	const updated = blockCategories?.find((cat) => cat.block === name);
 
 	function handler() {
-		callback(name, selectRef?.current);
+		callback(name, title, selectRef?.current);
 		setActiveCategory(selectRef?.current?.value);
 	}
 
@@ -85,12 +85,6 @@ export default function Block({
 							);
 						})}
 				</select>
-			</div>
-			<div className="gbm-cat-status">
-				<i className="fa fa-check" aria-hidden="true"></i>
-				<span className="offscreen">
-					{__('Category Updated', 'block-manager')}
-				</span>
 			</div>
 		</div>
 	);

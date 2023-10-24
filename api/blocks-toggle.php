@@ -41,25 +41,37 @@ function block_manager_toggle( WP_REST_Request $request ) {
 
 		if ( $body ) {
 			$block           = $body['block'] ? $body['block'] : ''; // block name.
+			$title           = $body['title'] ? $body['title'] : ''; // block title.
 			$type            = $body['type'] ? $body['type'] : 'enable'; // enable/disable.
 			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks(); // Get disabled blocks.
 
+			if ( ! $block ) {
+				wp_send_json(
+					[
+						'success' => false,
+						'msg'     => __( 'Unable to update block.', 'block-manager' ),
+					]
+				);
+			}
+
 			// Disable.
-			if ( $block && $type === 'disable' ) {
+			if ( $type === 'disable' ) {
 				if ( ! in_array( $block, $disabled_blocks, true ) ) {
 					$disabled_blocks[] = $block;
 				}
-
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
-				$response = [
-					'success'         => true,
-					'msg'             => __( 'Block Disabled', 'block-manager' ),
-					'disabled_blocks' => $disabled_blocks,
-				];
+				wp_send_json(
+					[
+						'success'         => true,
+						// translators: %s: The block title.
+						'msg'             => sprintf( __( '%s block disabled', 'block-manager' ), '<strong>' . $title . '</strong>' ),
+						'disabled_blocks' => $disabled_blocks,
+					]
+				);
 			}
 
 			// Enable.
-			if ( $block && $type === 'enable' ) {
+			if ( $type === 'enable' ) {
 				$blocks = [];
 
 				// Loop all blocks and remove the specific block to be enabled.
@@ -68,23 +80,24 @@ function block_manager_toggle( WP_REST_Request $request ) {
 						$blocks[] = $disabled_block;
 					}
 				}
-
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
-				$response = [
-					'success'         => true,
-					'msg'             => __( 'Block enabled', 'block-manager' ),
-					'disabled_blocks' => $blocks,
-				];
+				wp_send_json(
+					[
+						'success'         => true,
+						// translators: %s: The block title.
+						'msg'             => sprintf( __( '%s block enabled', 'block-manager' ), '<strong>' . $title . '</strong>' ),
+						'disabled_blocks' => $blocks,
+					]
+				);
 			}
 		} else {
-			$response = [
-				'success'         => false,
-				'msg'             => __( 'Error accessing API data.', 'block-manager' ),
-				'disabled_blocks' => [],
-			];
+			wp_send_json(
+				[
+					'success'         => false,
+					'msg'             => __( 'Error accessing API data.', 'block-manager' ),
+					'disabled_blocks' => [],
+				]
+			);
 		}
-
-		wp_send_json( $response );
-
 	}
 }
