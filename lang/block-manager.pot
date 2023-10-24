@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-20T17:19:50+00:00\n"
+"POT-Creation-Date: 2023-10-24T15:35:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -39,51 +39,61 @@ msgstr ""
 msgid "https://connekthq.com"
 msgstr ""
 
-#: api/blocks-reset.php:43
-msgid "Blocks reset successfully."
+#: api/blocks-reset.php:41
+msgid "All blocks reset successfully"
 msgstr ""
 
-#: api/bulk-process.php:66
-msgid "All Blocks Disabled"
+#: api/blocks-toggle.php:52
+msgid "Unable to update block."
 msgstr ""
 
-#: api/bulk-process.php:87
-msgid "All Blocks Enabled"
+#. translators: %s: The block title.
+#: api/blocks-toggle.php:67
+msgid "%s block disabled"
 msgstr ""
 
-#: api/bulk-process.php:94
+#. translators: %s: The block title.
+#: api/blocks-toggle.php:88
+msgid "%s block enabled"
+msgstr ""
+
+#: api/blocks-toggle.php:97
 #: api/category-update.php:45
-#: api/toggle.php:82
 msgid "Error accessing API data."
+msgstr ""
+
+#: api/bulk-process.php:67
+msgid "All blocks in category disabled"
+msgstr ""
+
+#: api/bulk-process.php:90
+msgid "All blocks in category enabled"
+msgstr ""
+
+#: api/bulk-process.php:99
+msgid "Error accessing API data"
 msgstr ""
 
 #: api/category-reset.php:44
 msgid "Categories reset successfully."
 msgstr ""
 
-#: api/category-update.php:100
-msgid "Block category updated successfully."
+#. translators: %s: The block title.
+#: api/category-update.php:102
+msgid "%s category updated"
 msgstr ""
 
 #: api/export.php:69
 msgid "Unatuhorized."
 msgstr ""
 
-#: api/toggle.php:56
-msgid "Block Disabled"
-msgstr ""
-
-#: api/toggle.php:75
-msgid "Block enabled"
-msgstr ""
-
-#: block-manager.php:205
+#: block-manager.php:214
 #: class-admin.php:240
 #: src/js/components/Categories/components/Sidebar.js:89
 msgid "Blocks"
 msgstr ""
 
-#: block-manager.php:206
+#: block-manager.php:215
 #: class-admin.php:248
 msgid "Block Categories"
 msgstr ""
@@ -102,29 +112,34 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:126
+#: src/js/components/Blocks/Blocks.js:131
+#: src/js/components/Blocks/Blocks.js:191
+msgid "An error has occurred"
+msgstr ""
+
+#: src/js/components/Blocks/Blocks.js:140
 msgid "No blocks found"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:394
-msgid "Select blocks below to globally remove them from the WordPress Block Inserter."
+#: src/js/components/Blocks/Blocks.js:419
+msgid "Select blocks below to globally removed from the WordPress Block Inserter."
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:404
+#: src/js/components/Blocks/Blocks.js:429
 #: src/js/components/Blocks/components/Reset.js:19
 msgid "Are you sure you want to reset and activate all currently disabled blocks?"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:408
+#: src/js/components/Blocks/Blocks.js:433
 #: src/js/components/Blocks/components/Reset.js:34
 msgid "Clear all disabled blocks"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:417
+#: src/js/components/Blocks/Blocks.js:442
 msgid "Export an array of disabled blocks as a WordPress hook"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:449
+#: src/js/components/Blocks/Blocks.js:474
 msgid "Add the the following code to your functions.php to remove blocks at the theme level."
 msgstr ""
 
@@ -188,28 +203,28 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:83
+#: src/js/components/Categories/Categories.js:89
 msgid "An unknown error has occurred and the block category could not be updated"
 msgstr ""
 
 #. translators: %s: The number of blocks.
-#: src/js/components/Categories/Categories.js:213
+#: src/js/components/Categories/Categories.js:218
 msgid "Organize your %s WordPress blocks by modifying the assigned block category of each."
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:226
+#: src/js/components/Categories/Categories.js:231
 msgid "Are you sure you want to reset your modified block categories?"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:230
+#: src/js/components/Categories/Categories.js:235
 msgid "Clear all modified block categories"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:239
+#: src/js/components/Categories/Categories.js:244
 msgid "Export an array of updated blocks categories as a WordPress hook"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:280
+#: src/js/components/Categories/Categories.js:285
 msgid "Add the the following code to your functions.php to update block categories at the theme level."
 msgstr ""
 
@@ -219,10 +234,6 @@ msgstr ""
 
 #: src/js/components/Categories/components/Block.js:79
 msgid "Default"
-msgstr ""
-
-#: src/js/components/Categories/components/Block.js:92
-msgid "Category Updated"
 msgstr ""
 
 #: src/js/components/Categories/components/Sidebar.js:79
