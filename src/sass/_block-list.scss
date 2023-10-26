@@ -9,19 +9,22 @@
 	padding: 10px;
 	text-align: left;
 	grid-template-columns: repeat(2, minmax(0,1fr));
-	@media screen and (min-width: $xsmall) {
+	@media screen and (min-width: $msmall) {
 		grid-template-columns: repeat(3, minmax(0,1fr));
 	}
 	@media screen and (min-width: $small) {
 		grid-template-columns: repeat(3, minmax(0,1fr));
 	}
 	@media screen and (min-width: $medium) {
-		grid-template-columns: repeat(5, minmax(0,1fr));
+		grid-template-columns: repeat(4, minmax(0,1fr));
 	}
 	@media screen and (min-width: $large) {
-		grid-template-columns: repeat(6, minmax(0,1fr));
+		grid-template-columns: repeat(5, minmax(0,1fr));
 	}
 	@media screen and (min-width: $xlarge) {
+		grid-template-columns: repeat(7, minmax(0,1fr));
+	}
+	@media screen and (min-width: $xxlarge) {
 		grid-template-columns: repeat(8, minmax(0,1fr));
 	}
 	.item {
@@ -40,6 +43,9 @@
 		overflow: hidden;
 		border-radius: $radius;
 		transition: border-color 0.1s ease;
+		&.is-variation {
+			border-style: dashed;
+		}
 		> div {
 			position: relative;
 			z-index: 1;
@@ -52,6 +58,7 @@
 
 		.icon {
 			width: 28px;
+			height: 28px;
 			display: block;
 			margin: 0;
 			opacity: 0.75;
@@ -69,21 +76,22 @@
 			text-align: center;
 			padding: 0;
 			margin: 0;
-			font-weight: 400;
 			line-height: 1.35;
 			text-transform: capitalize;
 			font-size: 12px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-
+			font-weight: 500;
 			span {
 				display: block;
 				color: $grey_dark;
 				text-transform: lowercase;
 			}
-			&.block-desc{
-				display: none;
+			& .block-title--prefix{
+				font-style: normal;
+				opacity: 0.5;
+				font-weight: 400;
 			}
 		}
 		.gbm-block-switch,
@@ -94,7 +102,6 @@
 		&:hover:not(.filtered),
 		&:focus:not(.filtered){
 			border-color: #c3c4c7;
-			//order-color: rgba($grey_dark, 0.5);
 		}
 		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
 		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
@@ -129,7 +136,6 @@
 				opacity: 0.5;
 			}
 		}
-
 		&--wrap {
 			display: flex;
 			align-items: flex-start;
@@ -228,6 +234,13 @@
 				span {
 					font-size: 12px;
 					font-family: Menlo,Consolas,Monaco,Lucida Console,monospace;
+					width: 100%;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: block;
+					padding-top: 2px;
+					font-weight: 400;
 				}
 			}
 		}
@@ -259,7 +272,7 @@
 				position: relative;
 				left: 5px;
 				color: $text;
-				opacity: 0.65;
+				opacity: 0.5;
 			}
 		}
 		.gbm-block-switch {

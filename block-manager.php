@@ -16,10 +16,14 @@
 /*
 * NEW: Adding notification system for feedback after action is performed.
 * FIX: Fixed issue with missing loading animation.
+* FIX: Fixed issue with block variations not counting towards block count.
+* UPDATE: Added display indicator for variation blocks.
 
 TODO:
-- Embed variations are not counting.
+- Variations not counting toward block count.
+- Embed variations are not counting. [DONE]
 - Disabled all variations if parent is disabled.
+	- It's not working because the blockname includes variation;embed;blockname in title.
 */
 
 // Exit if accessed directly.
@@ -248,10 +252,15 @@ class Gutenberg_Block_Manager {
 		if ( in_array( $screen->base, $base_array, true ) ) {
 			$divider = '<em>|</em>';
 			$love    = '<span style="color: #e25555;">♥</span>';
-			echo wp_kses_post( 'Block Manager is made with ' . $love . ' by <a href="https://connekthq.com/?utm_source=WPAdmin&utm_medium=BlockManager&utm_campaign=Footer" target="_blank" style="font-weight: 500;">Connekt</a> ' . $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" target="_blank" style="font-weight: 500;">Leave Review</a> ' . $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" target="_blank" style="font-weight: 500;">Support</a>' );
+			$atts    = ' target="_blank" style="font-weight: 500;"';
+
+			$msg  = 'Block Manager is made with ' . $love . ' by <a href="https://connekthq.com/?utm_source=WPAdmin&utm_medium=BlockManager&utm_campaign=Footer" target="_blank" style="font-weight: 500;">Connekt</a> ';
+			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" ' . $atts . '>Leave Review</a> ';
+			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" ' . $atts . '>Support</a> ';
+			$msg .= $divider . ' <a href="https://github.com/dcooney/block-manager/" ' . $atts . '>Github</a>';
+			echo wp_kses_post( $msg );
 		}
 	}
-
 }
 
 /**

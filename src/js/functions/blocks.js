@@ -1,3 +1,4 @@
+import { variationBlocks } from '../constants';
 import { removeDisabledBlocks, setBlockCategory, sortBlocks } from './helpers';
 
 /**
@@ -14,7 +15,7 @@ export function getBlockCategoryData(blocks) {
 }
 
 /**
- * Get all WP blocks with updated categories.
+ * Get all WP blocks and variations with updated categories.
  *
  * @param {Array} blocks             Array of WP Blocks.
  * @param {Array} filteredCategories The filtered categories.
@@ -42,7 +43,58 @@ export function getBlocksData(blocks, filteredCategories = []) {
 		});
 	}
 
-	return wpBlocks;
+	return getAllBlocksAndVariations(wpBlocks);
+}
+
+/**
+ * Get an array of blocks and any block variations.
+ * Block variations are stored in a nested `variations` array of each block.
+ *
+ * @param {Array} blocks Array of blocks.
+ * @return {Array}       Array of blocks with variations included.
+ */
+export function getAllBlocksAndVariations(blocks) {
+	if (!blocks?.length) {
+		return [];
+	}
+	const WPBlocks = [];
+
+	// Loop all blocks.
+	blocks.forEach((block) => {
+		const { name, variations, category } = block;
+		WPBlocks.push(block);
+		if (variationBlocks.includes(name) && variations?.length) {
+			// Loop block variations and push into array.
+			variations.forEach((variation) => {
+				WPBlocks.push({
+					...variation,
+					name: `variation;${name};${variation?.name}`,
+					variation: name,
+					category,
+				});
+			});
+		}
+	});
+	return WPBlocks;
+}
+
+/**
+ * Count total disabled and filtered blocks.
+ * Make sure block is installed when being counted.
+ *
+ * @param {Array} blocks   Array of blocks with parent categories.
+ * @param {Array} disabled Array of disabled blocks.
+ * @param {Array} filtered Array of filtered blocks.
+ * @return {Object}        Total number of blocks in an object.
+ */
+export function countDisabledBlocks(blocks, disabled, filtered) {
+	return {
+		disabledCount: blocks.filter((block) => {
+			return disabled?.includes(block.name);
+		})?.length,
+		filteredCount: blocks.filter((block) => filtered?.includes(block.name))
+			?.length,
+	};
 }
 
 /**
@@ -51,6 +103,7 @@ export function getBlocksData(blocks, filteredCategories = []) {
  *
  * @param {Array} blocks Array of blocks with parent categories
  * @return {number}      Total number of blocks
+ * @deprecated 2.1
  */
 export function countBlocks(blocks) {
 	if (!blocks?.length) {

@@ -49,9 +49,9 @@ export default function Block({
 		>
 			<div className="gbm-category-wrap">
 				<Icon icon={icon} />
-				<p title={name}>
+				<p title={title}>
 					{title}
-					<span>{name}</span>
+					<span title={name}>{name}</span>
 				</p>
 			</div>
 			<div className="gbm-category-wrap category-switch">

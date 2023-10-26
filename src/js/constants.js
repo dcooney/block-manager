@@ -5,3 +5,5 @@ export const excludedBlocks = [
 	//"core/pattern",
 	//"core/post-navigation-link",
 ];
+
+export const variationBlocks = ['core/embed'];

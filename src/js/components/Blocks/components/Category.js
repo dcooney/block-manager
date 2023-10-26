@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { variationBlocks } from '../../../constants';
 import Block from './Block';
 
 /**
@@ -21,22 +22,18 @@ export default function Category({
 }) {
 	const { blocks = [], info } = data;
 	const { title } = info;
-	const total = blocks.length;
+
+	// Get total blocks in category, include variations if displayed.
+	const total = blocks?.length;
 
 	// Combine disabled and filtered blocks.
-	const allDisabledBlocks = [...disabledBlocks, ...filteredBlocks];
+	const allDisabled = [...disabledBlocks, ...filteredBlocks];
 
 	// Count disabled blocks.
 	// Loop all blocks in the category and find match.
-	let count = 0;
-	if (allDisabledBlocks.length) {
-		blocks.forEach(function (block) {
-			const found = allDisabledBlocks.indexOf(block?.name);
-			if (found !== -1) {
-				count++;
-			}
-		});
-	}
+	const count =
+		allDisabled?.length &&
+		blocks.filter((block) => allDisabled.includes(block?.name))?.length;
 
 	// Set toggle button attributes
 	const switchClass =
@@ -45,17 +42,17 @@ export default function Category({
 
 	return (
 		<div
-			key={data.info.slug}
-			id={'block-' + data.info.slug}
+			key={info?.slug}
+			id={`block-${info?.slug}`}
 			className="gbm-block-group"
-			data-total-blocks={data.blocks.length}
+			data-total-blocks={total}
 			tabIndex={-1}
 		>
 			<div className="gbm-block-list-heading">
 				<h3>
 					{title}
 					<span>
-						[{total - count}/{data.blocks.length}]
+						[{total - count}/{total}]
 					</span>
 				</h3>
 				<button
@@ -82,13 +79,34 @@ export default function Category({
 			<div className="gbm-block-list">
 				{!!blocks?.length &&
 					blocks.map((block, index) => (
-						<Block
-							key={index + block.name}
-							data={block}
-							toggleBlock={toggleBlock}
-							disabledBlocks={disabledBlocks}
-							filteredBlocks={filteredBlocks}
-						/>
+						<>
+							<Block
+								key={index + block?.name}
+								data={block}
+								toggleBlock={toggleBlock}
+								disabledBlocks={disabledBlocks}
+								filteredBlocks={filteredBlocks}
+							/>
+							{!!block?.variations?.length &&
+								variationBlocks.includes(block?.name) &&
+								block?.variations.map((variation) => {
+									const variationData = {
+										...variation,
+										name: `variation;${block?.name};${variation?.name}`,
+										prefix: block?.title,
+										variation: block?.name,
+									};
+									return (
+										<Block
+											key={index + variation.name}
+											data={variationData}
+											toggleBlock={toggleBlock}
+											disabledBlocks={disabledBlocks}
+											filteredBlocks={filteredBlocks}
+										/>
+									);
+								})}
+						</>
 					))}
 			</div>
 		</div>

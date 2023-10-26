@@ -15,7 +15,15 @@ import DisabledSVG from './DisabledSVG';
  * @return {Element}                      The Block component.
  */
 function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
-	const { icon, name, title, description } = data;
+	const {
+		icon,
+		name,
+		title,
+		description,
+		category,
+		variation = '',
+		prefix,
+	} = data;
 	const blockRef = useRef(null);
 
 	const disabled = disabledBlocks?.length
@@ -52,6 +60,14 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 		}
 	}
 
+	const intro = variation
+		? sprintf(
+				// translators: Parent block slug.
+				__('%s Block Variation:', 'block-manager'),
+				prefix
+		  )
+		: `${title}:`;
+
 	return (
 		<button
 			ref={blockRef}
@@ -59,16 +75,24 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 			aria-label={__('Toggle Block Activation', 'block-manager')}
 			data-title={title}
 			data-description={description}
-			className={cn('item block-button', disabledClass, filteredClass)}
+			className={cn(
+				'item block-button',
+				disabledClass,
+				filteredClass,
+				variation ? 'is-variation' : null
+			)}
 			data-id={name}
-			data-category={data.category}
+			data-category={category}
 			onClick={(e) => click(e)}
-			title={`[${name}]: ${description}`}
+			title={`${intro} ${description}`}
 		>
 			<div>
 				<Icon icon={icon} />
 				{!!title && (
-					<p className="block-title" title={title}>
+					<p className="block-title">
+						{!!prefix && (
+							<em className="block-title--prefix">{prefix}/</em>
+						)}
 						{title}
 					</p>
 				)}

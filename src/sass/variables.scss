@@ -13,6 +13,7 @@ $grey_darker: #858789;
 $yellow: #ffdb28;
 $text: #3d3e40;
 $blue: #007cba;
+$blue_grey: #b5c4cb;
 $border_light: rgba($grey, 0.5);
 $shadow: 0 5px 10px rgba(0,0,0,.035);
 
@@ -22,11 +23,13 @@ $block_updated: #f5f1ff;
 $block_hover: #f0faff;
 
 $xsmall: 480px;
+$msmall: 640px;
 $small: 768px;
 $wp_break: 782px;
 $medium: 1024px;
 $large: 1300px;
 $xlarge: 1500px;
+$xxlarge: 1700px;
 
 
 @mixin buttonHover(){
