@@ -42,7 +42,7 @@ Use the `gbm_disabled_blocks` filter to control blocks via backend code.
 
 #### gbm_block_categories
 
-Use the `gbm_block_categories` filter to update block categories blocks via backend code.
+Use the `gbm_block_categories` filter to update block categories via backend code.
 
 	// functions.php
 	add_filter( 'gbm_block_categories', function() {
@@ -101,7 +101,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-== 2.0.0 - October 20, 2023 ==
+= 2.0.0 - October 20, 2023 =
 * NEW - New admin interface and interactions for the Block and Block Categories pages.
 * NEW: Added block category export and hook `gbm_block_categories` to allow for changing block categories at the theme level.
 * UPDATE: Updated build scripts and dependencies to use wp-scripts.
