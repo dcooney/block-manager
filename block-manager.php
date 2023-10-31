@@ -15,12 +15,12 @@
 
 /*
 * NEW: Adding notification system for feedback after action is performed.
+* UPDATE: Added display indicators for variation blocks.
 * FIX: Fixed issue with missing loading animation.
 * FIX: Fixed issue with block variations not counting towards block count.
-* UPDATE: Added display indicator for variation blocks.
 
 TODO:
-- Variations not counting toward block count.
+- Variations not counting toward block count. [DONE]
 - Embed variations are not counting. [DONE]
 - Disabled all variations if parent is disabled.
 	- It's not working because the blockname includes variation;embed;blockname in title.
@@ -81,11 +81,11 @@ class Gutenberg_Block_Manager {
 		add_filter( 'admin_footer_text', [ &$this, 'gbm_filter_admin_footer_text' ] );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
 		require_once 'api/blocks-reset.php';
+		require_once 'api/blocks-toggle.php';
 		require_once 'api/bulk-process.php';
 		require_once 'api/category-reset.php';
 		require_once 'api/category-update.php';
 		require_once 'api/export.php';
-		require_once 'api/blocks-toggle.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 
