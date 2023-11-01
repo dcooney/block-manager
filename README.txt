@@ -6,7 +6,7 @@ Tested up to: 6.4
 License: GPLv2 or later
 Stable tag: trunk
 Homepage: https://connekthq.com/
-Version: 2.1.0.1
+Version: 2.1.1
 
 Globally remove blocks from being displayed in the WordPress Block Inserter and Editor.
 
@@ -101,7 +101,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-= 2.1.0.1 - November 1, 2023 =
+= 2.1.1 - November 1, 2023 =
 * HOTFIX: Fix for undefined React key warning when `WP_DEBUG` is enabled.
 
 
