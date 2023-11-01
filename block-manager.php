@@ -13,26 +13,13 @@
  * @package blockmanager
  */
 
-/*
-* NEW: Adding notification system for feedback after action is performed.
-* UPDATE: Added display indicators for variation blocks.
-* FIX: Fixed issue with missing loading animation.
-* FIX: Fixed issue with block variations not counting towards block count.
-
-TODO:
-- Variations not counting toward block count. [DONE]
-- Embed variations are not counting. [DONE]
-- Disabled all variations if parent is disabled.
-	- It's not working because the blockname includes variation;embed;blockname in title.
-*/
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '2.0.0' );
-define( 'BLOCK_MANAGER_RELEASE', 'October 20, 2023' );
+define( 'BLOCK_MANAGER_VERSION', '2.1.0' );
+define( 'BLOCK_MANAGER_RELEASE', 'November 1, 2023' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
