@@ -1,12 +1,13 @@
 === Block Manager ===
 Contributors: dcooney, connekthq
 Tags: blocks, remove blocks, disable blocks, manage blocks, block category, update category, block manager
+Homepage: https://connekthq.com/
+Donate link: https://connekthq.com/donate
 Requires at least: 5.0
+Requires PHP: 7.0
 Tested up to: 6.4
 License: GPLv2 or later
-Stable tag: trunk
-Homepage: https://connekthq.com/
-Version: 2.1.1
+Stable tag: 2.1.1
 
 Globally remove blocks from being displayed in the WordPress Block Inserter and Editor.
 
