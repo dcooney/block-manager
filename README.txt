@@ -2,11 +2,11 @@
 Contributors: dcooney, connekthq
 Tags: blocks, remove blocks, disable blocks, manage blocks, block category, update category, block manager
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.4
 License: GPLv2 or later
 Stable tag: trunk
 Homepage: https://connekthq.com/
-Version: 2.0.0
+Version: 2.1.0
 
 Globally remove blocks from being displayed in the WordPress Block Inserter and Editor.
 
@@ -100,6 +100,14 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 4. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
+
+= 2.1.0 - November 1, 2023 =
+* NEW: Adding notification system for feedback after action is performed.
+* UPDATE: Added display indicators for variation blocks.
+* FIX: Fixed potenitally upgrade issue with disabled blocks throwing admin error due to object vs array data.
+* FIX: Fixed issue with missing loading animation.
+* FIX: Fixed issue with block variations not counting towards block count.
+
 
 = 2.0.0 - October 20, 2023 =
 * NEW - New admin interface and interactions for the Block and Block Categories pages.

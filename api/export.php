@@ -64,11 +64,14 @@ function block_manager_export( WP_REST_Request $request ) {
 		);
 
 	} else {
-		$response = array(
-			'success' => false,
-			'msg'     => __( 'Unatuhorized.', 'block-manager' ),
+		wp_send_json(
+			[
+				'success' => false,
+				'msg'     => __(
+					'Unatuhorized.',
+					'block-manager'
+				),
+			]
 		);
-
-		wp_send_json( $response );
 	}
 }

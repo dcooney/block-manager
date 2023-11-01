@@ -9,12 +9,12 @@ import DisabledSVG from './DisabledSVG';
  *
  * @param {Object}   props                The component props.
  * @param {Object}   props.data           Array of WP blocks.
+ * @param {Array}    props.disabledBlocks Array of disabled blocks.
+ * @param {Array}    props.filteredBlocks Array of filtered blocks.
  * @param {Function} props.toggleBlock    Function to toggle the activation of a block.
- * @param {Array}    props.disabledBlocks Disabled blocks.
- * @param {Array}    props.filteredBlocks Filtered blocks.
  * @return {Element}                      The Block component.
  */
-function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
+function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 	const {
 		icon,
 		name,
@@ -26,16 +26,11 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	} = data;
 	const blockRef = useRef(null);
 
-	const disabled = disabledBlocks?.length
-		? disabledBlocks.indexOf(name) !== -1
-		: false;
+	const disabled = disabledBlocks?.indexOf(name) !== -1;
 	const disabledClass = disabled ? 'disabled' : '';
 
-	const isFiltered =
-		filteredBlocks?.length && filteredBlocks?.indexOf(name) !== -1
-			? true
-			: false;
-	const filteredClass = isFiltered ? 'filtered' : '';
+	const filtered = filteredBlocks?.indexOf(name) !== -1;
+	const filteredClass = filtered ? 'filtered' : '';
 
 	/**
 	 * Handle the click event for the block button.
@@ -71,7 +66,7 @@ function Block({ data, toggleBlock, disabledBlocks, filteredBlocks }) {
 	return (
 		<button
 			ref={blockRef}
-			tabIndex={isFiltered ? -1 : null}
+			tabIndex={filtered ? -1 : null}
 			aria-label={__('Toggle Block Activation', 'block-manager')}
 			data-title={title}
 			data-description={description}

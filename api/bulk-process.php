@@ -57,10 +57,8 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 					}
 				}
 
-				// Update option.
+				$disabled_blocks = array_values( $disabled_blocks );
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
-
-				// Send response.
 				wp_send_json(
 					[
 						'success'         => true,
@@ -80,10 +78,8 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 					}
 				}
 
-				// Update option.
+				$blocks = array_values( $blocks );
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
-
-				// Send response.
 				wp_send_json(
 					[
 						'success'         => true,

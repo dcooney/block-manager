@@ -6,33 +6,20 @@
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 2.0.0
+ * Version: 2.1.0
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
  * @package blockmanager
  */
 
-/*
-* NEW: Adding notification system for feedback after action is performed.
-* FIX: Fixed issue with missing loading animation.
-* FIX: Fixed issue with block variations not counting towards block count.
-* UPDATE: Added display indicator for variation blocks.
-
-TODO:
-- Variations not counting toward block count.
-- Embed variations are not counting. [DONE]
-- Disabled all variations if parent is disabled.
-	- It's not working because the blockname includes variation;embed;blockname in title.
-*/
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '2.0.0' );
-define( 'BLOCK_MANAGER_RELEASE', 'October 20, 2023' );
+define( 'BLOCK_MANAGER_VERSION', '2.1.0' );
+define( 'BLOCK_MANAGER_RELEASE', 'November 1, 2023' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
@@ -81,11 +68,11 @@ class Gutenberg_Block_Manager {
 		add_filter( 'admin_footer_text', [ &$this, 'gbm_filter_admin_footer_text' ] );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
 		require_once 'api/blocks-reset.php';
+		require_once 'api/blocks-toggle.php';
 		require_once 'api/bulk-process.php';
 		require_once 'api/category-reset.php';
 		require_once 'api/category-update.php';
 		require_once 'api/export.php';
-		require_once 'api/blocks-toggle.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 
@@ -139,7 +126,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_block_categories() {
 		$categories = get_option( BLOCK_MANAGER_CATEGORIES, [] ); // Get option.
-		return $categories ? $categories : [];
+		return $categories ? array_values( $categories ) : [];
 	}
 
 	/**
@@ -151,7 +138,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_categories() {
 		$blocks = apply_filters( 'gbm_block_categories', [] ); // Get filtered block categories.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**
@@ -177,7 +164,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_disabled_blocks() {
 		$blocks = get_option( BLOCK_MANAGER_OPTION, [] ); // Get disabled blocks.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**
@@ -203,7 +190,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_blocks() {
 		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**
