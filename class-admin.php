@@ -120,8 +120,7 @@ class GBM_Admin {
 				update_option( BLOCK_MANAGER_OPTION, $options );
 			}
 		}
-
-		return $options;
+		return array_values( $options );
 	}
 
 	/**
@@ -148,7 +147,7 @@ class GBM_Admin {
 			}
 		}
 
-		return $options;
+		return array_values( $options );
 	}
 
 	/**

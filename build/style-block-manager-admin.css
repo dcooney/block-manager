@@ -990,7 +990,7 @@ h1.gbm-h1 {
 @media screen and (min-width: 782px) {
   .gbm-notification-list {
     width: 275px;
-    right: 25px;
+    right: 20px;
     bottom: 25px;
     font-size: 13px;
   }
