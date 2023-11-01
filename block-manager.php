@@ -139,7 +139,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_block_categories() {
 		$categories = get_option( BLOCK_MANAGER_CATEGORIES, [] ); // Get option.
-		return $categories ? $categories : [];
+		return $categories ? array_values( $categories ) : [];
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_categories() {
 		$blocks = apply_filters( 'gbm_block_categories', [] ); // Get filtered block categories.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_disabled_blocks() {
 		$blocks = get_option( BLOCK_MANAGER_OPTION, [] ); // Get disabled blocks.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Gutenberg_Block_Manager {
 	 */
 	public static function gbm_get_filtered_blocks() {
 		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
-		return ! empty( $blocks ) ? $blocks : [];
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**

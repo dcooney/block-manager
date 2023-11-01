@@ -59,6 +59,8 @@ function block_manager_toggle( WP_REST_Request $request ) {
 				if ( ! in_array( $block, $disabled_blocks, true ) ) {
 					$disabled_blocks[] = $block;
 				}
+
+				$disabled_blocks = array_values( $disabled_blocks );
 				update_option( BLOCK_MANAGER_OPTION, $disabled_blocks );
 				wp_send_json(
 					[
@@ -80,6 +82,8 @@ function block_manager_toggle( WP_REST_Request $request ) {
 						$blocks[] = $disabled_block;
 					}
 				}
+
+				$blocks = array_values( $blocks );
 				update_option( BLOCK_MANAGER_OPTION, $blocks );
 				wp_send_json(
 					[

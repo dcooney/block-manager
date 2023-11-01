@@ -26,24 +26,23 @@ add_action(
 );
 
 /**
- * Reset the Categories.
+ * Reset the updated block categories.
  *
  * @param WP_REST_Request $request The content of the HTTP request.
  * @since 1.0
  */
 function block_manager_category_reset( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
-
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
-
 		delete_option( BLOCK_MANAGER_CATEGORIES );
-
-		$response = array(
-			'success' => true,
-			'msg'     => __( 'Categories reset successfully.', 'block-manager' ),
+		wp_send_json(
+			[
+				'success' => true,
+				'msg'     => __(
+					'Categories reset successfully.',
+					'block-manager'
+				),
+			]
 		);
-
-		wp_send_json( $response ); // Send response as JSON.
 	}
 }

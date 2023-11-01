@@ -53,8 +53,7 @@ function block_manager_category_update( WP_REST_Request $request ) {
 		$title    = $body['title'] ? $body['title'] : '';
 		$category = $body['category'] ? $body['category'] : '';
 
-		// Get current options.
-		$options = (array) get_option( BLOCK_MANAGER_CATEGORIES, [] );
+		$options = Gutenberg_Block_Manager::gbm_get_block_categories(); // Get block categories.
 
 		if ( $type === 'remove' ) {
 			// Remove block category.
@@ -90,6 +89,8 @@ function block_manager_category_update( WP_REST_Request $request ) {
 				];
 			}
 		}
+
+		$options = array_values( $options );
 
 		// Update WP Options table.
 		update_option( BLOCK_MANAGER_CATEGORIES, $options );
