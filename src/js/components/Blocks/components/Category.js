@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { variationBlocks } from '../../../constants';
 import Block from './Block';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Render the Category component for the category listing.
@@ -79,9 +80,8 @@ export default function Category({
 			<div className="gbm-block-list">
 				{!!blocks?.length &&
 					blocks.map((block, index) => (
-						<>
+						<Fragment key={`${index}-${block?.name}`}>
 							<Block
-								key={index + block?.name}
 								data={block}
 								toggleBlock={toggleBlock}
 								disabledBlocks={disabledBlocks}
@@ -98,7 +98,7 @@ export default function Category({
 									};
 									return (
 										<Block
-											key={index + variation.name}
+											key={index + variation?.name}
 											data={variationData}
 											toggleBlock={toggleBlock}
 											disabledBlocks={disabledBlocks}
@@ -106,7 +106,7 @@ export default function Category({
 										/>
 									);
 								})}
-						</>
+						</Fragment>
 					))}
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import Search from '../../Global/Search';
 import DisabledSVG from './DisabledSVG';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 
 /**
  * Render the Sidebar for Block Manager.
@@ -168,10 +168,9 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					{!!blocks?.length &&
 						blocks.map((category) => (
-							<>
+							<Fragment key={category?.info?.slug}>
 								{!!category?.blocks?.length && (
 									<button
-										key={category?.info?.slug}
 										type="button"
 										data-to={
 											'block-' + category?.info?.slug
@@ -181,7 +180,7 @@ export default function Sidebar({
 										{category?.info?.title}
 									</button>
 								)}
-							</>
+							</Fragment>
 						))}
 					<Search callback={search} />
 				</div>

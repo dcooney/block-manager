@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { countDisabledBlocks } from '../../functions/blocks';
@@ -422,10 +422,9 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							/>
 							{!!blocks?.length &&
 								blocks.map((category) => (
-									<>
+									<Fragment key={category.info.slug}>
 										{!!category?.blocks?.length && (
 											<Category
-												key={category.info.slug}
 												data={category}
 												toggleBlock={toggleBlock}
 												disabledBlocks={disabledBlocks}
@@ -433,7 +432,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 												callback={categoryToggleSwitch}
 											/>
 										)}
-									</>
+									</Fragment>
 								))}
 						</div>
 					</div>

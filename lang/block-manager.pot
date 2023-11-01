@@ -2,14 +2,14 @@
 # This file is distributed under the GPL.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Manager 2.1.0\n"
+"Project-Id-Version: Block Manager 2.1.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-01T14:29:59+00:00\n"
+"POT-Creation-Date: 2023-11-01T16:04:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Export an array of disabled blocks as a WordPress hook"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:443
+#: src/js/components/Blocks/Blocks.js:442
 msgid "Add the the following code to your functions.php to remove blocks at the theme level."
 msgstr ""
 
@@ -156,8 +156,8 @@ msgstr ""
 msgid "Toggle Block Activation"
 msgstr ""
 
-#: src/js/components/Blocks/components/Category.js:62
-#: src/js/components/Blocks/components/Category.js:70
+#: src/js/components/Blocks/components/Category.js:63
+#: src/js/components/Blocks/components/Category.js:71
 msgid "Toggle all blocks in this category"
 msgstr ""
 
