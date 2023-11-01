@@ -102,9 +102,9 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 == Changelog ==
 
 = 2.1.0 - November 1, 2023 =
-* NEW: Adding notification system for feedback after action is performed.
+* NEW: Adding notification system for feedback after an action is performed.
 * UPDATE: Added display indicators for variation blocks.
-* FIX: Fixed potenitally upgrade issue with disabled blocks throwing admin error due to object vs array data.
+* FIX: Fixed potential upgrade issue with disabled blocks throwing admin error due to object vs array data.
 * FIX: Fixed issue with missing loading animation.
 * FIX: Fixed issue with block variations not counting towards block count.
 
