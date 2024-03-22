@@ -146,7 +146,7 @@ export default function Sidebar({
 											'Filtered Block',
 											'block-manager'
 									  )}`
-									: `${disabledTotal} ${__(
+									: `${filtered} ${__(
 											'Filtered Blocks',
 											'block-manager'
 									  )}`

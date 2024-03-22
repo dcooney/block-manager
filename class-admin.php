@@ -22,6 +22,24 @@ class GBM_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'gbm_register_sub_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'gbm_admin_enqueue' ] );
+		add_action( 'init', [ $this, 'gbm_unregister_patterns' ] );
+	}
+
+	public function gbm_unregister_patterns() {
+		if ( ! function_exists( 'unregister_block_pattern' ) ) {
+			return;
+		}
+
+		// add_action( 'after_setup_theme', function() {
+		// 	remove_theme_support( 'core-block-patterns' );
+		// } );
+
+		// add_filter( 'should_load_remote_block_patterns', '__return_false' );
+
+		$patterns = ["woocommerce-blocks/banner"];
+		foreach ( $patterns as $pattern ) {
+			unregister_block_pattern( $pattern );
+		}
 	}
 
 	/**
@@ -93,6 +111,7 @@ class GBM_Admin {
 				'blockCategories'       => $this->gbm_remove_duplicate_categories( Gutenberg_Block_Manager::gbm_get_block_categories(), $filtered_categories ),
 				'filteredCategories'    => $filtered_categories,
 				'filteredCategoriesAll' => Gutenberg_Block_Manager::gbm_get_all_block_categories(),
+				'patterns'              => Gutenberg_Block_Manager::gbm_get_all_patterns(),
 			]
 		);
 	}
@@ -181,6 +200,9 @@ class GBM_Admin {
 		if ( isset( $_GET ) && isset( $_GET['category-switcher'] ) && empty( $_GET['category-switcher'] ) ) {
 			$active = 'categories';
 		}
+		if ( isset( $_GET ) && isset( $_GET['patterns'] ) && empty( $_GET['patterns'] ) ) {
+			$active = 'patterns';
+		}
 		?>
 		<h1 class="gbm-h1"><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 		<div class="gbm-page-wrap">
@@ -237,6 +259,14 @@ class GBM_Admin {
 					?>
 					" href="options-general.php?page=block-manager">
 						<?php esc_html_e( 'Blocks', 'block-manager' ); ?>
+					</a>
+					<a class="nav-tab
+					<?php
+					if ( 'patterns' === $active ) {
+						echo ' nav-tab-active'; }
+					?>
+					" href="options-general.php?page=block-manager&patterns">
+						<?php esc_html_e( 'Patterns', 'block-manager' ); ?>
 					</a>
 					<a class="nav-tab
 					<?php

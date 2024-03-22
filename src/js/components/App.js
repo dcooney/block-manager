@@ -4,6 +4,7 @@ import { getBlockCategoryData, getBlocksData } from '../functions/blocks';
 import getCategoryData from '../functions/getCategoryData';
 import Blocks from './Blocks/Blocks';
 import Categories from './Categories/Categories';
+import Patterns from './Patterns/Patterns';
 
 export default function App() {
 	const { filteredCategoriesAll = [] } = gbm_localize;
@@ -14,21 +15,31 @@ export default function App() {
 
 	// Parse URL to get current view.
 	const url = window?.location?.href;
-	const isCategory = url.includes('category-switcher') ? true : false;
 
-	return (
-		<>
-			{isCategory ? (
-				<Categories
-					wpBlocks={getBlockCategoryData(blocks)}
-					wpCategories={categories}
-				/>
-			) : (
-				<Blocks
-					wpBlocks={getBlocksData(blocks, filteredCategoriesAll)}
-					wpCategories={categories}
-				/>
-			)}
-		</>
-	);
+	let type = 'blocks';
+	type = url.includes('category-switcher') ? 'categories' : type;
+	type = url.includes('patterns') ? 'patterns' : type;
+
+	function Display() {
+		switch (type) {
+			case 'categories':
+				return (
+					<Categories
+						wpBlocks={getBlockCategoryData(blocks)}
+						wpCategories={categories}
+					/>
+				);
+			case 'patterns':
+				return <Patterns />;
+			default:
+				return (
+					<Blocks
+						wpBlocks={getBlocksData(blocks, filteredCategoriesAll)}
+						wpCategories={categories}
+					/>
+				);
+		}
+	}
+
+	return <Display />;
 }

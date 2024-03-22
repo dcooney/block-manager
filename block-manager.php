@@ -13,6 +13,29 @@
  * @package blockmanager
  */
 
+/*
+* FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
+* FIX: Fixed issue with return value in admin_footer text.
+* UPDATE: Updated plugin installer vendor file.
+
+
+// Patterns
+- Started adding support for removing patterns.
+
+
+- Remove Remote Patterns
+The following code will disable the official patterns from wordpress.org/patterns which as the name implies
+are loaded remotely as opposed to being part of the the WordPress files installed on your server.
+
+`add_filter( 'should_load_remote_block_patterns', [ &$this, 'disable_remote_patterns_filter' ] );`
+
+The following code will remove the default core patterns that are installed in WordPress natively.
+`add_action( 'after_setup_theme', function() {
+   remove_theme_support( 'core-block-patterns' );
+} );`
+
+*/
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,6 +46,7 @@ define( 'BLOCK_MANAGER_RELEASE', 'November 1, 2023' );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
 define( 'BLOCK_MANAGER_CATEGORIES', 'gbm_categories' );
+define( 'BLOCK_MANAGER_PATTERNS', 'gbm_disabled_patterns' );
 
 /**
  * Block Manager Class.
@@ -115,6 +139,52 @@ class Gutenberg_Block_Manager {
 				'categories' => $this->gbm_get_all_block_categories(),
 			]
 		);
+
+	}
+
+	/**
+	 * Get all patterns.
+	 *
+	 * @author ConnektMedia
+	 * @since 1.2
+	 * @return array
+	 */
+	public static function gbm_get_all_patterns() {
+		if ( ! class_exists( 'WP_Block_Patterns_Registry' ) || ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
+			return;
+		}
+
+		$patterns   = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+		$categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
+
+	//	alm_print( $patterns );
+		//exit;
+
+		$formatted = [];
+
+		// Loop pattern categories and add to formatted array.
+		foreach( $categories as $category ) {
+			$formatted[$category['name']] = [
+				'label'       => isset( $category['label'] ) ? $category['label'] : '',
+				'name'        => isset( $category['name'] ) ? $category['name'] : '',
+				'description' => isset( $category['description'] ) ? $category['description'] : '',
+				'patterns' => []
+			];
+		}
+
+		// Loop patterns and add to formatted array under each category.
+		foreach( $patterns as $pattern ) {
+			if( isset( $pattern['categories'] ) && !empty( $pattern['categories'] ) ) {
+				$category = $pattern['categories'][0];
+			} else {
+				$category = 'uncategorized';
+			}
+			$formatted[$category]['patterns'][] = $pattern;
+		}
+
+		//alm_print( $formatted );
+
+		return $formatted;
 	}
 
 	/**
@@ -245,8 +315,11 @@ class Gutenberg_Block_Manager {
 			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" ' . $atts . '>Leave Review</a> ';
 			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" ' . $atts . '>Support</a> ';
 			$msg .= $divider . ' <a href="https://github.com/dcooney/block-manager/" ' . $atts . '>Github</a>';
-			echo wp_kses_post( $msg );
+
+			$text = wp_kses_post( $msg );
 		}
+
+		return $text;
 	}
 }
 

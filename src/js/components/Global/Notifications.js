@@ -2,7 +2,7 @@ import { useEffect, useRef } from '@wordpress/element';
 import cn from 'classnames';
 
 /**
- * Render the ToNotificationsastList component.
+ * Render the Notifications component.
  *
  * @param {Object}   props                  The component properties.
  * @param {Array}    props.notifications    The list of notifications to display.

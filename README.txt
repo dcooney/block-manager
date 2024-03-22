@@ -13,7 +13,7 @@ Globally remove blocks from being displayed in the WordPress Block Inserter and 
 
 == Description ==
 
-The Block Manager is an intuitive tool for site admins to globally remove unwanted blocks and update the assigned category of individual blocks to organize the admin editing expereince.
+The Block Manager is an intuitive tool for site admins to globally remove unwanted blocks and update the assigned category of individual blocks to organize the admin editing experience.
 
 ### Features
 
