@@ -38,7 +38,7 @@ class GBM_Admin {
 
 		$patterns = ["woocommerce-blocks/banner"];
 		foreach ( $patterns as $pattern ) {
-			unregister_block_pattern( $pattern );
+			//unregister_block_pattern( $pattern );
 		}
 	}
 
@@ -97,6 +97,7 @@ class GBM_Admin {
 
 		$filtered_blocks     = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
 		$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
+		$filtered_patterns   = Gutenberg_Block_Manager::gbm_get_filtered_patterns();
 
 		// Localize Scripts.
 		wp_localize_script(
@@ -112,6 +113,10 @@ class GBM_Admin {
 				'filteredCategories'    => $filtered_categories,
 				'filteredCategoriesAll' => Gutenberg_Block_Manager::gbm_get_all_block_categories(),
 				'patterns'              => Gutenberg_Block_Manager::gbm_get_all_patterns(),
+				'disabledPatterns'      => $this->gbm_remove_duplicate_blocks( Gutenberg_Block_Manager::gbm_get_disabled_patterns(), $filtered_patterns ),
+				'filteredPatterns'      => $filtered_patterns,
+				'disabledPatternsAll'   => Gutenberg_Block_Manager::gbm_get_all_disabled_blocks(),
+
 			]
 		);
 	}

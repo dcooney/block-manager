@@ -91,11 +91,13 @@ class Gutenberg_Block_Manager {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ &$this, 'gbm_action_links' ] );
 		add_filter( 'admin_footer_text', [ &$this, 'gbm_filter_admin_footer_text' ] );
 		require_once BLOCK_MANAGER_DIR_PATH . 'class-admin.php';
-		require_once 'api/blocks-reset.php';
 		require_once 'api/blocks-toggle.php';
-		require_once 'api/bulk-process.php';
+		require_once 'api/blocks-reset.php';
 		require_once 'api/category-reset.php';
 		require_once 'api/category-update.php';
+		require_once 'api/patterns-toggle.php';
+		require_once 'api/patterns-reset.php';
+		require_once 'api/bulk-process.php';
 		require_once 'api/export.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
@@ -137,6 +139,7 @@ class Gutenberg_Block_Manager {
 			[
 				'blocks'     => $this->gbm_get_all_disabled_blocks(),
 				'categories' => $this->gbm_get_all_block_categories(),
+				'patterns'   => $this->gbm_get_all_disabled_patterns(),
 			]
 		);
 
@@ -157,12 +160,8 @@ class Gutenberg_Block_Manager {
 		$patterns   = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
 		$categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
 
-	//	alm_print( $patterns );
-		//exit;
-
-		$formatted = [];
-
 		// Loop pattern categories and add to formatted array.
+		$formatted = [];
 		foreach( $categories as $category ) {
 			$formatted[$category['name']] = [
 				'label'       => isset( $category['label'] ) ? $category['label'] : '',
@@ -182,13 +181,55 @@ class Gutenberg_Block_Manager {
 			$formatted[$category]['patterns'][] = $pattern;
 		}
 
-		//alm_print( $formatted );
+		// Create uncategorized category if not set.
+		if ( isset( $formatted['uncategorized'] ) ) {
+			$formatted['uncategorized']['label'] = __( 'Uncategorized', 'block-manager' );
+			$formatted['uncategorized']['name'] = 'Uncategorized';
+		}
 
 		return $formatted;
 	}
 
 	/**
-	 * Get all filtered categories.
+	 * Get all disabled patterns.
+	 *
+	 * @author ConnektMedia
+	 * @since 3.0
+	 * @return array
+	 */
+	public static function gbm_get_disabled_patterns() {
+		$patterns = get_option( BLOCK_MANAGER_PATTERNS, [] );
+		return ! empty( $patterns ) ? array_values( $patterns ) : [];
+	}
+
+	/**
+	 * Get all filtered patterns.
+	 *
+	 * @author ConnektMedia
+	 * @since 3.0
+	 * @return array
+	 */
+	public static function gbm_get_filtered_patterns() {
+		$patterns = apply_filters( 'gbm_block_patterns', [] ); // Get filtered block patterns.
+		return ! empty( $patterns ) ? array_values( $patterns ) : [];
+	}
+
+	/**
+	 * Get all disabled patterns.
+	 *
+	 * @author ConnektMedia
+	 * @since 3.0
+	 * @return array
+	 */
+	public static function gbm_get_all_disabled_patterns() {
+		$disabled = self::gbm_get_disabled_patterns();
+		$filtered = self::gbm_get_filtered_patterns();
+		$patterns = array_merge( $disabled, $filtered );
+		return ! empty( $patterns ) ? $patterns : [];
+	}
+
+	/**
+	 * Get all updated categories.
 	 *
 	 * @author ConnektMedia
 	 * @since 1.2
@@ -238,6 +279,18 @@ class Gutenberg_Block_Manager {
 	}
 
 	/**
+	 * Get all filtered blocks.
+	 *
+	 * @author ConnektMedia
+	 * @since 1.1
+	 * @return array
+	 */
+	public static function gbm_get_filtered_blocks() {
+		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
+		return ! empty( $blocks ) ? array_values( $blocks ) : [];
+	}
+
+	/**
 	 * Get all disabled blocks.
 	 *
 	 * @author ConnektMedia
@@ -249,18 +302,6 @@ class Gutenberg_Block_Manager {
 		$filtered = self::gbm_get_filtered_blocks();
 		$blocks   = array_merge( $disabled, $filtered );
 		return ! empty( $blocks ) ? $blocks : [];
-	}
-
-	/**
-	 * Get all filtered blocks.
-	 *
-	 * @author ConnektMedia
-	 * @since 1.1
-	 * @return array
-	 */
-	public static function gbm_get_filtered_blocks() {
-		$blocks = apply_filters( 'gbm_disabled_blocks', [] ); // Get filtered disabled blocks.
-		return ! empty( $blocks ) ? array_values( $blocks ) : [];
 	}
 
 	/**

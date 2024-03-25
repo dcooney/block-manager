@@ -6,9 +6,13 @@ import { __ } from '@wordpress/i18n';
  *
  * @param {Object}   props          The component props.
  * @param {Function} props.callback The callback function.
+ * @param {string}   props.message  Optional loading message.
  * @return {Element}                The Loader component.
  */
-export default function Loader({ callback }) {
+export default function Loader({
+	callback,
+	message = __('Fetching Blocks and Categories…', 'block-manager'),
+}) {
 	useEffect(() => {
 		setTimeout(() => {
 			callback();
@@ -20,9 +24,7 @@ export default function Loader({ callback }) {
 				<div className="gbm-loader-pulse-wrap">
 					<div className="gbm-loader-pulse"></div>
 				</div>
-				<div>
-					{__('Fetching Blocks and Categories', 'block-manager')}…
-				</div>
+				<div>{message}</div>
 			</div>
 		</div>
 	);

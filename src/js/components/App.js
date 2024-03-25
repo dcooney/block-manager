@@ -22,6 +22,8 @@ export default function App() {
 
 	function Display() {
 		switch (type) {
+			case 'patterns':
+				return <Patterns />;
 			case 'categories':
 				return (
 					<Categories
@@ -29,8 +31,6 @@ export default function App() {
 						wpCategories={categories}
 					/>
 				);
-			case 'patterns':
-				return <Patterns />;
 			default:
 				return (
 					<Blocks

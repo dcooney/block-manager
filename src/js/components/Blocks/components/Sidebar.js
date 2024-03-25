@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import Search from '../../Global/Search';
-import DisabledSVG from './DisabledSVG';
+import DisabledSVG from '../../Global/DisabledSVG';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 
 /**

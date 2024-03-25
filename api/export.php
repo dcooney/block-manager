@@ -46,6 +46,17 @@ function block_manager_export( WP_REST_Request $request ) {
 			);
 		}
 
+		if ( $type === 'patterns' ) {
+			$filtered_patterns = Gutenberg_Block_Manager::gbm_get_filtered_patterns();
+			$patterns          = Gutenberg_Block_Manager::gbm_get_disabled_patterns();
+			wp_send_json(
+				[
+					'success' => true,
+					'code'    => wp_json_encode( array_merge( $patterns, $filtered_patterns ) ),
+				]
+			);
+		}
+
 		if ( $type === 'categories' ) {
 			$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
 			$categories          = Gutenberg_Block_Manager::gbm_get_block_categories();

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<ruleset name="Block Manager Coding Standards">
+	<arg name="extensions" value="php" />
+	<arg name="colors" />
+	<arg value="s" /><!-- Show sniff codes in all reports. -->
+	<arg value="p" /><!-- Show progress. -->
+
+	<!--
+	PHP 8.0 and higher.
+	-->
+	<config name="testVersion" value="8.0-" />
+	<rule ref="PHPCompatibilityWP" />
+
+	<rule ref="WordPress">
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+		<exclude name="Universal.Operators.DisallowShortTernary.Found" />
+		<exclude name="WordPress.WP.AlternativeFunctions" />
+
+		<!-- Sometimes we use the PSR4 autoloading standard which conflicts with these rules. -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+	</rule>
+
+	<!-- Allow . in hook names. -->
+	<rule ref="WordPress.NamingConventions.ValidHookName">
+		<properties>
+			<property name="additionalWordDelimiters" value="." />
+		</properties>
+	</rule>
+
+	<!-- Generic. -->
+
+	<!-- Disallow long array syntax. -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+
+	<!-- Exclusions. -->
+
+	<!-- Build tool config/scripts. -->
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<!-- Other files and folders -->
+	<exclude-pattern>/*.asset.php</exclude-pattern>
+	<exclude-pattern>/db.php</exclude-pattern>
+	<exclude-pattern>/index.php</exclude-pattern>
+	<exclude-pattern>/uploads/*</exclude-pattern>
+	<exclude-pattern>/images/*</exclude-pattern>
+	<exclude-pattern>/languages/*</exclude-pattern>
+	<exclude-pattern>/mu-plugins/*</exclude-pattern>
+</ruleset>

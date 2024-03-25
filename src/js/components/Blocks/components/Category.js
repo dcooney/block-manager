@@ -60,20 +60,17 @@ export default function Category({
 					className={switchClass}
 					data-state={state}
 					onClick={callback}
+					aria-label={__(
+						'Toggle all blocks in this category',
+						'block-manager'
+					)}
 					title={__(
 						'Toggle all blocks in this category',
 						'block-manager'
 					)}
 				>
 					<div className="gbm-block-switch--wrap">
-						<span>
-							<span className="offscreen">
-								{__(
-									'Toggle all blocks in this category',
-									'block-manager'
-								)}
-							</span>
-						</span>
+						<span></span>
 					</div>
 				</button>
 			</div>

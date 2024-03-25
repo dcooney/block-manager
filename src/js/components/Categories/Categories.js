@@ -163,13 +163,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 		}
 	}
 
-	/**
-	 * Export as PHP code.
-	 */
-	function exportCategories() {
-		exportHook(exportModalRef?.current, 'categories');
-	}
-
 	// On Load
 	useEffect(() => {
 		// Export settings.
@@ -239,7 +232,12 @@ export default function Categories({ wpBlocks, wpCategories }) {
 									/>
 									<Export
 										ref={exportButtonRef}
-										callback={exportCategories}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'categories'
+											)
+										}
 										total={blockCategories?.length}
 										title={__(
 											'Export an array of updated blocks categories as a WordPress hook',

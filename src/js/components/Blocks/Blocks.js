@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { countDisabledBlocks } from '../../functions/blocks';
 import { exportHook } from '../../functions/export';
+import setCategoryStatus from '../../functions/setCategoryStatus';
 import Export from '../Global/Export';
 import ExportModal from '../Global/ExportModal';
 import Loader from '../Global/Loader';
@@ -11,6 +12,7 @@ import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
 import Category from './components/Category';
 import Sidebar from './components/Sidebar';
+import bulkProcess from '../../functions/bulkProcess';
 
 /**
  * Render the Blocks component.
@@ -30,7 +32,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	const [notifications, setNotifications] = useState([]);
 	const [blocks, setBlocks] = useState([]);
 
-	const [disabledBlocks, setDisabledBlocks] = useState(
+	const [disabledBlocks, setDisabled] = useState(
 		gbm_localize?.disabledBlocks
 	);
 	const filteredBlocks = gbm_localize?.filteredBlocks || [];
@@ -41,104 +43,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		disabledBlocks,
 		filteredBlocks
 	);
-
-	/**
-	 * Category level block toggle switch.
-	 *
-	 * @param {Event} e The event object.
-	 */
-	function categoryToggleSwitch(e) {
-		const target = e?.currentTarget;
-		if (!target) {
-			return false;
-		}
-		if (target.dataset.state === 'active') {
-			bulkProcess(target, 'disable');
-			target.classList.add('disabled');
-			target.dataset.state = 'inactive';
-		} else {
-			bulkProcess(target, 'enable');
-			target.classList.remove('disabled');
-			target.dataset.state = 'active';
-		}
-	}
-
-	/**
-	 * Toggle all blocks in a category.
-	 *
-	 * @param {Element} target The target element.
-	 * @param {string}  type   The type of toggle.
-	 */
-	function bulkProcess(target, type = 'enable') {
-		const container =
-			target?.parentNode?.parentNode?.querySelector('.gbm-block-list');
-
-		const allBlocks = container?.querySelectorAll(
-			'.gbm-block-list .item:not(.filtered)'
-		);
-
-		if (!allBlocks) {
-			return false;
-		}
-
-		container.classList.add('loading');
-
-		// Create array of block IDs/names.
-		const blockArray = Array.prototype.map.call(
-			allBlocks,
-			function (block) {
-				return block.dataset.id;
-			}
-		);
-
-		if (blockArray?.length) {
-			axios({
-				method: 'POST',
-				url: gbm_localize.root + 'gbm/bulk_process/',
-				headers: {
-					'X-WP-Nonce': gbm_localize.nonce,
-					'Content-Type': 'application/json',
-				},
-				data: { blocks: blockArray, type },
-			})
-				.then(function (res) {
-					const { data = {}, status } = res;
-					const { success = true } = data;
-
-					if (status === 200 && success) {
-						[...allBlocks].forEach(function (block) {
-							if (type === 'enable') {
-								block.classList.remove('disabled');
-							} else {
-								block.classList.add('disabled');
-							}
-						});
-						container.classList.remove('loading');
-						setDisabledBlocks(data.disabled_blocks);
-						setCategoryStatus(allBlocks[0]);
-						setNotifications((prev) => [
-							...prev,
-							{
-								id: Date.now(),
-								msg: data?.msg,
-								success,
-							},
-						]);
-					} else {
-						container.classList.remove('loading');
-						console.warn(
-							__('An error has occurred', 'block-manager')
-						);
-					}
-				})
-				.catch(function (error) {
-					container.classList.remove('loading');
-					console.warn(error);
-				});
-		} else {
-			alert(__('No blocks found', 'block-manager')); // eslint-disable-line no-alert
-		}
-	}
 
 	/**
 	 * Toggle the status of a block.
@@ -180,7 +84,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						element.classList.remove('loading');
 						setCategoryStatus(element);
 					}
-					setDisabledBlocks(data.disabled_blocks);
+					setDisabled(data.disabled_blocks);
 					setNotifications((prev) => [
 						...prev,
 						{ id: Date.now(), msg: data?.msg, success },
@@ -194,43 +98,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				element.classList.remove('loading');
 				console.warn(error);
 			});
-	}
-
-	/**
-	 * Set the status indicator and button states for each category.
-	 *
-	 * @param {Element} element The target element.
-	 */
-	function setCategoryStatus(element) {
-		if (!element) {
-			return false;
-		}
-		const parent = element.parentNode.parentNode;
-		const toggleBtn = parent.querySelector('.gbm-block-switch');
-		const items = parent.querySelectorAll('.gbm-block-list .item');
-
-		if (items) {
-			const blockArr = Array.prototype.slice.call(items);
-			const disabledBlocksFiltered = blockArr.filter((block) => {
-				return block.classList.contains('disabled');
-			});
-
-			// If disabled === total items, toggle the switch
-			if (disabledBlocksFiltered.length === items.length) {
-				toggleBtn.classList.add('disabled');
-				toggleBtn.dataset.state = 'inactive';
-			} else {
-				toggleBtn.classList.remove('disabled');
-				toggleBtn.dataset.state = 'active';
-			}
-		}
-	}
-
-	/**
-	 * Export as PHP code.
-	 */
-	function exportBlocks() {
-		exportHook(exportModalRef?.current, 'blocks');
 	}
 
 	/**
@@ -257,7 +124,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						item.classList.remove('disabled');
 					});
 				}
-				setDisabledBlocks([]);
+				setDisabled([]);
 				setNotifications((prev) => [
 					...prev,
 					{ id: Date.now(), msg: data?.msg, success: true },
@@ -406,7 +273,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 									/>
 									<Export
 										ref={exportButtonRef}
-										callback={exportBlocks}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'blocks'
+											)
+										}
 										total={disabledBlocks?.length}
 										title={__(
 											'Export an array of disabled blocks as a WordPress hook',
@@ -429,7 +301,15 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 												toggleBlock={toggleBlock}
 												disabledBlocks={disabledBlocks}
 												filteredBlocks={filteredBlocks}
-												callback={categoryToggleSwitch}
+												callback={(e) =>
+													bulkProcess(
+														e?.currentTarget,
+														'blocks',
+														setDisabled,
+														setCategoryStatus,
+														setNotifications
+													)
+												}
 											/>
 										)}
 									</Fragment>

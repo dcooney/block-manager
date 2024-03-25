@@ -2,7 +2,7 @@ import { useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import cn from 'classnames';
 import Icon from '../../Global/Icon';
-import DisabledSVG from './DisabledSVG';
+import DisabledSVG from '../../Global/DisabledSVG';
 
 /**
  * Render a Block component to display an individual block.
