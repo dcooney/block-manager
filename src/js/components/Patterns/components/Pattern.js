@@ -15,12 +15,9 @@ import DisabledSVG from '../../Global/DisabledSVG';
  */
 function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 	const {
-		source,
 		name,
 		title,
-		content,
-		categories = [],
-		blockTypes = [],
+		content, // eslint-disable-line no-unused-vars
 	} = data;
 	const patternRef = useRef(null);
 

@@ -28,13 +28,13 @@ export default function Category({
 	const total = blocks?.length;
 
 	// Combine disabled and filtered blocks.
-	const allDisabled = [...disabledBlocks, ...filteredBlocks];
+	const disabled = [...disabledBlocks, ...filteredBlocks];
 
 	// Count disabled blocks.
 	// Loop all blocks in the category and find match.
 	const count =
-		allDisabled?.length &&
-		blocks.filter((block) => allDisabled.includes(block?.name))?.length;
+		disabled?.length &&
+		blocks.filter((block) => disabled.includes(block?.name))?.length;
 
 	// Set toggle button attributes
 	const switchClass =
@@ -69,7 +69,7 @@ export default function Category({
 						'block-manager'
 					)}
 				>
-					<div className="gbm-block-switch--wrap">
+					<div className="gbm-block-switch--inner">
 						<span></span>
 					</div>
 				</button>

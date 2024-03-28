@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import Search from '../../Global/Search';
 import DisabledSVG from '../../Global/DisabledSVG';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
+import scrollToElement from '../../../functions/scrollToElement';
 
 /**
  * Render the Sidebar for Block Manager.
@@ -30,6 +31,7 @@ export default function Sidebar({
 
 	/**
 	 * Block total update animation.
+	 *
 	 * @param {Element}  ref      The ref element.
 	 * @param {number}   value    The current value.
 	 * @param {Function} callback The callback function.
@@ -69,26 +71,6 @@ export default function Sidebar({
 			mountedRef.current = true;
 		}, 500);
 	}, []);
-
-	/**
-	 * Scroll to the selected block.
-	 *
-	 * @param {Event} e The click event.
-	 */
-	function scrollTo(e) {
-		const el = e.currentTarget;
-		const to = el.dataset.to;
-		const target = document.querySelector(`#${to}`);
-		if (target) {
-			const top =
-				target.getBoundingClientRect().top + window.scrollY - 50;
-			window.scrollTo({
-				top,
-				behavior: 'smooth',
-			});
-			target.focus({ preventScroll: true });
-		}
-	}
 
 	return (
 		<div className="gbm-sidebar">
@@ -172,10 +154,12 @@ export default function Sidebar({
 								{!!category?.blocks?.length && (
 									<button
 										type="button"
-										data-to={
-											'block-' + category?.info?.slug
+										className="gbm-toc"
+										onClick={() =>
+											scrollToElement(
+												`block-${category?.info?.slug}`
+											)
 										}
-										onClick={(e) => scrollTo(e)}
 									>
 										{category?.info?.title}
 									</button>

@@ -253,7 +253,7 @@ h1.gbm-h1 {
   padding: 15px;
 }
 
-.gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button {
+.gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button.gbm-toc {
   background: none;
   border: none;
   outline: none;
@@ -266,7 +266,7 @@ h1.gbm-h1 {
   color: #3d3e40;
 }
 
-.gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button:hover, .gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button:focus {
+.gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button.gbm-toc:hover, .gbm-page-wrap .gbm-sidebar .gbm-cta-wrap button.gbm-toc:focus {
   border: none;
   background-color: transparent;
   text-decoration: underline;
@@ -1160,15 +1160,29 @@ h1.gbm-h1 {
 .gbm-block-switch {
   cursor: pointer;
   height: 13px;
-  width: 22px;
+  width: 100%;
   padding: 0;
   margin: 0;
   box-shadow: none;
   border: none;
   background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.gbm-block-switch--wrap {
+.gbm-block-switch--container {
+  display: block;
+  margin: 0 0 10px;
+}
+
+.gbm-block-switch--container > p {
+  margin: 0;
+  padding: 3px 0 0 36px;
+  opacity: 0.75;
+}
+
+.gbm-block-switch--inner {
   position: relative;
   height: 13px;
   width: 26px;
@@ -1177,7 +1191,11 @@ h1.gbm-h1 {
   transition: all 0.15s ease;
 }
 
-.gbm-block-switch span {
+.gbm-block-switch--inner + span {
+  font-weight: 500;
+}
+
+.gbm-block-switch--inner span {
   border-radius: 100px;
   width: 9px;
   height: 9px;
@@ -1189,12 +1207,16 @@ h1.gbm-h1 {
   top: 2px;
 }
 
-.gbm-block-switch.disabled .gbm-block-switch--wrap {
+.gbm-block-switch.disabled .gbm-block-switch--inner, .gbm-block-switch[disabled] .gbm-block-switch--inner {
   background-color: #ccc;
 }
 
-.gbm-block-switch.disabled span {
+.gbm-block-switch.disabled .gbm-block-switch--inner span, .gbm-block-switch[disabled] .gbm-block-switch--inner span {
   margin-left: 2px;
+}
+
+.gbm-block-switch[disabled] {
+  cursor: not-allowed;
 }
 
 .gbm-block-categories {

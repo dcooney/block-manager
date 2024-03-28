@@ -35,37 +35,39 @@ function block_manager_export( WP_REST_Request $request ) {
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 		$type = filter_input( INPUT_GET, 'type', @FILTER_SANITIZE_STRING ); // phpcs:ignore
 
-		if ( $type === 'blocks' ) {
-			$filtered_blocks = GBM_Blocks::gbm_get_filtered_blocks();
-			$blocks          = GBM_Blocks::gbm_get_disabled_blocks();
-			wp_send_json(
-				[
-					'success' => true,
-					'code'    => wp_json_encode( array_merge( $blocks, $filtered_blocks ) ),
-				]
-			);
-		}
+		switch($type) {
+			case 'blocks':
+				$filtered_blocks = GBM_Blocks::gbm_get_filtered_blocks();
+				$blocks          = GBM_Blocks::gbm_get_disabled_blocks();
+				wp_send_json(
+					[
+						'success' => true,
+						'code'    => wp_json_encode( array_merge( $blocks, $filtered_blocks ) ),
+					]
+				);
+			break;
 
-		if ( $type === 'patterns' ) {
-			$filtered_patterns = GBM_Patterns::gbm_get_filtered_patterns();
-			$patterns          = GBM_Patterns::gbm_get_disabled_patterns();
-			wp_send_json(
-				[
-					'success' => true,
-					'code'    => wp_json_encode( array_merge( $patterns, $filtered_patterns ) ),
-				]
-			);
-		}
+			case 'patterns':
+				$filtered_patterns = GBM_Patterns::gbm_get_filtered_patterns();
+				$patterns          = GBM_Patterns::gbm_get_disabled_patterns();
+				wp_send_json(
+					[
+						'success' => true,
+						'code'    => wp_json_encode( array_merge( $patterns, $filtered_patterns ) ),
+					]
+				);
+			break;
 
-		if ( $type === 'categories' ) {
-			$filtered_categories = GBM_Categories::gbm_get_filtered_categories();
-			$categories          = GBM_Categories::gbm_get_block_categories();
-			wp_send_json(
-				[
-					'success' => true,
-					'code'    => wp_json_encode( array_merge( $categories, $filtered_categories ) ),
-				]
-			);
+			case 'categories':
+				$filtered_categories = GBM_Categories::gbm_get_filtered_categories();
+				$categories          = GBM_Categories::gbm_get_block_categories();
+				wp_send_json(
+					[
+						'success' => true,
+						'code'    => wp_json_encode( array_merge( $categories, $filtered_categories ) ),
+					]
+				);
+			break;
 		}
 
 		wp_send_json(

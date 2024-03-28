@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import scrollToElement from '../../../functions/scrollToElement';
 import DisabledSVG from '../../Global/DisabledSVG';
 import Search from '../../Global/Search';
+import ToggleSwitch from './ToggleSwitch';
 
 /**
  * Render the Sidebar for Block Manager.
@@ -11,6 +13,7 @@ import Search from '../../Global/Search';
  * @param {number}   props.active     Total number of active blocks.
  * @param {number}   props.disabled   Total number of disabled blocks.
  * @param {number}   props.filtered   Total number of filtered blocks.
+ * @param {Array}    props.patterns   Array of disabled patterns.
  * @param {Function} props.search     The search handler function.
  * @return {Element}                  The Sidebar component.
  */
@@ -19,8 +22,10 @@ export default function Sidebar({
 	active,
 	disabled,
 	filtered,
+	patterns,
 	search,
 }) {
+	const { filteredPatterns = [] } = gbm_localize;
 	const activeRef = useRef(null);
 	const disabledRef = useRef(null);
 	const mountedRef = useRef(false);
@@ -30,6 +35,7 @@ export default function Sidebar({
 
 	/**
 	 * Block total update animation.
+	 *
 	 * @param {Element}  ref      The ref element.
 	 * @param {number}   value    The current value.
 	 * @param {Function} callback The callback function.
@@ -69,26 +75,6 @@ export default function Sidebar({
 			mountedRef.current = true;
 		}, 500);
 	}, []);
-
-	/**
-	 * Scroll to the selected block.
-	 *
-	 * @param {Event} e The click event.
-	 */
-	function scrollTo(e) {
-		const el = e.currentTarget;
-		const to = el.dataset.to;
-		const target = document.querySelector(`#${to}`);
-		if (target) {
-			const top =
-				target.getBoundingClientRect().top + window.scrollY - 50;
-			window.scrollTo({
-				top,
-				behavior: 'smooth',
-			});
-			target.focus({ preventScroll: true });
-		}
-	}
 
 	return (
 		<div className="gbm-sidebar">
@@ -164,15 +150,48 @@ export default function Sidebar({
 				</div>
 			</div>
 			<div className="gbm-cta">
+				<h3>{__('Pattern Visibility', 'block-manager')}</h3>
+				<div className="gbm-cta-wrap">
+					<ToggleSwitch
+						option="gbm/core-patterns"
+						label={__('Disable Core Patterns', 'block-manager')}
+						desc={__(
+							'Remove all core patterns from the patterns selector.',
+							'block-manager'
+						)}
+						active={!patterns.includes('gbm/core-patterns')}
+						disabled={filteredPatterns.includes(
+							'gbm/core-patterns'
+						)}
+					/>
+					<ToggleSwitch
+						option="gbm/remote-patterns"
+						label={__('Remote Patterns', 'block-manager')}
+						desc={__(
+							'Prevent users from searching for remote patterns.',
+							'block-manager'
+						)}
+						active={!patterns.includes('gbm/remote-patterns')}
+						disabled={filteredPatterns.includes(
+							'gbm/remote-patterns'
+						)}
+					/>
+				</div>
+			</div>
+			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
 					{Object.keys(categories).map((category) => {
 						return (
 							<button
 								key={categories[category]?.name}
+								className="gbm-toc"
 								type="button"
-								data-to={'block-' + categories[category]?.name}
-								onClick={(e) => scrollTo(e)}
+								onClick={() =>
+									scrollToElement(
+										`block-${categories[category]?.name}`
+									)
+								}
 							>
 								{categories[category]?.label}
 							</button>

@@ -604,12 +604,12 @@ function Category(_ref) {
   var total = blocks === null || blocks === void 0 ? void 0 : blocks.length;
 
   // Combine disabled and filtered blocks.
-  var allDisabled = [].concat(_toConsumableArray(disabledBlocks), _toConsumableArray(filteredBlocks));
+  var disabled = [].concat(_toConsumableArray(disabledBlocks), _toConsumableArray(filteredBlocks));
 
   // Count disabled blocks.
   // Loop all blocks in the category and find match.
-  var count = (allDisabled === null || allDisabled === void 0 ? void 0 : allDisabled.length) && ((_blocks$filter = blocks.filter(function (block) {
-    return allDisabled.includes(block === null || block === void 0 ? void 0 : block.name);
+  var count = (disabled === null || disabled === void 0 ? void 0 : disabled.length) && ((_blocks$filter = blocks.filter(function (block) {
+    return disabled.includes(block === null || block === void 0 ? void 0 : block.name);
   })) === null || _blocks$filter === void 0 ? void 0 : _blocks$filter.length);
 
   // Set toggle button attributes
@@ -630,7 +630,7 @@ function Category(_ref) {
     "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager'),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-block-switch--wrap"
+    className: "gbm-block-switch--inner"
   }, /*#__PURE__*/React.createElement("span", null)))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (block, index) {
@@ -678,12 +678,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Global/DisabledSVG */ "./src/js/components/Global/DisabledSVG.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _functions_scrollToElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../functions/scrollToElement */ "./src/js/functions/scrollToElement.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -720,6 +722,7 @@ function Sidebar(_ref) {
 
   /**
    * Block total update animation.
+   *
    * @param {Element}  ref      The ref element.
    * @param {number}   value    The current value.
    * @param {Function} callback The callback function.
@@ -760,27 +763,6 @@ function Sidebar(_ref) {
       mountedRef.current = true;
     }, 500);
   }, []);
-
-  /**
-   * Scroll to the selected block.
-   *
-   * @param {Event} e The click event.
-   */
-  function scrollTo(e) {
-    var el = e.currentTarget;
-    var to = el.dataset.to;
-    var target = document.querySelector("#".concat(to));
-    if (target) {
-      var top = target.getBoundingClientRect().top + window.scrollY - 50;
-      window.scrollTo({
-        top: top,
-        behavior: 'smooth'
-      });
-      target.focus({
-        preventScroll: true
-      });
-    }
-  }
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
@@ -812,14 +794,15 @@ function Sidebar(_ref) {
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Categories', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
-    var _category$info, _category$blocks, _category$info2, _category$info3;
+    var _category$info, _category$blocks, _category$info3;
     return /*#__PURE__*/React.createElement(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
       key: category === null || category === void 0 || (_category$info = category.info) === null || _category$info === void 0 ? void 0 : _category$info.slug
     }, !!(category !== null && category !== void 0 && (_category$blocks = category.blocks) !== null && _category$blocks !== void 0 && _category$blocks.length) && /*#__PURE__*/React.createElement("button", {
       type: "button",
-      "data-to": 'block-' + (category === null || category === void 0 || (_category$info2 = category.info) === null || _category$info2 === void 0 ? void 0 : _category$info2.slug),
-      onClick: function onClick(e) {
-        return scrollTo(e);
+      className: "gbm-toc",
+      onClick: function onClick() {
+        var _category$info2;
+        return (0,_functions_scrollToElement__WEBPACK_IMPORTED_MODULE_4__["default"])("block-".concat(category === null || category === void 0 || (_category$info2 = category.info) === null || _category$info2 === void 0 ? void 0 : _category$info2.slug));
       }
     }, category === null || category === void 0 || (_category$info3 = category.info) === null || _category$info3 === void 0 ? void 0 : _category$info3.title));
   }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2171,6 +2154,7 @@ function Patterns() {
     active: (allPatterns === null || allPatterns === void 0 ? void 0 : allPatterns.length) - disabledCount - filteredCount,
     disabled: disabledCount,
     filtered: filteredCount,
+    patterns: disabledPatterns,
     search: searchHandler
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
@@ -2297,14 +2281,14 @@ function Category(_ref) {
     tabIndex: -1
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-heading"
-  }, /*#__PURE__*/React.createElement("h3", null, label), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("h3", null, label, /*#__PURE__*/React.createElement("span", null, "[", total - count, "/", total, "]")), /*#__PURE__*/React.createElement("button", {
     className: "gbm-block-switch".concat(count === total ? ' disabled' : ''),
     "data-state": count === total ? 'inactive' : 'active',
     onClick: callback,
     "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager'),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
-    className: "gbm-block-switch--wrap"
+    className: "gbm-block-switch--inner"
   }, /*#__PURE__*/React.createElement("span", null)))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list"
   }, patterns.map(function (pattern) {
@@ -2355,14 +2339,9 @@ function Pattern(_ref) {
     disabledPatterns = _ref.disabledPatterns,
     filteredPatterns = _ref.filteredPatterns,
     togglePattern = _ref.togglePattern;
-  var source = data.source,
-    name = data.name,
+  var name = data.name,
     title = data.title,
-    content = data.content,
-    _data$categories = data.categories,
-    categories = _data$categories === void 0 ? [] : _data$categories,
-    _data$blockTypes = data.blockTypes,
-    blockTypes = _data$blockTypes === void 0 ? [] : _data$blockTypes;
+    content = data.content;
   var patternRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var disabled = (disabledPatterns === null || disabledPatterns === void 0 ? void 0 : disabledPatterns.indexOf(name)) !== -1;
   var disabledClass = disabled ? 'disabled' : '';
@@ -2420,14 +2399,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Global/DisabledSVG */ "./src/js/components/Global/DisabledSVG.js");
-/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
+/* harmony import */ var _functions_scrollToElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../functions/scrollToElement */ "./src/js/functions/scrollToElement.js");
+/* harmony import */ var _Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Global/DisabledSVG */ "./src/js/components/Global/DisabledSVG.js");
+/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
+/* harmony import */ var _ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ToggleSwitch */ "./src/js/components/Patterns/components/ToggleSwitch.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -2441,6 +2424,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * @param {number}   props.active     Total number of active blocks.
  * @param {number}   props.disabled   Total number of disabled blocks.
  * @param {number}   props.filtered   Total number of filtered blocks.
+ * @param {Array}    props.patterns   Array of disabled patterns.
  * @param {Function} props.search     The search handler function.
  * @return {Element}                  The Sidebar component.
  */
@@ -2449,7 +2433,11 @@ function Sidebar(_ref) {
     active = _ref.active,
     disabled = _ref.disabled,
     filtered = _ref.filtered,
+    patterns = _ref.patterns,
     search = _ref.search;
+  var _gbm_localize = gbm_localize,
+    _gbm_localize$filtere = _gbm_localize.filteredPatterns,
+    filteredPatterns = _gbm_localize$filtere === void 0 ? [] : _gbm_localize$filtere;
   var activeRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var disabledRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var mountedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
@@ -2464,6 +2452,7 @@ function Sidebar(_ref) {
 
   /**
    * Block total update animation.
+   *
    * @param {Element}  ref      The ref element.
    * @param {number}   value    The current value.
    * @param {Function} callback The callback function.
@@ -2504,27 +2493,6 @@ function Sidebar(_ref) {
       mountedRef.current = true;
     }, 500);
   }, []);
-
-  /**
-   * Scroll to the selected block.
-   *
-   * @param {Event} e The click event.
-   */
-  function scrollTo(e) {
-    var el = e.currentTarget;
-    var to = el.dataset.to;
-    var target = document.querySelector("#".concat(to));
-    if (target) {
-      var top = target.getBoundingClientRect().top + window.scrollY - 50;
-      window.scrollTo({
-        top: top,
-        behavior: 'smooth'
-      });
-      target.focus({
-        preventScroll: true
-      });
-    }
-  }
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2544,31 +2512,153 @@ function Sidebar(_ref) {
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
     ref: disabledRef,
     "data-prev": disabledTotal
-  }, disabledTotal)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, disabledTotal)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "disabled"
   })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disabled', 'block-manager')), !!filtered && /*#__PURE__*/React.createElement("div", {
     className: "gbm-legend gbm-legend--filtered",
     title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Pattern', 'block-manager')) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Patterns', 'block-manager'))
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "filtered"
   }))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered', 'block-manager')))), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta"
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pattern Visibility', 'block-manager')), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta-wrap"
+  }, /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    option: "gbm/core-patterns",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disable Core Patterns', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all core patterns from the patterns selector.', 'block-manager'),
+    active: !patterns.includes('gbm/core-patterns'),
+    disabled: filteredPatterns.includes('gbm/core-patterns')
+  }), /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    option: "gbm/remote-patterns",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remote Patterns', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prevent users from searching for remote patterns.', 'block-manager'),
+    active: !patterns.includes('gbm/remote-patterns'),
+    disabled: filteredPatterns.includes('gbm/remote-patterns')
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Categories', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
   }, Object.keys(categories).map(function (category) {
-    var _categories$category, _categories$category2, _categories$category3;
+    var _categories$category, _categories$category3;
     return /*#__PURE__*/React.createElement("button", {
       key: (_categories$category = categories[category]) === null || _categories$category === void 0 ? void 0 : _categories$category.name,
+      className: "gbm-toc",
       type: "button",
-      "data-to": 'block-' + ((_categories$category2 = categories[category]) === null || _categories$category2 === void 0 ? void 0 : _categories$category2.name),
-      onClick: function onClick(e) {
-        return scrollTo(e);
+      onClick: function onClick() {
+        var _categories$category2;
+        return (0,_functions_scrollToElement__WEBPACK_IMPORTED_MODULE_2__["default"])("block-".concat((_categories$category2 = categories[category]) === null || _categories$category2 === void 0 ? void 0 : _categories$category2.name));
       }
     }, (_categories$category3 = categories[category]) === null || _categories$category3 === void 0 ? void 0 : _categories$category3.label);
-  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_4__["default"], {
     callback: search,
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Block Patterns', 'block-manager')
   }))));
+}
+
+/***/ }),
+
+/***/ "./src/js/components/Patterns/components/ToggleSwitch.js":
+/*!***************************************************************!*\
+  !*** ./src/js/components/Patterns/components/ToggleSwitch.js ***!
+  \***************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ ToggleSwitch; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+
+
+/**
+ * Render the block ToggleSwitch component.
+ *
+ * @param {Object}  props          The component properties.
+ * @param {boolean} props.active   Is the button active?
+ * @param {string}  props.option   The WP option name.
+ * @param {string}  props.label    The switch label.
+ * @param {string}  props.desc     The switch description.
+ * @param {boolean} props.disabled Is the button disabled?
+ * @return {Element}               The ToggleSwitch component.
+ */
+function ToggleSwitch(_ref) {
+  var _ref$active = _ref.active,
+    active = _ref$active === void 0 ? true : _ref$active,
+    option = _ref.option,
+    label = _ref.label,
+    desc = _ref.desc,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
+  var buttonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  if (!option) {
+    return null;
+  }
+
+  /**
+   * Toggle the status of a pattern toggle switch.
+   */
+  function handler() {
+    if (buttonRef.current.classList.contains('loading')) {
+      return false;
+    }
+    buttonRef.current.classList.add('loading');
+    var type = buttonRef.current.classList.contains('disabled') ? 'disable' : 'enable';
+
+    // Send API Request.
+    (0,axios__WEBPACK_IMPORTED_MODULE_1__["default"])({
+      method: 'POST',
+      url: gbm_localize.root + 'gbm/pattern/',
+      headers: {
+        'X-WP-Nonce': gbm_localize.nonce,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        pattern: option,
+        title: label,
+        type: type
+      }
+    }).then(function (res) {
+      var _res$data = res.data,
+        data = _res$data === void 0 ? {} : _res$data,
+        status = res.status;
+      var _data$success = data.success,
+        success = _data$success === void 0 ? true : _data$success;
+      if (data && status === 200) {
+        if (success) {
+          if (type === 'disable') {
+            buttonRef.current.classList.remove('disabled');
+          } else {
+            buttonRef.current.classList.add('disabled');
+          }
+        }
+        buttonRef.current.classList.remove('loading');
+      } else {
+        buttonRef.current.classList.remove('loading');
+        console.warn(__('An error has occurred', 'block-manager'));
+      }
+    })["catch"](function (error) {
+      buttonRef.current.classList.remove('loading');
+      console.warn(error);
+    });
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    className: "gbm-block-switch--container"
+  }, /*#__PURE__*/React.createElement("button", {
+    ref: buttonRef,
+    className: "gbm-block-switch".concat(active ? ' disabled' : ''),
+    onClick: function onClick() {
+      return handler();
+    },
+    "aria-label": label,
+    disabled: disabled
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-block-switch--inner"
+  }, /*#__PURE__*/React.createElement("span", null)), label && /*#__PURE__*/React.createElement("span", null, label)), desc && /*#__PURE__*/React.createElement("p", null, desc));
 }
 
 /***/ }),
@@ -3118,6 +3208,41 @@ function categoryOffsetCount(data, disabled, block_names) {
     // Increment count if block is disabled or not in the block_names array.
     return disabled.includes(item.block) || !block_names.includes(item === null || item === void 0 ? void 0 : item.block);
   }).length;
+}
+
+/***/ }),
+
+/***/ "./src/js/functions/scrollToElement.js":
+/*!*********************************************!*\
+  !*** ./src/js/functions/scrollToElement.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ scrollToElement; }
+/* harmony export */ });
+/**
+ * Scroll to the element with the given id.
+ *
+ * @param {string} id Element ID
+ */
+function scrollToElement(id) {
+  if (!id) {
+    return;
+  }
+  var target = document.querySelector("#".concat(id));
+  if (target) {
+    var top = target.getBoundingClientRect().top + window.scrollY - 50;
+    window.scrollTo({
+      top: top,
+      behavior: 'smooth'
+    });
+    target.focus({
+      preventScroll: true
+    });
+  }
 }
 
 /***/ }),

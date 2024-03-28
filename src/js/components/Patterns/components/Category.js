@@ -45,7 +45,12 @@ export default function Category({
 			tabIndex={-1}
 		>
 			<div className="gbm-block-list-heading">
-				<h3>{label}</h3>
+				<h3>
+					{label}
+					<span>
+						[{total - count}/{total}]
+					</span>
+				</h3>
 				<button
 					className={`gbm-block-switch${
 						count === total ? ' disabled' : ''
@@ -61,7 +66,7 @@ export default function Category({
 						'block-manager'
 					)}
 				>
-					<div className="gbm-block-switch--wrap">
+					<div className="gbm-block-switch--inner">
 						<span></span>
 					</div>
 				</button>

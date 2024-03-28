@@ -20,11 +20,23 @@ class GBM_Patterns {
 	 */
 	public function __construct() {
 		add_action( 'init', [ $this, 'gbm_unregister_patterns' ] );
-		// add_action( 'after_setup_theme', function() {
-		// 	remove_theme_support( 'core-block-patterns' );
-		// } );
+		add_action( 'after_setup_theme', [ $this, 'gbm_remove_core_patterns' ] );
 
-		// add_filter( 'should_load_remote_block_patterns', '__return_false' );
+		// Disable remote patterns.
+		if( in_array ( 'gbm/remote-patterns', self::gbm_get_all_disabled_patterns() ) ) {
+			add_filter( 'should_load_remote_block_patterns', '__return_false' );
+		}
+	}
+
+	/**
+	 * Remove core patterns.
+	 *
+	 * @return void
+	 */
+	public function gbm_remove_core_patterns() {
+		if( in_array ( 'gbm/core-patterns', self::gbm_get_all_disabled_patterns() ) ) {
+			remove_theme_support( 'core-block-patterns' );
+		}
 	}
 
 	/**
@@ -33,14 +45,21 @@ class GBM_Patterns {
 	 * @return void
 	 */
 	public function gbm_unregister_patterns() {
-		if( ! function_exists( 'unregister_block_pattern' ) || ( isset( $_GET ) && isset( $_GET['page'] ) && $_GET['page'] === 'block-manager' ) ) {
+		if( ! class_exists( 'WP_Block_Patterns_Registry' ) || ! function_exists( 'unregister_block_pattern' ) || ( isset( $_GET ) && isset( $_GET['page'] ) && $_GET['page'] === 'block-manager' ) ) {
 			return; // Exit if current page is block manager.
 		}
 
-		$disabled_patterns = self::gbm_get_all_disabled_patterns();
-		if ( $disabled_patterns ) {
-			foreach ( $disabled_patterns as $pattern ) {
-				@unregister_block_pattern( $pattern );
+		$patterns = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+		if ( ! empty ( $patterns ) ) {
+			$pattern_names = wp_list_pluck( $patterns, 'name' ); // Pluck pattern names.
+			$disabled_patterns = self::gbm_get_all_disabled_patterns();
+
+			if ( $disabled_patterns ) {
+				foreach ( $disabled_patterns as $pattern ) {
+					if ( in_array( $pattern, $pattern_names ) ) {
+						@unregister_block_pattern( $pattern );
+					}
+				}
 			}
 		}
 	}

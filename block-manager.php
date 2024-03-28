@@ -14,27 +14,19 @@
  */
 
 /*
+* NEW: Added support for disabling block patterns.
 * FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
 * FIX: Fixed issue with return value in admin_footer text.
 * UPDATE: Updated plugin installer vendor file.
+* UPDATE: Code refactoring and organization.
 
 
 // Patterns
-- Started adding support for removing patterns.
+- Started adding support for removing patterns. [DONE]
 
 TODO:
 - Unregister patterns in the init hook not working. It fires to late or something. [DONE]
-
-- Remove Remote Patterns
-The following code will disable the official patterns from wordpress.org/patterns which as the name implies
-are loaded remotely as opposed to being part of the the WordPress files installed on your server.
-
-`add_filter( 'should_load_remote_block_patterns', [ &$this, 'disable_remote_patterns_filter' ] );`
-
-The following code will remove the default core patterns that are installed in WordPress natively.
-`add_action( 'after_setup_theme', function() {
-   remove_theme_support( 'core-block-patterns' );
-} );`
+- Style Pattern listing.
 
 */
 
@@ -138,6 +130,7 @@ class Gutenberg_Block_Manager {
 			BLOCK_MANAGER_VERSION,
 			false
 		);
+
 		wp_localize_script(
 			'block-manager',
 			'gutenberg_block_manager',

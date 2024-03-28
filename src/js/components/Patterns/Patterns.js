@@ -24,7 +24,7 @@ export default function Patterns() {
 
 	const allPatterns = [];
 	// Loop categories to pluck all patterns.
-	for (let value of Object.values(categories)) {
+	for (const value of Object.values(categories)) {
 		allPatterns.push(...value?.patterns);
 	}
 
@@ -213,6 +213,7 @@ export default function Patterns() {
 							}
 							disabled={disabledCount}
 							filtered={filteredCount}
+							patterns={disabledPatterns}
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
