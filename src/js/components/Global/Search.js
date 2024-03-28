@@ -4,11 +4,15 @@ import { __ } from '@wordpress/i18n';
 /**
  * Render the block Search component.
  *
- * @param {Object}   props          The component properties.
- * @param {Function} props.callback The callback function to dispatch.
- * @return {Element}                The Search component.
+ * @param {Object}   props             The component properties.
+ * @param {Function} props.callback    The callback function to dispatch.
+ * @param {string}   props.placeholder The placeholder text for input.
+ * @return {Element}                   The Search component.
  */
-export default function Search({ callback }) {
+export default function Search({
+	callback,
+	placeholder = __('Search Blocks', 'block-manager'),
+}) {
 	const inputRef = useRef();
 
 	return (
@@ -19,7 +23,7 @@ export default function Search({ callback }) {
 			<input
 				type="text"
 				id="gbm-search"
-				placeholder={__('Search Blocks', 'block-manager')}
+				placeholder={placeholder}
 				onKeyUp={() => callback(inputRef?.current?.value)}
 				ref={inputRef}
 			/>

@@ -22,24 +22,6 @@ class GBM_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'gbm_register_sub_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'gbm_admin_enqueue' ] );
-		add_action( 'init', [ $this, 'gbm_unregister_patterns' ] );
-	}
-
-	public function gbm_unregister_patterns() {
-		if ( ! function_exists( 'unregister_block_pattern' ) ) {
-			return;
-		}
-
-		// add_action( 'after_setup_theme', function() {
-		// 	remove_theme_support( 'core-block-patterns' );
-		// } );
-
-		// add_filter( 'should_load_remote_block_patterns', '__return_false' );
-
-		$patterns = ["woocommerce-blocks/banner"];
-		foreach ( $patterns as $pattern ) {
-			//unregister_block_pattern( $pattern );
-		}
 	}
 
 	/**
@@ -79,25 +61,22 @@ class GBM_Admin {
 		// Enqueue Scripts.
 		wp_enqueue_style(
 			'block-manager-styles',
-			plugins_url(
-				'build/style-block-manager-admin.css',
-				__FILE__
-			),
+			BLOCK_MANAGER_URL . '/build/style-block-manager-admin.css',
 			[],
 			BLOCK_MANAGER_VERSION
 		);
 
 		wp_enqueue_script(
 			'block-manager-admin',
-			plugins_url( 'build/block-manager-admin.js', __FILE__ ),
+			BLOCK_MANAGER_URL . '/build/block-manager-admin.js',
 			[ 'wp-blocks', 'wp-element', 'wp-data', 'wp-components', 'wp-block-library' ],
 			BLOCK_MANAGER_VERSION,
 			true
 		);
 
-		$filtered_blocks     = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
-		$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
-		$filtered_patterns   = Gutenberg_Block_Manager::gbm_get_filtered_patterns();
+		$filtered_blocks     = GBM_Blocks::gbm_get_filtered_blocks();
+		$filtered_categories = GBM_Categories::gbm_get_filtered_categories();
+		$filtered_patterns   = GBM_Patterns::gbm_get_filtered_patterns();
 
 		// Localize Scripts.
 		wp_localize_script(
@@ -106,16 +85,16 @@ class GBM_Admin {
 			[
 				'root'                  => esc_url_raw( rest_url() ),
 				'nonce'                 => wp_create_nonce( 'wp_rest' ),
-				'disabledBlocks'        => $this->gbm_remove_duplicate_blocks( Gutenberg_Block_Manager::gbm_get_disabled_blocks(), $filtered_blocks ),
+				'disabledBlocks'        => GBM_Blocks::gbm_remove_duplicate_blocks( GBM_Blocks::gbm_get_disabled_blocks(), $filtered_blocks ),
 				'filteredBlocks'        => $filtered_blocks,
-				'disabledBlocksAll'     => Gutenberg_Block_Manager::gbm_get_all_disabled_blocks(),
-				'blockCategories'       => $this->gbm_remove_duplicate_categories( Gutenberg_Block_Manager::gbm_get_block_categories(), $filtered_categories ),
+				'disabledBlocksAll'     => GBM_Blocks::gbm_get_all_disabled_blocks(),
+				'blockCategories'       => GBM_Categories::gbm_remove_duplicate_categories( GBM_Categories::gbm_get_block_categories(), $filtered_categories ),
 				'filteredCategories'    => $filtered_categories,
-				'filteredCategoriesAll' => Gutenberg_Block_Manager::gbm_get_all_block_categories(),
-				'patterns'              => Gutenberg_Block_Manager::gbm_get_all_patterns(),
-				'disabledPatterns'      => $this->gbm_remove_duplicate_blocks( Gutenberg_Block_Manager::gbm_get_disabled_patterns(), $filtered_patterns ),
+				'filteredCategoriesAll' => GBM_Categories::gbm_get_all_block_categories(),
+				'patterns'              => GBM_Patterns::gbm_get_all_patterns(),
+				'disabledPatterns'      => GBM_Blocks::gbm_remove_duplicate_blocks( GBM_Patterns::gbm_get_disabled_patterns(), $filtered_patterns ),
 				'filteredPatterns'      => $filtered_patterns,
-				'disabledPatternsAll'   => Gutenberg_Block_Manager::gbm_get_all_disabled_blocks(),
+				'disabledPatternsAll'   => GBM_Blocks::gbm_get_all_disabled_blocks(),
 
 			]
 		);
@@ -147,32 +126,7 @@ class GBM_Admin {
 		return array_values( $options );
 	}
 
-	/**
-	 * Remove any duplicate block categories when using category hook.
-	 *
-	 * @param array $options  The categories from WP options.
-	 * @param array $filtered The filtered categories.
-	 * @return array          Modified options.
-	 */
-	public function gbm_remove_duplicate_categories( $options, $filtered ) {
-		if ( $options && $filtered ) {
-			$updated = false;
-			foreach ( $filtered as $filter ) {
-				// Search array for filtered category.
-				$key = array_search( $filter['block'], array_column( $options, 'block' ), true );
-				if ( $key !== false ) {
-					unset( $options[ $key ] ); // Remove filtered item from array.
-					$options = array_values( $options ); // Reset array keys.
-					$updated = true;
-				}
-			}
-			if ( $updated ) {
-				update_option( BLOCK_MANAGER_CATEGORIES, $options );
-			}
-		}
 
-		return array_values( $options );
-	}
 
 	/**
 	 * Register submenu item.
@@ -286,6 +240,50 @@ class GBM_Admin {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Add plugin action links to WP plugin screen
+	 *
+	 * @author ConnektMedia
+	 * @since 1.0
+	 * @param array $links The action links.
+	 * @return array
+	 */
+	public static function gbm_action_links( $links ) {
+		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Blocks', 'block-manager' ) . '</a>';
+		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&category-switcher' ) . '">' . __( 'Block Categories', 'block-manager' ) . '</a>';
+		array_unshift( $links, $settings, $cats );
+		return $links;
+	}
+
+	/**
+	 * Filter the WP Admin footer text.
+	 *
+	 * @param string $text The footer display text.
+	 * @author ConnektMedia
+	 * @since 2.0
+	 */
+	public function gbm_filter_admin_footer_text( $text ) {
+		$screen     = get_current_screen();
+		$base_array = [
+			'settings_page_block-manager',
+		];
+
+		if ( in_array( $screen->base, $base_array, true ) ) {
+			$divider = '<em>|</em>';
+			$love    = '<span style="color: #e25555;">♥</span>';
+			$atts    = ' target="_blank" style="font-weight: 500;"';
+
+			$msg  = 'Block Manager is made with ' . $love . ' by <a href="https://connekthq.com/?utm_source=WPAdmin&utm_medium=BlockManager&utm_campaign=Footer" target="_blank" style="font-weight: 500;">Connekt</a> ';
+			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" ' . $atts . '>Leave Review</a> ';
+			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" ' . $atts . '>Support</a> ';
+			$msg .= $divider . ' <a href="https://github.com/dcooney/block-manager/" ' . $atts . '>Github</a>';
+
+			$text = wp_kses_post( $msg );
+		}
+
+		return $text;
 	}
 }
 

@@ -181,6 +181,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			setSearch({ term, results: count });
 		} else {
 			setSearch({ term: '', results: 0 });
+			document.querySelector('#gbm-search').value = '';
 			[...groups].forEach(function (group) {
 				group.removeAttribute('style');
 				const theBlocks = group.querySelectorAll('.item');
@@ -188,18 +189,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					block.removeAttribute('style');
 				});
 			});
-		}
-	}
-
-	/**
-	 * Clear the block search.
-	 */
-	function clearSearch() {
-		searchHandler('');
-		setSearch({ term: '', results: 0 });
-		const input = document.querySelector('#gbm-search');
-		if (input) {
-			input.value = '';
 		}
 	}
 
@@ -289,7 +278,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							</div>
 							<SearchResults
 								data={search}
-								callback={clearSearch}
+								callback={() => searchHandler('')}
 								className="blocks-render"
 							/>
 							{!!blocks?.length &&

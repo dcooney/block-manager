@@ -42,7 +42,7 @@ function block_manager_toggle( WP_REST_Request $request ) {
 			$block           = $body['block'] ? sanitize_text_field($body['block']) : ''; // block name.
 			$title           = $body['title'] ? sanitize_text_field($body['title']) : ''; // block title.
 			$type            = $body['type'] ? sanitize_text_field( $body['type']) : 'enable'; // enable/disable.
-			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks(); // Get disabled blocks.
+			$disabled_blocks = GBM_Blocks::gbm_get_disabled_blocks(); // Get disabled blocks.
 
 			if ( ! $block ) {
 				wp_send_json(

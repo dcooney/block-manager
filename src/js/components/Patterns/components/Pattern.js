@@ -6,12 +6,12 @@ import DisabledSVG from '../../Global/DisabledSVG';
 /**
  * Render a Pattern component to display an individual block pattern.
  *
- * @param {Object}   props                The component props.
- * @param {Object}   props.data           Array of WP blocks.
- * @param {Array}    props.disabledBlocks Array of disabled blocks.
- * @param {Array}    props.filteredBlocks Array of filtered blocks.
- * @param {Function} props.togglePattern  Function to toggle the activation of a pattern.
- * @return {Element}                      The Pattern component.
+ * @param {Object}   props                  The component props.
+ * @param {Object}   props.data             Pattern object.
+ * @param {Array}    props.disabledPatterns Array of disabled patterns.
+ * @param {Array}    props.filteredPatterns Array of filtered patterns.
+ * @param {Function} props.togglePattern    Function to toggle the activation of a pattern.
+ * @return {Element}                        The Pattern component.
  */
 function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 	const {
@@ -73,6 +73,7 @@ function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 				>
 					<div>
 						<p className="block-title">{title}</p>
+						<span>{name}</span>
 					</div>
 					<DisabledSVG
 						className={disabled ? disabledClass : filteredClass}

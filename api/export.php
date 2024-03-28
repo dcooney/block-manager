@@ -36,8 +36,8 @@ function block_manager_export( WP_REST_Request $request ) {
 		$type = filter_input( INPUT_GET, 'type', @FILTER_SANITIZE_STRING ); // phpcs:ignore
 
 		if ( $type === 'blocks' ) {
-			$filtered_blocks = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
-			$blocks          = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
+			$filtered_blocks = GBM_Blocks::gbm_get_filtered_blocks();
+			$blocks          = GBM_Blocks::gbm_get_disabled_blocks();
 			wp_send_json(
 				[
 					'success' => true,
@@ -47,8 +47,8 @@ function block_manager_export( WP_REST_Request $request ) {
 		}
 
 		if ( $type === 'patterns' ) {
-			$filtered_patterns = Gutenberg_Block_Manager::gbm_get_filtered_patterns();
-			$patterns          = Gutenberg_Block_Manager::gbm_get_disabled_patterns();
+			$filtered_patterns = GBM_Patterns::gbm_get_filtered_patterns();
+			$patterns          = GBM_Patterns::gbm_get_disabled_patterns();
 			wp_send_json(
 				[
 					'success' => true,
@@ -58,8 +58,8 @@ function block_manager_export( WP_REST_Request $request ) {
 		}
 
 		if ( $type === 'categories' ) {
-			$filtered_categories = Gutenberg_Block_Manager::gbm_get_filtered_categories();
-			$categories          = Gutenberg_Block_Manager::gbm_get_block_categories();
+			$filtered_categories = GBM_Categories::gbm_get_filtered_categories();
+			$categories          = GBM_Categories::gbm_get_block_categories();
 			wp_send_json(
 				[
 					'success' => true,

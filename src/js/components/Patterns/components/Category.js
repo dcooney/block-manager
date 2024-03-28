@@ -19,7 +19,7 @@ export default function Category({
 	filteredPatterns = [],
 	callback,
 }) {
-	const { patterns = [], label = '' } = data;
+	const { patterns = [], label = '', name: slug } = data;
 
 	if (!patterns?.length) {
 		return null;
@@ -29,32 +29,28 @@ export default function Category({
 	const total = patterns?.length;
 
 	// Combine disabled and filtered blocks.
-	const allDisabled = [...disabledPatterns, ...filteredPatterns];
+	const disabled = [...disabledPatterns, ...filteredPatterns];
 
 	// Count disabled patterns.
 	// Loop all blocks in the category and find match.
 	const count =
-		allDisabled?.length &&
-		patterns.filter((pattern) => allDisabled.includes(pattern?.name))
-			?.length;
-
-	// Set toggle button attributes
-	const switchClass =
-		count === total ? 'gbm-block-switch disabled' : 'gbm-block-switch';
-	const state = count === total ? 'inactive' : 'active';
+		disabled?.length &&
+		patterns.filter((pattern) => disabled.includes(pattern?.name))?.length;
 
 	return (
 		<div
-			key={data?.slug}
-			id={`block-${data?.slug}`}
+			key={`pattern-${slug}`}
+			id={`block-${slug}`}
 			className="gbm-block-group"
 			tabIndex={-1}
 		>
 			<div className="gbm-block-list-heading">
 				<h3>{label}</h3>
 				<button
-					className={switchClass}
-					data-state={state}
+					className={`gbm-block-switch${
+						count === total ? ' disabled' : ''
+					}`}
+					data-state={count === total ? 'inactive' : 'active'}
 					onClick={callback}
 					aria-label={__(
 						'Toggle all blocks in this category',

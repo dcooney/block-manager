@@ -42,7 +42,7 @@ function block_manager_pattern_toggle( WP_REST_Request $request ) {
 			$pattern           = $body['pattern'] ? sanitize_text_field($body['pattern']) : ''; // pattern name.
 			$title             = $body['title'] ? sanitize_text_field($body['title']) : ''; // pattern title.
 			$type              = $body['type'] ? sanitize_text_field( $body['type']) : 'enable'; // enable/disable.
-			$disabled_patterns = Gutenberg_Block_Manager::gbm_get_disabled_patterns(); // Get disabled patterns.
+			$disabled_patterns = GBM_Patterns::gbm_get_disabled_patterns(); // Get disabled patterns.
 
 			if ( ! $pattern ) {
 				wp_send_json(

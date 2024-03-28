@@ -340,6 +340,7 @@ function Blocks(_ref) {
         term: '',
         results: 0
       });
+      document.querySelector('#gbm-search').value = '';
       _toConsumableArray(groups).forEach(function (group) {
         group.removeAttribute('style');
         var theBlocks = group.querySelectorAll('.item');
@@ -347,21 +348,6 @@ function Blocks(_ref) {
           block.removeAttribute('style');
         });
       });
-    }
-  }
-
-  /**
-   * Clear the block search.
-   */
-  function clearSearch() {
-    searchHandler('');
-    setSearch({
-      term: '',
-      results: 0
-    });
-    var input = document.querySelector('#gbm-search');
-    if (input) {
-      input.value = '';
     }
   }
 
@@ -426,7 +412,9 @@ function Blocks(_ref) {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of disabled blocks as a WordPress hook', 'block-manager')
   }))), /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_10__["default"], {
     data: search,
-    callback: clearSearch,
+    callback: function callback() {
+      return searchHandler('');
+    },
     className: "blocks-render"
   }), !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (category) {
     var _category$blocks;
@@ -1820,12 +1808,15 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Render the block Search component.
  *
- * @param {Object}   props          The component properties.
- * @param {Function} props.callback The callback function to dispatch.
- * @return {Element}                The Search component.
+ * @param {Object}   props             The component properties.
+ * @param {Function} props.callback    The callback function to dispatch.
+ * @param {string}   props.placeholder The placeholder text for input.
+ * @return {Element}                   The Search component.
  */
 function Search(_ref) {
-  var callback = _ref.callback;
+  var callback = _ref.callback,
+    _ref$placeholder = _ref.placeholder,
+    placeholder = _ref$placeholder === void 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager') : _ref$placeholder;
   var inputRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   return /*#__PURE__*/React.createElement("div", {
     className: "gbm-search"
@@ -1835,7 +1826,7 @@ function Search(_ref) {
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager')), /*#__PURE__*/React.createElement("input", {
     type: "text",
     id: "gbm-search",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager'),
+    placeholder: placeholder,
     onKeyUp: function onKeyUp() {
       var _inputRef$current;
       return callback(inputRef === null || inputRef === void 0 || (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.value);
@@ -1926,7 +1917,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _functions_bulkProcess__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../functions/bulkProcess */ "./src/js/functions/bulkProcess.js");
 /* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
 /* harmony import */ var _functions_setCategoryStatus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../functions/setCategoryStatus */ "./src/js/functions/setCategoryStatus.js");
@@ -1936,16 +1927,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Global_Notifications__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Global/Notifications */ "./src/js/components/Global/Notifications.js");
 /* harmony import */ var _Global_Reset__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Global/Reset */ "./src/js/components/Global/Reset.js");
 /* harmony import */ var _components_Category__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Category */ "./src/js/components/Patterns/components/Category.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Patterns/components/Sidebar.js");
+/* harmony import */ var _functions_blocks__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../functions/blocks */ "./src/js/functions/blocks.js");
+/* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
+
+
 
 
 
@@ -1971,21 +1968,39 @@ function Patterns() {
     categories = _gbm_localize$pattern === void 0 ? [] : _gbm_localize$pattern,
     _gbm_localize$filtere = _gbm_localize.filteredPatterns,
     filteredPatterns = _gbm_localize$filtere === void 0 ? [] : _gbm_localize$filtere;
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var allPatterns = [];
+  // Loop categories to pluck all patterns.
+  for (var _i = 0, _Object$values = Object.values(categories); _i < _Object$values.length; _i++) {
+    var value = _Object$values[_i];
+    allPatterns.push.apply(allPatterns, _toConsumableArray(value === null || value === void 0 ? void 0 : value.patterns));
+  }
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      term: '',
+      results: 0
+    }),
     _useState2 = _slicedToArray(_useState, 2),
-    loading = _useState2[0],
-    setLoading = _useState2[1];
-  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    search = _useState2[0],
+    setSearch = _useState2[1];
+  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
     _useState4 = _slicedToArray(_useState3, 2),
-    notifications = _useState4[0],
-    setNotifications = _useState4[1];
-  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.disabledPatterns),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState6 = _slicedToArray(_useState5, 2),
-    disabledPatterns = _useState6[0],
-    setDisabled = _useState6[1];
+    notifications = _useState6[0],
+    setNotifications = _useState6[1];
+  var _useState7 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)((_gbm_localize2 = gbm_localize) === null || _gbm_localize2 === void 0 ? void 0 : _gbm_localize2.disabledPatterns),
+    _useState8 = _slicedToArray(_useState7, 2),
+    disabledPatterns = _useState8[0],
+    setDisabled = _useState8[1];
   var resetButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var exportModalRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var exportButtonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
+  // Count disabled & filtered patterns.
+  var _countDisabledBlocks = (0,_functions_blocks__WEBPACK_IMPORTED_MODULE_12__.countDisabledBlocks)(allPatterns, disabledPatterns, filteredPatterns),
+    disabledCount = _countDisabledBlocks.disabledCount,
+    filteredCount = _countDisabledBlocks.filteredCount;
 
   /**
    * Toggle the status of a pattern.
@@ -2002,7 +2017,7 @@ function Patterns() {
     var type = element.classList.contains('disabled') ? 'enable' : 'disable';
 
     // Send API Request
-    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
       method: 'POST',
       url: gbm_localize.root + 'gbm/pattern/',
       headers: {
@@ -2055,7 +2070,7 @@ function Patterns() {
     var _resetButtonRef$curre;
     resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre = resetButtonRef.current) === null || _resetButtonRef$curre === void 0 || _resetButtonRef$curre.classList.add('spin'); // Loading state.
 
-    (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
+    (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
       method: 'POST',
       url: gbm_localize.root + 'gbm/patterns_reset/',
       headers: {
@@ -2089,12 +2104,75 @@ function Patterns() {
       resetButtonRef === null || resetButtonRef === void 0 || (_resetButtonRef$curre3 = resetButtonRef.current) === null || _resetButtonRef$curre3 === void 0 || _resetButtonRef$curre3.classList.remove('spin');
     });
   }
+  /**
+   * Handle search.
+   *
+   * @param {string} term The search term.
+   */
+  function searchHandler(term) {
+    var count = 0;
+    var groups = document.querySelectorAll('.gbm-block-group');
+    if (!(groups !== null && groups !== void 0 && groups.length)) {
+      return;
+    }
+    if (term !== '') {
+      _toConsumableArray(groups).forEach(function (group) {
+        var total = 0;
+        var theBlocks = group.querySelectorAll('.item');
+        _toConsumableArray(theBlocks).forEach(function (block, index) {
+          var str = block.dataset.title.toLowerCase();
+          var found = str.search(term.toLowerCase());
+
+          // Show/hide blocks.
+          if (found !== -1) {
+            block.removeAttribute('style');
+            total++;
+            count++;
+          } else {
+            block.style.display = 'none';
+          }
+
+          // Show/hide entire group if no results.
+          if (theBlocks.length === index + 1) {
+            if (total === 0) {
+              group.style.display = 'none';
+            } else {
+              group.removeAttribute('style');
+            }
+          }
+        });
+      });
+      setSearch({
+        term: term,
+        results: count
+      });
+    } else {
+      setSearch({
+        term: '',
+        results: 0
+      });
+      document.querySelector('#gbm-search').value = '';
+      _toConsumableArray(groups).forEach(function (group) {
+        group.removeAttribute('style');
+        var theBlocks = group.querySelectorAll('.item');
+        _toConsumableArray(theBlocks).forEach(function (block) {
+          block.removeAttribute('style');
+        });
+      });
+    }
+  }
   return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement(_Global_Loader__WEBPACK_IMPORTED_MODULE_7__["default"], {
     callback: setLoading,
     message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fetching Patterns…', 'block-manager')
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper categories"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    categories: categories,
+    active: (allPatterns === null || allPatterns === void 0 ? void 0 : allPatterns.length) - disabledCount - filteredCount,
+    disabled: disabledCount,
+    filtered: filteredCount,
+    search: searchHandler
+  }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
@@ -2116,7 +2194,13 @@ function Patterns() {
     },
     total: disabledPatterns === null || disabledPatterns === void 0 ? void 0 : disabledPatterns.length,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of disabled patterns as a WordPress hook', 'block-manager')
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    data: search,
+    callback: function callback() {
+      return searchHandler('');
+    },
+    className: "blocks-render"
+  }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-groups"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-lists patterns"
@@ -2189,7 +2273,8 @@ function Category(_ref) {
   var _data$patterns = data.patterns,
     patterns = _data$patterns === void 0 ? [] : _data$patterns,
     _data$label = data.label,
-    label = _data$label === void 0 ? '' : _data$label;
+    label = _data$label === void 0 ? '' : _data$label,
+    slug = data.name;
   if (!(patterns !== null && patterns !== void 0 && patterns.length)) {
     return null;
   }
@@ -2198,27 +2283,23 @@ function Category(_ref) {
   var total = patterns === null || patterns === void 0 ? void 0 : patterns.length;
 
   // Combine disabled and filtered blocks.
-  var allDisabled = [].concat(_toConsumableArray(disabledPatterns), _toConsumableArray(filteredPatterns));
+  var disabled = [].concat(_toConsumableArray(disabledPatterns), _toConsumableArray(filteredPatterns));
 
   // Count disabled patterns.
   // Loop all blocks in the category and find match.
-  var count = (allDisabled === null || allDisabled === void 0 ? void 0 : allDisabled.length) && ((_patterns$filter = patterns.filter(function (pattern) {
-    return allDisabled.includes(pattern === null || pattern === void 0 ? void 0 : pattern.name);
+  var count = (disabled === null || disabled === void 0 ? void 0 : disabled.length) && ((_patterns$filter = patterns.filter(function (pattern) {
+    return disabled.includes(pattern === null || pattern === void 0 ? void 0 : pattern.name);
   })) === null || _patterns$filter === void 0 ? void 0 : _patterns$filter.length);
-
-  // Set toggle button attributes
-  var switchClass = count === total ? 'gbm-block-switch disabled' : 'gbm-block-switch';
-  var state = count === total ? 'inactive' : 'active';
   return /*#__PURE__*/React.createElement("div", {
-    key: data === null || data === void 0 ? void 0 : data.slug,
-    id: "block-".concat(data === null || data === void 0 ? void 0 : data.slug),
+    key: "pattern-".concat(slug),
+    id: "block-".concat(slug),
     className: "gbm-block-group",
     tabIndex: -1
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-heading"
   }, /*#__PURE__*/React.createElement("h3", null, label), /*#__PURE__*/React.createElement("button", {
-    className: switchClass,
-    "data-state": state,
+    className: "gbm-block-switch".concat(count === total ? ' disabled' : ''),
+    "data-state": count === total ? 'inactive' : 'active',
     onClick: callback,
     "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager'),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Toggle all blocks in this category', 'block-manager')
@@ -2262,12 +2343,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Render a Pattern component to display an individual block pattern.
  *
- * @param {Object}   props                The component props.
- * @param {Object}   props.data           Array of WP blocks.
- * @param {Array}    props.disabledBlocks Array of disabled blocks.
- * @param {Array}    props.filteredBlocks Array of filtered blocks.
- * @param {Function} props.togglePattern  Function to toggle the activation of a pattern.
- * @return {Element}                      The Pattern component.
+ * @param {Object}   props                  The component props.
+ * @param {Object}   props.data             Pattern object.
+ * @param {Array}    props.disabledPatterns Array of disabled patterns.
+ * @param {Array}    props.filteredPatterns Array of filtered patterns.
+ * @param {Function} props.togglePattern    Function to toggle the activation of a pattern.
+ * @return {Element}                        The Pattern component.
  */
 function Pattern(_ref) {
   var data = _ref.data,
@@ -2316,11 +2397,179 @@ function Pattern(_ref) {
     className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('item block-button', disabledClass, filteredClass)
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     className: "block-title"
-  }, title)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, title), /*#__PURE__*/React.createElement("span", null, name)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: disabled ? disabledClass : filteredClass
   })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Pattern);
+
+/***/ }),
+
+/***/ "./src/js/components/Patterns/components/Sidebar.js":
+/*!**********************************************************!*\
+  !*** ./src/js/components/Patterns/components/Sidebar.js ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Sidebar; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Global/DisabledSVG */ "./src/js/components/Global/DisabledSVG.js");
+/* harmony import */ var _Global_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Global/Search */ "./src/js/components/Global/Search.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+/**
+ * Render the Sidebar for Block Manager.
+ *
+ * @param {Object}   props            The component props.
+ * @param {Object}   props.categories Object of pattern categories.
+ * @param {number}   props.active     Total number of active blocks.
+ * @param {number}   props.disabled   Total number of disabled blocks.
+ * @param {number}   props.filtered   Total number of filtered blocks.
+ * @param {Function} props.search     The search handler function.
+ * @return {Element}                  The Sidebar component.
+ */
+function Sidebar(_ref) {
+  var categories = _ref.categories,
+    active = _ref.active,
+    disabled = _ref.disabled,
+    filtered = _ref.filtered,
+    search = _ref.search;
+  var activeRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var disabledRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var mountedRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(active),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeTotal = _useState2[0],
+    setActiveTotal = _useState2[1];
+  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(disabled),
+    _useState4 = _slicedToArray(_useState3, 2),
+    disabledTotal = _useState4[0],
+    setDisabledTotal = _useState4[1];
+
+  /**
+   * Block total update animation.
+   * @param {Element}  ref      The ref element.
+   * @param {number}   value    The current value.
+   * @param {Function} callback The callback function.
+   */
+  function change(ref, value, callback) {
+    var _ref$dataset, _ref$classList;
+    if (!(mountedRef !== null && mountedRef !== void 0 && mountedRef.current) || !ref) {
+      return;
+    }
+    var prev = ref === null || ref === void 0 || (_ref$dataset = ref.dataset) === null || _ref$dataset === void 0 ? void 0 : _ref$dataset.prev;
+    var direction = parseInt(prev) > value ? 'up' : 'down';
+    ref === null || ref === void 0 || (_ref$classList = ref.classList) === null || _ref$classList === void 0 || _ref$classList.add("slide-".concat(direction));
+    setTimeout(function () {
+      var _ref$classList2, _ref$classList3;
+      callback(value);
+      ref === null || ref === void 0 || (_ref$classList2 = ref.classList) === null || _ref$classList2 === void 0 || _ref$classList2.add("slide-".concat(direction, "-done"));
+      ref === null || ref === void 0 || (_ref$classList3 = ref.classList) === null || _ref$classList3 === void 0 || _ref$classList3.remove("slide-".concat(direction));
+      setTimeout(function () {
+        var _ref$classList4;
+        ref === null || ref === void 0 || (_ref$classList4 = ref.classList) === null || _ref$classList4 === void 0 || _ref$classList4.remove("slide-".concat(direction, "-done"));
+      }, 75);
+    }, 200);
+  }
+
+  // Update the active blocks.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    change(activeRef.current, active, setActiveTotal);
+  }, [active]);
+
+  // Update the disabled blocks.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTimeout(function () {
+      change(disabledRef.current, disabled, setDisabledTotal);
+    }, 125);
+  }, [disabled]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTimeout(function () {
+      mountedRef.current = true;
+    }, 500);
+  }, []);
+
+  /**
+   * Scroll to the selected block.
+   *
+   * @param {Event} e The click event.
+   */
+  function scrollTo(e) {
+    var el = e.currentTarget;
+    var to = el.dataset.to;
+    var target = document.querySelector("#".concat(to));
+    if (target) {
+      var top = target.getBoundingClientRect().top + window.scrollY - 50;
+      window.scrollTo({
+        top: top,
+        behavior: 'smooth'
+      });
+      target.focus({
+        preventScroll: true
+      });
+    }
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    className: "gbm-sidebar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta gbm-cta-block-legend",
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current Block Status', 'block-manager')
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--total",
+    title: "".concat(activeTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Active Blocks & Block Variations', 'block-manager'))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
+    ref: activeRef,
+    "data-prev": activeTotal
+  }, activeTotal))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Active', 'block-manager')), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--disabled",
+    title: disabledTotal === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disabled Pattern', 'block-manager')) : "".concat(disabledTotal, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disabled Patterns', 'block-manager'))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
+    ref: disabledRef,
+    "data-prev": disabledTotal
+  }, disabledTotal)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "disabled"
+  })), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disabled', 'block-manager')), !!filtered && /*#__PURE__*/React.createElement("div", {
+    className: "gbm-legend gbm-legend--filtered",
+    title: filtered === 1 ? "1 ".concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Pattern', 'block-manager')) : "".concat(filtered, " ").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered Patterns', 'block-manager'))
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, filtered), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "filtered"
+  }))), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filtered', 'block-manager')))), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta"
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Categories', 'block-manager')), /*#__PURE__*/React.createElement("div", {
+    className: "gbm-cta-wrap"
+  }, Object.keys(categories).map(function (category) {
+    var _categories$category, _categories$category2, _categories$category3;
+    return /*#__PURE__*/React.createElement("button", {
+      key: (_categories$category = categories[category]) === null || _categories$category === void 0 ? void 0 : _categories$category.name,
+      type: "button",
+      "data-to": 'block-' + ((_categories$category2 = categories[category]) === null || _categories$category2 === void 0 ? void 0 : _categories$category2.name),
+      onClick: function onClick(e) {
+        return scrollTo(e);
+      }
+    }, (_categories$category3 = categories[category]) === null || _categories$category3 === void 0 ? void 0 : _categories$category3.label);
+  }), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    callback: search,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Block Patterns', 'block-manager')
+  }))));
+}
 
 /***/ }),
 

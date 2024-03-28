@@ -10,6 +10,9 @@ import Loader from '../Global/Loader';
 import Notifications from '../Global/Notifications';
 import Reset from '../Global/Reset';
 import Category from './components/Category';
+import Sidebar from './components/Sidebar';
+import { countDisabledBlocks } from '../../functions/blocks';
+import SearchResults from '../Global/SearchResults';
 
 /**
  * Render the Patterns component.
@@ -19,6 +22,13 @@ import Category from './components/Category';
 export default function Patterns() {
 	const { patterns: categories = [], filteredPatterns = [] } = gbm_localize;
 
+	const allPatterns = [];
+	// Loop categories to pluck all patterns.
+	for (let value of Object.values(categories)) {
+		allPatterns.push(...value?.patterns);
+	}
+
+	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [notifications, setNotifications] = useState([]);
 
@@ -29,6 +39,13 @@ export default function Patterns() {
 	const resetButtonRef = useRef(null);
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
+
+	// Count disabled & filtered patterns.
+	const { disabledCount, filteredCount } = countDisabledBlocks(
+		allPatterns,
+		disabledPatterns,
+		filteredPatterns
+	);
 
 	/**
 	 * Toggle the status of a pattern.
@@ -124,6 +141,58 @@ export default function Patterns() {
 				resetButtonRef?.current?.classList.remove('spin');
 			});
 	}
+	/**
+	 * Handle search.
+	 *
+	 * @param {string} term The search term.
+	 */
+	function searchHandler(term) {
+		let count = 0;
+		const groups = document.querySelectorAll('.gbm-block-group');
+		if (!groups?.length) {
+			return;
+		}
+
+		if (term !== '') {
+			[...groups].forEach(function (group) {
+				let total = 0;
+				const theBlocks = group.querySelectorAll('.item');
+				[...theBlocks].forEach(function (block, index) {
+					const str = block.dataset.title.toLowerCase();
+					const found = str.search(term.toLowerCase());
+
+					// Show/hide blocks.
+					if (found !== -1) {
+						block.removeAttribute('style');
+						total++;
+						count++;
+					} else {
+						block.style.display = 'none';
+					}
+
+					// Show/hide entire group if no results.
+					if (theBlocks.length === index + 1) {
+						if (total === 0) {
+							group.style.display = 'none';
+						} else {
+							group.removeAttribute('style');
+						}
+					}
+				});
+			});
+			setSearch({ term, results: count });
+		} else {
+			setSearch({ term: '', results: 0 });
+			document.querySelector('#gbm-search').value = '';
+			[...groups].forEach(function (group) {
+				group.removeAttribute('style');
+				const theBlocks = group.querySelectorAll('.item');
+				[...theBlocks].forEach(function (block) {
+					block.removeAttribute('style');
+				});
+			});
+		}
+	}
 
 	return (
 		<>
@@ -135,22 +204,17 @@ export default function Patterns() {
 			) : (
 				<>
 					<div className="gbm-block-list-wrapper categories">
-						{/* <Sidebar
+						<Sidebar
+							categories={categories}
+							active={
+								allPatterns?.length -
+								disabledCount -
+								filteredCount
+							}
+							disabled={disabledCount}
+							filtered={filteredCount}
 							search={searchHandler}
-							total={blocks?.length}
-							updated={blockCategories?.length}
-							filtered={filteredCategories?.length}
-							updatedBlocksOffset={categoryOffsetCount(
-								blockCategories,
-								disabled_blocks,
-								block_names
-							)}
-							filteredBlocksOffset={categoryOffsetCount(
-								filteredCategories,
-								disabled_blocks,
-								block_names
-							)}
-						/> */}
+						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
 								<p
@@ -192,6 +256,11 @@ export default function Patterns() {
 									/>
 								</div>
 							</div>
+							<SearchResults
+								data={search}
+								callback={() => searchHandler('')}
+								className="blocks-render"
+							/>
 							<div className="gbm-block-groups">
 								<div className="gbm-block-lists patterns">
 									<>

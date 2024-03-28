@@ -44,16 +44,16 @@ function block_manager_bulk_process( WP_REST_Request $request ) {
 
 			switch( $type ) {
 				case 'blocks' :
-					$disabled = Gutenberg_Block_Manager::gbm_get_disabled_blocks();
-					$filtered = Gutenberg_Block_Manager::gbm_get_filtered_blocks();
+					$disabled = GBM_Blocks::gbm_get_disabled_blocks();
+					$filtered = GBM_Blocks::gbm_get_filtered_blocks();
 					$disabled_msg = __( 'All blocks in category disabled', 'block-manager' );
 					$enabled_msg = __( 'All blocks in category enabled', 'block-manager' );
 					$option = BLOCK_MANAGER_OPTION;
 					break;
 
 				case 'patterns' :
-					$disabled = Gutenberg_Block_Manager::gbm_get_disabled_patterns();
-					$filtered = Gutenberg_Block_Manager::gbm_get_filtered_patterns();
+					$disabled = GBM_Patterns::gbm_get_disabled_patterns();
+					$filtered = GBM_Patterns::gbm_get_filtered_patterns();
 					$disabled_msg = __( 'All patterns in category disabled', 'block-manager' );
 					$enabled_msg = __( 'All patterns in category enabled', 'block-manager' );
 					$option = BLOCK_MANAGER_PATTERNS;
