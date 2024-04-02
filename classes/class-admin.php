@@ -170,7 +170,7 @@ class GBM_Admin {
 			<div class="gbm-page-wrap--header">
 				<div class="gbm-page-wrap--header-title">
 					<h2><?php esc_html_e( 'Block Manager', 'block-manager' ); ?> <span><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span></h2>
-					<p><?php esc_html_e( 'Take Control of Your WordPress Blocks & Patterns.', 'block-manager' ); ?></p>
+					<p><?php esc_html_e( 'Take control of your WordPress blocks and block patterns.', 'block-manager' ); ?></p>
 				</div>
 				<button class="gbm-other-button" id="otherPlugins">
 					<span class="dashicons dashicons-admin-plugins"></span> <?php esc_html_e( 'Other Plugins', 'block-manager' ); ?>

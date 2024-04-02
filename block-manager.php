@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Block Manager
  * Plugin URI: https://connekthq.com/plugins/block-manager/
- * Description: Take control of your WordPress Blocks & Patterns.
+ * Description: Take control of your WordPress blocks and patterns.
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-02T15:43:48+00:00\n"
+"POT-Creation-Date: 2024-04-02T16:00:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -27,7 +27,7 @@ msgid "https://connekthq.com/plugins/block-manager/"
 msgstr ""
 
 #. Description of the plugin
-msgid "Take control of your WordPress Blocks & Patterns."
+msgid "Take control of your WordPress blocks and patterns."
 msgstr ""
 
 #. Author of the plugin
@@ -118,7 +118,7 @@ msgid "%s pattern enabled"
 msgstr ""
 
 #: classes/class-admin.php:173
-msgid "Take Control of Your WordPress Blocks & Patterns."
+msgid "Take control of your WordPress blocks and block patterns."
 msgstr ""
 
 #: classes/class-admin.php:176
