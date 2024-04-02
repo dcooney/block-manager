@@ -1,6 +1,6 @@
 === Block Manager ===
 Contributors: dcooney, connekthq
-Tags: blocks, remove blocks, disable blocks, disable patterns, block category
+Tags: remove blocks, disable blocks, disable patterns, remove patterns, block category
 Homepage: https://connekthq.com/
 Donate link: https://connekthq.com/donate
 Requires at least: 5.0
