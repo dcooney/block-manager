@@ -4,13 +4,14 @@ import axios from 'axios';
 /**
  * Render the block ToggleSwitch component.
  *
- * @param {Object}  props          The component properties.
- * @param {boolean} props.active   Is the button active?
- * @param {string}  props.option   The WP option name.
- * @param {string}  props.label    The switch label.
- * @param {string}  props.desc     The switch description.
- * @param {boolean} props.disabled Is the button disabled?
- * @return {Element}               The ToggleSwitch component.
+ * @param {Object}   props          The component properties.
+ * @param {boolean}  props.active   Is the button active?
+ * @param {string}   props.option   The WP option name.
+ * @param {string}   props.label    The switch label.
+ * @param {string}   props.desc     The switch description.
+ * @param {boolean}  props.disabled Is the button disabled?
+ * @param {Function} props.callback Callback function.
+ * @return {Element}                The ToggleSwitch component.
  */
 export default function ToggleSwitch({
 	active = true,
@@ -18,6 +19,7 @@ export default function ToggleSwitch({
 	label,
 	desc,
 	disabled = false,
+	callback,
 }) {
 	const buttonRef = useRef(null);
 
@@ -50,7 +52,7 @@ export default function ToggleSwitch({
 		})
 			.then(function (res) {
 				const { data = {}, status } = res;
-				const { success = true } = data;
+				const { success = true, disabled_patterns = [] } = data;
 				if (data && status === 200) {
 					if (success) {
 						if (type === 'disable') {
@@ -58,6 +60,7 @@ export default function ToggleSwitch({
 						} else {
 							buttonRef.current.classList.add('disabled');
 						}
+						callback(disabled_patterns);
 					}
 					buttonRef.current.classList.remove('loading');
 				} else {

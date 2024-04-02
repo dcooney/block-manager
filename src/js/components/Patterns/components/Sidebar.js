@@ -8,14 +8,15 @@ import ToggleSwitch from './ToggleSwitch';
 /**
  * Render the Sidebar for Block Manager.
  *
- * @param {Object}   props            The component props.
- * @param {Object}   props.categories Object of pattern categories.
- * @param {number}   props.active     Total number of active blocks.
- * @param {number}   props.disabled   Total number of disabled blocks.
- * @param {number}   props.filtered   Total number of filtered blocks.
- * @param {Array}    props.patterns   Array of disabled patterns.
- * @param {Function} props.search     The search handler function.
- * @return {Element}                  The Sidebar component.
+ * @param {Object}   props             The component props.
+ * @param {Object}   props.categories  Object of pattern categories.
+ * @param {number}   props.active      Total number of active blocks.
+ * @param {number}   props.disabled    Total number of disabled blocks.
+ * @param {number}   props.filtered    Total number of filtered blocks.
+ * @param {Array}    props.patterns    Array of disabled patterns.
+ * @param {Function} props.search      The search handler function.
+ * @param {Function} props.setDisabled State handler for disabled patterns.
+ * @return {Element}                   The Sidebar component.
  */
 export default function Sidebar({
 	categories,
@@ -23,6 +24,7 @@ export default function Sidebar({
 	disabled,
 	filtered,
 	patterns,
+	setDisabled,
 	search,
 }) {
 	const { filteredPatterns = [] } = gbm_localize;
@@ -154,27 +156,44 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					<ToggleSwitch
 						option="gbm/core-patterns"
-						label={__('Disable Core Patterns', 'block-manager')}
+						label={__('Core Patterns', 'block-manager')}
 						desc={__(
-							'Remove all core patterns from the patterns selector.',
+							'Remove all core block patterns from the patterns selector.',
 							'block-manager'
 						)}
 						active={!patterns.includes('gbm/core-patterns')}
 						disabled={filteredPatterns.includes(
 							'gbm/core-patterns'
 						)}
+						callback={setDisabled}
 					/>
 					<ToggleSwitch
 						option="gbm/remote-patterns"
 						label={__('Remote Patterns', 'block-manager')}
 						desc={__(
-							'Prevent users from searching for remote patterns.',
+							'Prevent users from searching for remote block patterns.',
 							'block-manager'
 						)}
 						active={!patterns.includes('gbm/remote-patterns')}
 						disabled={filteredPatterns.includes(
 							'gbm/remote-patterns'
 						)}
+						callback={setDisabled}
+					/>
+					<ToggleSwitch
+						option="gbm/uncategorized-patterns"
+						label={__('Uncategorized Patterns', 'block-manager')}
+						desc={__(
+							'Remove all block patterns without an assigned category.',
+							'block-manager'
+						)}
+						active={
+							!patterns.includes('gbm/uncategorized-patterns')
+						}
+						disabled={filteredPatterns.includes(
+							'gbm/uncategorized-patterns'
+						)}
+						callback={setDisabled}
 					/>
 				</div>
 			</div>

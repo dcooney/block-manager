@@ -6,7 +6,7 @@
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 2.1.1
+ * Version: 3.0.0
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
@@ -26,7 +26,8 @@
 
 TODO:
 - Unregister patterns in the init hook not working. It fires to late or something. [DONE]
-- Style Pattern listing.
+- Style Pattern listing. [DONE]
+- Update Unregister patterns… text [DONE]
 
 */
 
@@ -35,8 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '2.1.1' );
-define( 'BLOCK_MANAGER_RELEASE', 'November 1, 2023' );
+define( 'BLOCK_MANAGER_VERSION', '3.0.0' );
+define( 'BLOCK_MANAGER_RELEASE', 'April 2, 2024' );
+define( 'BLOCK_MANAGER_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_URL', plugins_url( '', __FILE__ ) );
 define( 'BLOCK_MANAGER_OPTION', 'gbm_disabled_blocks' );
@@ -140,21 +142,6 @@ class Gutenberg_Block_Manager {
 				'patterns'   => GBM_Patterns::gbm_get_all_disabled_patterns(),
 			]
 		);
-	}
-
-	/**
-	 * Add plugin action links to WP plugin screen
-	 *
-	 * @author ConnektMedia
-	 * @since 1.0
-	 * @param array $links The action links.
-	 * @return array
-	 */
-	public static function gbm_action_links( $links ) {
-		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Blocks', 'block-manager' ) . '</a>';
-		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&category-switcher' ) . '">' . __( 'Block Categories', 'block-manager' ) . '</a>';
-		array_unshift( $links, $settings, $cats );
-		return $links;
 	}
 
 	/**

@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
  */
 export default function Loader({
 	callback,
-	message = __('Fetching Blocks and Categories…', 'block-manager'),
+	message = __('Fetching Blocks…', 'block-manager'),
 }) {
 	useEffect(() => {
 		setTimeout(() => {

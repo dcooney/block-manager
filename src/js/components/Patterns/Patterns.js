@@ -214,6 +214,7 @@ export default function Patterns() {
 							disabled={disabledCount}
 							filtered={filteredCount}
 							patterns={disabledPatterns}
+							setDisabled={setDisabled}
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
@@ -222,7 +223,7 @@ export default function Patterns() {
 									className="gbm-heading"
 									dangerouslySetInnerHTML={{
 										__html: __(
-											'Unregister patterns…',
+											'Select patterns to be globally removed from the Pattern Selector.',
 											'block-manager'
 										),
 									}}
@@ -233,7 +234,7 @@ export default function Patterns() {
 										callback={resetPatterns}
 										total={disabledPatterns?.length}
 										msg={__(
-											'Are you sure you want to reset your modified Block Patterns?',
+											'Are you sure you want to reset the modified Block Patterns?',
 											'block-manager'
 										)}
 										title={__(

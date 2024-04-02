@@ -242,7 +242,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							<div className="gbm-options">
 								<p className="gbm-heading">
 									{__(
-										'Select blocks below to globally removed from the WordPress Block Inserter.',
+										'Globally remove blocks from the Block Inserter.',
 										'block-manager'
 									)}
 								</p>

@@ -22,6 +22,8 @@ class GBM_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'gbm_register_sub_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'gbm_admin_enqueue' ] );
+		add_filter( 'plugin_action_links_' . BLOCK_MANAGER_BASENAME, [ &$this, 'gbm_action_links' ] );
+		add_filter( 'admin_footer_text', [ &$this, 'gbm_filter_admin_footer_text' ] );
 	}
 
 	/**
@@ -221,19 +223,19 @@ class GBM_Admin {
 					</a>
 					<a class="nav-tab
 					<?php
-					if ( 'patterns' === $active ) {
-						echo ' nav-tab-active'; }
-					?>
-					" href="options-general.php?page=block-manager&patterns">
-						<?php esc_html_e( 'Patterns', 'block-manager' ); ?>
-					</a>
-					<a class="nav-tab
-					<?php
 					if ( 'categories' === $active ) {
 						echo ' nav-tab-active'; }
 					?>
 					" href="options-general.php?page=block-manager&category-switcher">
 						<?php esc_html_e( 'Block Categories', 'block-manager' ); ?>
+					</a>
+					<a class="nav-tab
+					<?php
+					if ( 'patterns' === $active ) {
+						echo ' nav-tab-active'; }
+					?>
+					" href="options-general.php?page=block-manager&patterns">
+						<?php esc_html_e( 'Patterns', 'block-manager' ); ?>
 					</a>
 				</div>
 				<div id="app" class="gbm"></div>
@@ -250,10 +252,11 @@ class GBM_Admin {
 	 * @param array $links The action links.
 	 * @return array
 	 */
-	public static function gbm_action_links( $links ) {
+	public function gbm_action_links( $links ) {
 		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Blocks', 'block-manager' ) . '</a>';
-		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&category-switcher' ) . '">' . __( 'Block Categories', 'block-manager' ) . '</a>';
-		array_unshift( $links, $settings, $cats );
+		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&category-switcher' ) . '">' . __( 'Categories', 'block-manager' ) . '</a>';
+		$patterns = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&patterns' ) . '">' . __( 'Patterns', 'block-manager' ) . '</a>';
+		array_unshift( $links, $settings, $cats, $patterns );
 		return $links;
 	}
 

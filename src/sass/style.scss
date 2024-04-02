@@ -109,9 +109,9 @@
 
 	&-block-switch {
 		cursor: pointer;
-		height: 13px;
+		height: auto;
 		width: 100%;
-		padding: 0;
+		padding: 5px 0;
 		margin: 0;
 		box-shadow: none;
 		border: none;
@@ -121,10 +121,10 @@
 		gap: 10px;
 		&--container {
 			display: block;
-			margin: 0 0 10px;
+			margin: 0 0 15px;
 			> p {
 				margin: 0;
-				padding: 3px 0 0 36px;
+				padding: 0 0 0 36px;
 				opacity: 0.75;
 			}
 		}

@@ -51,7 +51,7 @@ class GBM_Patterns {
 
 		$patterns = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
 		if ( ! empty ( $patterns ) ) {
-			$pattern_names = wp_list_pluck( $patterns, 'name' ); // Pluck pattern names.
+			$pattern_names     = wp_list_pluck( $patterns, 'name' ); // Pluck pattern names.
 			$disabled_patterns = self::gbm_get_all_disabled_patterns();
 
 			if ( $disabled_patterns ) {
@@ -76,8 +76,9 @@ class GBM_Patterns {
 			return;
 		}
 
-		$patterns   = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
-		$categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
+		$patterns          = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
+		$categories        = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
+		$disabled_patterns = self::gbm_get_all_disabled_patterns();
 
 		// Loop pattern categories and add to formatted array.
 		$formatted = [];
@@ -97,7 +98,9 @@ class GBM_Patterns {
 				$formatted[$category]['patterns'][] = $pattern;
 			} else {
 				// Add uncategorized patterns to 'uncategorized' category.
-				// $formatted['uncategorized']['patterns'][] = $pattern;
+				if ( !in_array( 'gbm/uncategorized-patterns', $disabled_patterns ) ) {
+					$formatted['uncategorized']['patterns'][] = $pattern;
+				}
 			}
 		}
 

@@ -70,7 +70,7 @@ h1.gbm-h1 {
   border-radius: 4px;
   border: 1px solid #999ea2;
   background-color: #f7f7f7;
-  margin: 10px 0 0;
+  margin: 20px 0 0;
   padding: 8px 10px;
   line-height: 1;
   color: #8568c1;
@@ -220,7 +220,7 @@ h1.gbm-h1 {
 @media screen and (min-width: 768px) {
   .gbm-page-wrap .gbm-sidebar {
     display: block;
-    width: 250px;
+    width: 275px;
     position: sticky;
     top: 50px;
     left: 0;
@@ -229,7 +229,7 @@ h1.gbm-h1 {
 
 @media screen and (min-width: 1300px) {
   .gbm-page-wrap .gbm-sidebar {
-    width: 300px;
+    width: 325px;
   }
 }
 
@@ -430,7 +430,7 @@ h1.gbm-h1 {
 }
 
 .gbm-loader {
-  padding: 40px 20px;
+  padding: 50px 20px;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -442,7 +442,7 @@ h1.gbm-h1 {
 
 @media screen and (min-width: 768px) {
   .gbm-loader {
-    padding: 80px 20px;
+    padding: 100px 20px;
   }
 }
 
@@ -650,6 +650,14 @@ h1.gbm-h1 {
   font-style: normal;
   opacity: 0.5;
   font-weight: 400;
+}
+
+.gbm-block-list .item p.block-title--pattern {
+  overflow: visible;
+  overflow: initial;
+  text-overflow: initial;
+  white-space: normal;
+  padding: 0 10px;
 }
 
 .gbm-block-list .item .gbm-block-switch,
@@ -1159,9 +1167,9 @@ h1.gbm-h1 {
 
 .gbm-block-switch {
   cursor: pointer;
-  height: 13px;
+  height: auto;
   width: 100%;
-  padding: 0;
+  padding: 5px 0;
   margin: 0;
   box-shadow: none;
   border: none;
@@ -1173,12 +1181,12 @@ h1.gbm-h1 {
 
 .gbm-block-switch--container {
   display: block;
-  margin: 0 0 10px;
+  margin: 0 0 15px;
 }
 
 .gbm-block-switch--container > p {
   margin: 0;
-  padding: 3px 0 0 36px;
+  padding: 0 0 0 36px;
   opacity: 0.75;
 }
 

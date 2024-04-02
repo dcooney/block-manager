@@ -397,7 +397,7 @@ function Blocks(_ref) {
     className: "gbm-options"
   }, /*#__PURE__*/React.createElement("p", {
     className: "gbm-heading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select blocks below to globally removed from the WordPress Block Inserter.', 'block-manager')), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Globally remove blocks from the Block Inserter.', 'block-manager')), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_9__["default"], {
     ref: resetButtonRef,
     callback: resetBlocks,
     total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length,
@@ -829,15 +829,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _functions_export__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../functions/export */ "./src/js/functions/export.js");
-/* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
-/* harmony import */ var _Global_ExportModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/ExportModal */ "./src/js/components/Global/ExportModal.js");
-/* harmony import */ var _Global_Loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Global/Loader */ "./src/js/components/Global/Loader.js");
-/* harmony import */ var _Global_Reset__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Global/Reset */ "./src/js/components/Global/Reset.js");
-/* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
-/* harmony import */ var _components_Block__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Block */ "./src/js/components/Categories/components/Block.js");
-/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Categories/components/Sidebar.js");
-/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../functions/helpers */ "./src/js/functions/helpers.js");
-/* harmony import */ var _Global_Notifications__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Global/Notifications */ "./src/js/components/Global/Notifications.js");
+/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../functions/helpers */ "./src/js/functions/helpers.js");
+/* harmony import */ var _Global_Export__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Global/Export */ "./src/js/components/Global/Export.js");
+/* harmony import */ var _Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Global/ExportModal */ "./src/js/components/Global/ExportModal.js");
+/* harmony import */ var _Global_Loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Global/Loader */ "./src/js/components/Global/Loader.js");
+/* harmony import */ var _Global_Notifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Global/Notifications */ "./src/js/components/Global/Notifications.js");
+/* harmony import */ var _Global_Reset__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Global/Reset */ "./src/js/components/Global/Reset.js");
+/* harmony import */ var _Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Global/SearchResults */ "./src/js/components/Global/SearchResults.js");
+/* harmony import */ var _components_Block__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Block */ "./src/js/components/Categories/components/Block.js");
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Sidebar */ "./src/js/components/Categories/components/Sidebar.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -1047,17 +1047,17 @@ function Categories(_ref) {
     }, false);
     return function () {};
   }, []);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement(_Global_Loader__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, loading ? /*#__PURE__*/React.createElement(_Global_Loader__WEBPACK_IMPORTED_MODULE_6__["default"], {
     callback: setLoading
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper categories"
-  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_11__["default"], {
     search: searchHandler,
     total: blocks === null || blocks === void 0 ? void 0 : blocks.length,
     updated: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     filtered: filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.length,
-    updatedBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_10__.categoryOffsetCount)(blockCategories, disabled_blocks, block_names),
-    filteredBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_10__.categoryOffsetCount)(filteredCategories, disabled_blocks, block_names)
+    updatedBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_3__.categoryOffsetCount)(blockCategories, disabled_blocks, block_names),
+    filteredBlocksOffset: (0,_functions_helpers__WEBPACK_IMPORTED_MODULE_3__.categoryOffsetCount)(filteredCategories, disabled_blocks, block_names)
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1065,17 +1065,15 @@ function Categories(_ref) {
   }, /*#__PURE__*/React.createElement("p", {
     className: "gbm-heading",
     dangerouslySetInnerHTML: {
-      __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
-      // translators: %s: The number of blocks.
-      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize your %s WordPress blocks by modifying the assigned block category of each.', 'block-manager'), "<span>".concat(blocks === null || blocks === void 0 ? void 0 : blocks.length, "</span>"))
+      __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize the Block Inserter by modifying the category of each block.', 'block-manager')
     }
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_8__["default"], {
     ref: resetButtonRef,
     callback: resetCategories,
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
-    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset your modified block categories?', 'block-manager'),
+    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset the modified block categories?', 'block-manager'),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Clear all modified block categories', 'block-manager')
-  }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_4__["default"], {
     ref: exportButtonRef,
     callback: function callback() {
       return (0,_functions_export__WEBPACK_IMPORTED_MODULE_2__.exportHook)(exportModalRef === null || exportModalRef === void 0 ? void 0 : exportModalRef.current, 'categories');
@@ -1084,13 +1082,13 @@ function Categories(_ref) {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of updated blocks categories as a WordPress hook', 'block-manager')
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-group"
-  }, /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/React.createElement(_Global_SearchResults__WEBPACK_IMPORTED_MODULE_9__["default"], {
     data: search,
     callback: clearSearch
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list categories"
   }, /*#__PURE__*/React.createElement(React.Fragment, null, !!(blocks !== null && blocks !== void 0 && blocks.length) && blocks.map(function (block) {
-    return /*#__PURE__*/React.createElement(_components_Block__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return /*#__PURE__*/React.createElement(_components_Block__WEBPACK_IMPORTED_MODULE_10__["default"], {
       key: "".concat(block === null || block === void 0 ? void 0 : block.name, "-").concat(block === null || block === void 0 ? void 0 : block.category),
       callback: updateCategory,
       categories: categories,
@@ -1098,11 +1096,11 @@ function Categories(_ref) {
       filteredCategories: filteredCategories,
       blockCategories: blockCategories
     });
-  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to update block categories at the theme level.', 'block-manager')
-  }), /*#__PURE__*/React.createElement(_Global_Notifications__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  }), /*#__PURE__*/React.createElement(_Global_Notifications__WEBPACK_IMPORTED_MODULE_7__["default"], {
     notifications: notifications,
     setNotifications: setNotifications
   })));
@@ -1328,7 +1326,7 @@ function Sidebar(_ref) {
     className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Help', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
-  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the Block Inserter while editing posts.', 'block-manager')), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The Category Switcher provides functionality for updating the display category of WordPress blocks.', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the Block Inserter while editing posts.', 'block-manager')), /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_2__["default"], {
     callback: search
   }))));
 }
@@ -1577,7 +1575,7 @@ __webpack_require__.r(__webpack_exports__);
 function Loader(_ref) {
   var callback = _ref.callback,
     _ref$message = _ref.message,
-    message = _ref$message === void 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fetching Blocks and Categories…', 'block-manager') : _ref$message;
+    message = _ref$message === void 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fetching Blocks…', 'block-manager') : _ref$message;
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setTimeout(function () {
       callback();
@@ -2155,6 +2153,7 @@ function Patterns() {
     disabled: disabledCount,
     filtered: filteredCount,
     patterns: disabledPatterns,
+    setDisabled: setDisabled,
     search: searchHandler
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
@@ -2163,13 +2162,13 @@ function Patterns() {
   }, /*#__PURE__*/React.createElement("p", {
     className: "gbm-heading",
     dangerouslySetInnerHTML: {
-      __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Unregister patterns…', 'block-manager')
+      __html: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select patterns to be globally removed from the Pattern Selector.', 'block-manager')
     }
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_9__["default"], {
     ref: resetButtonRef,
     callback: resetPatterns,
     total: disabledPatterns === null || disabledPatterns === void 0 ? void 0 : disabledPatterns.length,
-    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset your modified Block Patterns?', 'block-manager'),
+    msg: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure you want to reset the modified Block Patterns?', 'block-manager'),
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Clear all Block Patterns', 'block-manager')
   }), /*#__PURE__*/React.createElement(_Global_Export__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ref: exportButtonRef,
@@ -2373,10 +2372,11 @@ function Pattern(_ref) {
     onClick: function onClick(e) {
       return click(e);
     },
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('item block-button', disabledClass, filteredClass)
+    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('item block-button', disabledClass, filteredClass),
+    title: name
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    className: "block-title"
-  }, title), /*#__PURE__*/React.createElement("span", null, name)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "block-title block-title--pattern"
+  }, title)), /*#__PURE__*/React.createElement(_Global_DisabledSVG__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: disabled ? disabledClass : filteredClass
   })));
 }
@@ -2419,14 +2419,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /**
  * Render the Sidebar for Block Manager.
  *
- * @param {Object}   props            The component props.
- * @param {Object}   props.categories Object of pattern categories.
- * @param {number}   props.active     Total number of active blocks.
- * @param {number}   props.disabled   Total number of disabled blocks.
- * @param {number}   props.filtered   Total number of filtered blocks.
- * @param {Array}    props.patterns   Array of disabled patterns.
- * @param {Function} props.search     The search handler function.
- * @return {Element}                  The Sidebar component.
+ * @param {Object}   props             The component props.
+ * @param {Object}   props.categories  Object of pattern categories.
+ * @param {number}   props.active      Total number of active blocks.
+ * @param {number}   props.disabled    Total number of disabled blocks.
+ * @param {number}   props.filtered    Total number of filtered blocks.
+ * @param {Array}    props.patterns    Array of disabled patterns.
+ * @param {Function} props.search      The search handler function.
+ * @param {Function} props.setDisabled State handler for disabled patterns.
+ * @return {Element}                   The Sidebar component.
  */
 function Sidebar(_ref) {
   var categories = _ref.categories,
@@ -2434,6 +2435,7 @@ function Sidebar(_ref) {
     disabled = _ref.disabled,
     filtered = _ref.filtered,
     patterns = _ref.patterns,
+    setDisabled = _ref.setDisabled,
     search = _ref.search;
   var _gbm_localize = gbm_localize,
     _gbm_localize$filtere = _gbm_localize.filteredPatterns,
@@ -2525,16 +2527,25 @@ function Sidebar(_ref) {
     className: "gbm-cta-wrap"
   }, /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
     option: "gbm/core-patterns",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Disable Core Patterns', 'block-manager'),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all core patterns from the patterns selector.', 'block-manager'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Core Patterns', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all core block patterns from the patterns selector.', 'block-manager'),
     active: !patterns.includes('gbm/core-patterns'),
-    disabled: filteredPatterns.includes('gbm/core-patterns')
+    disabled: filteredPatterns.includes('gbm/core-patterns'),
+    callback: setDisabled
   }), /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
     option: "gbm/remote-patterns",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remote Patterns', 'block-manager'),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prevent users from searching for remote patterns.', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prevent users from searching for remote block patterns.', 'block-manager'),
     active: !patterns.includes('gbm/remote-patterns'),
-    disabled: filteredPatterns.includes('gbm/remote-patterns')
+    disabled: filteredPatterns.includes('gbm/remote-patterns'),
+    callback: setDisabled
+  }), /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    option: "gbm/uncategorized-patterns",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Uncategorized Patterns', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all block patterns without an assigned category.', 'block-manager'),
+    active: !patterns.includes('gbm/uncategorized-patterns'),
+    disabled: filteredPatterns.includes('gbm/uncategorized-patterns'),
+    callback: setDisabled
   }))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Categories', 'block-manager')), /*#__PURE__*/React.createElement("div", {
@@ -2578,13 +2589,14 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Render the block ToggleSwitch component.
  *
- * @param {Object}  props          The component properties.
- * @param {boolean} props.active   Is the button active?
- * @param {string}  props.option   The WP option name.
- * @param {string}  props.label    The switch label.
- * @param {string}  props.desc     The switch description.
- * @param {boolean} props.disabled Is the button disabled?
- * @return {Element}               The ToggleSwitch component.
+ * @param {Object}   props          The component properties.
+ * @param {boolean}  props.active   Is the button active?
+ * @param {string}   props.option   The WP option name.
+ * @param {string}   props.label    The switch label.
+ * @param {string}   props.desc     The switch description.
+ * @param {boolean}  props.disabled Is the button disabled?
+ * @param {Function} props.callback Callback function.
+ * @return {Element}                The ToggleSwitch component.
  */
 function ToggleSwitch(_ref) {
   var _ref$active = _ref.active,
@@ -2593,7 +2605,8 @@ function ToggleSwitch(_ref) {
     label = _ref.label,
     desc = _ref.desc,
     _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    callback = _ref.callback;
   var buttonRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   if (!option) {
     return null;
@@ -2627,7 +2640,9 @@ function ToggleSwitch(_ref) {
         data = _res$data === void 0 ? {} : _res$data,
         status = res.status;
       var _data$success = data.success,
-        success = _data$success === void 0 ? true : _data$success;
+        success = _data$success === void 0 ? true : _data$success,
+        _data$disabled_patter = data.disabled_patterns,
+        disabled_patterns = _data$disabled_patter === void 0 ? [] : _data$disabled_patter;
       if (data && status === 200) {
         if (success) {
           if (type === 'disable') {
@@ -2635,6 +2650,7 @@ function ToggleSwitch(_ref) {
           } else {
             buttonRef.current.classList.add('disabled');
           }
+          callback(disabled_patterns);
         }
         buttonRef.current.classList.remove('loading');
       } else {

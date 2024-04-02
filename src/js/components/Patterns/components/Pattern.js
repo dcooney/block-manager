@@ -67,10 +67,12 @@ function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 						disabledClass,
 						filteredClass
 					)}
+					title={name}
 				>
 					<div>
-						<p className="block-title">{title}</p>
-						<span>{name}</span>
+						<p className="block-title block-title--pattern">
+							{title}
+						</p>
 					</div>
 					<DisabledSVG
 						className={disabled ? disabledClass : filteredClass}
