@@ -1,24 +1,24 @@
-# Copyright (C) 2023 Darren Cooney
+# Copyright (C) 2024 Darren Cooney
 # This file is distributed under the GPL.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Manager 2.1.0.1\n"
+"Project-Id-Version: Block Manager 3.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-01T16:04:58+00:00\n"
+"POT-Creation-Date: 2024-04-02T15:43:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
 
 #. Plugin Name of the plugin
-#: class-admin.php:162
-#: class-admin.php:163
-#: class-admin.php:185
-#: class-admin.php:189
+#: classes/class-admin.php:142
+#: classes/class-admin.php:143
+#: classes/class-admin.php:168
+#: classes/class-admin.php:172
 msgid "Block Manager"
 msgstr ""
 
@@ -27,8 +27,7 @@ msgid "https://connekthq.com/plugins/block-manager/"
 msgstr ""
 
 #. Description of the plugin
-#: class-admin.php:190
-msgid "Take control of your WordPress blocks."
+msgid "Take control of your WordPress Blocks & Patterns."
 msgstr ""
 
 #. Author of the plugin
@@ -43,34 +42,47 @@ msgstr ""
 msgid "All blocks reset successfully"
 msgstr ""
 
-#: api/blocks-toggle.php:52
+#: api/blocks-toggle.php:51
 msgid "Unable to update block."
 msgstr ""
 
 #. translators: %s: The block title.
-#: api/blocks-toggle.php:69
+#: api/blocks-toggle.php:68
 msgid "%s block disabled"
 msgstr ""
 
 #. translators: %s: The block title.
-#: api/blocks-toggle.php:92
+#: api/blocks-toggle.php:91
 msgid "%s block enabled"
 msgstr ""
 
-#: api/blocks-toggle.php:101
+#: api/blocks-toggle.php:100
 #: api/category-update.php:45
+#: api/patterns-toggle.php:100
 msgid "Error accessing API data."
 msgstr ""
 
-#: api/bulk-process.php:65
+#: api/bulk-process.php:49
 msgid "All blocks in category disabled"
 msgstr ""
 
-#: api/bulk-process.php:86
+#: api/bulk-process.php:50
 msgid "All blocks in category enabled"
 msgstr ""
 
-#: api/bulk-process.php:95
+#: api/bulk-process.php:57
+msgid "All patterns in category disabled"
+msgstr ""
+
+#: api/bulk-process.php:58
+msgid "All patterns in category enabled"
+msgstr ""
+
+#: api/bulk-process.php:67
+msgid "Error accessing data"
+msgstr ""
+
+#: api/bulk-process.php:119
 msgid "Error accessing API data"
 msgstr ""
 
@@ -83,63 +95,97 @@ msgstr ""
 msgid "%s category updated"
 msgstr ""
 
-#: api/export.php:70
+#: api/export.php:83
 msgid "Unatuhorized."
 msgstr ""
 
-#: block-manager.php:205
-#: class-admin.php:239
-#: src/js/components/Categories/components/Sidebar.js:89
-msgid "Blocks"
+#: api/patterns-reset.php:41
+msgid "All patterns reset successfully"
 msgstr ""
 
-#: block-manager.php:206
-#: class-admin.php:247
-msgid "Block Categories"
+#: api/patterns-toggle.php:51
+msgid "Unable to update pattern."
 msgstr ""
 
-#: class-admin.php:193
+#. translators: %s: The block title.
+#: api/patterns-toggle.php:68
+msgid "%s pattern disabled"
+msgstr ""
+
+#. translators: %s: The pattern title.
+#: api/patterns-toggle.php:91
+msgid "%s pattern enabled"
+msgstr ""
+
+#: classes/class-admin.php:173
+msgid "Take Control of Your WordPress Blocks & Patterns."
+msgstr ""
+
+#: classes/class-admin.php:176
 msgid "Other Plugins"
 msgstr ""
 
 #. translators: %1$s & %2$s is replaced with the link content
-#: class-admin.php:216
+#: classes/class-admin.php:199
 msgid "Other WordPress Plugins from %1$s Connekt %2$s"
 msgstr ""
 
-#: class-admin.php:228
+#: classes/class-admin.php:211
 #: src/js/components/Global/ExportModal.js:66
 msgid "Close"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:130
-#: src/js/components/Blocks/Blocks.js:190
+#: classes/class-admin.php:222
+#: classes/class-admin.php:256
+#: src/js/components/Categories/components/Sidebar.js:89
+msgid "Blocks"
+msgstr ""
+
+#: classes/class-admin.php:230
+msgid "Block Categories"
+msgstr ""
+
+#: classes/class-admin.php:238
+#: classes/class-admin.php:258
+msgid "Patterns"
+msgstr ""
+
+#: classes/class-admin.php:257
+#: src/js/components/Blocks/components/Sidebar.js:149
+#: src/js/components/Patterns/components/Sidebar.js:201
+msgid "Categories"
+msgstr ""
+
+#: classes/class-patterns.php:116
+msgid "Uncategorized"
+msgstr ""
+
+#: src/js/components/Blocks/Blocks.js:94
+#: src/js/components/Patterns/components/ToggleSwitch.js:68
+#: src/js/components/Patterns/Patterns.js:97
+#: src/js/functions/bulkProcess.js:82
 msgid "An error has occurred"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:139
-msgid "No blocks found"
+#: src/js/components/Blocks/Blocks.js:244
+msgid "Globally remove blocks from the Block Inserter."
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:388
-msgid "Select blocks below to globally removed from the WordPress Block Inserter."
-msgstr ""
-
-#: src/js/components/Blocks/Blocks.js:398
+#: src/js/components/Blocks/Blocks.js:254
 #: src/js/components/Blocks/components/Reset.js:19
 msgid "Are you sure you want to reset and activate all currently disabled blocks?"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:402
+#: src/js/components/Blocks/Blocks.js:258
 #: src/js/components/Blocks/components/Reset.js:34
 msgid "Clear all disabled blocks"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:411
+#: src/js/components/Blocks/Blocks.js:272
 msgid "Export an array of disabled blocks as a WordPress hook"
 msgstr ""
 
-#: src/js/components/Blocks/Blocks.js:442
+#: src/js/components/Blocks/Blocks.js:311
 msgid "Add the the following code to your functions.php to remove blocks at the theme level."
 msgstr ""
 
@@ -157,7 +203,9 @@ msgid "Toggle Block Activation"
 msgstr ""
 
 #: src/js/components/Blocks/components/Category.js:63
-#: src/js/components/Blocks/components/Category.js:71
+#: src/js/components/Blocks/components/Category.js:67
+#: src/js/components/Patterns/components/Category.js:60
+#: src/js/components/Patterns/components/Category.js:64
 msgid "Toggle all blocks in this category"
 msgstr ""
 
@@ -166,70 +214,70 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:97
+#: src/js/components/Blocks/components/Sidebar.js:79
 #: src/js/components/Categories/components/Sidebar.js:74
+#: src/js/components/Patterns/components/Sidebar.js:85
 msgid "Current Block Status"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:102
+#: src/js/components/Blocks/components/Sidebar.js:84
+#: src/js/components/Patterns/components/Sidebar.js:90
 msgid "Active Blocks & Block Variations"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:114
+#: src/js/components/Blocks/components/Sidebar.js:96
+#: src/js/components/Patterns/components/Sidebar.js:102
 msgid "Active"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:120
+#: src/js/components/Blocks/components/Sidebar.js:102
 msgid "Disabled Block"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:121
+#: src/js/components/Blocks/components/Sidebar.js:103
 msgid "Disabled Blocks"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:138
+#: src/js/components/Blocks/components/Sidebar.js:120
+#: src/js/components/Patterns/components/Sidebar.js:126
 msgid "Disabled"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:145
+#: src/js/components/Blocks/components/Sidebar.js:127
 msgid "Filtered Block"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:149
+#: src/js/components/Blocks/components/Sidebar.js:131
 msgid "Filtered Blocks"
 msgstr ""
 
-#: src/js/components/Blocks/components/Sidebar.js:161
+#: src/js/components/Blocks/components/Sidebar.js:143
 #: src/js/components/Categories/components/Sidebar.js:136
+#: src/js/components/Patterns/components/Sidebar.js:149
 msgid "Filtered"
-msgstr ""
-
-#: src/js/components/Blocks/components/Sidebar.js:167
-msgid "Categories"
 msgstr ""
 
 #: src/js/components/Categories/Categories.js:89
 msgid "An unknown error has occurred and the block category could not be updated"
 msgstr ""
 
-#. translators: %s: The number of blocks.
-#: src/js/components/Categories/Categories.js:218
-msgid "Organize your %s WordPress blocks by modifying the assigned block category of each."
+#: src/js/components/Categories/Categories.js:209
+msgid "Organize the Block Inserter by modifying the category of each block."
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:231
-msgid "Are you sure you want to reset your modified block categories?"
+#: src/js/components/Categories/Categories.js:220
+msgid "Are you sure you want to reset the modified block categories?"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:235
+#: src/js/components/Categories/Categories.js:224
 msgid "Clear all modified block categories"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:244
+#: src/js/components/Categories/Categories.js:238
 msgid "Export an array of updated blocks categories as a WordPress hook"
 msgstr ""
 
-#: src/js/components/Categories/Categories.js:285
+#: src/js/components/Categories/Categories.js:279
 msgid "Add the the following code to your functions.php to update block categories at the theme level."
 msgstr ""
 
@@ -270,7 +318,7 @@ msgid "Help"
 msgstr ""
 
 #: src/js/components/Categories/components/Sidebar.js:145
-msgid "The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks."
+msgid "The Category Switcher provides functionality for updating the display category of WordPress blocks."
 msgstr ""
 
 #: src/js/components/Categories/components/Sidebar.js:151
@@ -285,16 +333,16 @@ msgstr ""
 msgid "Copy Code"
 msgstr ""
 
-#: src/js/components/Global/Loader.js:24
-msgid "Fetching Blocks and Categories"
+#: src/js/components/Global/Loader.js:14
+msgid "Fetching Blocks…"
 msgstr ""
 
-#: src/js/components/Global/Search.js:17
-#: src/js/components/Global/Search.js:22
+#: src/js/components/Global/Search.js:14
+#: src/js/components/Global/Search.js:21
 msgid "Search Blocks"
 msgstr ""
 
-#: src/js/components/Global/Search.js:31
+#: src/js/components/Global/Search.js:35
 msgid "Submit"
 msgstr ""
 
@@ -313,10 +361,90 @@ msgstr ""
 msgid "No blocks found for %s"
 msgstr ""
 
+#: src/js/components/Patterns/components/Pattern.js:42
+msgid "This pattern has been disabled globally via the 'gbm_disabled_patterns' hook and cannot be activated using the Block Manager interface."
+msgstr ""
+
+#: src/js/components/Patterns/components/Pattern.js:58
+msgid "Toggle Pattern Activation"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:108
+msgid "Disabled Pattern"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:109
+msgid "Disabled Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:133
+msgid "Filtered Pattern"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:137
+msgid "Filtered Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:155
+msgid "Pattern Visibility"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:159
+msgid "Core Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:160
+msgid "Remove all core block patterns from the patterns selector."
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:172
+msgid "Remote Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:173
+msgid "Prevent users from searching for remote block patterns."
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:185
+msgid "Uncategorized Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:186
+msgid "Remove all block patterns without an assigned category."
+msgstr ""
+
+#: src/js/components/Patterns/components/Sidebar.js:221
+msgid "Search Block Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:202
+msgid "Fetching Patterns…"
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:225
+msgid "Select patterns to be globally removed from the Pattern Selector."
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:236
+msgid "Are you sure you want to reset the modified Block Patterns?"
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:240
+msgid "Clear all Block Patterns"
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:254
+msgid "Export an array of disabled patterns as a WordPress hook"
+msgstr ""
+
+#: src/js/components/Patterns/Patterns.js:307
+msgid "Add the the following code to your functions.php to remove patterns at the theme level."
+msgstr ""
+
 #: src/js/functions/copyToClipboard.js:22
 msgid "Copied"
 msgstr ""
 
-#: src/js/functions/export.js:59
+#: src/js/functions/export.js:63
 msgid "There was an error fetching export data."
 msgstr ""
