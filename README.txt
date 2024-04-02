@@ -113,6 +113,15 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
+= 3.0.0 - April 2, 2024 =
+* NEW: Added support for disabling block patterns and core block patterns.
+* FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
+* FIX: Fixed issue with return value in admin_footer text.
+* UPDATE: Updated plugin installer vendor file.
+* UPDATE: Various code refactoring and organization.
+* UPDATE: Various security updates.
+
+
 = 2.1.1 - November 1, 2023 =
 * HOTFIX: Fix for undefined React key warning when `WP_DEBUG` is enabled.
 

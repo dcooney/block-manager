@@ -13,24 +13,6 @@
  * @package blockmanager
  */
 
-/*
-* NEW: Added support for disabling block patterns.
-* FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
-* FIX: Fixed issue with return value in admin_footer text.
-* UPDATE: Updated plugin installer vendor file.
-* UPDATE: Code refactoring and organization.
-
-
-// Patterns
-- Started adding support for removing patterns. [DONE]
-
-TODO:
-- Unregister patterns in the init hook not working. It fires to late or something. [DONE]
-- Style Pattern listing. [DONE]
-- Update Unregister patterns… text [DONE]
-
-*/
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
