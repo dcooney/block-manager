@@ -93,6 +93,10 @@ class GBM_Patterns {
 
 		// Loop patterns and add to formatted array under each category.
 		foreach( $patterns as $pattern ) {
+			if ( empty( $pattern['title']) ) {
+				continue; // Exit if pattern title is empty.
+			}
+
 			if( isset( $pattern['categories'] ) && !empty( $pattern['categories'] ) ) {
 				$category = $pattern['categories'][0];
 				$formatted[$category]['patterns'][] = $pattern;
