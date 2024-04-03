@@ -8,13 +8,13 @@
 		display: none;
 		@media screen and (min-width: $small) {
 			display: block;
-			width: 250px;
+			width: 275px;
 			position: sticky;
 			top: 50px;
 			left: 0;
 		}
 		@media screen and (min-width: $large) {
-			width: 300px;
+			width: 325px;
 		}
 
 		.gbm-cta {
@@ -32,7 +32,7 @@
 			}
 			&-wrap {
 				padding: 15px;
-				button {
+				button.gbm-toc {
 					background: none;
 					border: none;
 					outline: none;
@@ -72,7 +72,7 @@
 					height: auto;
 					font-size: 13px;
 					line-height: 1;
-					&:focus{
+					&:focus {
 						outline-offset: 1px;
 						outline: 2px solid $purple;
 						box-shadow: none;
@@ -103,17 +103,17 @@
 			}
 
 			// Legend.
-			&-block-legend{
+			&-block-legend {
 				overflow: hidden;
 
-				.gbm-cta-wrap{
+				.gbm-cta-wrap {
 					display: flex;
 					width: 100%;
 					padding: 0;
 					overflow: hidden;
 				}
 
-				.gbm-legend{
+				.gbm-legend {
 					display: block;
 					width: 100%;
 					text-align: center;
@@ -124,7 +124,7 @@
 					&:last-of-type {
 						border-right: none;
 					}
-					&:last-of-type{
+					&:last-of-type {
 						margin: 0;
 					}
 					> div {
@@ -146,7 +146,8 @@
 								position: relative;
 								z-index: 9;
 								font-weight: 800;
-								transition: all 0.25s cubic-bezier(0.86,0,0.07,1);
+								transition: all 0.25s
+									cubic-bezier(0.86, 0, 0.07, 1);
 								line-height: 1;
 								font-size: 22px;
 								height: 22px;
@@ -158,41 +159,41 @@
 								top: 0;
 
 								&.slide-down,
-								&.slide-up{
+								&.slide-up {
 									opacity: 0;
 									filter: blur(1px);
 								}
-								&.slide-down{
+								&.slide-down {
 									top: 15px;
 								}
-								&.slide-up{
+								&.slide-up {
 									top: -15px;
 								}
 
 								&.slide-down-done,
-								&.slide-up-done{
+								&.slide-up-done {
 									transition: none;
 									opacity: 0;
 									filter: blur(0.5px);
 									top: -15px;
 								}
-								&.slide-up-done{
+								&.slide-up-done {
 									top: 15px;
 								}
 							}
 						}
 					}
-					&--disabled{
+					&--disabled {
 						span {
 							background-color: $block_disabled;
 						}
 					}
-					&--filtered{
+					&--filtered {
 						span {
 							background-color: $block_filtered;
 						}
 					}
-					&--updated{
+					&--updated {
 						span {
 							background-color: $block_hover;
 						}

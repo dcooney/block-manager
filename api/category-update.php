@@ -53,7 +53,7 @@ function block_manager_category_update( WP_REST_Request $request ) {
 		$title    = $body['title'] ? $body['title'] : '';
 		$category = $body['category'] ? $body['category'] : '';
 
-		$options = Gutenberg_Block_Manager::gbm_get_block_categories(); // Get block categories.
+		$options = GBM_Categories::gbm_get_block_categories(); // Get block categories.
 
 		if ( $type === 'remove' ) {
 			// Remove block category.

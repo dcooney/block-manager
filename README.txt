@@ -1,26 +1,27 @@
 === Block Manager ===
 Contributors: dcooney, connekthq
-Tags: blocks, remove blocks, disable blocks, manage blocks, block category, update category, block manager
+Tags: remove blocks, disable blocks, disable patterns, remove patterns, block category
 Homepage: https://connekthq.com/
 Donate link: https://connekthq.com/donate
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.4
+Tested up to: 6.5
 License: GPLv2 or later
-Stable tag: 2.1.1
+Stable tag: 3.0.0
 
-Globally remove blocks from being displayed in the WordPress Block Inserter and Editor.
+Remove unwanted blocks and block patterns from the Block Inserter and Editor.
 
 == Description ==
 
-The Block Manager is an intuitive tool for site admins to globally remove unwanted blocks and update the assigned category of individual blocks to organize the admin editing expereince.
+The Block Manager is an intuitive tool for site admins to globally remove blocks and block patterns. It also provides functionality for updating the category of individual blocks to help organize the admin editing experience.
 
 ### Features
 
--  **Disable Blocks**:  Unlike the block manager functionality in the WordPress Block Editor, this plugin will globally disable (remove) blocks for all users on your site.
--  **Block Categories**:  The Category Switcher provides functionality for updating the category assigned to each WordPress blocks.
--  **Search and Filter**:  Quickly locate blocks using the block search functionality in the sidebar.
--  **Hooks**:  Use the various hooks and filters to update your blocks from `functions.php`.
+-  **Blocks**:  Globally disable blocks from being displayed in the Block Inserter and Block Editor.
+-  **Patterns**: Remove unwanted block patterns with the click of a button.
+-  **Block Categories**: Organize the Block Inserter by updating the category of each block.
+-  **Hooks**:  Use hooks to remove blocks and patterns from `functions.php`.
+-  **Search and Filter**:  Quickly locate blocks and patterns with the search functionality in the sidebar.
 -  **Embed Blocks**:  Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
 
 ### Hooks & Filters
@@ -29,10 +30,10 @@ Use Block Manager hooks to controls blocks via code and sync options across mult
 
 #### gbm_disabled_blocks
 
-Use the `gbm_disabled_blocks` filter to control blocks via backend code.
+Use the `gbm_disabled_blocks` hook to remove blocks via backend code.
 
 	// functions.php
-	add_filter('gbm_disabled_blocks', function(){
+	add_filter( 'gbm_disabled_blocks', function() {
 		return [
 			'core/buttons',
 			'core/columns',
@@ -41,9 +42,18 @@ Use the `gbm_disabled_blocks` filter to control blocks via backend code.
 		];
 	});
 
+#### gbm_disabled_patterns
+
+Use the `gbm_disabled_patterns` hook to remove block patterns via backend code.
+
+	// functions.php
+	add_filter( 'gbm_disabled_patterns', function() {
+   	return ['gbm/core-patterns', 'core/query-standard-posts', 'core/query-medium-posts'];
+	});
+
 #### gbm_block_categories
 
-Use the `gbm_block_categories` filter to update block categories via backend code.
+Use the `gbm_block_categories` hook to update block categories via backend code.
 
 	// functions.php
 	add_filter( 'gbm_block_categories', function() {
@@ -97,10 +107,20 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 1. Disable Blocks: Easily remove unwanted WordPress blocks by toggling the active state of each block.
 2. Block Toggle: Disable all blocks in a block categories with a single click.
 3. Block Categories: Improve the admin editing experience by updating the category of each block using the Category Switcher.
+4. Disable Block Patterns: Remove unwanted block patterns and core patterns by toggling the active state of each pattern.
 4. Status Reports: Total active and disabled blocks are displayed in the plugin sidebar.
-4. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
+5. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
+
+= 3.0.0 - April 2, 2024 =
+* NEW: Added support for disabling block patterns and core block patterns.
+* FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
+* FIX: Fixed issue with return value in admin_footer text.
+* UPDATE: Updated plugin installer vendor file.
+* UPDATE: Various code refactoring and organization.
+* UPDATE: Various security updates.
+
 
 = 2.1.1 - November 1, 2023 =
 * HOTFIX: Fix for undefined React key warning when `WP_DEBUG` is enabled.

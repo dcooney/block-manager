@@ -41,7 +41,7 @@
 			overflow: hidden;
 		}
 
-		.gbm-search-results{
+		.gbm-search-results {
 			padding: 15px 10px 0;
 			display: flex;
 			align-items: center;
@@ -59,7 +59,7 @@
 					font-weight: 600;
 				}
 			}
-			&.blocks-render{
+			&.blocks-render {
 				padding: 15px 0;
 				border-top: 1px solid $grey;
 				p {
@@ -68,7 +68,7 @@
 				}
 			}
 
-			button{
+			button {
 				all: unset;
 				color: $purple;
 				font-weight: 500;
@@ -109,39 +109,58 @@
 
 	&-block-switch {
 		cursor: pointer;
-		height: 13px;
-		width: 22px;
-		padding: 0;
+		height: auto;
+		width: 100%;
+		padding: 5px 0;
 		margin: 0;
 		box-shadow: none;
 		border: none;
 		background-color: transparent;
-		&--wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		&--container {
+			display: block;
+			margin: 0 0 15px;
+			> p {
+				margin: 0;
+				padding: 0 0 0 36px;
+				opacity: 0.75;
+			}
+		}
+		&--inner {
 			position: relative;
 			height: 13px;
 			width: 26px;
 			background-color: $purple_alt;
 			border-radius: 100px;
 			transition: $transition;
-		}
-		span {
-			border-radius: 100px;
-			width: 9px;
-			height: 9px;
-			background-color: #fff;
-			display: block;
-			transition: $transition;
-			margin-left: 15px;
-			position: relative;
-			top: 2px;
-		}
-		&.disabled {
-			.gbm-block-switch--wrap {
-				background-color: #ccc;
+			+ span {
+				font-weight: 500;
 			}
 			span {
-				margin-left: 2px;
+				border-radius: 100px;
+				width: 9px;
+				height: 9px;
+				background-color: #fff;
+				display: block;
+				transition: $transition;
+				margin-left: 15px;
+				position: relative;
+				top: 2px;
 			}
+		}
+		&.disabled,
+		&[disabled] {
+			.gbm-block-switch--inner {
+				background-color: #ccc;
+				span {
+					margin-left: 2px;
+				}
+			}
+		}
+		&[disabled] {
+			cursor: not-allowed;
 		}
 	}
 
@@ -189,11 +208,11 @@
 				border-radius: $radius 3px 0 0;
 				float: none;
 				margin-left: 5px;
-				&-active{
+				&-active {
 					cursor: default;
 				}
 				&:hover,
-				&:focus{
+				&:focus {
 					background-color: #f0f0f1;
 				}
 			}
@@ -240,14 +259,14 @@
 					color: $purple;
 					font-weight: 600;
 					&:hover,
-					&:focus{
+					&:focus {
 						text-decoration: none;
 					}
 				}
 			}
 		}
 	}
-	.gbm-close-wrap{
+	.gbm-close-wrap {
 		display: flex;
 		width: 100%;
 		justify-content: flex-end;
@@ -261,30 +280,29 @@
 			font-size: 13px;
 			border-radius: $radius;
 			@include buttonHover();
-
 		}
 	}
-	.cnkt-plugin-installer{
+	.cnkt-plugin-installer {
 		width: 100%;
 		margin: 0;
 		padding: 0;
 		display: grid;
 		gap: 10px;
-		grid-template-columns: repeat(1, minmax(0,1fr));
+		grid-template-columns: repeat(1, minmax(0, 1fr));
 		@media screen and (min-width: $small) {
-			grid-template-columns: repeat(2, minmax(0,1fr));
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 		@media screen and (min-width: $medium) {
-			grid-template-columns: repeat(3, minmax(0,1fr));
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 		position: static;
-		&::after{
+		&::after {
 			display: none;
 		}
-		.plugin{
+		.plugin {
 			width: 100%;
 			margin: 0;
-			padding:0 ;
+			padding: 0;
 			border-radius: $radius;
 			overflow: hidden;
 		}
@@ -302,5 +320,5 @@ body.settings_page_block-manager #wpfooter {
 	z-index: 1100;
 	p {
 		line-height: 40px;
-  }
+	}
 }

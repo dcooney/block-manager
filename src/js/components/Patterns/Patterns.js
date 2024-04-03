@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import axios from 'axios';
-import { countDisabledBlocks } from '../../functions/blocks';
+import bulkProcess from '../../functions/bulkProcess';
 import { exportHook } from '../../functions/export';
 import setCategoryStatus from '../../functions/setCategoryStatus';
 import Export from '../Global/Export';
@@ -9,49 +9,52 @@ import ExportModal from '../Global/ExportModal';
 import Loader from '../Global/Loader';
 import Notifications from '../Global/Notifications';
 import Reset from '../Global/Reset';
-import SearchResults from '../Global/SearchResults';
 import Category from './components/Category';
 import Sidebar from './components/Sidebar';
-import bulkProcess from '../../functions/bulkProcess';
+import { countDisabledBlocks } from '../../functions/blocks';
+import SearchResults from '../Global/SearchResults';
 
 /**
- * Render the Blocks component.
+ * Render the Patterns component.
  *
- * @param {Object} props              The component props.
- * @param {Array}  props.wpBlocks     Array of WP blocks.
- * @param {Array}  props.wpCategories Array of WP block categories.
- * @return {Element}                  The Blocks component.
+ * @return {Element} The Patterns component.
  */
-export default function Blocks({ wpBlocks, wpCategories }) {
-	const resetButtonRef = useRef();
-	const exportModalRef = useRef();
-	const exportButtonRef = useRef();
+export default function Patterns() {
+	const { patterns: categories = [], filteredPatterns = [] } = gbm_localize;
+
+	const allPatterns = [];
+	// Loop categories to pluck all patterns.
+	for (const value of Object.values(categories)) {
+		allPatterns.push(...value?.patterns);
+	}
 
 	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
 	const [notifications, setNotifications] = useState([]);
-	const [blocks, setBlocks] = useState([]);
 
-	const [disabledBlocks, setDisabled] = useState(
-		gbm_localize?.disabledBlocks
+	const [disabledPatterns, setDisabled] = useState(
+		gbm_localize?.disabledPatterns
 	);
-	const filteredBlocks = gbm_localize?.filteredBlocks || [];
 
-	// Count the disabled & filtered blocks.
+	const resetButtonRef = useRef(null);
+	const exportModalRef = useRef();
+	const exportButtonRef = useRef();
+
+	// Count disabled & filtered patterns.
 	const { disabledCount, filteredCount } = countDisabledBlocks(
-		wpBlocks,
-		disabledBlocks,
-		filteredBlocks
+		allPatterns,
+		disabledPatterns,
+		filteredPatterns
 	);
 
 	/**
-	 * Toggle the status of a block.
+	 * Toggle the status of a pattern.
 	 *
 	 * @param {Element} element The target element.
-	 * @param {string}  block   Block name.
-	 * @param {string}  title   Block title.
+	 * @param {string}  pattern Pattern name.
+	 * @param {string}  title   Pattern title.
 	 */
-	function toggleBlock(element, block, title) {
+	function togglePattern(element, pattern, title) {
 		if (!element || element.classList.contains('loading')) {
 			return false;
 		}
@@ -64,12 +67,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		// Send API Request
 		axios({
 			method: 'POST',
-			url: gbm_localize.root + 'gbm/toggle/',
+			url: gbm_localize.root + 'gbm/pattern/',
 			headers: {
 				'X-WP-Nonce': gbm_localize.nonce,
 				'Content-Type': 'application/json',
 			},
-			data: { block, title, type },
+			data: { pattern, title, type },
 		})
 			.then(function (res) {
 				const { data = {}, status } = res;
@@ -84,7 +87,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 						element.classList.remove('loading');
 						setCategoryStatus(element);
 					}
-					setDisabled(data.disabled_blocks);
+					setDisabled(data.disabled_patterns);
 					setNotifications((prev) => [
 						...prev,
 						{ id: Date.now(), msg: data?.msg, success },
@@ -103,12 +106,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	/**
 	 * Reset blocks to default state.
 	 */
-	function resetBlocks() {
+	function resetPatterns() {
 		resetButtonRef?.current?.classList.add('spin'); // Loading state.
 
 		axios({
 			method: 'POST',
-			url: gbm_localize.root + 'gbm/blocks_reset/',
+			url: gbm_localize.root + 'gbm/patterns_reset/',
 			headers: {
 				'X-WP-Nonce': gbm_localize.nonce,
 				'Content-Type': 'application/json',
@@ -138,7 +141,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				resetButtonRef?.current?.classList.remove('spin');
 			});
 	}
-
 	/**
 	 * Handle search.
 	 *
@@ -192,71 +194,51 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 		}
 	}
 
-	/**
-	 * Mutate Blocks on load into categories and display block variations.
-	 *
-	 * @since 1.0
-	 */
-	function organizeBlocks() {
-		if (!wpBlocks?.length || !wpCategories?.length) {
-			return false;
-		}
-
-		// Loop block categories to build return data with category as parent.
-		const data = wpCategories.map(function (category) {
-			return {
-				info: category,
-				// Group blocks into categories.
-				blocks: wpBlocks.filter(function (block) {
-					return block.category === category.slug;
-				}),
-			};
-		});
-
-		// Set blocks state.
-		setBlocks(data);
-	}
-
-	// On Load
-	useEffect(() => {
-		organizeBlocks();
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 	return (
 		<>
 			{loading ? (
-				<Loader callback={setLoading} />
+				<Loader
+					callback={setLoading}
+					message={__('Fetching Patterns…', 'block-manager')}
+				/>
 			) : (
 				<>
-					<div className="gbm-block-list-wrapper">
+					<div className="gbm-block-list-wrapper categories">
 						<Sidebar
-							blocks={blocks}
+							categories={categories}
 							active={
-								wpBlocks?.length - disabledCount - filteredCount
+								allPatterns?.length -
+								disabledCount -
+								filteredCount
 							}
 							disabled={disabledCount}
 							filtered={filteredCount}
+							patterns={disabledPatterns}
+							setDisabled={setDisabled}
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
 							<div className="gbm-options">
-								<p className="gbm-heading">
-									{__(
-										'Globally remove blocks from the Block Inserter.',
-										'block-manager'
-									)}
-								</p>
+								<p
+									className="gbm-heading"
+									dangerouslySetInnerHTML={{
+										__html: __(
+											'Select patterns to be globally removed from the Pattern Selector.',
+											'block-manager'
+										),
+									}}
+								/>
 								<div>
 									<Reset
 										ref={resetButtonRef}
-										callback={resetBlocks}
-										total={disabledBlocks?.length}
+										callback={resetPatterns}
+										total={disabledPatterns?.length}
 										msg={__(
-											'Are you sure you want to reset and activate all currently disabled blocks?',
+											'Are you sure you want to reset the modified Block Patterns?',
 											'block-manager'
 										)}
 										title={__(
-											'Clear all disabled blocks',
+											'Clear all Block Patterns',
 											'block-manager'
 										)}
 									/>
@@ -265,12 +247,12 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 										callback={() =>
 											exportHook(
 												exportModalRef?.current,
-												'blocks'
+												'patterns'
 											)
 										}
-										total={disabledBlocks?.length}
+										total={disabledPatterns?.length}
 										title={__(
-											'Export an array of disabled blocks as a WordPress hook',
+											'Export an array of disabled patterns as a WordPress hook',
 											'block-manager'
 										)}
 									/>
@@ -281,35 +263,49 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 								callback={() => searchHandler('')}
 								className="blocks-render"
 							/>
-							{!!blocks?.length &&
-								blocks.map((category) => (
-									<Fragment key={category.info.slug}>
-										{!!category?.blocks?.length && (
-											<Category
-												data={category}
-												toggleBlock={toggleBlock}
-												disabledBlocks={disabledBlocks}
-												filteredBlocks={filteredBlocks}
-												callback={(e) =>
-													bulkProcess(
-														e?.currentTarget,
-														'blocks',
-														setDisabled,
-														setCategoryStatus,
-														setNotifications
-													)
-												}
-											/>
+							<div className="gbm-block-groups">
+								<div className="gbm-block-lists patterns">
+									<>
+										{Object.keys(categories).map(
+											(category, index) => {
+												return (
+													<Category
+														key={index}
+														data={
+															categories[category]
+														}
+														togglePattern={
+															togglePattern
+														}
+														disabledPatterns={
+															disabledPatterns
+														}
+														filteredPatterns={
+															filteredPatterns
+														}
+														callback={(e) =>
+															bulkProcess(
+																e?.currentTarget,
+																'patterns',
+																setDisabled,
+																setCategoryStatus,
+																setNotifications
+															)
+														}
+													/>
+												);
+											}
 										)}
-									</Fragment>
-								))}
+									</>
+								</div>
+							</div>
 						</div>
 					</div>
 					<ExportModal
 						ref={exportModalRef}
 						returnButtonRef={exportButtonRef}
 						desc={__(
-							'Add the the following code to your functions.php to remove blocks at the theme level.',
+							'Add the the following code to your functions.php to remove patterns at the theme level.',
 							'block-manager'
 						)}
 					/>

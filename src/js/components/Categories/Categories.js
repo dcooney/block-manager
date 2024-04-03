@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { exportHook } from '../../functions/export';
+import { categoryOffsetCount } from '../../functions/helpers';
 import Export from '../Global/Export';
 import ExportModal from '../Global/ExportModal';
 import Loader from '../Global/Loader';
+import Notifications from '../Global/Notifications';
 import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
 import Block from './components/Block';
 import Sidebar from './components/Sidebar';
-import { categoryOffsetCount } from '../../functions/helpers';
-import Notifications from '../Global/Notifications';
 
 /**
  * Render the Categories component.
@@ -163,13 +163,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 		}
 	}
 
-	/**
-	 * Export as PHP code.
-	 */
-	function exportCategories() {
-		exportHook(exportModalRef?.current, 'categories');
-	}
-
 	// On Load
 	useEffect(() => {
 		// Export settings.
@@ -213,13 +206,9 @@ export default function Categories({ wpBlocks, wpCategories }) {
 								<p
 									className="gbm-heading"
 									dangerouslySetInnerHTML={{
-										__html: sprintf(
-											// translators: %s: The number of blocks.
-											__(
-												'Organize your %s WordPress blocks by modifying the assigned block category of each.',
-												'block-manager'
-											),
-											`<span>${blocks?.length}</span>`
+										__html: __(
+											'Organize the Block Inserter by modifying the category of each block.',
+											'block-manager'
 										),
 									}}
 								/>
@@ -229,7 +218,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 										callback={resetCategories}
 										total={blockCategories?.length}
 										msg={__(
-											'Are you sure you want to reset your modified block categories?',
+											'Are you sure you want to reset the modified block categories?',
 											'block-manager'
 										)}
 										title={__(
@@ -239,7 +228,12 @@ export default function Categories({ wpBlocks, wpCategories }) {
 									/>
 									<Export
 										ref={exportButtonRef}
-										callback={exportCategories}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'categories'
+											)
+										}
 										total={blockCategories?.length}
 										title={__(
 											'Export an array of updated blocks categories as a WordPress hook',

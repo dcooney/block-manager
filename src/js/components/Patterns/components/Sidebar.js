@@ -1,27 +1,33 @@
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import Search from '../../Global/Search';
-import DisabledSVG from '../../Global/DisabledSVG';
-import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import scrollToElement from '../../../functions/scrollToElement';
+import DisabledSVG from '../../Global/DisabledSVG';
+import Search from '../../Global/Search';
+import ToggleSwitch from './ToggleSwitch';
 
 /**
  * Render the Sidebar for Block Manager.
  *
- * @param {Object}   props          The component props.
- * @param {Array}    props.blocks   Array of WP Blocks.
- * @param {number}   props.active   Total number of active blocks.
- * @param {number}   props.disabled Total number of disabled blocks.
- * @param {number}   props.filtered Total number of filtered blocks.
- * @param {Function} props.search   The search handler function.
- * @return {Element}                The Sidebar component.
+ * @param {Object}   props             The component props.
+ * @param {Object}   props.categories  Object of pattern categories.
+ * @param {number}   props.active      Total number of active blocks.
+ * @param {number}   props.disabled    Total number of disabled blocks.
+ * @param {number}   props.filtered    Total number of filtered blocks.
+ * @param {Array}    props.patterns    Array of disabled patterns.
+ * @param {Function} props.search      The search handler function.
+ * @param {Function} props.setDisabled State handler for disabled patterns.
+ * @return {Element}                   The Sidebar component.
  */
 export default function Sidebar({
-	blocks,
+	categories,
 	active,
 	disabled,
 	filtered,
+	patterns,
+	setDisabled,
 	search,
 }) {
+	const { filteredPatterns = [] } = gbm_localize;
 	const activeRef = useRef(null);
 	const disabledRef = useRef(null);
 	const mountedRef = useRef(false);
@@ -99,9 +105,9 @@ export default function Sidebar({
 						className="gbm-legend gbm-legend--disabled"
 						title={
 							disabledTotal === 1
-								? `1 ${__('Disabled Block', 'block-manager')}`
+								? `1 ${__('Disabled Pattern', 'block-manager')}`
 								: `${disabledTotal} ${__(
-										'Disabled Blocks',
+										'Disabled Patterns',
 										'block-manager'
 								  )}`
 						}
@@ -125,11 +131,11 @@ export default function Sidebar({
 							title={
 								filtered === 1
 									? `1 ${__(
-											'Filtered Block',
+											'Filtered Pattern',
 											'block-manager'
 									  )}`
 									: `${filtered} ${__(
-											'Filtered Blocks',
+											'Filtered Patterns',
 											'block-manager'
 									  )}`
 							}
@@ -146,27 +152,77 @@ export default function Sidebar({
 				</div>
 			</div>
 			<div className="gbm-cta">
+				<h3>{__('Pattern Visibility', 'block-manager')}</h3>
+				<div className="gbm-cta-wrap">
+					<ToggleSwitch
+						option="gbm/core-patterns"
+						label={__('Core Patterns', 'block-manager')}
+						desc={__(
+							'Remove all core block patterns from the patterns selector.',
+							'block-manager'
+						)}
+						active={!patterns.includes('gbm/core-patterns')}
+						disabled={filteredPatterns.includes(
+							'gbm/core-patterns'
+						)}
+						callback={setDisabled}
+					/>
+					<ToggleSwitch
+						option="gbm/remote-patterns"
+						label={__('Remote Patterns', 'block-manager')}
+						desc={__(
+							'Prevent users from searching for remote block patterns.',
+							'block-manager'
+						)}
+						active={!patterns.includes('gbm/remote-patterns')}
+						disabled={filteredPatterns.includes(
+							'gbm/remote-patterns'
+						)}
+						callback={setDisabled}
+					/>
+					<ToggleSwitch
+						option="gbm/uncategorized-patterns"
+						label={__('Uncategorized Patterns', 'block-manager')}
+						desc={__(
+							'Remove all block patterns without an assigned category.',
+							'block-manager'
+						)}
+						active={
+							!patterns.includes('gbm/uncategorized-patterns')
+						}
+						disabled={filteredPatterns.includes(
+							'gbm/uncategorized-patterns'
+						)}
+						callback={setDisabled}
+					/>
+				</div>
+			</div>
+			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
-					{!!blocks?.length &&
-						blocks.map((category) => (
-							<Fragment key={category?.info?.slug}>
-								{!!category?.blocks?.length && (
-									<button
-										type="button"
-										className="gbm-toc"
-										onClick={() =>
-											scrollToElement(
-												`block-${category?.info?.slug}`
-											)
-										}
-									>
-										{category?.info?.title}
-									</button>
-								)}
-							</Fragment>
-						))}
-					<Search callback={search} />
+					{Object.keys(categories).map((category) => {
+						return (
+							<button
+								key={categories[category]?.name}
+								className="gbm-toc"
+								type="button"
+								onClick={() =>
+									scrollToElement(
+										`block-${categories[category]?.name}`
+									)
+								}
+							>
+								{categories[category]?.label}
+							</button>
+						);
+					})}
+					<Search
+						callback={search}
+						placeholder={__(
+							'Search Block Patterns',
+							'block-manager'
+						)}
+					/>
 				</div>
 			</div>
 		</div>

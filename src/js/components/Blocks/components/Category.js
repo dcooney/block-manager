@@ -28,13 +28,13 @@ export default function Category({
 	const total = blocks?.length;
 
 	// Combine disabled and filtered blocks.
-	const allDisabled = [...disabledBlocks, ...filteredBlocks];
+	const disabled = [...disabledBlocks, ...filteredBlocks];
 
 	// Count disabled blocks.
 	// Loop all blocks in the category and find match.
 	const count =
-		allDisabled?.length &&
-		blocks.filter((block) => allDisabled.includes(block?.name))?.length;
+		disabled?.length &&
+		blocks.filter((block) => disabled.includes(block?.name))?.length;
 
 	// Set toggle button attributes
 	const switchClass =
@@ -60,20 +60,17 @@ export default function Category({
 					className={switchClass}
 					data-state={state}
 					onClick={callback}
+					aria-label={__(
+						'Toggle all blocks in this category',
+						'block-manager'
+					)}
 					title={__(
 						'Toggle all blocks in this category',
 						'block-manager'
 					)}
 				>
-					<div className="gbm-block-switch--wrap">
-						<span>
-							<span className="offscreen">
-								{__(
-									'Toggle all blocks in this category',
-									'block-manager'
-								)}
-							</span>
-						</span>
+					<div className="gbm-block-switch--inner">
+						<span></span>
 					</div>
 				</button>
 			</div>

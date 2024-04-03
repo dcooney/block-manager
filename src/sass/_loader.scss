@@ -1,7 +1,7 @@
 .gbm-loader {
-	padding: 40px 20px;
+	padding: 50px 20px;
 	@media screen and (min-width: $small) {
-		padding: 80px 20px;
+		padding: 100px 20px;
 	}
 	display: flex;
 	justify-content: center;
@@ -11,7 +11,7 @@
 	text-align: center;
 	color: $grey_dark;
 
-	&-pulse{
+	&-pulse {
 		&-wrap {
 			display: flex;
 			width: 100%;
@@ -31,7 +31,7 @@
 		animation-delay: 0.15s;
 		&::before,
 		&::after {
-			content: "";
+			content: '';
 			display: inline-block;
 			position: absolute;
 			top: 0;
@@ -57,34 +57,37 @@
 
 @keyframes dot-pulse-before {
 	0% {
-	  box-shadow: 9984px 0 0 -5px;
+		box-shadow: 9984px 0 0 -5px;
 	}
 	30% {
-	  box-shadow: 9984px 0 0 2px;
+		box-shadow: 9984px 0 0 2px;
 	}
-	60%, 100% {
-	  box-shadow: 9984px 0 0 -5px;
+	60%,
+	100% {
+		box-shadow: 9984px 0 0 -5px;
 	}
- }
- @keyframes dot-pulse {
+}
+@keyframes dot-pulse {
 	0% {
-	  box-shadow: 9999px 0 0 -5px;
+		box-shadow: 9999px 0 0 -5px;
 	}
 	30% {
-	  box-shadow: 9999px 0 0 2px;
+		box-shadow: 9999px 0 0 2px;
 	}
-	60%, 100% {
-	  box-shadow: 9999px 0 0 -5px;
+	60%,
+	100% {
+		box-shadow: 9999px 0 0 -5px;
 	}
- }
- @keyframes dot-pulse-after {
+}
+@keyframes dot-pulse-after {
 	0% {
-	  box-shadow: 10014px 0 0 -5px;
+		box-shadow: 10014px 0 0 -5px;
 	}
 	30% {
-	  box-shadow: 10014px 0 0 2px;
+		box-shadow: 10014px 0 0 2px;
 	}
-	60%, 100% {
-	  box-shadow: 10014px 0 0 -5px;
+	60%,
+	100% {
+		box-shadow: 10014px 0 0 -5px;
 	}
- }
+}

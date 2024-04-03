@@ -143,7 +143,7 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					<p>
 						{__(
-							'The Block Manager Category Switcher provides functionality for updating the categories of WordPress blocks.',
+							'The Category Switcher provides functionality for updating the display category of WordPress blocks.',
 							'block-manager'
 						)}
 					</p>

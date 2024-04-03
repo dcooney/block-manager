@@ -1,23 +1,26 @@
 # Block Manager for WordPress
 
-Take full control of your WordPress Blocks.
+Remove unwanted blocks and block patterns from the Block Inserter and Editor.
 
-- Remove unwanted blocks from the Block Inserter.
+- Remove blocks from the Block Inserter.
+- Remove block patterns from the Pattern Selector.
 - Update the categories of your blocks to organize the Block Inserter.
 
 ![Block Manager Hero](https://ps.w.org/block-manager/assets/banner-772x250.jpg?rev=2483990)
 
 &raquo; [Download Plugin](https://wordpress.org/plugins/block-manager/)
 
-The Block Manager plugin is an intuitive tool for WordPress site admins to globally manage the acgtive state of each block. Disabled blocks will be removed from the block inserter on post edit screens.
+The Block Manager is an intuitive tool for site admins to globally remove blocks and block patterns. It also provides functionality for updating the category of individual blocks to help organize the admin editing experience.
 
 ![Block Manager Admin](https://ps.w.org/block-manager/assets/screenshot-1.png)
 
 ## FEATURES
 
-- **Globally Enable/Disable Blocks** – Unlike the block manager functionality in the Gutenberg editor, this tool will globally enables/disables blocks for all users on your site.
-- **Block Search and Filter** – Quickly locate blocks using the block search functionality in the sidebar.
-- **Filter Hooks** – Use the `gbm_disabled_blocks` filter to control blocks from functions.php.
- -**Category Switcher** – Functionality for changing the categories Gutenberg blocks.
+- **Blocks**:  Globally disable blocks from being displayed in the Block Inserter and Block Editor.
+- **Patterns**: Remove unwanted block patterns with the click of a button.
+- **Block Categories**: Organize the Block Inserter by updating the category of each block.
+- **Hooks**:  Use hooks to remove blocks and patterns from `functions.php`.
+- **Search and Filter**:  Quickly locate blocks and patterns with the search functionality in the sidebar.
+- **Embed Blocks**:  Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
 
 &raquo; [View on WordPress](https://wordpress.org/plugins/block-manager/)

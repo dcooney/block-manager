@@ -32,7 +32,6 @@ add_action(
  * @since 1.0
  */
 function block_manager_toggle( WP_REST_Request $request ) {
-
 	if ( is_user_logged_in() && current_user_can( apply_filters( 'block_manager_user_role', 'activate_plugins' ) ) ) {
 		error_reporting( E_ALL | E_STRICT ); // @codingStandardsIgnoreLine
 
@@ -40,10 +39,10 @@ function block_manager_toggle( WP_REST_Request $request ) {
 		$body = json_decode( $request->get_body(), true ); // Get contents of request body.
 
 		if ( $body ) {
-			$block           = $body['block'] ? $body['block'] : ''; // block name.
-			$title           = $body['title'] ? $body['title'] : ''; // block title.
-			$type            = $body['type'] ? $body['type'] : 'enable'; // enable/disable.
-			$disabled_blocks = Gutenberg_Block_Manager::gbm_get_disabled_blocks(); // Get disabled blocks.
+			$block           = $body['block'] ? sanitize_text_field($body['block']) : ''; // block name.
+			$title           = $body['title'] ? sanitize_text_field($body['title']) : ''; // block title.
+			$type            = $body['type'] ? sanitize_text_field( $body['type']) : 'enable'; // enable/disable.
+			$disabled_blocks = GBM_Blocks::gbm_get_disabled_blocks(); // Get disabled blocks.
 
 			if ( ! $block ) {
 				wp_send_json(

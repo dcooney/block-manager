@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 
 /**
@@ -9,8 +10,11 @@ import axios from 'axios';
 export function exportHook(ref, type = 'blocks') {
 	ref?.classList.add('active'); // Loading state.
 
-	const hook =
-		type === 'blocks' ? 'gbm_disabled_blocks' : 'gbm_block_categories';
+	const hooks = {
+		blocks: 'gbm_disabled_blocks',
+		patterns: 'gbm_disabled_patterns',
+		categories: 'gbm_block_categories',
+	};
 
 	axios({
 		method: 'GET',
@@ -26,7 +30,7 @@ export function exportHook(ref, type = 'blocks') {
 				let code = '';
 
 				// Blocks return data.
-				if (type === 'blocks') {
+				if (type === 'blocks' || type === 'patterns') {
 					code = data.code;
 					code = code.replace(/\\/g, ''); // Replace `\`.
 					code = code.replace(/"/g, "'"); // Replace `"`.
@@ -48,7 +52,7 @@ export function exportHook(ref, type = 'blocks') {
 					}
 				}
 
-				const results = `// functions.php<br/>add_filter( '${hook}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${code};<br/>} );`;
+				const results = `// functions.php<br/>add_filter( '${hooks[type]}', function() {<br/>&nbsp;&nbsp;&nbsp;return ${code};<br/>} );`;
 				const target = ref?.querySelector('#gbm-export');
 				target.innerHTML = results;
 				setTimeout(function () {

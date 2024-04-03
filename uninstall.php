@@ -15,3 +15,6 @@ delete_option( 'gbm_disabled_blocks' );
 
 // Delete option: Categories.
 delete_option( 'gbm_categories' );
+
+// Delete option: Patterns.
+delete_option( 'gbm_disabled_patterns' );
