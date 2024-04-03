@@ -113,7 +113,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-= 3.0.0 - April 2, 2024 =
+= 3.0.0 - April 3, 2024 =
 * NEW: Added support for disabling block patterns and core block patterns.
 * FIX: Fixed incorrect number of filtered blocks display in Blocks sidebar.
 * FIX: Fixed issue with return value in admin_footer text.

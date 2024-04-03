@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BLOCK_MANAGER_VERSION', '3.0.0' );
-define( 'BLOCK_MANAGER_RELEASE', 'April 2, 2024' );
+define( 'BLOCK_MANAGER_RELEASE', 'April 3, 2024' );
 define( 'BLOCK_MANAGER_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_URL', plugins_url( '', __FILE__ ) );
