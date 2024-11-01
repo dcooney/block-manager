@@ -17,7 +17,7 @@ export default function App() {
 	const url = window?.location?.href;
 
 	let type = 'blocks';
-	type = url.includes('category-switcher') ? 'categories' : type;
+	type = url.includes('categories') ? 'categories' : type;
 	type = url.includes('patterns') ? 'patterns' : type;
 
 	function Display() {

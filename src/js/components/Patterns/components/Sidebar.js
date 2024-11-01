@@ -197,6 +197,10 @@ export default function Sidebar({
 					/>
 				</div>
 			</div>
+			<Search
+				callback={search}
+				placeholder={__('Search Block Patterns', 'block-manager')}
+			/>
 			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
@@ -216,13 +220,6 @@ export default function Sidebar({
 							</button>
 						);
 					})}
-					<Search
-						callback={search}
-						placeholder={__(
-							'Search Block Patterns',
-							'block-manager'
-						)}
-					/>
 				</div>
 			</div>
 		</div>

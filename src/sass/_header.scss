@@ -5,53 +5,60 @@ h1.gbm-h1 {
 }
 .gbm-page-wrap {
 	&--header {
-		background-color: #fff;
-		padding: 20px;
-		position: relative;
-		@media screen and (min-width: $small) {
-			padding-right: 200px;
-		}
-		&-title {
-			background: url('../images/icon.png') no-repeat 1px center;
-			background-size: 44px 44px;
-			min-height: 44px;
-			padding: 0 0 0 54px;
-			display: flex;
-			gap: 5px;
-			flex-wrap: wrap;
-			align-items: center;
-			width: 100%;
-		}
-		h2 {
-			margin: 0;
-			padding: 0;
-			font-size: 22px;
-			width: 100%;
-			color: $text;
+		background-color: $purple_new;
+		display: flex;
+		gap: 20px;
+		padding: 0 20px;
+		nav {
 			display: flex;
 			align-items: center;
-			gap: 8px;
-			font-weight: 700;
-			line-height: 1;
-
-			span {
-				font-size: 12px;
-				font-weight: 400;
+			gap: 10px;
+			padding: 20px 0;
+			& a {
+				display: flex;
+				gap: 7px;
+				align-items: center;
+				padding: 12px 15px;
+				text-decoration: none;
+				font-size: 14px;
 				border-radius: $radius;
-				background-color: rgba($purple, 0.075);
-				display: inline-block;
-				line-height: 1;
-				padding: 5px;
-				color: $purple;
-				position: relative;
-				top: 2px;
+				color: rgba(#fff, 0.7);
+				&:hover,
+				&:focus {
+					color: #fff;
+					background-color: rgba(#000, 0.15);
+				}
+				&.gbm-tab-active {
+					color: #fff;
+					background-color: rgba(#000, 0.15);
+				}
 			}
 		}
-		p {
-			margin: 0;
-			color: $grey_dark;
-			line-height: 1;
-			font-size: 14px;
+		&-title {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			align-items: center;
+			padding: 20px 10px 20px 0;
+			//border-right: 1px solid rgba(#000, 0.15);
+			& svg {
+				width: 36px;
+				height: 36px;
+			}
+			h2 {
+				font-size: 20px;
+				font-weight: 600;
+				line-height: 1;
+				color: #fff;
+				margin: 0;
+				padding: 0;
+			}
+			p {
+				margin: 0;
+				color: $grey_dark;
+				line-height: 1;
+				font-size: 14px;
+			}
 		}
 		button.gbm-other-button {
 			all: unset;
@@ -84,6 +91,20 @@ h1.gbm-h1 {
 				top: 50%;
 				transform: translateY(-50%);
 			}
+		}
+
+		span.gbm-version {
+			font-size: 12px;
+			font-weight: 400;
+			border-radius: $radius;
+			background-color: $purple_alt;
+			display: inline-block;
+			line-height: 1;
+			padding: 7px;
+			color: #fff;
+			margin-left: auto;
+			align-self: center;
+			cursor: help;
 		}
 	}
 }

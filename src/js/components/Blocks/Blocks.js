@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { countDisabledBlocks } from '../../functions/blocks';
+import bulkProcess from '../../functions/bulkProcess';
 import { exportHook } from '../../functions/export';
 import setCategoryStatus from '../../functions/setCategoryStatus';
 import Export from '../Global/Export';
@@ -12,7 +13,6 @@ import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
 import Category from './components/Category';
 import Sidebar from './components/Sidebar';
-import bulkProcess from '../../functions/bulkProcess';
 
 /**
  * Render the Blocks component.
@@ -228,6 +228,48 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				<Loader callback={setLoading} />
 			) : (
 				<>
+					<header className="gbm-block-header">
+						<div className="gbm-block-header--title">
+							<h2>{__('Blocks', 'block-manager')}</h2>
+							<p>
+								{__(
+									'Remove unwanted blocks globally from the Block Inserter.',
+									'block-manager'
+								)}
+							</p>
+						</div>
+						<div className="gbm-options">
+							<div>
+								<Reset
+									ref={resetButtonRef}
+									callback={resetBlocks}
+									total={disabledBlocks?.length}
+									msg={__(
+										'Are you sure you want to reset and activate all currently disabled blocks?',
+										'block-manager'
+									)}
+									title={__(
+										'Clear all disabled blocks',
+										'block-manager'
+									)}
+								/>
+								<Export
+									ref={exportButtonRef}
+									callback={() =>
+										exportHook(
+											exportModalRef?.current,
+											'blocks'
+										)
+									}
+									total={disabledBlocks?.length}
+									title={__(
+										'Export an array of disabled blocks as a WordPress hook',
+										'block-manager'
+									)}
+								/>
+							</div>
+						</div>
+					</header>
 					<div className="gbm-block-list-wrapper">
 						<Sidebar
 							blocks={blocks}
@@ -239,43 +281,6 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
-							<div className="gbm-options">
-								<p className="gbm-heading">
-									{__(
-										'Globally remove blocks from the Block Inserter.',
-										'block-manager'
-									)}
-								</p>
-								<div>
-									<Reset
-										ref={resetButtonRef}
-										callback={resetBlocks}
-										total={disabledBlocks?.length}
-										msg={__(
-											'Are you sure you want to reset and activate all currently disabled blocks?',
-											'block-manager'
-										)}
-										title={__(
-											'Clear all disabled blocks',
-											'block-manager'
-										)}
-									/>
-									<Export
-										ref={exportButtonRef}
-										callback={() =>
-											exportHook(
-												exportModalRef?.current,
-												'blocks'
-											)
-										}
-										total={disabledBlocks?.length}
-										title={__(
-											'Export an array of disabled blocks as a WordPress hook',
-											'block-manager'
-										)}
-									/>
-								</div>
-							</div>
 							<SearchResults
 								data={search}
 								callback={() => searchHandler('')}

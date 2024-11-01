@@ -3,6 +3,7 @@ $radius: 4px;
 $radius_lg: 6px;
 $padding: 15px;
 $purple: #8568c1;
+$purple_new: #9374d3;
 $purple_alt: #a788e5;
 $green: #5fc067;
 $red: #be2d2d;
@@ -15,7 +16,7 @@ $text: #3d3e40;
 $blue: #007cba;
 $blue_grey: #b5c4cb;
 $border_light: rgba($grey, 0.5);
-$shadow: 0 5px 10px rgba(0,0,0,.035);
+$shadow: 0 5px 10px rgba(0, 0, 0, 0.035);
 
 $block_filtered: #fefdd9;
 $block_disabled: $grey_light;
@@ -26,13 +27,13 @@ $xsmall: 480px;
 $msmall: 640px;
 $small: 768px;
 $wp_break: 782px;
+$wp_break_1: 783px;
 $medium: 1024px;
 $large: 1300px;
 $xlarge: 1500px;
 $xxlarge: 1700px;
 
-
-@mixin buttonHover(){
+@mixin buttonHover() {
 	&:hover,
 	&:focus {
 		color: #fff;

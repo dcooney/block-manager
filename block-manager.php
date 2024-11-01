@@ -13,6 +13,11 @@
  * @package blockmanager
  */
 
+/*
+* UPDATE: Various UI/UX updates.
+
+*/
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

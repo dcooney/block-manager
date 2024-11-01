@@ -184,6 +184,48 @@ export default function Categories({ wpBlocks, wpCategories }) {
 				<Loader callback={setLoading} />
 			) : (
 				<>
+					<header className="gbm-block-header">
+						<div className="gbm-block-header--title">
+							<h2>{__('Block Categories', 'block-manager')}</h2>
+							<p>
+								{__(
+									'Organize the Block Inserter by modifying the category of each block.',
+									'block-manager'
+								)}
+							</p>
+						</div>
+						<div className="gbm-options">
+							<div>
+								<Reset
+									ref={resetButtonRef}
+									callback={resetCategories}
+									total={blockCategories?.length}
+									msg={__(
+										'Are you sure you want to reset the modified block categories?',
+										'block-manager'
+									)}
+									title={__(
+										'Clear all modified block categories',
+										'block-manager'
+									)}
+								/>
+								<Export
+									ref={exportButtonRef}
+									callback={() =>
+										exportHook(
+											exportModalRef?.current,
+											'categories'
+										)
+									}
+									total={blockCategories?.length}
+									title={__(
+										'Export an array of updated blocks categories as a WordPress hook',
+										'block-manager'
+									)}
+								/>
+							</div>
+						</div>
+					</header>
 					<div className="gbm-block-list-wrapper categories">
 						<Sidebar
 							search={searchHandler}
@@ -202,46 +244,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							)}
 						/>
 						<div className="gbm-blocks">
-							<div className="gbm-options">
-								<p
-									className="gbm-heading"
-									dangerouslySetInnerHTML={{
-										__html: __(
-											'Organize the Block Inserter by modifying the category of each block.',
-											'block-manager'
-										),
-									}}
-								/>
-								<div>
-									<Reset
-										ref={resetButtonRef}
-										callback={resetCategories}
-										total={blockCategories?.length}
-										msg={__(
-											'Are you sure you want to reset the modified block categories?',
-											'block-manager'
-										)}
-										title={__(
-											'Clear all modified block categories',
-											'block-manager'
-										)}
-									/>
-									<Export
-										ref={exportButtonRef}
-										callback={() =>
-											exportHook(
-												exportModalRef?.current,
-												'categories'
-											)
-										}
-										total={blockCategories?.length}
-										title={__(
-											'Export an array of updated blocks categories as a WordPress hook',
-											'block-manager'
-										)}
-									/>
-								</div>
-							</div>
 							<div className="gbm-block-group">
 								<SearchResults
 									data={search}

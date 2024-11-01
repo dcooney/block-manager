@@ -203,6 +203,48 @@ export default function Patterns() {
 				/>
 			) : (
 				<>
+					<header className="gbm-block-header">
+						<div className="gbm-block-header--title">
+							<h2>{__('Block Patterns', 'block-manager')}</h2>
+							<p>
+								{__(
+									'Select patterns to be removed globally from the Pattern Selector.',
+									'block-manager'
+								)}
+							</p>
+						</div>
+						<div className="gbm-options">
+							<div>
+								<Reset
+									ref={resetButtonRef}
+									callback={resetPatterns}
+									total={disabledPatterns?.length}
+									msg={__(
+										'Are you sure you want to reset the modified Block Patterns?',
+										'block-manager'
+									)}
+									title={__(
+										'Clear all Block Patterns',
+										'block-manager'
+									)}
+								/>
+								<Export
+									ref={exportButtonRef}
+									callback={() =>
+										exportHook(
+											exportModalRef?.current,
+											'patterns'
+										)
+									}
+									total={disabledPatterns?.length}
+									title={__(
+										'Export an array of disabled patterns as a WordPress hook',
+										'block-manager'
+									)}
+								/>
+							</div>
+						</div>
+					</header>
 					<div className="gbm-block-list-wrapper categories">
 						<Sidebar
 							categories={categories}
@@ -218,46 +260,6 @@ export default function Patterns() {
 							search={searchHandler}
 						/>
 						<div className="gbm-blocks">
-							<div className="gbm-options">
-								<p
-									className="gbm-heading"
-									dangerouslySetInnerHTML={{
-										__html: __(
-											'Select patterns to be globally removed from the Pattern Selector.',
-											'block-manager'
-										),
-									}}
-								/>
-								<div>
-									<Reset
-										ref={resetButtonRef}
-										callback={resetPatterns}
-										total={disabledPatterns?.length}
-										msg={__(
-											'Are you sure you want to reset the modified Block Patterns?',
-											'block-manager'
-										)}
-										title={__(
-											'Clear all Block Patterns',
-											'block-manager'
-										)}
-									/>
-									<Export
-										ref={exportButtonRef}
-										callback={() =>
-											exportHook(
-												exportModalRef?.current,
-												'patterns'
-											)
-										}
-										total={disabledPatterns?.length}
-										title={__(
-											'Export an array of disabled patterns as a WordPress hook',
-											'block-manager'
-										)}
-									/>
-								</div>
-							</div>
 							<SearchResults
 								data={search}
 								callback={() => searchHandler('')}
