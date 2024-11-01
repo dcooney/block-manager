@@ -204,101 +204,107 @@ export default function Patterns() {
 			) : (
 				<>
 					<header className="gbm-block-header">
-						<div className="gbm-block-header--title">
-							<h2>{__('Block Patterns', 'block-manager')}</h2>
-							<p>
-								{__(
-									'Select patterns to be removed globally from the Pattern Selector.',
-									'block-manager'
-								)}
-							</p>
-						</div>
-						<div className="gbm-options">
-							<div>
-								<Reset
-									ref={resetButtonRef}
-									callback={resetPatterns}
-									total={disabledPatterns?.length}
-									msg={__(
-										'Are you sure you want to reset the modified Block Patterns?',
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>{__('Block Patterns', 'block-manager')}</h2>
+								<p>
+									{__(
+										'Select patterns to be removed globally from the Pattern Selector.',
 										'block-manager'
 									)}
-									title={__(
-										'Clear all Block Patterns',
-										'block-manager'
-									)}
-								/>
-								<Export
-									ref={exportButtonRef}
-									callback={() =>
-										exportHook(
-											exportModalRef?.current,
-											'patterns'
-										)
-									}
-									total={disabledPatterns?.length}
-									title={__(
-										'Export an array of disabled patterns as a WordPress hook',
-										'block-manager'
-									)}
-								/>
+								</p>
+							</div>
+							<div className="gbm-options">
+								<div>
+									<Reset
+										ref={resetButtonRef}
+										callback={resetPatterns}
+										total={disabledPatterns?.length}
+										msg={__(
+											'Are you sure you want to reset the modified Block Patterns?',
+											'block-manager'
+										)}
+										title={__(
+											'Clear all Block Patterns',
+											'block-manager'
+										)}
+									/>
+									<Export
+										ref={exportButtonRef}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'patterns'
+											)
+										}
+										total={disabledPatterns?.length}
+										title={__(
+											'Export an array of disabled patterns as a WordPress hook',
+											'block-manager'
+										)}
+									/>
+								</div>
 							</div>
 						</div>
 					</header>
 					<div className="gbm-block-list-wrapper categories">
-						<Sidebar
-							categories={categories}
-							active={
-								allPatterns?.length -
-								disabledCount -
-								filteredCount
-							}
-							disabled={disabledCount}
-							filtered={filteredCount}
-							patterns={disabledPatterns}
-							setDisabled={setDisabled}
-							search={searchHandler}
-						/>
-						<div className="gbm-blocks">
-							<SearchResults
-								data={search}
-								callback={() => searchHandler('')}
-								className="blocks-render"
+						<div className="gbm-container">
+							<Sidebar
+								categories={categories}
+								active={
+									allPatterns?.length -
+									disabledCount -
+									filteredCount
+								}
+								disabled={disabledCount}
+								filtered={filteredCount}
+								patterns={disabledPatterns}
+								setDisabled={setDisabled}
+								search={searchHandler}
 							/>
-							<div className="gbm-block-groups">
-								<div className="gbm-block-lists patterns">
-									<>
-										{Object.keys(categories).map(
-											(category, index) => {
-												return (
-													<Category
-														key={index}
-														data={
-															categories[category]
-														}
-														togglePattern={
-															togglePattern
-														}
-														disabledPatterns={
-															disabledPatterns
-														}
-														filteredPatterns={
-															filteredPatterns
-														}
-														callback={(e) =>
-															bulkProcess(
-																e?.currentTarget,
-																'patterns',
-																setDisabled,
-																setCategoryStatus,
-																setNotifications
-															)
-														}
-													/>
-												);
-											}
-										)}
-									</>
+							<div className="gbm-blocks">
+								<SearchResults
+									data={search}
+									callback={() => searchHandler('')}
+									className="blocks-render"
+								/>
+								<div className="gbm-block-groups">
+									<div className="gbm-block-lists patterns">
+										<>
+											{Object.keys(categories).map(
+												(category, index) => {
+													return (
+														<Category
+															key={index}
+															data={
+																categories[
+																	category
+																]
+															}
+															togglePattern={
+																togglePattern
+															}
+															disabledPatterns={
+																disabledPatterns
+															}
+															filteredPatterns={
+																filteredPatterns
+															}
+															callback={(e) =>
+																bulkProcess(
+																	e?.currentTarget,
+																	'patterns',
+																	setDisabled,
+																	setCategoryStatus,
+																	setNotifications
+																)
+															}
+														/>
+													);
+												}
+											)}
+										</>
+									</div>
 								</div>
 							</div>
 						</div>

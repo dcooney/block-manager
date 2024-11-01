@@ -229,85 +229,95 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			) : (
 				<>
 					<header className="gbm-block-header">
-						<div className="gbm-block-header--title">
-							<h2>{__('Blocks', 'block-manager')}</h2>
-							<p>
-								{__(
-									'Remove unwanted blocks globally from the Block Inserter.',
-									'block-manager'
-								)}
-							</p>
-						</div>
-						<div className="gbm-options">
-							<div>
-								<Reset
-									ref={resetButtonRef}
-									callback={resetBlocks}
-									total={disabledBlocks?.length}
-									msg={__(
-										'Are you sure you want to reset and activate all currently disabled blocks?',
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>{__('Blocks', 'block-manager')}</h2>
+								<p>
+									{__(
+										'Remove unwanted blocks globally from the Block Inserter.',
 										'block-manager'
 									)}
-									title={__(
-										'Clear all disabled blocks',
-										'block-manager'
-									)}
-								/>
-								<Export
-									ref={exportButtonRef}
-									callback={() =>
-										exportHook(
-											exportModalRef?.current,
-											'blocks'
-										)
-									}
-									total={disabledBlocks?.length}
-									title={__(
-										'Export an array of disabled blocks as a WordPress hook',
-										'block-manager'
-									)}
-								/>
+								</p>
+							</div>
+							<div className="gbm-options">
+								<div>
+									<Reset
+										ref={resetButtonRef}
+										callback={resetBlocks}
+										total={disabledBlocks?.length}
+										msg={__(
+											'Are you sure you want to reset and activate all currently disabled blocks?',
+											'block-manager'
+										)}
+										title={__(
+											'Clear all disabled blocks',
+											'block-manager'
+										)}
+									/>
+									<Export
+										ref={exportButtonRef}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'blocks'
+											)
+										}
+										total={disabledBlocks?.length}
+										title={__(
+											'Export an array of disabled blocks as a WordPress hook',
+											'block-manager'
+										)}
+									/>
+								</div>
 							</div>
 						</div>
 					</header>
 					<div className="gbm-block-list-wrapper">
-						<Sidebar
-							blocks={blocks}
-							active={
-								wpBlocks?.length - disabledCount - filteredCount
-							}
-							disabled={disabledCount}
-							filtered={filteredCount}
-							search={searchHandler}
-						/>
-						<div className="gbm-blocks">
-							<SearchResults
-								data={search}
-								callback={() => searchHandler('')}
-								className="blocks-render"
+						<div className="gbm-container">
+							<Sidebar
+								blocks={blocks}
+								active={
+									wpBlocks?.length -
+									disabledCount -
+									filteredCount
+								}
+								disabled={disabledCount}
+								filtered={filteredCount}
+								search={searchHandler}
 							/>
-							{!!blocks?.length &&
-								blocks.map((category) => (
-									<Fragment key={category.info.slug}>
-										{!!category?.blocks?.length && (
-											<Category
-												data={category}
-												toggleBlock={toggleBlock}
-												disabledBlocks={disabledBlocks}
-												filteredBlocks={filteredBlocks}
-												callback={(e) =>
-													bulkProcess(
-														e?.currentTarget,
-														'blocks',
-														setDisabled,
-														setCategoryStatus,
-														setNotifications
-													)
-												}
-											/>
-										)}
-									</Fragment>
-								))}
+							<div className="gbm-blocks">
+								<SearchResults
+									data={search}
+									callback={() => searchHandler('')}
+									className="blocks-render"
+								/>
+								{!!blocks?.length &&
+									blocks.map((category) => (
+										<Fragment key={category.info.slug}>
+											{!!category?.blocks?.length && (
+												<Category
+													data={category}
+													toggleBlock={toggleBlock}
+													disabledBlocks={
+														disabledBlocks
+													}
+													filteredBlocks={
+														filteredBlocks
+													}
+													callback={(e) =>
+														bulkProcess(
+															e?.currentTarget,
+															'blocks',
+															setDisabled,
+															setCategoryStatus,
+															setNotifications
+														)
+													}
+												/>
+											)}
+										</Fragment>
+									))}
+							</div>
 						</div>
 					</div>
 					<ExportModal

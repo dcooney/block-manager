@@ -386,6 +386,8 @@ function Blocks(_ref) {
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
     className: "gbm-block-header"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
   }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Blocks', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove unwanted blocks globally from the Block Inserter.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
@@ -402,8 +404,10 @@ function Blocks(_ref) {
     },
     total: disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.length,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of disabled blocks as a WordPress hook', 'block-manager')
-  })))), /*#__PURE__*/React.createElement("div", {
+  }))))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_13__["default"], {
     blocks: blocks,
     active: (wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length) - disabledCount - filteredCount,
@@ -431,7 +435,7 @@ function Blocks(_ref) {
         return (0,_functions_bulkProcess__WEBPACK_IMPORTED_MODULE_3__["default"])(e === null || e === void 0 ? void 0 : e.currentTarget, 'blocks', setDisabled, _functions_setCategoryStatus__WEBPACK_IMPORTED_MODULE_5__["default"], setNotifications);
       }
     }));
-  }))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to remove blocks at the theme level.', 'block-manager')
@@ -1054,6 +1058,8 @@ function Categories(_ref) {
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
     className: "gbm-block-header"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
   }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Categories', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize the Block Inserter by modifying the category of each block.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
@@ -1070,8 +1076,10 @@ function Categories(_ref) {
     },
     total: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of updated blocks categories as a WordPress hook', 'block-manager')
-  })))), /*#__PURE__*/React.createElement("div", {
+  }))))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper categories"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_11__["default"], {
     search: searchHandler,
     total: blocks === null || blocks === void 0 ? void 0 : blocks.length,
@@ -1097,7 +1105,7 @@ function Categories(_ref) {
       filteredCategories: filteredCategories,
       blockCategories: blockCategories
     });
-  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }))))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to update block categories at the theme level.', 'block-manager')
@@ -2167,6 +2175,8 @@ function Patterns() {
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
     className: "gbm-block-header"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
+  }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
   }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Patterns', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select patterns to be removed globally from the Pattern Selector.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
@@ -2183,8 +2193,10 @@ function Patterns() {
     },
     total: disabledPatterns === null || disabledPatterns === void 0 ? void 0 : disabledPatterns.length,
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export an array of disabled patterns as a WordPress hook', 'block-manager')
-  })))), /*#__PURE__*/React.createElement("div", {
+  }))))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list-wrapper categories"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-container"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_11__["default"], {
     categories: categories,
     active: (allPatterns === null || allPatterns === void 0 ? void 0 : allPatterns.length) - disabledCount - filteredCount,
@@ -2216,7 +2228,7 @@ function Patterns() {
         return (0,_functions_bulkProcess__WEBPACK_IMPORTED_MODULE_2__["default"])(e === null || e === void 0 ? void 0 : e.currentTarget, 'patterns', setDisabled, _functions_setCategoryStatus__WEBPACK_IMPORTED_MODULE_4__["default"], setNotifications);
       }
     });
-  })))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))))))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to remove patterns at the theme level.', 'block-manager')

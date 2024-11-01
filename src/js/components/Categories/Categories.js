@@ -185,92 +185,100 @@ export default function Categories({ wpBlocks, wpCategories }) {
 			) : (
 				<>
 					<header className="gbm-block-header">
-						<div className="gbm-block-header--title">
-							<h2>{__('Block Categories', 'block-manager')}</h2>
-							<p>
-								{__(
-									'Organize the Block Inserter by modifying the category of each block.',
-									'block-manager'
-								)}
-							</p>
-						</div>
-						<div className="gbm-options">
-							<div>
-								<Reset
-									ref={resetButtonRef}
-									callback={resetCategories}
-									total={blockCategories?.length}
-									msg={__(
-										'Are you sure you want to reset the modified block categories?',
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>
+									{__('Block Categories', 'block-manager')}
+								</h2>
+								<p>
+									{__(
+										'Organize the Block Inserter by modifying the category of each block.',
 										'block-manager'
 									)}
-									title={__(
-										'Clear all modified block categories',
-										'block-manager'
-									)}
-								/>
-								<Export
-									ref={exportButtonRef}
-									callback={() =>
-										exportHook(
-											exportModalRef?.current,
-											'categories'
-										)
-									}
-									total={blockCategories?.length}
-									title={__(
-										'Export an array of updated blocks categories as a WordPress hook',
-										'block-manager'
-									)}
-								/>
+								</p>
+							</div>
+							<div className="gbm-options">
+								<div>
+									<Reset
+										ref={resetButtonRef}
+										callback={resetCategories}
+										total={blockCategories?.length}
+										msg={__(
+											'Are you sure you want to reset the modified block categories?',
+											'block-manager'
+										)}
+										title={__(
+											'Clear all modified block categories',
+											'block-manager'
+										)}
+									/>
+									<Export
+										ref={exportButtonRef}
+										callback={() =>
+											exportHook(
+												exportModalRef?.current,
+												'categories'
+											)
+										}
+										total={blockCategories?.length}
+										title={__(
+											'Export an array of updated blocks categories as a WordPress hook',
+											'block-manager'
+										)}
+									/>
+								</div>
 							</div>
 						</div>
 					</header>
 					<div className="gbm-block-list-wrapper categories">
-						<Sidebar
-							search={searchHandler}
-							total={blocks?.length}
-							updated={blockCategories?.length}
-							filtered={filteredCategories?.length}
-							updatedBlocksOffset={categoryOffsetCount(
-								blockCategories,
-								disabled_blocks,
-								block_names
-							)}
-							filteredBlocksOffset={categoryOffsetCount(
-								filteredCategories,
-								disabled_blocks,
-								block_names
-							)}
-						/>
-						<div className="gbm-blocks">
-							<div className="gbm-block-group">
-								<SearchResults
-									data={search}
-									callback={clearSearch}
-								/>
-								<div className="gbm-block-list categories">
-									<>
-										{!!blocks?.length &&
-											blocks.map((block) => {
-												return (
-													<Block
-														key={`${block?.name}-${block?.category}`}
-														callback={
-															updateCategory
-														}
-														categories={categories}
-														data={block}
-														filteredCategories={
-															filteredCategories
-														}
-														blockCategories={
-															blockCategories
-														}
-													/>
-												);
-											})}
-									</>
+						<div className="gbm-container">
+							<Sidebar
+								search={searchHandler}
+								total={blocks?.length}
+								updated={blockCategories?.length}
+								filtered={filteredCategories?.length}
+								updatedBlocksOffset={categoryOffsetCount(
+									blockCategories,
+									disabled_blocks,
+									block_names
+								)}
+								filteredBlocksOffset={categoryOffsetCount(
+									filteredCategories,
+									disabled_blocks,
+									block_names
+								)}
+							/>
+							<div className="gbm-blocks">
+								<div className="gbm-block-group">
+									<SearchResults
+										data={search}
+										callback={clearSearch}
+									/>
+									<div className="gbm-block-list categories">
+										<>
+											{!!blocks?.length &&
+												blocks.map((block) => {
+													return (
+														<Block
+															key={`${block?.name}-${block?.category}`}
+															callback={
+																updateCategory
+															}
+															categories={
+																categories
+															}
+															data={block}
+															filteredCategories={
+																filteredCategories
+															}
+															blockCategories={
+																blockCategories
+															}
+														/>
+													);
+												})}
+										</>
+									</div>
 								</div>
 							</div>
 						</div>
