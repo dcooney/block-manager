@@ -8,14 +8,25 @@ h1.gbm-h1 {
 		background-color: $purple_new;
 		padding: 0 20px;
 		.gbm-container {
-			display: flex;
-			gap: 30px;
+			display: grid;
+			gap: 10px;
+			@media screen and (min-width: $wp_break_1) {
+				display: flex;
+				gap: 30px;
+			}
 		}
 		nav {
 			display: flex;
 			align-items: center;
+			justify-content: center;
 			gap: 5px;
-			padding: 20px 0;
+			margin-left: -7px;
+			padding: 5px 0 20px 0;
+			@media screen and (min-width: $wp_break_1) {
+				justify-content: flex-start;
+				margin-left: 0;
+				padding: 20px 0;
+			}
 			& a {
 				display: flex;
 				gap: 7px;
@@ -49,8 +60,12 @@ h1.gbm-h1 {
 			gap: 8px;
 			flex-wrap: nowrap;
 			align-items: center;
-			padding: 20px 10px 20px 0;
-			//border-right: 1px solid rgba(#000, 0.15);
+			justify-content: center;
+			padding: 20px 0 5px;
+			@media screen and (min-width: $wp_break_1) {
+				padding: 20px 10px 20px 0;
+				justify-content: flex-start;
+			}
 			& svg {
 				width: 36px;
 				height: 36px;
@@ -105,11 +120,14 @@ h1.gbm-h1 {
 		}
 
 		span.gbm-version {
+			display: none;
+			@media screen and (min-width: $wp_break_1) {
+				display: inline-block;
+			}
 			font-size: 12px;
 			font-weight: 400;
 			border-radius: $radius;
 			background-color: $purple_alt;
-			display: inline-block;
 			line-height: 1;
 			padding: 7px;
 			color: #fff;
