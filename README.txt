@@ -115,7 +115,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 = 3.0.1 - November 3, 2024 =
 * UPDATE: New admin UI.
-* UPDATE: Prep for upcoming Block Manager Pro plugin.
+* UPDATE: Various changes for upcoming Block Manager Pro plugin.
 
 
 = 3.0.0 - April 3, 2024 =
