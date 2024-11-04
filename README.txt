@@ -5,7 +5,7 @@ Homepage: https://connekthq.com/
 Donate link: https://connekthq.com/donate
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.6
+Tested up to: 6.7
 License: GPLv2 or later
 Stable tag: 3.1.0
 
