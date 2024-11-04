@@ -1335,13 +1335,13 @@ function Sidebar(_ref) {
     callback: search
   }), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta"
-  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Help', 'block-manager')), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("What's This?", 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
-  }, /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The Block Categories feature provides functionality to update block categories for all blocks in the editor.', 'block-manager')), /*#__PURE__*/React.createElement("p", {
     style: {
       marginBottom: '0px'
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the block inserter while editing posts.', 'block-manager')))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This feature is useful for organizing blocks into categories that are more meaningful to you.', 'block-manager')))));
 }
 
 /***/ }),
