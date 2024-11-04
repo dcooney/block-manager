@@ -158,7 +158,7 @@ export default function Sidebar({
 						option="gbm/core-patterns"
 						label={__('Core Patterns', 'block-manager')}
 						desc={__(
-							'Remove all core block patterns from the patterns selector.',
+							'Remove all core block patterns from the pattern selector.',
 							'block-manager'
 						)}
 						active={!patterns.includes('gbm/core-patterns')}

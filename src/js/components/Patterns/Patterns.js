@@ -209,7 +209,7 @@ export default function Patterns() {
 								<h2>{__('Block Patterns', 'block-manager')}</h2>
 								<p>
 									{__(
-										'Select patterns to be removed globally from the Pattern Selector.',
+										'Select patterns to be removed from the pattern selector.',
 										'block-manager'
 									)}
 								</p>

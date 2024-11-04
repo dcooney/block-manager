@@ -46,7 +46,7 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 				// eslint-disable-next-line no-alert
 				alert(
 					__(
-						"This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.",
+						"This block has been disabled via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.",
 						'block-manager'
 					)
 				);

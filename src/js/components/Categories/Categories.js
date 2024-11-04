@@ -192,7 +192,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 								</h2>
 								<p>
 									{__(
-										'Organize the Block Inserter by modifying the category of each block.',
+										'Organize the block inserter by modifying the category of each block.',
 										'block-manager'
 									)}
 								</p>

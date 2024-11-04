@@ -234,7 +234,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 								<h2>{__('Blocks', 'block-manager')}</h2>
 								<p>
 									{__(
-										'Remove unwanted blocks globally from the Block Inserter.',
+										'Remove unwanted blocks from the block inserter.',
 										'block-manager'
 									)}
 								</p>

@@ -389,7 +389,7 @@ function Blocks(_ref) {
     className: "gbm-container"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
-  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Blocks', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove unwanted blocks globally from the Block Inserter.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Blocks', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove unwanted blocks from the block inserter.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_10__["default"], {
     ref: resetButtonRef,
@@ -512,7 +512,7 @@ function Block(_ref) {
         target.blur();
       } else {
         // eslint-disable-next-line no-alert
-        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled globally via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", 'block-manager'));
+        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This block has been disabled via the 'gbm_disabled_blocks' hook and cannot be activated using the Block Manager interface.", 'block-manager'));
         target.blur();
       }
     }
@@ -1061,7 +1061,7 @@ function Categories(_ref) {
     className: "gbm-container"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
-  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Categories', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize the Block Inserter by modifying the category of each block.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Categories', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Organize the block inserter by modifying the category of each block.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_8__["default"], {
     ref: resetButtonRef,
@@ -1337,7 +1337,11 @@ function Sidebar(_ref) {
     className: "gbm-cta"
   }, /*#__PURE__*/React.createElement("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Help', 'block-manager')), /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta-wrap"
-  }, /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The Category Switcher provides functionality for updating the display category of WordPress blocks.', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the Block Inserter while editing posts.', 'block-manager')))));
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      marginBottom: '0px'
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modifying a category will update the blocks location in the block inserter while editing posts.', 'block-manager')))));
 }
 
 /***/ }),
@@ -2178,7 +2182,7 @@ function Patterns() {
     className: "gbm-container"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-header--title"
-  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Patterns', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select patterns to be removed globally from the Pattern Selector.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Block Patterns', 'block-manager')), /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select patterns to be removed from the pattern selector.', 'block-manager'))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-options"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_Global_Reset__WEBPACK_IMPORTED_MODULE_9__["default"], {
     ref: resetButtonRef,
@@ -2388,7 +2392,7 @@ function Pattern(_ref) {
         target.blur();
       } else {
         // eslint-disable-next-line no-alert
-        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This pattern has been disabled globally via the 'gbm_disabled_patterns' hook and cannot be activated using the Block Manager interface.", 'block-manager'));
+        alert((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("This pattern has been disabled via the 'gbm_disabled_patterns' hook and cannot be activated using the Block Manager interface.", 'block-manager'));
         target.blur();
       }
     }
@@ -2558,7 +2562,7 @@ function Sidebar(_ref) {
   }, /*#__PURE__*/React.createElement(_ToggleSwitch__WEBPACK_IMPORTED_MODULE_5__["default"], {
     option: "gbm/core-patterns",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Core Patterns', 'block-manager'),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all core block patterns from the patterns selector.', 'block-manager'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove all core block patterns from the pattern selector.', 'block-manager'),
     active: !patterns.includes('gbm/core-patterns'),
     disabled: filteredPatterns.includes('gbm/core-patterns'),
     callback: setDisabled
@@ -3280,7 +3284,7 @@ function scrollToElement(id) {
   }
   var target = document.querySelector("#".concat(id));
   if (target) {
-    var top = target.getBoundingClientRect().top + window.scrollY - 50;
+    var top = target.getBoundingClientRect().top + window.scrollY - 110;
     window.scrollTo({
       top: top,
       behavior: 'smooth'

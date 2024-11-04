@@ -40,7 +40,7 @@ function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 				// eslint-disable-next-line no-alert
 				alert(
 					__(
-						"This pattern has been disabled globally via the 'gbm_disabled_patterns' hook and cannot be activated using the Block Manager interface.",
+						"This pattern has been disabled via the 'gbm_disabled_patterns' hook and cannot be activated using the Block Manager interface.",
 						'block-manager'
 					)
 				);

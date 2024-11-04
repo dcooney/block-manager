@@ -142,15 +142,9 @@ export default function Sidebar({
 			<div className="gbm-cta">
 				<h3>{__('Help', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
-					<p>
+					<p style={{ marginBottom: '0px' }}>
 						{__(
-							'The Category Switcher provides functionality for updating the display category of WordPress blocks.',
-							'block-manager'
-						)}
-					</p>
-					<p>
-						{__(
-							'Modifying a category will update the blocks location in the Block Inserter while editing posts.',
+							'Modifying a category will update the blocks location in the block inserter while editing posts.',
 							'block-manager'
 						)}
 					</p>

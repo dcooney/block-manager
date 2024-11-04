@@ -36,14 +36,15 @@ h1.gbm-h1 {
 				font-size: 14px;
 				border-radius: $radius;
 				color: rgba(#fff, 0.7);
-				&:hover,
-				&:focus {
+				&:hover {
 					color: #fff;
 					background-color: rgba(#000, 0.15);
 				}
 				&:focus {
-					outline: 2px solid $purple;
-					outline-offset: 2px;
+					box-shadow: none;
+				}
+				&:focus-visible {
+					box-shadow: 0 0 0 1px rgba(#fff, 0.25);
 				}
 				&.gbm-tab-active {
 					color: #fff;
@@ -127,7 +128,7 @@ h1.gbm-h1 {
 			font-size: 12px;
 			font-weight: 400;
 			border-radius: $radius;
-			background-color: $purple_alt;
+			background-color: rgba(#fff, 0.15);
 			line-height: 1;
 			padding: 7px;
 			color: #fff;

@@ -128,8 +128,6 @@ class GBM_Admin {
 		return array_values( $options );
 	}
 
-
-
 	/**
 	 * Register submenu item.
 	 *
@@ -241,7 +239,7 @@ class GBM_Admin {
 			$love    = '<span style="color: #e25555;">♥</span>';
 			$atts    = ' target="_blank" style="font-weight: 500;"';
 
-			$msg  = 'Block Manager is made with ' . $love . ' by <a href="https://connekthq.com/?utm_source=WPAdmin&utm_medium=BlockManager&utm_campaign=Footer" target="_blank" style="font-weight: 500;">Connekt</a> ';
+			$msg  = 'Block Manager <a href="https://wordpress.org/plugins/block-manager/" target="_blank" style="font-weight: 500;">' . BLOCK_MANAGER_VERSION . '</a> ';
 			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/reviews/" ' . $atts . '>Leave Review</a> ';
 			$msg .= $divider . ' <a href="https://wordpress.org/support/plugin/block-manager/" ' . $atts . '>Support</a> ';
 			$msg .= $divider . ' <a href="https://github.com/dcooney/block-manager/" ' . $atts . '>Github</a>';

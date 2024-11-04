@@ -6,7 +6,7 @@ h1.gbm-h1 {
 }
 
 .gbm-page-wrap--header {
-  background-color: #9374d3;
+  background-color: #8068b4;
   padding: 0 20px;
 }
 
@@ -51,14 +51,17 @@ h1.gbm-h1 {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.gbm-page-wrap--header nav a:hover, .gbm-page-wrap--header nav a:focus {
+.gbm-page-wrap--header nav a:hover {
   color: #fff;
   background-color: rgba(0, 0, 0, 0.15);
 }
 
 .gbm-page-wrap--header nav a:focus {
-  outline: 2px solid #8568c1;
-  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.gbm-page-wrap--header nav a:focus-visible {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
 .gbm-page-wrap--header nav a.gbm-tab-active {
@@ -163,7 +166,7 @@ h1.gbm-h1 {
   font-size: 12px;
   font-weight: 400;
   border-radius: 4px;
-  background-color: #a788e5;
+  background-color: rgba(255, 255, 255, 0.15);
   line-height: 1;
   padding: 7px;
   color: #fff;
@@ -427,6 +430,9 @@ h1.gbm-h1 {
   border-right: 1px solid rgba(226, 229, 231, 0.5);
   padding: 0 0 10px;
   cursor: default;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .gbm-page-wrap .gbm-sidebar .gbm-cta-block-legend .gbm-legend:last-of-type {
