@@ -21,16 +21,66 @@
 	button[type='button'] {
 		cursor: pointer;
 	}
+	padding: 0;
 
-	padding: 0 20px;
+	// Inner container.
+	&-container {
+		max-width: $xxlarge;
+	}
+
+	// Section header.
+	.gbm-block-header {
+		padding: 15px 20px;
+		background-color: #fff;
+		margin-bottom: 20px;
+		width: 100%;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		.gbm-container {
+			display: flex;
+			gap: 15px;
+		}
+		@media screen and (min-width: $wp_break_1) {
+			align-items: center;
+			position: sticky;
+			top: 32px;
+			z-index: 1000;
+		}
+
+		&--title {
+			display: grid;
+			gap: 3px;
+			align-items: center;
+			padding-left: 1px;
+			h2 {
+				margin: 0;
+			}
+			p {
+				width: 100%;
+				opacity: 0.75;
+				margin: 0;
+				display: none;
+				@media screen and (min-width: $wp_break_1) {
+					display: block;
+				}
+			}
+		}
+
+		.gbm-options {
+			width: auto;
+			margin-left: auto;
+			padding: 0;
+		}
+	}
 
 	&-block-list-wrapper {
-		padding: 0;
+		padding: 0 20px;
 		width: 100%;
-		max-width: 1800px;
-		@media screen and (min-width: $small) {
-			display: flex;
-			flex-direction: row-reverse;
+		.gbm-container {
+			@media screen and (min-width: $small) {
+				display: flex;
+				flex-direction: row-reverse;
+				gap: 20px;
+			}
 		}
 
 		.gbm-block-group {
@@ -52,16 +102,11 @@
 				color: $text;
 				padding: 0 5px;
 				strong {
-					//display: inline-block;
-					//padding: 2px 5px;
-					//background-color: $grey_light;
-					//border-radius: 3px;
 					font-weight: 600;
 				}
 			}
 			&.blocks-render {
-				padding: 15px 0;
-				border-top: 1px solid $grey;
+				padding: 0 0 15px;
 				p {
 					margin: 0 !important;
 					padding: 0 !important;
@@ -85,9 +130,6 @@
 		// Block listing.
 		.gbm-blocks {
 			flex: 1;
-			@media screen and (min-width: $small) {
-				padding-right: 25px;
-			}
 			// List View
 			&.gbm-view-list {
 				button.item {

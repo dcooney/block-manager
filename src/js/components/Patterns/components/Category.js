@@ -58,11 +58,11 @@ export default function Category({
 					data-state={count === total ? 'inactive' : 'active'}
 					onClick={callback}
 					aria-label={__(
-						'Toggle all blocks in this category',
+						'Toggle all patterns in this category',
 						'block-manager'
 					)}
 					title={__(
-						'Toggle all blocks in this category',
+						'Toggle all patterns in this category',
 						'block-manager'
 					)}
 				>

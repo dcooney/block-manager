@@ -158,7 +158,7 @@ export default function Sidebar({
 						option="gbm/core-patterns"
 						label={__('Core Patterns', 'block-manager')}
 						desc={__(
-							'Remove all core block patterns from the patterns selector.',
+							'Remove all core block patterns from the pattern selector.',
 							'block-manager'
 						)}
 						active={!patterns.includes('gbm/core-patterns')}
@@ -197,6 +197,10 @@ export default function Sidebar({
 					/>
 				</div>
 			</div>
+			<Search
+				callback={search}
+				placeholder={__('Search Block Patterns', 'block-manager')}
+			/>
 			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
@@ -216,13 +220,6 @@ export default function Sidebar({
 							</button>
 						);
 					})}
-					<Search
-						callback={search}
-						placeholder={__(
-							'Search Block Patterns',
-							'block-manager'
-						)}
-					/>
 				</div>
 			</div>
 		</div>

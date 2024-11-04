@@ -10,7 +10,7 @@
 			display: block;
 			width: 275px;
 			position: sticky;
-			top: 50px;
+			top: 122px;
 			left: 0;
 		}
 		@media screen and (min-width: $large) {
@@ -58,46 +58,55 @@
 			// Search Input
 			.gbm-search {
 				display: block;
-				width: 100%;
 				position: relative;
 				padding: 0;
-				margin-top: 10px;
+				margin: 10px;
 				input {
 					border-radius: $radius;
 					width: 100%;
 					margin: 0;
-					padding: 10px;
-					border-color: $grey;
-					background-color: #f7f7f7;
+					padding: 10px 7px 10px 30px;
+					border: none !important;
+					background-color: #fff;
 					height: auto;
-					font-size: 13px;
+					font-size: 15px;
 					line-height: 1;
 					&:focus {
 						outline-offset: 1px;
 						outline: 2px solid $purple;
 						box-shadow: none;
 					}
+					&::placeholder {
+						color: $grey_dark;
+					}
 				}
 				button {
 					margin: 0;
 					padding: 0 5px;
 					background: transparent;
-					color: $grey;
+					color: $grey_dark;
 					border: none;
 					border-radius: 0;
 					height: 32px;
-					font-size: 13px;
+					font-size: 15px;
 					position: absolute;
 					top: calc(50%);
 					transform: translateY(-50%);
 					width: auto;
-					right: 0;
+					left: 0;
+					display: flex;
+					align-items: center;
+					opacity: 0.9;
 					&:focus,
 					&:hover {
 						border: none;
 						background-color: transparent;
 						text-decoration: none;
 						color: $purple;
+					}
+					svg {
+						width: 16px;
+						height: 16px;
 					}
 				}
 			}
@@ -121,6 +130,9 @@
 					border-right: 1px solid $border_light;
 					padding: 0 0 10px;
 					cursor: default;
+					font-size: 12px;
+					font-weight: 500;
+					text-transform: uppercase;
 					&:last-of-type {
 						border-right: none;
 					}

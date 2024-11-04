@@ -145,6 +145,7 @@ export default function Sidebar({
 					)}
 				</div>
 			</div>
+			<Search callback={search} />
 			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
@@ -166,7 +167,6 @@ export default function Sidebar({
 								)}
 							</Fragment>
 						))}
-					<Search callback={search} />
 				</div>
 			</div>
 		</div>

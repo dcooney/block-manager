@@ -184,34 +184,20 @@ export default function Categories({ wpBlocks, wpCategories }) {
 				<Loader callback={setLoading} />
 			) : (
 				<>
-					<div className="gbm-block-list-wrapper categories">
-						<Sidebar
-							search={searchHandler}
-							total={blocks?.length}
-							updated={blockCategories?.length}
-							filtered={filteredCategories?.length}
-							updatedBlocksOffset={categoryOffsetCount(
-								blockCategories,
-								disabled_blocks,
-								block_names
-							)}
-							filteredBlocksOffset={categoryOffsetCount(
-								filteredCategories,
-								disabled_blocks,
-								block_names
-							)}
-						/>
-						<div className="gbm-blocks">
+					<header className="gbm-block-header">
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>
+									{__('Block Categories', 'block-manager')}
+								</h2>
+								<p>
+									{__(
+										'Organize the block inserter by modifying the category of each block.',
+										'block-manager'
+									)}
+								</p>
+							</div>
 							<div className="gbm-options">
-								<p
-									className="gbm-heading"
-									dangerouslySetInnerHTML={{
-										__html: __(
-											'Organize the Block Inserter by modifying the category of each block.',
-											'block-manager'
-										),
-									}}
-								/>
 								<div>
 									<Reset
 										ref={resetButtonRef}
@@ -242,33 +228,57 @@ export default function Categories({ wpBlocks, wpCategories }) {
 									/>
 								</div>
 							</div>
-							<div className="gbm-block-group">
-								<SearchResults
-									data={search}
-									callback={clearSearch}
-								/>
-								<div className="gbm-block-list categories">
-									<>
-										{!!blocks?.length &&
-											blocks.map((block) => {
-												return (
-													<Block
-														key={`${block?.name}-${block?.category}`}
-														callback={
-															updateCategory
-														}
-														categories={categories}
-														data={block}
-														filteredCategories={
-															filteredCategories
-														}
-														blockCategories={
-															blockCategories
-														}
-													/>
-												);
-											})}
-									</>
+						</div>
+					</header>
+					<div className="gbm-block-list-wrapper categories">
+						<div className="gbm-container">
+							<Sidebar
+								search={searchHandler}
+								total={blocks?.length}
+								updated={blockCategories?.length}
+								filtered={filteredCategories?.length}
+								updatedBlocksOffset={categoryOffsetCount(
+									blockCategories,
+									disabled_blocks,
+									block_names
+								)}
+								filteredBlocksOffset={categoryOffsetCount(
+									filteredCategories,
+									disabled_blocks,
+									block_names
+								)}
+							/>
+							<div className="gbm-blocks">
+								<div className="gbm-block-group">
+									<SearchResults
+										data={search}
+										callback={clearSearch}
+									/>
+									<div className="gbm-block-list categories">
+										<>
+											{!!blocks?.length &&
+												blocks.map((block) => {
+													return (
+														<Block
+															key={`${block?.name}-${block?.category}`}
+															callback={
+																updateCategory
+															}
+															categories={
+																categories
+															}
+															data={block}
+															filteredCategories={
+																filteredCategories
+															}
+															blockCategories={
+																blockCategories
+															}
+														/>
+													);
+												})}
+										</>
+									</div>
 								</div>
 							</div>
 						</div>

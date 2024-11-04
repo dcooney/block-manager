@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import { countDisabledBlocks } from '../../functions/blocks';
+import bulkProcess from '../../functions/bulkProcess';
 import { exportHook } from '../../functions/export';
 import setCategoryStatus from '../../functions/setCategoryStatus';
 import Export from '../Global/Export';
@@ -12,7 +13,6 @@ import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
 import Category from './components/Category';
 import Sidebar from './components/Sidebar';
-import bulkProcess from '../../functions/bulkProcess';
 
 /**
  * Render the Blocks component.
@@ -228,24 +228,18 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 				<Loader callback={setLoading} />
 			) : (
 				<>
-					<div className="gbm-block-list-wrapper">
-						<Sidebar
-							blocks={blocks}
-							active={
-								wpBlocks?.length - disabledCount - filteredCount
-							}
-							disabled={disabledCount}
-							filtered={filteredCount}
-							search={searchHandler}
-						/>
-						<div className="gbm-blocks">
-							<div className="gbm-options">
-								<p className="gbm-heading">
+					<header className="gbm-block-header">
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>{__('Blocks', 'block-manager')}</h2>
+								<p>
 									{__(
-										'Globally remove blocks from the Block Inserter.',
+										'Remove unwanted blocks from the block inserter.',
 										'block-manager'
 									)}
 								</p>
+							</div>
+							<div className="gbm-options">
 								<div>
 									<Reset
 										ref={resetButtonRef}
@@ -276,33 +270,54 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 									/>
 								</div>
 							</div>
-							<SearchResults
-								data={search}
-								callback={() => searchHandler('')}
-								className="blocks-render"
+						</div>
+					</header>
+					<div className="gbm-block-list-wrapper">
+						<div className="gbm-container">
+							<Sidebar
+								blocks={blocks}
+								active={
+									wpBlocks?.length -
+									disabledCount -
+									filteredCount
+								}
+								disabled={disabledCount}
+								filtered={filteredCount}
+								search={searchHandler}
 							/>
-							{!!blocks?.length &&
-								blocks.map((category) => (
-									<Fragment key={category.info.slug}>
-										{!!category?.blocks?.length && (
-											<Category
-												data={category}
-												toggleBlock={toggleBlock}
-												disabledBlocks={disabledBlocks}
-												filteredBlocks={filteredBlocks}
-												callback={(e) =>
-													bulkProcess(
-														e?.currentTarget,
-														'blocks',
-														setDisabled,
-														setCategoryStatus,
-														setNotifications
-													)
-												}
-											/>
-										)}
-									</Fragment>
-								))}
+							<div className="gbm-blocks">
+								<SearchResults
+									data={search}
+									callback={() => searchHandler('')}
+									className="blocks-render"
+								/>
+								{!!blocks?.length &&
+									blocks.map((category) => (
+										<Fragment key={category.info.slug}>
+											{!!category?.blocks?.length && (
+												<Category
+													data={category}
+													toggleBlock={toggleBlock}
+													disabledBlocks={
+														disabledBlocks
+													}
+													filteredBlocks={
+														filteredBlocks
+													}
+													callback={(e) =>
+														bulkProcess(
+															e?.currentTarget,
+															'blocks',
+															setDisabled,
+															setCategoryStatus,
+															setNotifications
+														)
+													}
+												/>
+											)}
+										</Fragment>
+									))}
+							</div>
 						</div>
 					</div>
 					<ExportModal

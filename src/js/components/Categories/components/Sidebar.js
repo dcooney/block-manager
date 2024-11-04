@@ -138,22 +138,22 @@ export default function Sidebar({
 					)}
 				</div>
 			</div>
+			<Search callback={search} />
 			<div className="gbm-cta">
-				<h3>{__('Help', 'block-manager')}</h3>
+				<h3>{__("What's This?", 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">
 					<p>
 						{__(
-							'The Category Switcher provides functionality for updating the display category of WordPress blocks.',
+							'The Block Categories feature provides functionality to update block categories for all blocks in the editor.',
 							'block-manager'
 						)}
 					</p>
-					<p>
+					<p style={{ marginBottom: '0px' }}>
 						{__(
-							'Modifying a category will update the blocks location in the Block Inserter while editing posts.',
+							'This feature is useful for organizing blocks into categories that are more meaningful to you.',
 							'block-manager'
 						)}
 					</p>
-					<Search callback={search} />
 				</div>
 			</div>
 		</div>

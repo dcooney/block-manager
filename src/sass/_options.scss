@@ -22,7 +22,7 @@
 		}
 		div {
 			display: flex;
-			gap: 5px;
+			gap: 10px;
 			width: auto;
 		}
 		button {
@@ -59,7 +59,7 @@
 					animation-timing-function: linear;
 				}
 			}
-			&[disabled]{
+			&[disabled] {
 				pointer-events: none;
 				opacity: 0.65;
 			}

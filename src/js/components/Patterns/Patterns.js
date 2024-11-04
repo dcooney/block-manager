@@ -203,31 +203,18 @@ export default function Patterns() {
 				/>
 			) : (
 				<>
-					<div className="gbm-block-list-wrapper categories">
-						<Sidebar
-							categories={categories}
-							active={
-								allPatterns?.length -
-								disabledCount -
-								filteredCount
-							}
-							disabled={disabledCount}
-							filtered={filteredCount}
-							patterns={disabledPatterns}
-							setDisabled={setDisabled}
-							search={searchHandler}
-						/>
-						<div className="gbm-blocks">
+					<header className="gbm-block-header">
+						<div className="gbm-container">
+							<div className="gbm-block-header--title">
+								<h2>{__('Block Patterns', 'block-manager')}</h2>
+								<p>
+									{__(
+										'Select patterns to be removed from the pattern selector.',
+										'block-manager'
+									)}
+								</p>
+							</div>
 							<div className="gbm-options">
-								<p
-									className="gbm-heading"
-									dangerouslySetInnerHTML={{
-										__html: __(
-											'Select patterns to be globally removed from the Pattern Selector.',
-											'block-manager'
-										),
-									}}
-								/>
 								<div>
 									<Reset
 										ref={resetButtonRef}
@@ -258,45 +245,66 @@ export default function Patterns() {
 									/>
 								</div>
 							</div>
-							<SearchResults
-								data={search}
-								callback={() => searchHandler('')}
-								className="blocks-render"
+						</div>
+					</header>
+					<div className="gbm-block-list-wrapper categories">
+						<div className="gbm-container">
+							<Sidebar
+								categories={categories}
+								active={
+									allPatterns?.length -
+									disabledCount -
+									filteredCount
+								}
+								disabled={disabledCount}
+								filtered={filteredCount}
+								patterns={disabledPatterns}
+								setDisabled={setDisabled}
+								search={searchHandler}
 							/>
-							<div className="gbm-block-groups">
-								<div className="gbm-block-lists patterns">
-									<>
-										{Object.keys(categories).map(
-											(category, index) => {
-												return (
-													<Category
-														key={index}
-														data={
-															categories[category]
-														}
-														togglePattern={
-															togglePattern
-														}
-														disabledPatterns={
-															disabledPatterns
-														}
-														filteredPatterns={
-															filteredPatterns
-														}
-														callback={(e) =>
-															bulkProcess(
-																e?.currentTarget,
-																'patterns',
-																setDisabled,
-																setCategoryStatus,
-																setNotifications
-															)
-														}
-													/>
-												);
-											}
-										)}
-									</>
+							<div className="gbm-blocks">
+								<SearchResults
+									data={search}
+									callback={() => searchHandler('')}
+									className="blocks-render"
+								/>
+								<div className="gbm-block-groups">
+									<div className="gbm-block-lists patterns">
+										<>
+											{Object.keys(categories).map(
+												(category, index) => {
+													return (
+														<Category
+															key={index}
+															data={
+																categories[
+																	category
+																]
+															}
+															togglePattern={
+																togglePattern
+															}
+															disabledPatterns={
+																disabledPatterns
+															}
+															filteredPatterns={
+																filteredPatterns
+															}
+															callback={(e) =>
+																bulkProcess(
+																	e?.currentTarget,
+																	'patterns',
+																	setDisabled,
+																	setCategoryStatus,
+																	setNotifications
+																)
+															}
+														/>
+													);
+												}
+											)}
+										</>
+									</div>
 								</div>
 							</div>
 						</div>
