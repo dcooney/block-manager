@@ -6,6 +6,7 @@ import { renderToString } from '@wordpress/element';
  * @param {Object} props      The component properties.
  * @param {string} props.icon The icon source - svg or string.
  * @return {Element}          The Icon component.
+ * @deprecated 3.1.1
  */
 export default function Icon({ icon }) {
 	let src = icon?.src || icon;

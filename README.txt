@@ -7,7 +7,7 @@ Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.7
 License: GPLv2 or later
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 
 Remove unwanted blocks and block patterns from the Block Inserter and Editor.
 
@@ -113,10 +113,13 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-= 3.0.1 - November 3, 2024 =
+= 3.1.1 - March 13, 2025 =
+* FIX: Fixed issue with rendering block icon. Now using default block editor icon rendering.
+* UPDATE: Admin UI/US updates.
+
+= 3.1.0 - November 3, 2024 =
 * UPDATE: New admin UI.
 * UPDATE: Various changes for upcoming Block Manager Pro plugin.
-
 
 = 3.0.0 - April 3, 2024 =
 * NEW: Added support for disabling block patterns and core block patterns.
@@ -126,10 +129,8 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 * UPDATE: Various code refactoring and organization.
 * UPDATE: Various security updates.
 
-
 = 2.1.1 - November 1, 2023 =
 * HOTFIX: Fix for undefined React key warning when `WP_DEBUG` is enabled.
-
 
 = 2.1.0 - November 1, 2023 =
 * NEW: Adding notification system for feedback after an action is performed.
@@ -137,7 +138,6 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 * FIX: Fixed potential upgrade issue with disabled blocks throwing admin error due to object vs array data.
 * FIX: Fixed issue with missing loading animation.
 * FIX: Fixed issue with block variations not counting towards block count.
-
 
 = 2.0.0 - October 20, 2023 =
 * NEW - New admin interface and interactions for the Block and Block Categories pages.
@@ -149,31 +149,25 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 * FIX: Fixed issue with various blocks crashing the Block Manager edit screen.
 * FIX: Other various bug fixes and overall improvements.
 
-
 = 1.2.5 - May 23, 2023 =
 * FIX - Fixed potential issue with JS errors on Site Editor screens.
 * UPDATE - WP version bump and testing.
 
-
 = 1.2.4 - November 30, 2022 =
 * HOTFIX - Fixed issue with plugin not working on `edit` screens.
-
 
 = 1.2.3 - November 19, 2022 =
 * FIX: Added fix for blank screen when users have JetPack plugin enabled.
 * FIX: Fixed issue with missing semi-colon in Block Manager export functionality.
 * FIX: Added fix for only loading the block removal script on `New` and `Edit` screens.
 
-
 = 1.2.2 - August 17, 2021 =
 * NEW - Added new Reset option that will clear all disabled blocks.
 * FIX - Added fix for possible issue with icon width on blocks admin page.
 * UPDATE - Updated tab navigation inside the plugin to make it more clear which section was being edited.
 
-
 = 1.2.1 - February 28, 2021 =
 * UPDATE - Added Category Switcher support for all block including core Gutenberg blocks.
-
 
 = 1.2 - February 27, 2021 =
 * NEW - Added new Category Switcher.
@@ -182,13 +176,11 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 * FIX - Fixed issue with missing semi-colon in export code.
 * UPDATE - Various admin UI/UX updates.
 
-
 = 1.1 - January 19, 2021 =
 
 * NEW - Added new `gbm_disabled_blocks` filter to allow for disabling blocks via functions.php
 * NEW - Added `Export` option to dynamically build a pre-populated `gbm_disabled_blocks` filter.
 * NEW - Added Grid/List view toggle.
-
 
 = 1.0.1 - January 2, 2021 =
 

@@ -1,7 +1,7 @@
-import { __ } from '@wordpress/i18n';
-import Icon from '../../Global/Icon';
-import cn from 'classnames';
+import { BlockIcon } from '@wordpress/block-editor';
 import { useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import cn from 'classnames';
 
 /**
  * Render the Block component for a category listing.
@@ -48,7 +48,7 @@ export default function Block({
 			data-id={name}
 		>
 			<div className="gbm-category-wrap">
-				<Icon icon={icon} />
+				<BlockIcon icon={icon} />
 				<p title={title}>
 					{title}
 					<span title={name}>{name}</span>

@@ -1,7 +1,7 @@
+import { BlockIcon } from '@wordpress/block-editor';
 import { useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import cn from 'classnames';
-import Icon from '../../Global/Icon';
 import DisabledSVG from '../../Global/DisabledSVG';
 
 /**
@@ -82,7 +82,7 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 			title={`${intro} ${description}`}
 		>
 			<div>
-				<Icon icon={icon} />
+				<BlockIcon icon={icon} />
 				{!!title && (
 					<p className="block-title">
 						{!!prefix && (
