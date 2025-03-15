@@ -13,13 +13,12 @@
  * @package blockmanager
  */
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 define( 'BLOCK_MANAGER_VERSION', '3.1.1' );
-define( 'BLOCK_MANAGER_RELEASE', 'March 13, 2025' );
+define( 'BLOCK_MANAGER_RELEASE', 'March 15, 2025' );
 define( 'BLOCK_MANAGER_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_URL', plugins_url( '', __FILE__ ) );
@@ -65,7 +64,7 @@ class Gutenberg_Block_Manager {
 	 * @since 1.0
 	 */
 	private function __construct() {
-		add_action( 'enqueue_block_editor_assets', [ $this, 'gbm_enqueue' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		load_plugin_textdomain( 'block-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
 		require_once 'classes/class-admin.php';
@@ -89,7 +88,7 @@ class Gutenberg_Block_Manager {
 	 * @author ConnektMedia
 	 * @since 1.0
 	 */
-	public function gbm_enqueue() {
+	public function enqueue_block_editor_assets() {
 		$screen        = get_current_screen();
 		$wp_asset_file = require BLOCK_MANAGER_DIR_PATH . 'build/block-manager.asset.php'; // Get webpack asset file.
 		$dependencies  = $wp_asset_file['dependencies'];

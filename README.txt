@@ -113,9 +113,10 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 
 == Changelog ==
 
-= 3.1.1 - March 13, 2025 =
-* FIX: Fixed issue with rendering block icon. Now using default block editor icon rendering.
-* UPDATE: Admin UI/US updates.
+= 3.1.1 - March 15, 2025 =
+* FIX: Fixed issue with rendering block icons of various plugins. Now using default WP block editor `BlockIcon` rendering.
+* FIX: Fixed issue with blocks not showing in Block Manager when being registered using `enqueue_block_assets` hook.
+* UPDATE: Admin UI/UX updates.
 
 = 3.1.0 - November 3, 2024 =
 * UPDATE: New admin UI.

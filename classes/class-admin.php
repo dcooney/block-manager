@@ -47,6 +47,7 @@ class GBM_Admin {
 		wp_add_inline_script( 'wp-blocks', sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( $block_categories ) ), 'after' );
 
 		do_action( 'enqueue_block_editor_assets' );
+		do_action( 'enqueue_block_assets' );
 		wp_dequeue_script( 'block-manager' );
 
 		// -> https://github.com/WordPress/gutenberg/issues/22812
