@@ -5,9 +5,9 @@ Homepage: https://connekthq.com/
 Donate link: https://connekthq.com/donate
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.7
+Tested up to: 6.9
 License: GPLv2 or later
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 
 Remove unwanted blocks and block patterns from the Block Inserter and Editor.
 
@@ -112,6 +112,9 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 5. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
+= 3.1.2 - December 8, 2025 =
+* FIX: Fixed issue WP 6.9 and missing required sprintf package.
+* UPDATE: Project dependency updates.
 
 = 3.1.1 - March 15, 2025 =
 * FIX: Fixed issue with rendering block icons of various plugins. Now using default WP block editor `BlockIcon` rendering.
