@@ -1,11 +1,11 @@
-@import './variables.scss';
-@import './header.scss';
-@import './options.scss';
-@import './sidebar.scss';
-@import './loader.scss';
-@import './block-list.scss';
-@import './export-modal.scss';
-@import './notifications.scss';
+@use 'variables' as *;
+@use 'header';
+@use 'options';
+@use 'sidebar';
+@use 'loader';
+@use 'block-list';
+@use 'export-modal';
+@use 'notifications';
 
 .settings_page_block-manager {
 	#wpbody-content {

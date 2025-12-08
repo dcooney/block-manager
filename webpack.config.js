@@ -1,36 +1,21 @@
-const defaults = require("@wordpress/scripts/config/webpack.config");
-const ESLintPlugin = require("eslint-webpack-plugin");
-const StylelintPlugin = require("stylelint-webpack-plugin");
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const path = require( 'path' );
 
-/**
- * WP-Scripts Webpack config.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-scripts/#provide-your-own-webpack-config
- */
 module.exports = {
-	...defaults,
-	externals: {
-		react: "React",
-		"react-dom": "ReactDOM",
-	},
+	...defaultConfig,
 	entry: {
-		"block-manager": "./src/js/block-manager.js",
-		"block-manager-admin": "./src/js/admin.js",
-	},
-	plugins: [
-		...defaults.plugins,
-		/**
-		 * Report JS warnings and errors to the command line.
-		 *
-		 * @see https://www.npmjs.com/package/eslint-webpack-plugin
-		 */
-		new ESLintPlugin(),
+		...( typeof defaultConfig.entry === 'function'
+			? defaultConfig.entry()
+			: defaultConfig.entry || {} ),
 
-		/**
-		 * Report css warnings and errors to the command line.
-		 *
-		 * @see https://www.npmjs.com/package/stylelint-webpack-plugin
-		 */
-		new StylelintPlugin(),
-	],
+		// tes bundles
+		'block-manager': path.resolve( __dirname, 'src/js/block-manager.js' ),
+		'block-manager-admin': path.resolve( __dirname, 'src/js/admin.js' ),
+	},
+
+	externals: {
+		...( defaultConfig.externals || {} ),
+		react: 'React',
+		'react-dom': 'ReactDOM',
+	}
 };

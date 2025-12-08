@@ -1,6 +1,6 @@
 import { BlockIcon } from '@wordpress/block-editor';
 import { useRef } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import cn from 'classnames';
 import DisabledSVG from '../../Global/DisabledSVG';
 
