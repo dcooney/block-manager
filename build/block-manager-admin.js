@@ -5094,10 +5094,8 @@ function App() {
     filteredCategoriesAll = _gbm_localize$filtere === void 0 ? [] : _gbm_localize$filtere,
     _gbm_localize$coreBlo = _gbm_localize.coreBlocks,
     coreBlocks = _gbm_localize$coreBlo === void 0 ? [] : _gbm_localize$coreBlo;
-  console.log(coreBlocks);
   (0,_wordpress_block_library__WEBPACK_IMPORTED_MODULE_0__.registerCoreBlocks)();
   var blocks = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.getBlockTypes)();
-  console.log(blocks);
   var categories = (0,_functions_getCategoryData__WEBPACK_IMPORTED_MODULE_3__["default"])();
 
   // Parse URL to get current view.

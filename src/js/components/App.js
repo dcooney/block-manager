@@ -8,11 +8,9 @@ import Patterns from './Patterns/Patterns';
 
 export default function App() {
 	const { filteredCategoriesAll = [], coreBlocks = [] } = gbm_localize;
-	console.log(coreBlocks);
 
 	registerCoreBlocks();
 	const blocks = getBlockTypes();
-	console.log(blocks);
 	const categories = getCategoryData();
 
 	// Parse URL to get current view.
