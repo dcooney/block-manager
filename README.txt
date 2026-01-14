@@ -118,6 +118,7 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 * NEW: Added support for Stretchy Paragraph and Stretchy Heading block variations.
 * Fix: Fixed issue with Embed block variation display.
 * NEW: Added WordPress version detection to improve compatibility with future WP releases.
+* UPDATE: Project dependency updates.
 * UPDATE: Various code refactoring and organization.
 
 = 3.1.2 - December 8, 2025 =
