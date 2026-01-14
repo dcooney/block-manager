@@ -9,21 +9,41 @@ Tested up to: 6.9
 License: GPLv2 or later
 Stable tag: 3.2.0
 
-Remove unwanted blocks and block patterns from the Block Inserter and Editor.
+Disable unwanted blocks and patterns, organize blocks by changing categories - complete control over your WordPress Block Editor experience.
 
 == Description ==
 
-The Block Manager is an intuitive tool for site admins to globally remove blocks and block patterns. It also provides functionality for updating the category of individual blocks to help organize the admin editing experience.
+Block Manager gives you complete control over the WordPress Block Editor by allowing you to:
 
-### Features
+✅ **Disable Blocks** - Remove unwanted blocks from the Block Inserter and Editor
+✅ **Disable Patterns** - Hide block patterns you don't need with a single click
+✅ **Change Block Categories** - Reorganize blocks by updating their categories for better workflow
 
-- **Blocks**: Globally disable blocks from being displayed in the Block Inserter and Block Editor.
-- **Patterns**: Remove unwanted block patterns with the click of a button.
-- **Block Categories**: Organize the Block Inserter by updating the category of each block.
-- **Hooks**: Use hooks to remove blocks and patterns from `functions.php`.
-- **Search and Filter**: Quickly locate blocks and patterns with the search functionality in the sidebar.
-- **Block Variations**: Disable block variations individually to keep the core block but remove unwanted options.
-- **Embed Blocks**: Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
+Simplify your WordPress editing experience by removing clutter and organizing blocks exactly how you need them. Perfect for client sites, custom workflows, and maintaining a clean, focused Block Editor.
+
+### Key Features
+
+**Disable Blocks**
+- Globally remove any block from the Block Inserter and Block Editor
+- Disable block variations individually while keeping the core block
+- Control Embed blocks (Twitter, Facebook, YouTube, etc.) to remove unwanted options
+- Toggle entire block categories on/off with one click
+
+**Disable Block Patterns**
+- Remove unwanted block patterns with a simple toggle
+- Hide core WordPress patterns that don't fit your site
+- Clean up the pattern library for a focused editing experience
+
+**Change Block Categories**
+- Update the category of any block to better organize your Block Inserter
+- Create a custom workflow that matches your editing process
+- Improve findability by grouping related blocks together
+
+**Additional Features**
+- **Code Hooks**: Use filters to control blocks and patterns via `functions.php`
+- **Search and Filter**: Quickly locate blocks and patterns with built-in search
+- **Export Options**: Generate code snippets for syncing across environments
+- **Status Reports**: View active and disabled blocks at a glance
 
 ### Hooks & Filters
 
