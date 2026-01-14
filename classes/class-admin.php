@@ -39,25 +39,52 @@ class GBM_Admin {
 			return;
 		}
 
+		// Set up the block editor context.
+		// set_current_screen();
+		// $current_screen = get_current_screen();
+		// if ( $current_screen ) {
+		// 	$current_screen->is_block_editor( true );
+		// }
+
 		// Register Block Categories.
 		$block_categories = [];
 		if ( function_exists( 'get_block_categories' ) ) {
 			$block_categories = get_block_categories( get_post() );
 		}
-		wp_add_inline_script( 'wp-blocks', sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( $block_categories ) ), 'after' );
+		wp_add_inline_script(
+			'wp-blocks',
+			sprintf( 'wp.blocks.setCategories( %s );',
+			wp_json_encode( $block_categories ) ),
+			'after'
+		);
 
 		do_action( 'enqueue_block_editor_assets' );
 		do_action( 'enqueue_block_assets' );
 		wp_dequeue_script( 'block-manager' );
 
-		// -> https://github.com/WordPress/gutenberg/issues/22812
-		wp_add_inline_script( 'wp-blocks', 'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');' );
+		/**
+		 * Preload blocks - this creates inline scripts.
+		 *
+		 * @see https://github.com/WordPress/gutenberg/issues/22812
+		 * @see https://github.com/WordPress/gutenberg/blob/trunk/lib/experimental/class-wp-rest-block-editor-settings-controller.php#L361-L367
+		 */
+		$server_block_settings = get_block_editor_server_block_settings();
+		wp_add_inline_script(
+			'wp-block-library',
+			'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( $server_block_settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ');',
+			'before'
+		);
 
-		$block_registry = WP_Block_Type_Registry::get_instance();
-		foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
-			// Front-end script.
-			if ( ! empty( $block_type->editor_script ) ) {
-				wp_enqueue_script( $block_type->editor_script );
+		$block_registry = WP_Block_Type_Registry::get_instance()->get_all_registered();
+		foreach ( $block_registry as $block ) {
+			// Load Front-end scripts.
+			if ( ! empty( $block->editor_script ) ) {
+				wp_enqueue_script( $block->editor_script );
+			}
+			if ( ! empty( $block->editor_script_handles ) && is_array( $block->editor_script_handles ) ) {
+				foreach ( $block->editor_script_handles as $handle ) {
+					wp_enqueue_script( $handle );
+				}
 			}
 		}
 

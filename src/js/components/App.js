@@ -7,10 +7,12 @@ import Categories from './Categories/Categories';
 import Patterns from './Patterns/Patterns';
 
 export default function App() {
-	const { filteredCategoriesAll = [] } = gbm_localize;
+	const { filteredCategoriesAll = [], coreBlocks = [] } = gbm_localize;
+	console.log(coreBlocks);
 
 	registerCoreBlocks();
 	const blocks = getBlockTypes();
+	console.log(blocks);
 	const categories = getCategoryData();
 
 	// Parse URL to get current view.
