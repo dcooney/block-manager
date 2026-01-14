@@ -4,11 +4,11 @@
 	width: 100%;
 	width: 100%;
 	display: grid;
-	gap: 10px;
+	gap: 5px;
 	background-color: #ebedee;
 	background-color: #fff;
 	position: relative;
-	padding: 5px;
+	padding: 10px;
 	text-align: left;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	@media screen and (min-width: $msmall) {
