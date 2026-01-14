@@ -213,8 +213,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 			};
 		});
 
-		// Set blocks state.
-		setBlocks(data);
+		setBlocks(data); // Set blocks state.
 	}
 
 	// On Load

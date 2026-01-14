@@ -6,7 +6,7 @@
  * Text Domain: block-manager
  * Author: Darren Cooney
  * Author URI: https://connekthq.com
- * Version: 3.1.2
+ * Version: 3.2.0
  * License: GPL
  * Copyright: Darren Cooney & Connekt Media
  *
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BLOCK_MANAGER_VERSION', '3.1.2' );
-define( 'BLOCK_MANAGER_RELEASE', 'December 08, 2025' );
+define( 'BLOCK_MANAGER_VERSION', '3.2.0' );
+define( 'BLOCK_MANAGER_RELEASE', 'January 14, 2026' );
 define( 'BLOCK_MANAGER_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BLOCK_MANAGER_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOCK_MANAGER_URL', plugins_url( '', __FILE__ ) );

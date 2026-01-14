@@ -21,7 +21,7 @@ domReady(function () {
 	}
 	blocks.forEach(function (block) {
 		const blockType = getBlockType(block);
-		const is_variation = block.indexOf('variation') !== -1 ? true : false;
+		const is_variation = block.indexOf('variation') !== -1; // e.g. `variation;core/embed;twitter`
 		if (is_variation) {
 			// Block Variation handler
 			const variation = block.split(';'); // e.g. `variation;core/embed;twitter`

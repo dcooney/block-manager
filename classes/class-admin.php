@@ -88,6 +88,7 @@ class GBM_Admin {
 			[
 				'root'                  => esc_url_raw( rest_url() ),
 				'nonce'                 => wp_create_nonce( 'wp_rest' ),
+				'wpVersion'             => get_bloginfo( 'version' ),
 				'disabledBlocks'        => GBM_Blocks::gbm_remove_duplicate_blocks( GBM_Blocks::gbm_get_disabled_blocks(), $filtered_blocks ),
 				'filteredBlocks'        => $filtered_blocks,
 				'disabledBlocksAll'     => GBM_Blocks::gbm_get_all_disabled_blocks(),

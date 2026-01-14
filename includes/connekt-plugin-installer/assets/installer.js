@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
 		   		is_loading = false;
 	   		},
 	   		error: function(xhr, status, error) {
-	      		console.log(status);
+	      		console.error(status);
 	      		el.removeClass('installing');
 	      		is_loading = false;
 	   		}
@@ -93,7 +93,7 @@ jQuery(document).ready(function($) {
 	   		is_loading = false;
    		},
    		error: function(xhr, status, error) {
-      		console.log(status);
+      		console.error(status);
       		is_loading = false;
    		}
    	});

@@ -58,9 +58,9 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 	const intro = variation
 		? sprintf(
 				// translators: Parent block slug.
-				__('%s Block Variation:', 'block-manager'),
+				__('%s Variation:', 'block-manager'),
 				prefix
-		  )
+			)
 		: `${title}:`;
 
 	return (

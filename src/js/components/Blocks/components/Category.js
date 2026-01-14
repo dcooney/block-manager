@@ -1,7 +1,6 @@
-import { __ } from '@wordpress/i18n';
-import { variationBlocks } from '../../../constants';
-import Block from './Block';
 import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import Block from './Block';
 
 /**
  * Render the Category component for the category listing.
@@ -84,25 +83,6 @@ export default function Category({
 								disabledBlocks={disabledBlocks}
 								filteredBlocks={filteredBlocks}
 							/>
-							{!!block?.variations?.length &&
-								variationBlocks.includes(block?.name) &&
-								block?.variations.map((variation) => {
-									const variationData = {
-										...variation,
-										name: `variation;${block?.name};${variation?.name}`,
-										prefix: block?.title,
-										variation: block?.name,
-									};
-									return (
-										<Block
-											key={index + variation?.name}
-											data={variationData}
-											toggleBlock={toggleBlock}
-											disabledBlocks={disabledBlocks}
-											filteredBlocks={filteredBlocks}
-										/>
-									);
-								})}
 						</Fragment>
 					))}
 			</div>
