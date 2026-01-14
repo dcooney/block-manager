@@ -7,7 +7,7 @@ Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.9
 License: GPLv2 or later
-Stable tag: 3.1.2
+Stable tag: 3.2.0
 
 Remove unwanted blocks and block patterns from the Block Inserter and Editor.
 
@@ -17,12 +17,13 @@ The Block Manager is an intuitive tool for site admins to globally remove blocks
 
 ### Features
 
--  **Blocks**:  Globally disable blocks from being displayed in the Block Inserter and Block Editor.
--  **Patterns**: Remove unwanted block patterns with the click of a button.
--  **Block Categories**: Organize the Block Inserter by updating the category of each block.
--  **Hooks**:  Use hooks to remove blocks and patterns from `functions.php`.
--  **Search and Filter**:  Quickly locate blocks and patterns with the search functionality in the sidebar.
--  **Embed Blocks**:  Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
+- **Blocks**: Globally disable blocks from being displayed in the Block Inserter and Block Editor.
+- **Patterns**: Remove unwanted block patterns with the click of a button.
+- **Block Categories**: Organize the Block Inserter by updating the category of each block.
+- **Hooks**: Use hooks to remove blocks and patterns from `functions.php`.
+- **Search and Filter**: Quickly locate blocks and patterns with the search functionality in the sidebar.
+- **Block Variations**: Disable block variations individually to keep the core block but remove unwanted options.
+- **Embed Blocks**: Choose the Embed blocks you actually want to include on your site by removing the vast majority of useless options.
 
 ### Hooks & Filters
 
@@ -112,6 +113,14 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 5. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
+
+= 3.2.0 - January 14, 2026 =
+* NEW: Added support for Stretchy Paragraph and Stretchy Heading block variations.
+* Fix: Fixed issue with Embed block variation display.
+* NEW: Added WordPress version detection to improve compatibility with future WP releases.
+* UPDATE: Project dependency updates.
+* UPDATE: Various code refactoring and organization.
+
 = 3.1.2 - December 8, 2025 =
 * FIX: Fixed issue WP 6.9 and missing required sprintf package.
 * UPDATE: Project dependency updates.

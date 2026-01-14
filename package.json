@@ -1,6 +1,6 @@
 {
 	"name": "block-manager",
-	"version": "3.1.2",
+	"version": "3.2.0",
 	"description": "Take control of your WordPress Blocks & Patterns.",
 	"author": "connekthq.com <support@connekthq.com>",
 	"license": "GPL-2.0-or-later",
@@ -33,7 +33,7 @@
 		"classnames": "^2.5.1",
 		"npm-run-all": "^4.1.5",
 		"postcss-import": "^16.1.1",
-		"postcss-preset-env": "^10.4.0",
+		"postcss-preset-env": "^11.0.1",
 		"postcss-scss": "^4.0.9",
 		"prettier": "^3.7.4",
 		"stylelint-config-prettier": "^9.0.5",

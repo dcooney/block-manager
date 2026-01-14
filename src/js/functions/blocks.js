@@ -61,15 +61,29 @@ export function getAllBlocksAndVariations(blocks) {
 
 	// Loop all blocks.
 	blocks.forEach((block) => {
-		const { name, variations, category } = block;
+		const { name, variations, category, title } = block;
 		WPBlocks.push(block);
+
+		if (!variationBlocks?.length) {
+			return;
+		}
+
 		if (variationBlocks.includes(name) && variations?.length) {
-			// Loop block variations and push into array.
+			// Loop block variations and push into blocks array as a top level item.
 			variations.forEach((variation) => {
+				if (title === variation?.title) {
+					/**
+					 * Skip if variation title matches parent block title.
+					 * This fix is needed for paragraph and heading blocks which
+					 * have a variation with the same title as the parent block.
+					 */
+					return;
+				}
 				WPBlocks.push({
 					...variation,
 					name: `variation;${name};${variation?.name}`,
 					variation: name,
+					prefix: title,
 					category,
 				});
 			});

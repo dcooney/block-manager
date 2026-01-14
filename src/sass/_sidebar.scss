@@ -62,20 +62,20 @@
 				display: block;
 				position: relative;
 				padding: 0;
-				margin: 10px;
+				margin: 5px;
 				input {
-					border-radius: $radius;
 					width: 100%;
 					margin: 0;
-					padding: 10px 7px 10px 30px;
+					padding: 10px 10px 10px 35px;
 					border: none !important;
 					background-color: #fff;
 					height: auto;
 					font-size: 15px;
 					line-height: 1;
+					border-radius: 3px;
 					&:focus {
 						outline-offset: 1px;
-						outline: 2px solid $purple;
+						outline: 1px solid $purple;
 						box-shadow: none;
 					}
 					&::placeholder {
@@ -95,7 +95,7 @@
 					top: calc(50%);
 					transform: translateY(-50%);
 					width: auto;
-					left: 0;
+					left: 5px;
 					display: flex;
 					align-items: center;
 					opacity: 0.9;
