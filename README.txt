@@ -24,26 +24,26 @@ Simplify your WordPress editing experience by removing clutter and organizing bl
 ### Key Features
 
 **Disable Blocks**
-- Globally remove any block from the Block Inserter and Block Editor
-- Disable block variations individually while keeping the core block
-- Control Embed blocks (Twitter, Facebook, YouTube, etc.) to remove unwanted options
-- Toggle entire block categories on/off with one click
+- Globally remove any block from the Block Inserter and Block Editor.
+- Disable block variations individually while keeping the core block.
+- Control Embed blocks (Twitter, Facebook, YouTube, etc.) to remove unwanted options.
+- Toggle entire block categories on/off with one click.
 
 **Disable Block Patterns**
-- Remove unwanted block patterns with a simple toggle
-- Hide core WordPress patterns that don't fit your site
-- Clean up the pattern library for a focused editing experience
+- Remove unwanted block patterns with a simple toggle.
+- Hide core WordPress patterns that don't fit your site.
+- Clean up the pattern library for a focused editing experience.
 
 **Change Block Categories**
-- Update the category of any block to better organize your Block Inserter
-- Create a custom workflow that matches your editing process
-- Improve findability by grouping related blocks together
+- Update the category of any block to better organize your Block Inserter.
+- Create a custom workflow that matches your editing process.
+- Improve findability by grouping related blocks together.
 
 **Additional Features**
-- **Code Hooks**: Use filters to control blocks and patterns via `functions.php`
-- **Search and Filter**: Quickly locate blocks and patterns with built-in search
-- **Export Options**: Generate code snippets for syncing across environments
-- **Status Reports**: View active and disabled blocks at a glance
+- **Code Hooks**: Use filters to control blocks and patterns via `functions.php`.
+- **Search and Filter**: Quickly locate blocks and patterns with built-in search.
+- **Export Options**: Generate code snippets for syncing across environments.
+- **Status Reports**: View active and disabled blocks at a glance.
 
 ### Hooks & Filters
 
