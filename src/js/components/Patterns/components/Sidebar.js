@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import scrollToElement from '../../../functions/scrollToElement';
-import DisabledSVG from '../../Global/DisabledSVG';
 import Search from '../../Global/Search';
 import ToggleSwitch from './ToggleSwitch';
 
@@ -109,7 +108,7 @@ export default function Sidebar({
 								: `${disabledTotal} ${__(
 										'Disabled Patterns',
 										'block-manager'
-								  )}`
+									)}`
 						}
 					>
 						<div>
@@ -121,7 +120,6 @@ export default function Sidebar({
 									{disabledTotal}
 								</strong>
 							</span>
-							<DisabledSVG className="disabled" />
 						</div>
 						{__('Disabled', 'block-manager')}
 					</div>
@@ -133,17 +131,16 @@ export default function Sidebar({
 									? `1 ${__(
 											'Filtered Pattern',
 											'block-manager'
-									  )}`
+										)}`
 									: `${filtered} ${__(
 											'Filtered Patterns',
 											'block-manager'
-									  )}`
+										)}`
 							}
 						>
 							<div>
 								<span>
 									<strong>{filtered}</strong>
-									<DisabledSVG className="filtered" />
 								</span>
 							</div>
 							{__('Filtered', 'block-manager')}

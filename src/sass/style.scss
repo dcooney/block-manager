@@ -6,6 +6,7 @@
 @use 'block-list';
 @use 'export-modal';
 @use 'notifications';
+@use 'block-finder';
 
 .settings_page_block-manager {
 	#wpbody-content {
@@ -149,27 +150,46 @@
 		}
 	}
 
+	&-block-info {
+		cursor: pointer;
+		padding: 0;
+		margin-left: auto;
+		box-shadow: none;
+		border: none;
+		background-color: transparent;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		svg {
+			width: 14px;
+			height: 14px;
+			fill: $grey_dark;
+			transition: $transition;
+		}
+		&:hover,
+		&:focus {
+			svg {
+				fill: $text;
+			}
+		}
+	}
+
 	&-block-switch {
 		cursor: pointer;
 		height: auto;
-		width: 100%;
-		padding: 5px 0;
+		padding: 0;
 		margin: 0;
 		box-shadow: none;
 		border: none;
 		background-color: transparent;
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
 		gap: 10px;
-		&--container {
-			display: block;
-			margin: 0 0 15px;
-			> p {
-				margin: 0;
-				padding: 0 0 0 36px;
-				opacity: 0.75;
-			}
-		}
+		height: 32px;
+		width: 32px;
+		flex-shrink: 0; // prevent shrinking in list view
+
 		&--inner {
 			position: relative;
 			height: 13px;
@@ -190,6 +210,12 @@
 				margin-left: 15px;
 				position: relative;
 				top: 2px;
+			}
+		}
+		&:hover,
+		&:focus-within {
+			.gbm-block-switch--inner {
+				background-color: $purple_new;
 			}
 		}
 		&.disabled,

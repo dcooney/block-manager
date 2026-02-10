@@ -81,6 +81,16 @@ class GBM_Admin {
 		$filtered_categories = GBM_Categories::gbm_get_filtered_categories();
 		$filtered_patterns   = GBM_Patterns::gbm_get_filtered_patterns();
 
+		// Get public post types for Block Finder.
+		$public_post_types = get_post_types( [ 'public' => true ], 'objects' );
+		$post_types        = [];
+		foreach ( $public_post_types as $post_type ) {
+			$post_types[] = [
+				'name'  => $post_type->name,
+				'label' => $post_type->labels->singular_name,
+			];
+		}
+
 		// Localize Scripts.
 		wp_localize_script(
 			'block-manager-admin',
@@ -99,7 +109,7 @@ class GBM_Admin {
 				'disabledPatterns'      => GBM_Blocks::gbm_remove_duplicate_blocks( GBM_Patterns::gbm_get_disabled_patterns(), $filtered_patterns ),
 				'filteredPatterns'      => $filtered_patterns,
 				'disabledPatternsAll'   => GBM_Blocks::gbm_get_all_disabled_blocks(),
-
+				'postTypes'             => $post_types,
 			]
 		);
 	}
@@ -164,6 +174,9 @@ class GBM_Admin {
 		if ( isset( $_GET ) && isset( $_GET['patterns'] ) && empty( $_GET['patterns'] ) ) {
 			$active = 'patterns';
 		}
+		if ( isset( $_GET ) && isset( $_GET['block-finder'] ) && empty( $_GET['block-finder'] ) ) {
+			$active = 'block-finder';
+		}
 		?>
 		<h1 class="gbm-h1"><?php esc_html_e( 'Block Manager', 'block-manager' ); ?></h1>
 		<div class="gbm-page-wrap">
@@ -195,6 +208,12 @@ class GBM_Admin {
 							</svg>
 							<?php esc_html_e( 'Patterns', 'block-manager' ); ?>
 						</a>
+						<a class="gbm-tab<?php echo 'block-finder' === $active ?' gbm-tab-active' : ''; ?>" href="options-general.php?page=block-manager&block-finder">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+								<path fill="currentColor" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+							</svg>
+							<?php esc_html_e( 'Block Finder', 'block-manager' ); ?>
+						</a>
 					</nav>
 					<span class="gbm-version" title="Block Manager: <?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?>"><?php echo esc_attr( BLOCK_MANAGER_VERSION ); ?></span>
 				</div>
@@ -219,7 +238,8 @@ class GBM_Admin {
 		$settings = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager' ) . '">' . __( 'Blocks', 'block-manager' ) . '</a>';
 		$cats     = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&categories' ) . '">' . __( 'Categories', 'block-manager' ) . '</a>';
 		$patterns = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&patterns' ) . '">' . __( 'Patterns', 'block-manager' ) . '</a>';
-		array_unshift( $links, $settings, $cats, $patterns );
+		$finder   = '<a href="' . get_admin_url( null, 'options-general.php?page=block-manager&block-finder' ) . '">' . __( 'Block Finder', 'block-manager' ) . '</a>';
+		array_unshift( $links, $settings, $cats, $patterns, $finder );
 		return $links;
 	}
 

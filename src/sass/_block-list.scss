@@ -4,78 +4,63 @@
 	width: 100%;
 	width: 100%;
 	display: grid;
-	gap: 5px;
 	background-color: #ebedee;
-	background-color: #fff;
+	background-color: #f9f9f9;
+	gap: 1px;
+	//background-color: #fff;
+	//padding: 10px;
 	position: relative;
-	padding: 10px;
 	text-align: left;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	@media screen and (min-width: $msmall) {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
+
 	@media screen and (min-width: $small) {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	@media screen and (min-width: $medium) {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	@media screen and (min-width: $large) {
-		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
-	@media screen and (min-width: $xlarge) {
-		grid-template-columns: repeat(7, minmax(0, 1fr));
-	}
-	@media screen and (min-width: $xxlarge) {
-		grid-template-columns: repeat(8, minmax(0, 1fr));
-	}
+
 	.item {
-		padding: 30px 10px;
+		padding: 10px;
 		margin: 0;
 		display: flex;
 		gap: 5px;
 		align-items: center;
-		justify-content: center;
-		flex-wrap: wrap;
 		position: relative;
 		width: 100%;
 		background-color: #fff;
-		border: 1px solid $border_light;
-		cursor: pointer;
+		//border: 1px solid transparent;
+		border: none;
 		overflow: hidden;
-		border-radius: $radius;
 		transition: border-color 0.1s ease;
-		&.is-variation {
-			border-style: dashed;
-			border-color: $border;
+		// border-bottom: 1px solid $border_light;
+		// border-right: 1px solid $border_light;
+		// cursor: pointer;
+		// border-radius: $radius;
+		&:nth-child(even) {
+			//border-right: none;
 		}
+
+		.gbm-block-switch {
+			cursor: pointer;
+		}
+
 		> div {
 			position: relative;
 			z-index: 1;
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: center;
+			align-items: center;
 			width: 100%;
-			gap: 8px;
-		}
+			gap: 10px;
 
-		.icon {
-			width: 28px;
-			height: 28px;
-			display: block;
-			margin: 0;
-			opacity: 0.75;
-			text-align: center;
+			/* SVG Icons */
 			svg {
-				max-width: 100%;
-				//fill: $text;
-				height: 28px;
-				max-height: 28px;
+				fill: currentcolor;
 			}
 		}
+
 		p {
 			color: $text;
-			width: 100%;
 			text-align: center;
 			padding: 0;
 			margin: 0;
@@ -86,6 +71,7 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			font-weight: 500;
+			text-align: left;
 			span {
 				display: block;
 				color: $grey_dark;
@@ -104,14 +90,9 @@
 				padding: 0 10px;
 			}
 		}
-		.gbm-block-switch,
 		.block-desc,
 		.block-id {
 			display: none;
-		}
-		&:hover:not(.filtered),
-		&:focus:not(.filtered) {
-			border-color: #c3c4c7;
 		}
 		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
 		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
@@ -127,18 +108,17 @@
 		&.disabled,
 		&.filtered {
 			background-color: $grey_light;
-			.icon {
-				opacity: 0.4;
-			}
-			p {
-				opacity: 0.7;
+			> div {
+				opacity: 0.75;
 			}
 		}
 
 		// Filtered
 		&.filtered {
 			background-color: $block_filtered;
-			cursor: not-allowed;
+			.gbm-block-switch {
+				cursor: not-allowed;
+			}
 		}
 
 		&.loading {
@@ -185,6 +165,8 @@
 
 	// Category Switcher
 	&.categories {
+		gap: 1px;
+		padding: 0;
 		grid-template-columns: repeat(1, minmax(0, 1fr));
 		@media screen and (min-width: $xsmall) {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -204,8 +186,13 @@
 		.item {
 			padding: 0;
 			cursor: default;
+			display: grid;
+			justify-content: center;
 			.gbm-category-wrap {
 				padding: $padding;
+				display: grid;
+				justify-content: center;
+				width: 100%;
 			}
 			.category-switch {
 				background-color: rgba(0, 0, 0, 0.035);
@@ -241,6 +228,7 @@
 			p {
 				font-size: 13px;
 				line-height: 1.5;
+				text-align: center;
 				span {
 					font-size: 12px;
 					font-family:
@@ -268,7 +256,7 @@
 		align-items: center;
 		flex-wrap: nowrap;
 		margin: 0;
-		padding: 10px $padding;
+		padding: 10px;
 		border-bottom: 1px solid $border_light;
 		background-color: #fff;
 		border-radius: 3px 3px 0 0;
@@ -289,12 +277,6 @@
 				color: $text;
 				opacity: 0.5;
 			}
-		}
-		.gbm-block-switch {
-			position: relative;
-			top: -1px;
-			width: 30px;
-			height: 30px;
 		}
 	}
 }

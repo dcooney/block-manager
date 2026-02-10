@@ -79,6 +79,7 @@ class Gutenberg_Block_Manager {
 		require_once 'api/patterns-reset.php';
 		require_once 'api/bulk-process.php';
 		require_once 'api/export.php';
+		require_once 'api/block-finder.php';
 		require_once 'includes/connekt-plugin-installer/class-connekt-plugin-installer.php';
 	}
 

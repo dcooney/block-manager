@@ -1,7 +1,6 @@
 import { useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import cn from 'classnames';
-import DisabledSVG from '../../Global/DisabledSVG';
 
 /**
  * Render a Pattern component to display an individual block pattern.
@@ -74,9 +73,6 @@ function Pattern({ data, disabledPatterns, filteredPatterns, togglePattern }) {
 							{title}
 						</p>
 					</div>
-					<DisabledSVG
-						className={disabled ? disabledClass : filteredClass}
-					/>
 				</button>
 			)}
 		</>

@@ -1,0 +1,194 @@
+@use 'variables' as *;
+
+// Block Finder Sidebar
+.gbm-finder-block-list {
+	max-height: 500px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+
+	.gbm-cta-wrap {
+		overflow-y: auto;
+		flex: 1;
+		padding: 5px;
+	}
+
+	.gbm-finder-no-blocks {
+		padding: 10px;
+		color: $grey_dark;
+		margin: 0;
+	}
+}
+
+.gbm-finder-block-item {
+	all: unset;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 7px 10px;
+	border-radius: $radius;
+	font-size: 13px;
+	color: $text;
+	transition: background-color 0.1s ease;
+
+	.block-editor-block-icon {
+		width: 20px;
+		height: 20px;
+		flex-shrink: 0;
+		svg {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+
+	span {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&:hover,
+	&:focus {
+		background-color: $block_hover;
+	}
+
+	&.is-selected {
+		background-color: $purple;
+		color: #fff;
+		.block-editor-block-icon {
+			color: #fff;
+		}
+	}
+}
+
+// Block Finder Results
+.gbm-finder-results {
+	flex: 1;
+}
+
+.gbm-finder-empty,
+.gbm-finder-searching {
+	background: #fff;
+	border: 1px solid $grey;
+	border-radius: $radius_lg;
+	padding: 40px 20px;
+	text-align: center;
+	p {
+		margin: 0;
+		color: $grey_dark;
+		font-size: 14px;
+	}
+}
+
+.gbm-finder-results-header {
+	padding: 0 0 15px;
+	p {
+		margin: 0;
+		font-size: 14px;
+		color: $text;
+		strong {
+			font-weight: 600;
+		}
+	}
+}
+
+.gbm-finder-results-list {
+	background: #fff;
+	border: 1px solid $grey;
+	border-radius: $radius_lg;
+	overflow: hidden;
+}
+
+.gbm-finder-result-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 12px $padding;
+	border-bottom: 1px solid $border_light;
+	transition: background-color 0.1s ease;
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	&:hover {
+		background-color: $block_hover;
+	}
+
+	&--info {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex: 1;
+		min-width: 0;
+
+		a {
+			font-weight: 500;
+			color: $text;
+			text-decoration: none;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			&:hover,
+			&:focus {
+				color: $purple;
+			}
+		}
+	}
+
+	&--type {
+		flex-shrink: 0;
+		font-size: 11px;
+		font-weight: 500;
+		text-transform: uppercase;
+		color: $grey_dark;
+		background-color: $grey_light;
+		padding: 2px 8px;
+		border-radius: 3px;
+	}
+
+	&--edit {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 13px;
+		color: $purple;
+		text-decoration: none;
+		font-weight: 500;
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+}
+
+.gbm-finder-load-more {
+	padding: 15px 0 0;
+	text-align: center;
+
+	button {
+		all: unset;
+		cursor: pointer;
+		display: inline-block;
+		padding: 8px 24px;
+		font-size: 13px;
+		font-weight: 500;
+		color: $purple;
+		border: 1px solid $purple;
+		border-radius: $radius;
+		transition: $transition;
+
+		@include buttonHover();
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+}
