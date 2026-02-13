@@ -79,7 +79,6 @@ export function getAllBlocksAndVariations(blocks) {
 					 */
 					return;
 				}
-				console.log(variation);
 				WPBlocks.push({
 					...variation,
 					name: `variation;${name};${variation?.name}`,

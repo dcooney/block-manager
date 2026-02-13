@@ -31,6 +31,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 	const resetButtonRef = useRef(null);
 	const exportModalRef = useRef();
 	const exportButtonRef = useRef();
+	const containerRef = useRef();
 
 	const [search, setSearch] = useState({ term: '', results: 0 });
 	const [loading, setLoading] = useState(true);
@@ -143,8 +144,14 @@ export default function Categories({ wpBlocks, wpCategories }) {
 					block.style.display = 'none';
 				}
 			});
+			if (count === 0) {
+				containerRef.current.style.display = 'none';
+			} else {
+				containerRef.current.removeAttribute('style');
+			}
 			setSearch({ term, results: count });
 		} else {
+			containerRef.current.removeAttribute('style');
 			setSearch({ term, results: false });
 			[...theBlocks].forEach(function (block) {
 				block.removeAttribute('style');
@@ -161,6 +168,13 @@ export default function Categories({ wpBlocks, wpCategories }) {
 		const input = document.querySelector('#gbm-search');
 		if (input) {
 			input.value = '';
+		}
+
+		const first = document.querySelector('.gbm-block-group');
+		if (first) {
+			first.focus({
+				preventScroll: true,
+			});
 		}
 	}
 
@@ -250,11 +264,15 @@ export default function Categories({ wpBlocks, wpCategories }) {
 							/>
 							<div className="gbm-blocks">
 								<Search callback={searchHandler} />
-								<div className="gbm-block-group">
-									<SearchResults
-										data={search}
-										callback={clearSearch}
-									/>
+								<SearchResults
+									data={search}
+									callback={clearSearch}
+								/>
+
+								<div
+									className="gbm-block-group"
+									ref={containerRef}
+								>
 									<div className="gbm-block-list categories">
 										<>
 											{!!blocks?.length &&

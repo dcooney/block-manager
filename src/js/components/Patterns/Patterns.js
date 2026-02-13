@@ -262,7 +262,7 @@ export default function Patterns() {
 								patterns={disabledPatterns}
 								setDisabled={setDisabled}
 							/>
-							<div className="gbm-blocks">
+							<div className="gbm-blocks patterns">
 								<Search
 									callback={searchHandler}
 									placeholder={__(
@@ -274,45 +274,44 @@ export default function Patterns() {
 									data={search}
 									callback={() => searchHandler('')}
 									className="blocks-render"
+									noResults={
+										// translators: The search term will be injected into the string, so translators can adjust the sentence structure as needed.
+										__(
+											'No patterns found for %s',
+											'block-manager'
+										)
+									}
 								/>
-								<div className="gbm-block-groups">
-									<div className="gbm-block-lists patterns">
-										<>
-											{Object.keys(categories).map(
-												(category, index) => {
-													return (
-														<Category
-															key={index}
-															data={
-																categories[
-																	category
-																]
-															}
-															togglePattern={
-																togglePattern
-															}
-															disabledPatterns={
-																disabledPatterns
-															}
-															filteredPatterns={
-																filteredPatterns
-															}
-															callback={(e) =>
-																bulkProcess(
-																	e?.currentTarget,
-																	'patterns',
-																	setDisabled,
-																	setCategoryStatus,
-																	setNotifications
-																)
-															}
-														/>
-													);
-												}
-											)}
-										</>
-									</div>
-								</div>
+								<>
+									{Object.keys(categories).map(
+										(category, index) => {
+											return (
+												<Category
+													key={index}
+													data={categories[category]}
+													togglePattern={
+														togglePattern
+													}
+													disabledPatterns={
+														disabledPatterns
+													}
+													filteredPatterns={
+														filteredPatterns
+													}
+													callback={(e) =>
+														bulkProcess(
+															e?.currentTarget,
+															'patterns',
+															setDisabled,
+															setCategoryStatus,
+															setNotifications
+														)
+													}
+												/>
+											);
+										}
+									)}
+								</>
 							</div>
 						</div>
 					</div>

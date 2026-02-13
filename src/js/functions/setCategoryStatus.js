@@ -7,7 +7,7 @@ export default function setCategoryStatus(element) {
 	if (!element) {
 		return false;
 	}
-	const parent = element.parentNode.parentNode;
+	const parent = element.closest('.gbm-block-group');
 	const toggleBtn = parent.querySelector('.gbm-block-switch');
 	const items = parent.querySelectorAll('.gbm-block-list .item');
 

@@ -144,13 +144,13 @@ export default function Sidebar({
 				<div className="gbm-cta-wrap">
 					<p>
 						{__(
-							'The Block Categories feature provides functionality to update block categories for all blocks in the editor.',
+							'The Block Categories feature allows you to customize and update block categories for all blocks in the editor.',
 							'block-manager'
 						)}
 					</p>
 					<p style={{ marginBottom: '0px' }}>
 						{__(
-							'This feature is useful for organizing blocks into categories that are more meaningful to you.',
+							'This makes it easy to organize blocks into categories that are more meaningful and relevant to your workflow.',
 							'block-manager'
 						)}
 					</p>

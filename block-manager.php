@@ -13,6 +13,10 @@
  * @package blockmanager
  */
 
+/*
+* FIX: Fixed issue with Block Category reset.
+*/
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

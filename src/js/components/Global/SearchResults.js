@@ -8,9 +8,16 @@ import cn from 'classnames';
  * @param {Object}   props.data      The search data.
  * @param {Function} props.callback  Trigger the reset search function.
  * @param {string}   props.className Optional div classname.
+ * @param {string}   props.noResults Optional no results message.
  * @return {Element}                 The SearchResults component.
  */
-export default function SearchResults({ data, callback, className }) {
+export default function SearchResults({
+	data,
+	callback,
+	className,
+	// translators: The search term will be injected into the string, so translators can adjust the sentence structure as needed.
+	noResults = __('No blocks found for %s', 'block-manager'),
+}) {
 	return (
 		<>
 			{!!data?.term && (
@@ -43,11 +50,7 @@ export default function SearchResults({ data, callback, className }) {
 								className="gbm-no-results"
 								dangerouslySetInnerHTML={{
 									__html: sprintf(
-										// translators: The search term
-										__(
-											'No blocks found for %s',
-											'block-manager'
-										),
+										noResults,
 										`<strong>${data?.term}</strong>`
 									),
 								}}

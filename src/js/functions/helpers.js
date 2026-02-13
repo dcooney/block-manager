@@ -58,6 +58,8 @@ export function setBlockCategory(blocks = []) {
 			} else {
 				block.orginalCategory = block.category;
 			}
+		} else {
+			block.orginalCategory = block.category;
 		}
 		return block;
 	});
