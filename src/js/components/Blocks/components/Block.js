@@ -2,7 +2,7 @@ import { BlockIcon } from '@wordpress/block-editor';
 import { useRef } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import cn from 'classnames';
-import Switch from '../../Global/Switch';
+import DisabledSVG from '../../Global/DisabledSVG';
 
 /**
  * Render a Block component to display an individual block.
@@ -12,9 +12,16 @@ import Switch from '../../Global/Switch';
  * @param {Array}    props.disabledBlocks Array of disabled blocks.
  * @param {Array}    props.filteredBlocks Array of filtered blocks.
  * @param {Function} props.toggleBlock    Function to toggle the activation of a block.
+ * @param {Function} props.onInfoClick    Function to handle info click.
  * @return {Element}                      The Block component.
  */
-function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
+function Block({
+	data,
+	disabledBlocks,
+	filteredBlocks,
+	toggleBlock,
+	onInfoClick,
+}) {
 	const {
 		icon,
 		name,
@@ -25,13 +32,14 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 		prefix,
 	} = data;
 	const blockRef = useRef(null);
-	console.log(data);
 
 	const disabled = disabledBlocks?.indexOf(name) !== -1;
 	const disabledClass = disabled ? 'disabled' : '';
 
 	const filtered = filteredBlocks?.indexOf(name) !== -1;
 	const filteredClass = filtered ? 'filtered' : '';
+
+	const active = !disabled && !filtered;
 
 	/**
 	 * Handle the click event for the block button.
@@ -65,9 +73,10 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 		: `${title}:`;
 
 	return (
-		<div
+		<button
 			ref={blockRef}
 			tabIndex={filtered ? -1 : null}
+			aria-label={__('Toggle Block Activation', 'block-manager')}
 			data-title={title}
 			data-description={description}
 			className={cn(
@@ -78,13 +87,18 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 			)}
 			data-id={name}
 			data-category={category}
-			title={`${intro} ${description}`}
+			onClick={(e) => click(e)}
 		>
-			<Switch
-				active={disabled || filtered}
-				onClick={(e) => click(e)}
-				title={__('Toggle block activation', 'block-manager')}
-			/>
+			{active ? (
+				<div className="item-state">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 448 512"
+					>
+						<path d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z" />
+					</svg>
+				</div>
+			) : null}
 			<div>
 				<BlockIcon icon={icon} />
 				{!!title && (
@@ -96,13 +110,18 @@ function Block({ data, disabledBlocks, filteredBlocks, toggleBlock }) {
 					</p>
 				)}
 			</div>
-
-			<button className={'gbm-block-info'}>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-					<path d="M80 48l288 0 0 170.9c15.2-5.4 31.3-8.9 48-10.3L416 0 32 0 32 512 276 512c-10.5-14.6-19-30.7-25.1-48L80 464 80 48zm48 80l0 48 192 0 0-48-192 0zm0 96l0 48 128 0 0-48-128 0zm0 96l0 48 96 0 0-48-96 0zM432 544a144 144 0 1 0 0-288 144 144 0 1 0 0 288zm15.3-224l0 32-32 0 0-32 32 0zm1.2 64l0 64 15.5 0 0 32-15.5 0-.5 0c-24 0-40 0-48 0l0-32 16 0 .5 0 0-32-.5 0-16 0 0-32c23.9 0 40.8 0 48.5 0z" />
-				</svg>
+			<DisabledSVG className={disabled ? disabledClass : filteredClass} />
+			<button
+				onClick={(e) => {
+					e.stopPropagation();
+					if (onInfoClick) {
+						onInfoClick(data);
+					}
+				}}
+			>
+				View Details
 			</button>
-		</div>
+		</button>
 	);
 }
 export default Block;

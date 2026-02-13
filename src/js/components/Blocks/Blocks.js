@@ -11,8 +11,10 @@ import Loader from '../Global/Loader';
 import Notifications from '../Global/Notifications';
 import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
+import SlidePanel from '../Global/SlidePanel';
 import Category from './components/Category';
 import Sidebar from './components/Sidebar';
+import Search from '../Global/Search';
 
 /**
  * Render the Blocks component.
@@ -31,6 +33,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 	const [loading, setLoading] = useState(true);
 	const [notifications, setNotifications] = useState([]);
 	const [blocks, setBlocks] = useState([]);
+	const [infoPanelBlock, setInfoPanelBlock] = useState(null);
 
 	const [disabledBlocks, setDisabled] = useState(
 		gbm_localize?.disabledBlocks
@@ -285,6 +288,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 								search={searchHandler}
 							/>
 							<div className="gbm-blocks">
+								<Search callback={searchHandler} />
 								<SearchResults
 									data={search}
 									callback={() => searchHandler('')}
@@ -312,6 +316,9 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 															setNotifications
 														)
 													}
+													onInfoClick={
+														setInfoPanelBlock
+													}
 												/>
 											)}
 										</Fragment>
@@ -319,6 +326,19 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							</div>
 						</div>
 					</div>
+					<SlidePanel
+						block={infoPanelBlock}
+						open={!!infoPanelBlock}
+						onClose={() => setInfoPanelBlock(null)}
+						isDisabled={
+							infoPanelBlock &&
+							disabledBlocks?.indexOf(infoPanelBlock.name) !== -1
+						}
+						isFiltered={
+							infoPanelBlock &&
+							filteredBlocks?.indexOf(infoPanelBlock.name) !== -1
+						}
+					/>
 					<ExportModal
 						ref={exportModalRef}
 						returnButtonRef={exportButtonRef}

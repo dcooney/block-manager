@@ -4,44 +4,68 @@
 	width: 100%;
 	width: 100%;
 	display: grid;
+	gap: 5px;
 	background-color: #ebedee;
-	background-color: #f9f9f9;
-	gap: 1px;
-	//background-color: #fff;
-	//padding: 10px;
+	background-color: #fff;
 	position: relative;
+	padding: 10px;
 	text-align: left;
-
-	@media screen and (min-width: $small) {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	@media screen and (min-width: $large) {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	@media screen and (min-width: $msmall) {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
-
+	@media screen and (min-width: $small) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	@media screen and (min-width: $medium) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+	@media screen and (min-width: $large) {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+	@media screen and (min-width: $xlarge) {
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+	}
+	@media screen and (min-width: $xxlarge) {
+		grid-template-columns: repeat(8, minmax(0, 1fr));
+	}
 	.item {
-		padding: 10px;
+		padding: 25px 10px;
 		margin: 0;
 		display: flex;
 		gap: 5px;
 		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
 		position: relative;
 		width: 100%;
 		background-color: #fff;
-		//border: 1px solid transparent;
-		border: none;
+		border: 1px solid $border_light;
+		cursor: pointer;
 		overflow: hidden;
+		border-radius: $radius;
 		transition: border-color 0.1s ease;
-		// border-bottom: 1px solid $border_light;
-		// border-right: 1px solid $border_light;
-		// cursor: pointer;
-		// border-radius: $radius;
-		&:nth-child(even) {
-			//border-right: none;
+
+		&.is-variation {
+			border-style: dashed;
+			border-color: $border;
 		}
 
-		.gbm-block-switch {
-			cursor: pointer;
+		.item-state {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			width: 20px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			display: none;
+			svg {
+				width: 12px;
+				height: 12px;
+				fill: $green;
+			}
 		}
 
 		> div {
@@ -49,18 +73,17 @@
 			z-index: 1;
 			display: flex;
 			flex-wrap: wrap;
-			align-items: center;
+			justify-content: center;
 			width: 100%;
-			gap: 10px;
-
-			/* SVG Icons */
+			gap: 8px;
 			svg {
-				fill: currentcolor;
+				fill: currentColor;
 			}
 		}
 
 		p {
 			color: $text;
+			width: 100%;
 			text-align: center;
 			padding: 0;
 			margin: 0;
@@ -71,7 +94,6 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			font-weight: 500;
-			text-align: left;
 			span {
 				display: block;
 				color: $grey_dark;
@@ -90,35 +112,43 @@
 				padding: 0 10px;
 			}
 		}
+		.gbm-block-switch,
 		.block-desc,
 		.block-id {
 			display: none;
+		}
+		&:hover:not(.filtered),
+		&:focus:not(.filtered) {
+			border-color: rgba($grey_dark, 0.75);
+			box-shadow: $shadow_sm;
 		}
 		&:hover:not(.disabled):not(.filtered):not(.gbm-category),
 		&:focus:not(.disabled):not(.filtered):not(.gbm-category) {
 			background-color: $block_hover;
 		}
 
-		&:focus-visible:not(.filtered) {
+		&:focus-visible:not(.filtered),
+		&:focus:not(.filtered) {
 			outline: 2px solid $purple;
-			outline-offset: -2px;
+			outline-offset: 2px;
 		}
 
 		// Disabled
 		&.disabled,
 		&.filtered {
 			background-color: $grey_light;
-			> div {
-				opacity: 0.75;
+			.icon {
+				opacity: 0.4;
+			}
+			p {
+				opacity: 0.7;
 			}
 		}
 
 		// Filtered
 		&.filtered {
 			background-color: $block_filtered;
-			.gbm-block-switch {
-				cursor: not-allowed;
-			}
+			cursor: not-allowed;
 		}
 
 		&.loading {
@@ -165,8 +195,6 @@
 
 	// Category Switcher
 	&.categories {
-		gap: 1px;
-		padding: 0;
 		grid-template-columns: repeat(1, minmax(0, 1fr));
 		@media screen and (min-width: $xsmall) {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -186,13 +214,8 @@
 		.item {
 			padding: 0;
 			cursor: default;
-			display: grid;
-			justify-content: center;
 			.gbm-category-wrap {
 				padding: $padding;
-				display: grid;
-				justify-content: center;
-				width: 100%;
 			}
 			.category-switch {
 				background-color: rgba(0, 0, 0, 0.035);
@@ -228,7 +251,6 @@
 			p {
 				font-size: 13px;
 				line-height: 1.5;
-				text-align: center;
 				span {
 					font-size: 12px;
 					font-family:
@@ -256,7 +278,7 @@
 		align-items: center;
 		flex-wrap: nowrap;
 		margin: 0;
-		padding: 10px;
+		padding: 5px $padding;
 		border-bottom: 1px solid $border_light;
 		background-color: #fff;
 		border-radius: 3px 3px 0 0;

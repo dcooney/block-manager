@@ -11,6 +11,7 @@ import Reset from '../Global/Reset';
 import SearchResults from '../Global/SearchResults';
 import Block from './components/Block';
 import Sidebar from './components/Sidebar';
+import Search from '../Global/Search';
 
 /**
  * Render the Categories component.
@@ -233,7 +234,6 @@ export default function Categories({ wpBlocks, wpCategories }) {
 					<div className="gbm-block-list-wrapper categories">
 						<div className="gbm-container">
 							<Sidebar
-								search={searchHandler}
 								total={blocks?.length}
 								updated={blockCategories?.length}
 								filtered={filteredCategories?.length}
@@ -249,6 +249,7 @@ export default function Categories({ wpBlocks, wpCategories }) {
 								)}
 							/>
 							<div className="gbm-blocks">
+								<Search callback={searchHandler} />
 								<div className="gbm-block-group">
 									<SearchResults
 										data={search}

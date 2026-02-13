@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import scrollToElement from '../../../functions/scrollToElement';
+import DisabledSVG from '../../Global/DisabledSVG';
 import Search from '../../Global/Search';
 import ToggleSwitch from './ToggleSwitch';
 
@@ -13,7 +14,6 @@ import ToggleSwitch from './ToggleSwitch';
  * @param {number}   props.disabled    Total number of disabled blocks.
  * @param {number}   props.filtered    Total number of filtered blocks.
  * @param {Array}    props.patterns    Array of disabled patterns.
- * @param {Function} props.search      The search handler function.
  * @param {Function} props.setDisabled State handler for disabled patterns.
  * @return {Element}                   The Sidebar component.
  */
@@ -24,7 +24,6 @@ export default function Sidebar({
 	filtered,
 	patterns,
 	setDisabled,
-	search,
 }) {
 	const { filteredPatterns = [] } = gbm_localize;
 	const activeRef = useRef(null);
@@ -120,6 +119,7 @@ export default function Sidebar({
 									{disabledTotal}
 								</strong>
 							</span>
+							<DisabledSVG className="disabled" />
 						</div>
 						{__('Disabled', 'block-manager')}
 					</div>
@@ -142,6 +142,7 @@ export default function Sidebar({
 								<span>
 									<strong>{filtered}</strong>
 								</span>
+								<DisabledSVG className="disabled" />
 							</div>
 							{__('Filtered', 'block-manager')}
 						</div>
@@ -194,10 +195,6 @@ export default function Sidebar({
 					/>
 				</div>
 			</div>
-			<Search
-				callback={search}
-				placeholder={__('Search Block Patterns', 'block-manager')}
-			/>
 			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">

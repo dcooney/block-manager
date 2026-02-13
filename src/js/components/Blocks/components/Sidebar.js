@@ -1,7 +1,8 @@
-import { __ } from '@wordpress/i18n';
-import Search from '../../Global/Search';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import scrollToElement from '../../../functions/scrollToElement';
+import DisabledSVG from '../../Global/DisabledSVG';
+import Search from '../../Global/Search';
 
 /**
  * Render the Sidebar for Block Manager.
@@ -114,6 +115,7 @@ export default function Sidebar({
 									{disabledTotal}
 								</strong>
 							</span>
+							<DisabledSVG className="disabled" />
 						</div>
 						{__('Disabled', 'block-manager')}
 					</div>
@@ -136,13 +138,13 @@ export default function Sidebar({
 								<span>
 									<strong>{filtered}</strong>
 								</span>
+								<DisabledSVG className="disabled" />
 							</div>
 							{__('Filtered', 'block-manager')}
 						</div>
 					)}
 				</div>
 			</div>
-			<Search callback={search} />
 			<div className="gbm-cta">
 				<h3>{__('Categories', 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">

@@ -1,0 +1,58 @@
+@use 'variables' as *;
+
+// Search Input
+.gbm-searchbox {
+	display: block;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	input {
+		width: 100%;
+		margin: 0;
+		padding: 0 $padding 0 38px;
+		border: 1px solid $grey;
+		background-color: #fff;
+		height: 42px;
+		font-size: 15px;
+		line-height: 42px;
+		border-radius: $radius_lg;
+		&:focus {
+			outline-offset: 2px;
+			outline: 2px solid $purple;
+			box-shadow: none;
+		}
+		&::placeholder {
+			color: $grey_dark;
+		}
+	}
+	button {
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		color: $grey_medium;
+		border: none;
+		border-radius: 0;
+		height: 36px;
+		width: 36px;
+		font-size: 15px;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		left: 2px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&:focus,
+		&:hover {
+			border: none;
+			background-color: transparent;
+			text-decoration: none;
+			color: $purple;
+			outline: none;
+		}
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
+}

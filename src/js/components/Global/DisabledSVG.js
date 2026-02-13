@@ -6,7 +6,6 @@ import cn from 'classnames';
  * @param {Object} props           The component props.
  * @param {string} props.className Clasnames for component.
  * @return {Element}               The DisabledSVG component.
- * @deprecated 4.0 This component is no longer used in the Block Manager interface and will be removed in a future release.
  */
 export default function DisabledSVG({ className }) {
 	return (

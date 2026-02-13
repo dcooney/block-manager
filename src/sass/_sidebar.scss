@@ -14,6 +14,9 @@
 			position: sticky;
 			top: 122px;
 			left: 0;
+			> * {
+				margin-bottom: $padding;
+			}
 		}
 		@media screen and (min-width: $large) {
 			width: 325px;
@@ -24,11 +27,10 @@
 			border-radius: $radius_lg;
 			border: 1px solid $grey;
 			box-shadow: $shadow;
-			margin-bottom: $padding;
 			h3 {
 				font-size: 14px;
 				border-bottom: 1px solid $border_light;
-				padding: $padding;
+				padding: 12px $padding;
 				margin: 0;
 				color: $text;
 			}
@@ -55,61 +57,6 @@
 				}
 				p {
 					margin: 0 0 15px;
-				}
-			}
-			// Search Input
-			.gbm-search {
-				display: block;
-				position: relative;
-				padding: 0;
-				margin: 5px;
-				input {
-					width: 100%;
-					margin: 0;
-					padding: 10px 10px 10px 35px;
-					border: none !important;
-					background-color: #fff;
-					height: auto;
-					font-size: 15px;
-					line-height: 1;
-					border-radius: 3px;
-					&:focus {
-						outline-offset: 1px;
-						outline: 1px solid $purple;
-						box-shadow: none;
-					}
-					&::placeholder {
-						color: $grey_dark;
-					}
-				}
-				button {
-					margin: 0;
-					padding: 0 5px;
-					background: transparent;
-					color: $grey_dark;
-					border: none;
-					border-radius: 0;
-					height: 32px;
-					font-size: 15px;
-					position: absolute;
-					top: calc(50%);
-					transform: translateY(-50%);
-					width: auto;
-					left: 5px;
-					display: flex;
-					align-items: center;
-					opacity: 0.9;
-					&:focus,
-					&:hover {
-						border: none;
-						background-color: transparent;
-						text-decoration: none;
-						color: $purple;
-					}
-					svg {
-						width: 16px;
-						height: 16px;
-					}
 				}
 			}
 

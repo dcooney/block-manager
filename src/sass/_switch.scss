@@ -1,0 +1,54 @@
+@use 'variables' as *;
+
+.gbm-switch {
+	all: unset;
+	width: 36px;
+	height: 36px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 0; // prevent shrinking in list view
+	svg {
+		width: 18px;
+		height: 18px;
+		border-radius: 2px;
+	}
+
+	&.is-active {
+		svg {
+			fill: $purple;
+		}
+		&:focus {
+			svg {
+				outline: 2px solid $purple;
+				outline-offset: 1px;
+			}
+		}
+	}
+
+	&.is-disabled {
+		opacity: 0.75;
+		svg {
+			fill: $grey_darker;
+		}
+		&:hover,
+		&:focus {
+			opacity: 1;
+			svg {
+				fill: $purple;
+			}
+		}
+	}
+
+	&.is-filtered {
+		cursor: not-allowed;
+		opacity: 0.75 !important;
+		&:hover,
+		&:focus {
+			svg {
+				fill: $grey_darker;
+			}
+		}
+	}
+}

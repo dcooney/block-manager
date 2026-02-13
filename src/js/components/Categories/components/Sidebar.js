@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import DisabledSVG from '../../Global/DisabledSVG';
 import Search from '../../Global/Search';
 
 /**
  * Render the Sidebar for Category Manager.
  *
  * @param {Object}   props                      The component properties.
- * @param {Function} props.search               The search handler function.
  * @param {number}   props.total                Total blocks.
  * @param {number}   props.updated              Updated block categories.
  * @param {number}   props.filtered             Total number of filtered block categories.
@@ -15,7 +15,6 @@ import Search from '../../Global/Search';
  * @return {Element}                            The Sidebar component.
  */
 export default function Sidebar({
-	search,
 	total,
 	updated,
 	filtered,
@@ -95,11 +94,11 @@ export default function Sidebar({
 								? `1 ${__(
 										'Updated Block Category',
 										'block-manager'
-								  )}`
+									)}`
 								: `${updatedTotal} ${__(
 										'Updated Block Categories',
 										'block-manager'
-								  )}`
+									)}`
 						}
 					>
 						<div>
@@ -108,6 +107,7 @@ export default function Sidebar({
 									{updatedTotal}
 								</strong>
 							</span>
+							<DisabledSVG className="disabled" />
 						</div>
 						{__('Updated', 'block-manager')}
 					</div>
@@ -119,11 +119,11 @@ export default function Sidebar({
 									? `1 ${__(
 											'Filtered Block Category',
 											'block-manager'
-									  )}`
+										)}`
 									: `${filtered} ${__(
 											'Filtered Block Categories',
 											'block-manager'
-									  )}`
+										)}`
 							}
 						>
 							<div>
@@ -132,13 +132,13 @@ export default function Sidebar({
 										{filtered - filteredBlocksOffset}
 									</strong>
 								</span>
+								<DisabledSVG className="disabled" />
 							</div>
 							{__('Filtered', 'block-manager')}
 						</div>
 					)}
 				</div>
 			</div>
-			<Search callback={search} />
 			<div className="gbm-cta">
 				<h3>{__("What's This?", 'block-manager')}</h3>
 				<div className="gbm-cta-wrap">

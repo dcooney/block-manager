@@ -7,6 +7,8 @@
 @use 'export-modal';
 @use 'notifications';
 @use 'block-finder';
+@use 'slide-panel';
+@use 'searchbox';
 
 .settings_page_block-manager {
 	#wpbody-content {
@@ -80,12 +82,11 @@
 			@media screen and (min-width: $small) {
 				display: flex;
 				flex-direction: row-reverse;
-				gap: 20px;
+				gap: $padding;
 			}
 		}
 
 		.gbm-block-group {
-			margin: 0 0 15px;
 			background: #fff;
 			border: 1px solid $grey;
 			border-radius: $radius_lg;
@@ -93,7 +94,6 @@
 		}
 
 		.gbm-search-results {
-			padding: 15px 10px 0;
 			display: flex;
 			align-items: center;
 			width: 100%;
@@ -107,7 +107,7 @@
 				}
 			}
 			&.blocks-render {
-				padding: 0 0 15px;
+				padding: 0 $padding;
 				p {
 					margin: 0 !important;
 					padding: 0 !important;
@@ -131,22 +131,21 @@
 		// Block listing.
 		.gbm-blocks {
 			flex: 1;
-			// List View
-			&.gbm-view-list {
-				button.item {
-					width: 100% !important;
-					margin: 0 0 5px !important;
-					border: none;
-					background-color: transparent;
-					padding: 10px 35px 10px 10px;
-					.gbm-block-switch {
-						left: auto;
-						bottom: auto;
-						right: 13px;
-						top: 15px;
-					}
-				}
+
+			> * {
+				margin-bottom: $padding;
 			}
+		}
+	}
+
+	// Sidebar label style.
+	&-block-switch--container {
+		.gbm-block-switch {
+			width: 100%;
+			justify-content: flex-start;
+		}
+		p {
+			padding-left: 36px;
 		}
 	}
 
@@ -174,6 +173,7 @@
 		}
 	}
 
+	// Toggle switch for block enable/disable.
 	&-block-switch {
 		cursor: pointer;
 		height: auto;
@@ -196,7 +196,7 @@
 			width: 26px;
 			background-color: $purple_alt;
 			border-radius: 100px;
-			transition: $transition;
+			transition: background-color 0.15s ease;
 			+ span {
 				font-weight: 500;
 			}
@@ -218,12 +218,29 @@
 				background-color: $purple_new;
 			}
 		}
+		&:focus-visible,
+		&:focus {
+			outline: none;
+		}
+		&:focus {
+			outline: none;
+			.gbm-block-switch--inner {
+				outline: 2px solid $purple_new;
+				outline-offset: 2px;
+			}
+		}
 		&.disabled,
 		&[disabled] {
 			.gbm-block-switch--inner {
-				background-color: #ccc;
+				background-color: $grey_medium;
 				span {
 					margin-left: 2px;
+				}
+			}
+			&:hover,
+			&:focus-within {
+				.gbm-block-switch--inner {
+					background-color: rgba($purple_new, 0.5);
 				}
 			}
 		}

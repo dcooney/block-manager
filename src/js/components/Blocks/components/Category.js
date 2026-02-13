@@ -19,6 +19,7 @@ export default function Category({
 	disabledBlocks = [],
 	filteredBlocks = [],
 	callback,
+	onInfoClick,
 }) {
 	const { blocks = [], info } = data;
 	const { title } = info;
@@ -59,14 +60,28 @@ export default function Category({
 					className={switchClass}
 					data-state={state}
 					onClick={callback}
-					aria-label={__(
-						'Toggle all blocks in this category',
-						'block-manager'
-					)}
-					title={__(
-						'Toggle all blocks in this category',
-						'block-manager'
-					)}
+					aria-label={
+						state === 'inactive'
+							? __(
+									'Enable all blocks in this category',
+									'block-manager'
+								)
+							: __(
+									'Disable all blocks in this category',
+									'block-manager'
+								)
+					}
+					title={
+						state === 'inactive'
+							? __(
+									'Enable all blocks in this category',
+									'block-manager'
+								)
+							: __(
+									'Disable all blocks in this category',
+									'block-manager'
+								)
+					}
 				>
 					<div className="gbm-block-switch--inner">
 						<span></span>
@@ -82,6 +97,7 @@ export default function Category({
 								toggleBlock={toggleBlock}
 								disabledBlocks={disabledBlocks}
 								filteredBlocks={filteredBlocks}
+								onInfoClick={onInfoClick}
 							/>
 						</Fragment>
 					))}

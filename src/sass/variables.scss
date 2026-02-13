@@ -9,6 +9,7 @@ $green: #5fc067;
 $red: #be2d2d;
 $grey_light: #f7f7f7;
 $grey: #e2e5e7;
+$grey_medium: #ccced0;
 $grey_dark: #999ea2;
 $grey_darker: #858789;
 $yellow: #ffdb28;
@@ -17,7 +18,9 @@ $blue: #007cba;
 $blue_grey: #b5c4cb;
 $border_light: rgba($grey, 0.5);
 $border: rgba($grey, 0.75);
+$border_dark: $grey;
 $shadow: 0 5px 10px rgba(0, 0, 0, 0.035);
+$shadow_sm: 0 2px 5px rgba(0, 0, 0, 0.05);
 
 $block_filtered: #fcfbe6;
 $block_disabled: $grey_light;

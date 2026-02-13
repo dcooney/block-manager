@@ -25,7 +25,7 @@ export default function Sidebar({ blocks, selectedBlock, onSelect }) {
 	return (
 		<div className="gbm-sidebar">
 			<div className="gbm-cta">
-				<div className="gbm-search">
+				<div className="gbm-searchbox">
 					<label className="offscreen" htmlFor="gbm-finder-search">
 						{__('Search Blocks', 'block-manager')}
 					</label>

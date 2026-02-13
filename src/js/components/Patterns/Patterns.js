@@ -13,6 +13,7 @@ import Category from './components/Category';
 import Sidebar from './components/Sidebar';
 import { countDisabledBlocks } from '../../functions/blocks';
 import SearchResults from '../Global/SearchResults';
+import Search from '../Global/Search';
 
 /**
  * Render the Patterns component.
@@ -260,9 +261,15 @@ export default function Patterns() {
 								filtered={filteredCount}
 								patterns={disabledPatterns}
 								setDisabled={setDisabled}
-								search={searchHandler}
 							/>
 							<div className="gbm-blocks">
+								<Search
+									callback={searchHandler}
+									placeholder={__(
+										'Search Patterns',
+										'block-manager'
+									)}
+								/>
 								<SearchResults
 									data={search}
 									callback={() => searchHandler('')}
