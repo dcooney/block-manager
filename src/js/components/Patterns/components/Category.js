@@ -25,6 +25,8 @@ export default function Category({
 		return null;
 	}
 
+	const sorted = [...patterns].sort((a, b) => a.title.localeCompare(b.title));
+
 	// Get total patterns in category.
 	const total = patterns?.length;
 
@@ -72,7 +74,7 @@ export default function Category({
 				</button>
 			</div>
 			<div className="gbm-block-list">
-				{patterns.map((pattern) => {
+				{sorted.map((pattern) => {
 					return (
 						<Pattern
 							key={pattern?.name}

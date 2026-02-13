@@ -8036,6 +8036,9 @@ function Category(_ref) {
   if (!(patterns !== null && patterns !== void 0 && patterns.length)) {
     return null;
   }
+  var sorted = _toConsumableArray(patterns).sort(function (a, b) {
+    return a.title.localeCompare(b.title);
+  });
 
   // Get total patterns in category.
   var total = patterns === null || patterns === void 0 ? void 0 : patterns.length;
@@ -8065,7 +8068,7 @@ function Category(_ref) {
     className: "gbm-block-switch--inner"
   }, /*#__PURE__*/React.createElement("span", null)))), /*#__PURE__*/React.createElement("div", {
     className: "gbm-block-list"
-  }, patterns.map(function (pattern) {
+  }, sorted.map(function (pattern) {
     return /*#__PURE__*/React.createElement(_Pattern__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: pattern === null || pattern === void 0 ? void 0 : pattern.name,
       data: pattern,
