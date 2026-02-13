@@ -6020,14 +6020,7 @@ function Block(_ref) {
     onClick: function onClick(e) {
       return click(e);
     }
-  }, active ? /*#__PURE__*/React.createElement("div", {
-    className: "item-state"
-  }, /*#__PURE__*/React.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 448 512"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"
-  }))) : null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.BlockIcon, {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.BlockIcon, {
     icon: icon
   }), !!title && /*#__PURE__*/React.createElement("p", {
     className: "block-title"
@@ -7281,14 +7274,15 @@ function Search(_ref) {
     placeholder = _ref$placeholder === void 0 ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Search Blocks', 'block-manager') : _ref$placeholder;
   var inputRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // Watch for the '/' key to focus the search input.
-    window.addEventListener('keyup', function (e) {
+    // Watch for the / key or command + b to focus the search input.
+    window.addEventListener('keydown', function (e) {
       var key = e.key;
-      if (key === '/') {
+      if (key === '/' || e.key === 'b' && (e.metaKey || e.ctrlKey)) {
         var _inputRef$current;
         inputRef === null || inputRef === void 0 || (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 || _inputRef$current.focus({
           preventScroll: true
         });
+        e.preventDefault();
       }
     });
   });
@@ -7311,16 +7305,15 @@ function Search(_ref) {
     onClick: function onClick() {
       var _inputRef$current3;
       return callback(inputRef === null || inputRef === void 0 || (_inputRef$current3 = inputRef.current) === null || _inputRef$current3 === void 0 ? void 0 : _inputRef$current3.value);
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit', 'block-manager')), /*#__PURE__*/React.createElement("svg", {
+    },
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit Search', 'block-manager')
+  }, /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 512 512"
   }, /*#__PURE__*/React.createElement("path", {
     fill: "currentColor",
     d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-  }))));
+  }))), /*#__PURE__*/React.createElement("span", null, "\u2318B"));
 }
 
 /***/ },

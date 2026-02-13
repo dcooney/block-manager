@@ -1615,16 +1615,26 @@ h1.gbm-h1 {
   position: relative;
   padding: 0;
   margin: 0;
+  font-size: 14px;
+}
+
+.gbm-searchbox span {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #999ea2;
+  opacity: 0.5;
 }
 
 .gbm-searchbox input {
   width: 100%;
   margin: 0;
-  padding: 0 38px 0 15px;
+  padding: 0 38px 0 40px;
   border: 1px solid #e2e5e7;
   background-color: #fff;
   height: 42px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 42px;
   border-radius: 6px;
 }
@@ -1652,7 +1662,6 @@ h1.gbm-h1 {
   border-radius: 0;
   height: 36px;
   width: 36px;
-  font-size: 15px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -1673,6 +1682,57 @@ h1.gbm-h1 {
 .gbm-searchbox button svg {
   width: 16px;
   height: 16px;
+}
+
+.gbm-switch {
+  all: unset;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.gbm-switch svg {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+
+.gbm-switch.is-active svg {
+  fill: #8568c1;
+}
+
+.gbm-switch.is-active:focus svg {
+  outline: 2px solid #8568c1;
+  outline-offset: 1px;
+}
+
+.gbm-switch.is-disabled {
+  opacity: 0.75;
+}
+
+.gbm-switch.is-disabled svg {
+  fill: #858789;
+}
+
+.gbm-switch.is-disabled:hover, .gbm-switch.is-disabled:focus {
+  opacity: 1;
+}
+
+.gbm-switch.is-disabled:hover svg, .gbm-switch.is-disabled:focus svg {
+  fill: #8568c1;
+}
+
+.gbm-switch.is-filtered {
+  cursor: not-allowed;
+  opacity: 0.75 !important;
+}
+
+.gbm-switch.is-filtered:hover svg, .gbm-switch.is-filtered:focus svg {
+  fill: #858789;
 }
 
 .settings_page_block-manager #wpbody-content {

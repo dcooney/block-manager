@@ -6,14 +6,25 @@
 	position: relative;
 	padding: 0;
 	margin: 0;
+	font-size: 14px;
+
+	span {
+		position: absolute;
+		top: 50%;
+		right: 15px;
+		transform: translateY(-50%);
+		color: $grey_dark;
+		opacity: 0.5;
+	}
+
 	input {
 		width: 100%;
 		margin: 0;
-		padding: 0 $padding 0 38px;
+		padding: 0 40px 0 38px;
 		border: 1px solid $grey;
 		background-color: #fff;
 		height: 42px;
-		font-size: 15px;
+		font-size: 14px;
 		line-height: 42px;
 		border-radius: $radius_lg;
 		&:focus {
@@ -34,7 +45,6 @@
 		border-radius: 0;
 		height: 36px;
 		width: 36px;
-		font-size: 15px;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);

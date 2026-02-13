@@ -16,11 +16,12 @@ export default function Search({
 	const inputRef = useRef();
 
 	useEffect(() => {
-		// Watch for the '/' key to focus the search input.
-		window.addEventListener('keyup', function (e) {
+		// Watch for the / key or command + b to focus the search input.
+		window.addEventListener('keydown', function (e) {
 			const { key } = e;
-			if (key === '/') {
+			if (key === '/' || (e.key === 'b' && (e.metaKey || e.ctrlKey))) {
 				inputRef?.current?.focus({ preventScroll: true });
+				e.preventDefault();
 			}
 		});
 	});
@@ -40,10 +41,8 @@ export default function Search({
 			<button
 				type="button"
 				onClick={() => callback(inputRef?.current?.value)}
+				aria-label={__('Submit Search', 'block-manager')}
 			>
-				<span className="offscreen">
-					{__('Submit', 'block-manager')}
-				</span>
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 					<path
 						fill="currentColor"
@@ -51,6 +50,7 @@ export default function Search({
 					/>
 				</svg>
 			</button>
+			<span>⌘B</span>
 		</div>
 	);
 }
