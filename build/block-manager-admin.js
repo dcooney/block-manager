@@ -6560,7 +6560,6 @@ function Categories(_ref) {
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-container"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_12__["default"], {
-    search: searchHandler,
     total: blocks === null || blocks === void 0 ? void 0 : blocks.length,
     updated: blockCategories === null || blockCategories === void 0 ? void 0 : blockCategories.length,
     filtered: filteredCategories === null || filteredCategories === void 0 ? void 0 : filteredCategories.length,
