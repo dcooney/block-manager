@@ -5,9 +5,9 @@ Homepage: https://connekthq.com/
 Donate link: https://connekthq.com/donate
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.9
+Tested up to: 7.0
 License: GPLv2 or later
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 
 Disable unwanted blocks and patterns, organize blocks by changing categories - complete control over your WordPress Block Editor experience.
 
@@ -133,6 +133,10 @@ Then navigate to `wp-admin -> Settings -> Block Manager` to use the plugin.
 5. Embed Blocks: Choose the Embed blocks you want to allow on your site and remove the majority of useless options.
 
 == Changelog ==
+
+= 3.2.1 - June 10, 2026 =
+* UPDATE: Added compatibility check with WP 7.0.
+* UPDATE: Various code refactoring and organization.
 
 = 3.2.0 - January 14, 2026 =
 * NEW: Added support for Stretchy Paragraph and Stretchy Heading block variations.
