@@ -1,4 +1,4 @@
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -14,6 +14,7 @@ export default function Search({
 	placeholder = __('Search Blocks', 'block-manager'),
 }) {
 	const inputRef = useRef();
+	const [hasValue, setHasValue] = useState(false);
 
 	useEffect(() => {
 		// Watch for the '/' key to focus the search input.
@@ -35,9 +36,31 @@ export default function Search({
 					type="text"
 					id="gbm-search"
 					placeholder={placeholder}
-					onKeyUp={() => callback(inputRef?.current?.value)}
+					onKeyUp={() => {
+						const val = inputRef?.current?.value;
+						setHasValue(!!val);
+						callback(val);
+					}}
 					ref={inputRef}
 				/>
+				{hasValue && (
+					<button
+						type="button"
+						onClick={() => {
+							setHasValue(false);
+							callback('');
+						}}
+						className="clear-search"
+						aria-label={__('Clear Search', 'block-manager')}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 640 640"
+						>
+							<path d="M182.9 137.4L160.3 114.7L115 160L137.6 182.6L275 320L137.6 457.4L115 480L160.3 525.3L182.9 502.6L320.3 365.3L457.6 502.6L480.3 525.3L525.5 480L502.9 457.4L365.5 320L502.9 182.6L525.5 160L480.3 114.7L457.6 137.4L320.3 274.7L182.9 137.4z" />
+						</svg>
+					</button>
+				)}
 				<button
 					type="button"
 					onClick={() => callback(inputRef?.current?.value)}

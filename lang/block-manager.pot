@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-10T16:56:32+00:00\n"
+"POT-Creation-Date: 2026-06-10T17:16:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: block-manager\n"
@@ -324,22 +324,23 @@ msgid "Fetching Blocks…"
 msgstr ""
 
 #: src/js/components/Global/Search.js:14
-#: src/js/components/Global/Search.js:32
+#: src/js/components/Global/Search.js:33
 msgid "Search Blocks"
 msgstr ""
 
-#: src/js/components/Global/Search.js:46
+#: src/js/components/Global/Search.js:54
+#: src/js/components/Global/SearchResults.js:37
+#: src/js/components/Global/SearchResults.js:57
+msgid "Clear Search"
+msgstr ""
+
+#: src/js/components/Global/Search.js:69
 msgid "Submit"
 msgstr ""
 
 #. translators: 1: The search term. 2: Total results.
 #: src/js/components/Global/SearchResults.js:26
 msgid "Your block search for %1$s returned %2$s result(s)"
-msgstr ""
-
-#: src/js/components/Global/SearchResults.js:37
-#: src/js/components/Global/SearchResults.js:57
-msgid "Clear Search"
 msgstr ""
 
 #. translators: The search term
