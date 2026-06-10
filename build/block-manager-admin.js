@@ -5876,13 +5876,23 @@ function Blocks(_ref) {
     className: "gbm-block-list-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gbm-container"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "gbm-sidebar"
   }, /*#__PURE__*/React.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_15__["default"], {
     blocks: blocks,
     active: (wpBlocks === null || wpBlocks === void 0 ? void 0 : wpBlocks.length) - disabledCount - filteredCount,
     disabled: disabledCount,
     filtered: filteredCount,
     search: searchHandler
-  }), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement(_Global_SlidePanel__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    block: infoPanelBlock,
+    open: !!infoPanelBlock,
+    onClose: function onClose() {
+      return setInfoPanelBlock(null);
+    },
+    isDisabled: infoPanelBlock && (disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.indexOf(infoPanelBlock.name)) !== -1,
+    isFiltered: infoPanelBlock && (filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.indexOf(infoPanelBlock.name)) !== -1
+  })), /*#__PURE__*/React.createElement("div", {
     className: "gbm-blocks"
   }, /*#__PURE__*/React.createElement(_Global_Search__WEBPACK_IMPORTED_MODULE_16__["default"], {
     callback: searchHandler
@@ -5906,15 +5916,7 @@ function Blocks(_ref) {
       },
       onInfoClick: setInfoPanelBlock
     }));
-  })))), /*#__PURE__*/React.createElement(_Global_SlidePanel__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    block: infoPanelBlock,
-    open: !!infoPanelBlock,
-    onClose: function onClose() {
-      return setInfoPanelBlock(null);
-    },
-    isDisabled: infoPanelBlock && (disabledBlocks === null || disabledBlocks === void 0 ? void 0 : disabledBlocks.indexOf(infoPanelBlock.name)) !== -1,
-    isFiltered: infoPanelBlock && (filteredBlocks === null || filteredBlocks === void 0 ? void 0 : filteredBlocks.indexOf(infoPanelBlock.name)) !== -1
-  }), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  })))), /*#__PURE__*/React.createElement(_Global_ExportModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
     ref: exportModalRef,
     returnButtonRef: exportButtonRef,
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add the the following code to your functions.php to remove blocks at the theme level.', 'block-manager')
@@ -6006,9 +6008,12 @@ function Block(_ref) {
   var intro = variation ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.sprintf)(
   // translators: Parent block slug.
   (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('%s Variation:', 'block-manager'), prefix) : "".concat(title, ":");
-  return /*#__PURE__*/React.createElement("div", {
-    className: "block-button--wrapper"
-  }, /*#__PURE__*/React.createElement("button", {
+
+  // TODO: Update this to open the slide panel.
+  // We can move the category switcher and block search into the slide panel and use this button to open it and scroll to the block details.
+  // Toggle block activation inside the slide panel.
+
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
     ref: blockRef,
     tabIndex: filtered ? -1 : null,
     "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Toggle Block Activation', 'block-manager'),
@@ -6022,7 +6027,7 @@ function Block(_ref) {
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.BlockIcon, {
     icon: icon
-  }), !!title && /*#__PURE__*/React.createElement("p", {
+  }), /*#__PURE__*/React.createElement("p", {
     className: "block-title"
   }, !!prefix && /*#__PURE__*/React.createElement("em", {
     className: "block-title--prefix"
@@ -6043,7 +6048,7 @@ function Block(_ref) {
     d: "M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM216 336l24 0 0-64-48 0 0-48 96 0 0 112 32 0 0 48-128 0 0-48 24 0zm72-144l-64 0 0-64 64 0 0 64z"
   })), /*#__PURE__*/React.createElement("span", {
     className: "offscreen"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('View Details', 'block-manager'))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Block Details', 'block-manager'))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Block);
 
@@ -6251,9 +6256,7 @@ function Sidebar(_ref) {
       mountedRef.current = true;
     }, 500);
   }, []);
-  return /*#__PURE__*/React.createElement("div", {
-    className: "gbm-sidebar"
-  }, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-cta gbm-cta-block-legend",
     "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current Block Status', 'block-manager')
   }, /*#__PURE__*/React.createElement("div", {
@@ -7539,12 +7542,12 @@ function SlidePanel(_ref) {
   // Prevent body scroll when open.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (open) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('gbm-no-scroll');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('gbm-no-scroll');
     }
     return function () {
-      document.body.style.overflow = '';
+      document.body.classList.remove('gbm-no-scroll');
     };
   }, [open]);
   if (!block) {
@@ -7562,6 +7565,7 @@ function SlidePanel(_ref) {
     status = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Disabled', 'block-manager');
     statusClass = 'disabled';
   }
+  console.log(block);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "gbm-slide-panel-overlay".concat(open ? ' active' : ''),
     onClick: onClose
@@ -8558,6 +8562,7 @@ function getAllBlocksAndVariations(blocks) {
       variations = block.variations,
       category = block.category,
       title = block.title;
+    console.log(block);
     WPBlocks.push(block);
     if (!(_constants__WEBPACK_IMPORTED_MODULE_0__.variationBlocks !== null && _constants__WEBPACK_IMPORTED_MODULE_0__.variationBlocks !== void 0 && _constants__WEBPACK_IMPORTED_MODULE_0__.variationBlocks.length)) {
       return;

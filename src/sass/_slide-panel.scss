@@ -2,15 +2,17 @@
 
 .gbm-slide-panel-overlay {
 	position: fixed;
+	position: static;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.3);
-	z-index: 10000;
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 0.25s ease, visibility 0.25s ease;
+	transition:
+		opacity 0.25s ease,
+		visibility 0.25s ease;
 
 	&.active {
 		opacity: 1;
@@ -20,6 +22,7 @@
 
 .gbm-slide-panel {
 	position: fixed;
+	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;

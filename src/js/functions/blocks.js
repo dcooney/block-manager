@@ -62,6 +62,8 @@ export function getAllBlocksAndVariations(blocks) {
 	// Loop all blocks.
 	blocks.forEach((block) => {
 		const { name, variations, category, title } = block;
+
+		console.log(block);
 		WPBlocks.push(block);
 
 		if (!variationBlocks?.length) {

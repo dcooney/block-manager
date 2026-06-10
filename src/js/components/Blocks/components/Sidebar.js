@@ -73,7 +73,7 @@ export default function Sidebar({
 	}, []);
 
 	return (
-		<div className="gbm-sidebar">
+		<>
 			<div
 				className="gbm-cta gbm-cta-block-legend"
 				aria-label={__('Current Block Status', 'block-manager')}
@@ -168,6 +168,6 @@ export default function Sidebar({
 						))}
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }

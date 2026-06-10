@@ -276,17 +276,36 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 					</header>
 					<div className="gbm-block-list-wrapper">
 						<div className="gbm-container">
-							<Sidebar
-								blocks={blocks}
-								active={
-									wpBlocks?.length -
-									disabledCount -
-									filteredCount
-								}
-								disabled={disabledCount}
-								filtered={filteredCount}
-								search={searchHandler}
-							/>
+							<div className="gbm-sidebar">
+								<Sidebar
+									blocks={blocks}
+									active={
+										wpBlocks?.length -
+										disabledCount -
+										filteredCount
+									}
+									disabled={disabledCount}
+									filtered={filteredCount}
+									search={searchHandler}
+								/>
+								<SlidePanel
+									block={infoPanelBlock}
+									open={!!infoPanelBlock}
+									onClose={() => setInfoPanelBlock(null)}
+									isDisabled={
+										infoPanelBlock &&
+										disabledBlocks?.indexOf(
+											infoPanelBlock.name
+										) !== -1
+									}
+									isFiltered={
+										infoPanelBlock &&
+										filteredBlocks?.indexOf(
+											infoPanelBlock.name
+										) !== -1
+									}
+								/>
+							</div>
 							<div className="gbm-blocks">
 								<Search callback={searchHandler} />
 								<SearchResults
@@ -326,19 +345,7 @@ export default function Blocks({ wpBlocks, wpCategories }) {
 							</div>
 						</div>
 					</div>
-					<SlidePanel
-						block={infoPanelBlock}
-						open={!!infoPanelBlock}
-						onClose={() => setInfoPanelBlock(null)}
-						isDisabled={
-							infoPanelBlock &&
-							disabledBlocks?.indexOf(infoPanelBlock.name) !== -1
-						}
-						isFiltered={
-							infoPanelBlock &&
-							filteredBlocks?.indexOf(infoPanelBlock.name) !== -1
-						}
-					/>
+
 					<ExportModal
 						ref={exportModalRef}
 						returnButtonRef={exportButtonRef}

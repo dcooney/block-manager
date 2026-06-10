@@ -28,53 +28,54 @@
 		grid-template-columns: repeat(8, minmax(0, 1fr));
 	}
 
-	.block-button--wrapper {
+	> div {
 		position: relative;
-		transition: all 0.1s ease;
 
 		&:hover,
 		&:focus-within {
-			z-index: 10;
-			//transform: scale(1.025);
-
-			.item {
-				border-color: $border_dark;
-				border-bottom-left-radius: 0;
-				border-bottom-right-radius: 0;
-			}
+			// Info button.
 			.block-button--info {
+				transform: scale(1);
 				opacity: 1;
+				visibility: visible;
 			}
 		}
 
-		button.block-button--info {
+		// Info button.
+		.block-button--info {
 			all: unset;
 			position: absolute;
 			right: 0;
-			top: calc(100% - 1px);
-			width: 100%;
+			bottom: 0;
+			opacity: 0;
+			visibility: hidden;
+			width: 36px;
 			height: 36px;
+			cursor: pointer;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			opacity: 0;
-			transition: opacity 0.1s ease;
-			cursor: pointer;
-			background-color: #fff;
-			border: 1px solid $border_dark;
-			border-top: 0;
-			border-radius: 0 0 $radius_lg $radius_lg;
+			transition: all 0.1s ease;
+			transform: scale(0.5);
 			svg {
 				width: 16px;
 				height: 16px;
-				fill: currentColor;
+				opacity: 0.35;
+			}
+
+			&:hover,
+			&:focus {
+				transform: scale(1);
+				svg {
+					opacity: 1;
+				}
 			}
 		}
 	}
 
 	// Button.
 	.item {
-		padding: 25px 10px;
+		padding: 30px 10px;
 		margin: 0;
 		display: flex;
 		gap: 5px;
@@ -93,23 +94,6 @@
 		&.is-variation {
 			border-style: dashed;
 			border-color: $border;
-		}
-
-		.item-state {
-			position: absolute;
-			top: 5px;
-			right: 5px;
-			width: 20px;
-			height: 20px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			display: none;
-			svg {
-				width: 12px;
-				height: 12px;
-				fill: $green;
-			}
 		}
 
 		> div {

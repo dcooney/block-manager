@@ -111,12 +111,12 @@ export default function SlidePanel({
 	// Prevent body scroll when open.
 	useEffect(() => {
 		if (open) {
-			document.body.style.overflow = 'hidden';
+			document.body.classList.add('gbm-no-scroll');
 		} else {
-			document.body.style.overflow = '';
+			document.body.classList.remove('gbm-no-scroll');
 		}
 		return () => {
-			document.body.style.overflow = '';
+			document.body.classList.remove('gbm-no-scroll');
 		};
 	}, [open]);
 
@@ -136,6 +136,8 @@ export default function SlidePanel({
 		status = __('Disabled', 'block-manager');
 		statusClass = 'disabled';
 	}
+
+	console.log(block);
 
 	return (
 		<>

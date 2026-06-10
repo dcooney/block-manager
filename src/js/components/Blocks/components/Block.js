@@ -72,8 +72,12 @@ function Block({
 			)
 		: `${title}:`;
 
+	// TODO: Update this to open the slide panel.
+	// We can move the category switcher and block search into the slide panel and use this button to open it and scroll to the block details.
+	// Toggle block activation inside the slide panel.
+
 	return (
-		<div className="block-button--wrapper">
+		<div>
 			<button
 				ref={blockRef}
 				tabIndex={filtered ? -1 : null}
@@ -92,16 +96,12 @@ function Block({
 			>
 				<div>
 					<BlockIcon icon={icon} />
-					{!!title && (
-						<p className="block-title">
-							{!!prefix && (
-								<em className="block-title--prefix">
-									{prefix}/
-								</em>
-							)}
-							{title}
-						</p>
-					)}
+					<p className="block-title">
+						{!!prefix && (
+							<em className="block-title--prefix">{prefix}/</em>
+						)}
+						{title}
+					</p>
 				</div>
 				<DisabledSVG
 					className={disabled ? disabledClass : filteredClass}
@@ -120,7 +120,7 @@ function Block({
 					<path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM216 336l24 0 0-64-48 0 0-48 96 0 0 112 32 0 0 48-128 0 0-48 24 0zm72-144l-64 0 0-64 64 0 0 64z" />
 				</svg>
 				<span className="offscreen">
-					{__('View Details', 'block-manager')}
+					{__('Block Details', 'block-manager')}
 				</span>
 			</button>
 		</div>
